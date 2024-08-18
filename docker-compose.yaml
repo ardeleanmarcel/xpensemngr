@@ -1,0 +1,11 @@
+name: xpensemngr
+services:
+  db:
+    image: xpm-db-local
+    build:
+      context: ./database/docker
+      dockerfile: Dockerfile
+    env_file: ./database/docker/.env
+    ports:
+      - 3033:5432
+    restart: always

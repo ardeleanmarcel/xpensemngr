@@ -1,0 +1,7 @@
+node_modules
+
+.env
+
+# db/ddl_migrations/pg
+
+*.js
