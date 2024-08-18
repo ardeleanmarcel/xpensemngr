@@ -74,4 +74,5 @@ ${CYAN}User:          ${YELLOW} $DB_USER
 ${CYAN}Password:      ${YELLOW} $DB_PASS
 ${NC}"
 
+docker compose up -d
 # TODO -> should run a DB migration:latest and a seed

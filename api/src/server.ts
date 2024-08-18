@@ -28,7 +28,7 @@ server.register(fastifyTRPCPlugin, {
     console.log('starting server on port 3000');
     await server.register(cors, { origin: 'http://localhost:5173' });
 
-    await server.listen({ port: 3000 });
+    await server.listen({ port: 3000, host: '0.0.0.0' });
   } catch (err) {
     server.log.error(err);
     process.exit(1);

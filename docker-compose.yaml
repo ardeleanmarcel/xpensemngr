@@ -1,11 +1,43 @@
 name: xpensemngr
 services:
-  db:
-    image: xpm-db-local
+  database:
+    image: xpm-database-local
     build:
       context: ./database/docker
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.local
     env_file: ./database/docker/.env
     ports:
       - 3033:5432
     restart: always
+  api:
+    image: xpm-api-local
+    build:
+      context: ./api
+      dockerfile: Dockerfile.local
+    env_file: ./api/.env
+    volumes:
+      - ./api:/usr/app:rw
+    # npm ci is part of the command, because the bound volume
+    # overwrites the built folder, and the node_modules folder gets "lost".
+    # This way, the node_modules gets folder gets created after the mount was made
+    # and synced to the local machine.
+    command: bash -c "npm ci && npm run dev"
+    ports:
+      - 3000:3000
+    restart: always
+    depends_on:
+      - database
+  webapp:
+    image: xpm-webapp-local
+    build:
+      context: ./webapp
+      dockerfile: Dockerfile.local
+    volumes:
+      - ./webapp:/usr/app/webapp:rw
+      - ./api:/usr/app/api:ro
+    command: bash -c "npm ci --force && npm run dev"
+    ports:
+      - 5173:5173
+    restart: always
+    depends_on:
+      - api
