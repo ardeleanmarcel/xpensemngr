@@ -66,14 +66,6 @@ EOF
 
 echo -e "${GREEN}[XPM] API .env file created!${NC}"
 
-echo -e "${CYAN}To connect to your local DB use the following:
-${CYAN}Host:          ${YELLOW} $DB_HOST
-${CYAN}Port:          ${YELLOW} $DB_PORT
-${CYAN}Database name: ${YELLOW} $DB_NAME
-${CYAN}User:          ${YELLOW} $DB_USER
-${CYAN}Password:      ${YELLOW} $DB_PASS
-${NC}"
-
 echo -e "${CYAN}
 [XPM] Installing local packages...
 ${NC}"
@@ -86,7 +78,7 @@ ${NC}"
 docker compose build
 
 echo -e "${CYAN}
-[XPM] Starting database docker container...
+[XPM] Starting database and running migrations...
 ${NC}"
 
 docker compose up database -d
@@ -99,3 +91,20 @@ echo -e "${CYAN}
 ${NC}"
 
 docker compose stop database
+
+echo -e "${GREEN}
+[XPM] Setup complete!
+${NC}"
+
+echo -e "${CYAN}[XPM] To connect to your local DB use the following:
+      ${CYAN}Host:          ${YELLOW} $DB_HOST
+      ${CYAN}Port:          ${YELLOW} $DB_PORT
+      ${CYAN}Database name: ${YELLOW} $DB_NAME
+      ${CYAN}User:          ${YELLOW} $DB_USER
+      ${CYAN}Password:      ${YELLOW} $DB_PASS
+${NC}"
+
+echo -e "${CYAN}[XPM] To start local development use the ${YELLOW}start-devenv-local.sh ${CYAN}script.
+
+Thank you for contributing to xpensemngr!
+Have a great day :)"
