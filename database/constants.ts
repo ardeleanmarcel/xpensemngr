@@ -9,13 +9,13 @@ type Keys = keyof typeof ENV_NAME;
 export type EnvName = (typeof ENV_NAME)[Keys];
 
 export const getCurrEnvName = (): EnvName => {
-  let nodeEnv = process.env.NODE_ENV;
+  let envName = process.env.XPM_ENV;
 
-  if (!process.env.NODE_ENV) throw new Error('NODE_ENV environment variable is missing!');
+  if (!process.env.XPM_ENV) throw new Error('XPM_ENV environment variable is missing!');
 
-  if (nodeEnv !== ENV_NAME.development && nodeEnv !== ENV_NAME.production) {
-    throw new Error(`Invalid NODE_ENV ${nodeEnv}`);
+  if (envName !== ENV_NAME.development && envName !== ENV_NAME.production) {
+    throw new Error(`Invalid XPM_ENV ${envName}`);
   }
 
-  return nodeEnv;
+  return envName;
 };

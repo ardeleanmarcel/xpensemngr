@@ -14,7 +14,7 @@ export const postgresConfig: { [key in EnvName]: Knex.Config } = {
     client: 'pg',
     connection: {
       host: process.env.LOCAL_DB_HOST,
-      port: parseInt(process.env.LOCAL_DB_PORT || '3000'),
+      port: parseInt(process.env.LOCAL_DB_PORT ?? '3000'),
       database: process.env.LOCAL_DB_NAME,
       user: process.env.LOCAL_DB_USER,
       password: process.env.LOCAL_DB_PASS,

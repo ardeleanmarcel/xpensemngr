@@ -10,7 +10,7 @@ export NC='\033[0m' # No Color
 
 DB_HOST='localhost'
 DB_PORT='3033'
-DB_NAME='xpm'
+export DB_NAME='xpm'
 
 MYE_WEB_UI_ROOT_URL='http://localhost:5173'
 
@@ -27,7 +27,7 @@ read -p "User: " DB_USER
 read -p "Password: " DB_PASS
 
 cat <<EOF >./database/.env
-NODE_ENV=development
+XPM_ENV=development
 
 LOCAL_DB_HOST=$DB_HOST
 LOCAL_DB_PORT=$DB_PORT
@@ -74,5 +74,28 @@ ${CYAN}User:          ${YELLOW} $DB_USER
 ${CYAN}Password:      ${YELLOW} $DB_PASS
 ${NC}"
 
-docker compose up -d
-# TODO -> should run a DB migration:latest and a seed
+echo -e "${CYAN}
+[XPM] Installing local packages...
+${NC}"
+
+cd api && npm ci && cd ../webapp && npm ci --force && cd ../database && npm ci && cd ..
+
+echo -e "${CYAN}[XPM] Building docker images...
+${NC}"
+
+docker compose build
+
+echo -e "${CYAN}
+[XPM] Starting database docker container...
+${NC}"
+
+docker compose up database -d
+
+./scripts/local-env/check-container.sh
+cd database && npm run bootstrap && cd ..
+
+echo -e "${CYAN}
+[XPM] Stopping database docker container...
+${NC}"
+
+docker compose stop database
