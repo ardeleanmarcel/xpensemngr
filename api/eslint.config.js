@@ -6,10 +6,20 @@ const config = [
   {
     rules: {
       'no-undef': 'error',
+      '@typescript-eslint/no-unnecessary-condition': 'error',
     },
-    files: ['**/*.{js,mjs,cjs,ts}'],
+    files: ['src/**/*.{js,mjs,cjs,ts}'],
   },
-  { languageOptions: { globals: globals.browser } },
+  {
+    languageOptions: {
+      globals: globals.browser,
+
+      parserOptions: {
+        project: './tsconfig.json',
+      },
+      parser: '@typescript-eslint/parser',
+    },
+  },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
 ];
