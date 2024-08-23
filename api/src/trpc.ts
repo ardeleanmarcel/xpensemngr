@@ -6,6 +6,8 @@ import { Context } from './trpcFastifyContext';
 
 import { HTTP_ERR, HttpError } from './errors';
 
+console.log('tadada');
+
 export const t = initTRPC.context<Context>().create({
   errorFormatter: (opts) => {
     const { shape, error } = opts;
