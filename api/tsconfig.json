@@ -11,7 +11,7 @@
     "resolveJsonModule": true,
     "strictNullChecks": true,
     "declaration": true,
-    "outDir": "typedefs/",
+    "outDir": "build/",
     "emitDeclarationOnly": true,
     "esModuleInterop": true,
     "lib": ["es7", "dom"],
