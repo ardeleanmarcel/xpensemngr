@@ -13,7 +13,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.12.2
-          cache: "npm"
+          # TODO -> basic cache is not working becaues no package-lock is found at project root
+          # cache: "npm"
       - name: Install API dependencies
         working-directory: ./api
         run: npm ci
