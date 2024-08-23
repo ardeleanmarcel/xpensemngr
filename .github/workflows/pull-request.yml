@@ -2,17 +2,21 @@ name: Pull request check
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js 20.12.2
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20.12.2
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run lint
+      - uses: actions/checkout@v4
+      - name: Use Node.js 20.12.2
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.12.2
+          cache: "npm"
+      - name: Install API dependencies
+        working-directory: ./api
+        run: npm ci
+      - name: Lint API
+        working-directory: ./api
+        run: npm run lint
