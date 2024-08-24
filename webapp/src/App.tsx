@@ -12,6 +12,7 @@ import Register from './Pages/Register/Register';
 import LoginWithFormik from './Pages/Home/Home';
 import './App.css';
 import { EmailForNewPassword } from './Pages/Home/EmailForNewPassword';
+import { VerifyEmail } from './Pages/VerifyEmail/VerifyEmail';
 
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
@@ -125,6 +126,7 @@ export default function App() {
             <Route path="/" element={<LoginWithFormik />} />
             <Route path="register" element={<Register />} />
             <Route path="reset-email" element={<EmailForNewPassword />} />
+            <Route path="verify-email" element={<VerifyEmail />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
