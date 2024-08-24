@@ -1,5 +1,7 @@
 import { initTRPC } from '@trpc/server';
 import { z, ZodError } from 'zod';
+import { fromError } from 'zod-validation-error';
+
 import jwt from 'jsonwebtoken';
 
 import { Context } from './trpcFastifyContext';
@@ -20,12 +22,23 @@ export const t = initTRPC.context<Context>().create({
       };
     }
 
-    // TODO (Valle) -> zod errors should follow the same shape as returned when HttpError is encountered
+    if (error.code === 'BAD_REQUEST' && error.cause instanceof ZodError) {
+      const reasons = fromError(error.cause).toString();
+
+      return {
+        message: HTTP_ERR.e500.ParsingError.message(reasons),
+        data: {
+          httpStatus: HTTP_ERR.e500.ParsingError.httpCode,
+          errorCode: HTTP_ERR.e500.ParsingError.errorCode,
+        },
+      };
+    }
+
     return {
-      ...shape,
+      message: shape.message,
       data: {
-        ...shape.data,
-        zodError: error.code === 'BAD_REQUEST' && error.cause instanceof ZodError ? error.cause.flatten() : null,
+        httpStatus: shape.data.httpStatus,
+        errorCode: 500_999,
       },
     };
   },
