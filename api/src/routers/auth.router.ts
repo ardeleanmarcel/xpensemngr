@@ -7,6 +7,8 @@ import { t } from '@src/trpc';
 import { selectUsers } from '@src/db/sql/users.sql';
 import { HttpError, HTTP_ERR } from '@src/errors';
 import { FILTER_TYPE } from '@src/db/db.utils';
+import { TRPCError } from '@trpc/server';
+import { TRPC_ERR_CODE } from '@src/errors/error.utils';
 
 const { pick } = lodash;
 
@@ -26,11 +28,15 @@ export const authRouter = t.router({
       ])
     )[0];
 
-    if (!user) throw new HttpError(HTTP_ERR.e400.BadCredentials);
+    if (!user) {
+      throw new TRPCError({ code: TRPC_ERR_CODE.BAD_REQUEST, cause: new HttpError(HTTP_ERR.e400.BadCredentials) });
+    }
 
     const isAllowed = await compare(password, user.password);
 
-    if (!isAllowed) throw new HttpError(HTTP_ERR.e400.BadCredentials);
+    if (!isAllowed) {
+      throw new TRPCError({ code: TRPC_ERR_CODE.BAD_REQUEST, cause: new HttpError(HTTP_ERR.e400.BadCredentials) });
+    }
 
     const payload = pick(user, ['user_id', 'username', 'email']);
     const secret = process.env.AUTH_JWT_SECRET;

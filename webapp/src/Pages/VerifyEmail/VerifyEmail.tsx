@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { client } from '../../api/apiClient';
+import { TRPCClientError } from '@trpc/client';
 import { Button, Card, CardContent, Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { useState } from 'react';
-// import { VerifyEmailErrorMessages } from './VerifyEmailErrorMessages';
+
+import { client } from '../../api/apiClient';
+
+import { VerifyEmailErrorMessages } from './VerifyEmailErrorMessages';
 
 const useStyles = makeStyles<Theme>(() => ({
   container: {
@@ -16,7 +19,7 @@ const useStyles = makeStyles<Theme>(() => ({
 
 export const VerifyEmail = () => {
   const [registrationStatus, setRegistrationStatus] = useState(false);
-  // const [errorCode, setErrorCode] = useState('');
+  const [errorCode, setErrorCode] = useState(null);
   const classes = useStyles();
   const location = useLocation();
   const navigate = useNavigate();
@@ -33,9 +36,10 @@ export const VerifyEmail = () => {
       const response = await client.users.activate.query(activationCode);
       setRegistrationStatus(response.success); // Activation successful
     } catch (error) {
-      // TODO -> finish error validation
-      // const code = error?.meta?.responseJSON[0]?.error?.data?.errorCode;
-      // setErrorCode(code);
+      if (error instanceof TRPCClientError) {
+        const code = error.data.xpmErrorCode;
+        setErrorCode(code);
+      }
     }
   };
 
@@ -43,9 +47,9 @@ export const VerifyEmail = () => {
     navigate('/');
   };
 
-  // if (errorCode) {
-  //   return <VerifyEmailErrorMessages errorCode={errorCode} />;
-  // }
+  if (errorCode) {
+    return <VerifyEmailErrorMessages errorCode={errorCode} />;
+  }
 
   return (
     <Card>

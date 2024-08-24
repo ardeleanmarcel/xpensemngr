@@ -1,6 +1,8 @@
 import sendGrid from '@sendgrid/mail';
 
 import { HttpError, HTTP_ERR } from '../errors';
+import { TRPCError } from '@trpc/server';
+import { TRPC_ERR_CODE } from '@src/errors/error.utils';
 
 // TODO (Valle) -> cann i add type annotation to EMAIL_TYPE: EmailConfigObjects to some [key]: { specific: 'object' } shape?
 export const EMAIL_TYPE = {
@@ -42,7 +44,10 @@ class NotificationService {
     const res = await this.emailClient.send(sendgridConfig).catch((err) => {
       // TODO (Valle) -> improve error logging
       console.error(err);
-      throw new HttpError(HTTP_ERR.e500.Unavailable);
+      throw new TRPCError({
+        code: TRPC_ERR_CODE.INTERNAL_SERVER_ERROR,
+        cause: new HttpError(HTTP_ERR.e500.Unavailable),
+      });
     });
 
     return res;

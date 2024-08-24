@@ -13,6 +13,8 @@ import { createInputSchema } from './utils/router.utils';
 import { Filter } from '@src/db/db.utils';
 import { notificationService } from '@src/adapters/service.notification';
 import { HTTP_ERR, HttpError } from '@src/errors';
+import { TRPCError } from '@trpc/server';
+import { TRPC_ERR_CODE } from '@src/errors/error.utils';
 
 const { pick } = lodash;
 
@@ -60,15 +62,24 @@ export const usersRouter = t.router({
     const userActivation = (await selectUserActivations([uuid]))[0];
 
     if (!userActivation) {
-      throw new HttpError(HTTP_ERR.e404.NotFound('Activation code', uuid));
+      throw new TRPCError({
+        code: TRPC_ERR_CODE.NOT_FOUND,
+        cause: new HttpError(HTTP_ERR.e404.NotFound('Activation code', uuid)),
+      });
     }
 
     if (userActivation.is_used) {
-      throw new HttpError(HTTP_ERR.e400.ResourceConsumed('Activation code', uuid));
+      throw new TRPCError({
+        code: TRPC_ERR_CODE.BAD_REQUEST,
+        cause: new HttpError(HTTP_ERR.e400.ResourceConsumed('Activation code', uuid)),
+      });
     }
 
     if (userActivation.expires_at < new Date()) {
-      throw new HttpError(HTTP_ERR.e400.ResourceExpired('Activation code', uuid));
+      throw new TRPCError({
+        code: TRPC_ERR_CODE.BAD_REQUEST,
+        cause: new HttpError(HTTP_ERR.e400.ResourceExpired('Activation code', uuid)),
+      });
     }
 
     await updateUserActivations([userActivation.activation_code]);

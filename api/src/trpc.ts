@@ -1,4 +1,4 @@
-import { initTRPC } from '@trpc/server';
+import { initTRPC, TRPCError } from '@trpc/server';
 import { z, ZodError } from 'zod';
 import { fromError } from 'zod-validation-error';
 
@@ -7,17 +7,22 @@ import jwt from 'jsonwebtoken';
 import { Context } from './trpcFastifyContext';
 
 import { HTTP_ERR, HttpError } from './errors';
+import { getTRPCErrorCodeFromHTTPStatus, TRPC_ERR_CODE } from './errors/error.utils';
 
 export const t = initTRPC.context<Context>().create({
   errorFormatter: (opts) => {
     const { shape, error } = opts;
-
     if (error.cause instanceof HttpError) {
+      const trpcErr = new TRPCError({
+        code: getTRPCErrorCodeFromHTTPStatus(error.cause.httpCode),
+      });
+
       return {
+        code: trpcErr.code,
         message: error.cause.message,
         data: {
-          httpStatus: error.cause.httpCode,
-          errorCode: error.cause.errorCode,
+          httpStatus: shape.data.httpStatus,
+          xpmErrorCode: error.cause.errorCode,
         },
       };
     }
@@ -25,22 +30,19 @@ export const t = initTRPC.context<Context>().create({
     if (error.code === 'BAD_REQUEST' && error.cause instanceof ZodError) {
       const reasons = fromError(error.cause).toString();
 
+      const errData = HTTP_ERR.e400.ParseError(reasons);
+
       return {
-        message: HTTP_ERR.e500.ParsingError.message(reasons),
+        code: shape.code,
+        message: errData.message,
         data: {
-          httpStatus: HTTP_ERR.e500.ParsingError.httpCode,
-          errorCode: HTTP_ERR.e500.ParsingError.errorCode,
+          httpStatus: shape.data.httpStatus,
+          xpmErrorCode: errData.errorCode,
         },
       };
     }
 
-    return {
-      message: shape.message,
-      data: {
-        httpStatus: shape.data.httpStatus,
-        errorCode: 500_999,
-      },
-    };
+    return shape;
   },
 });
 
@@ -63,7 +65,8 @@ export const protectedProcedure = t.procedure.use(async function isAuthed(opts) 
   const authHeader = ctx.req.headers.authorization;
 
   if (!authHeader) {
-    throw new HttpError(HTTP_ERR.e401.Unauthorized);
+    // TODO (Valle) -> this silly code can and should be simplified!
+    throw new TRPCError({ code: TRPC_ERR_CODE.UNAUTHORIZED, cause: new HttpError(HTTP_ERR.e401.Unauthorized) });
   }
 
   let user: JwtUserPayload;
@@ -79,7 +82,7 @@ export const protectedProcedure = t.procedure.use(async function isAuthed(opts) 
   } catch (e) {
     // TODO (Valle) -> find better way to log this error
     console.error(e);
-    throw new HttpError(HTTP_ERR.e401.Unauthorized);
+    throw new TRPCError({ code: TRPC_ERR_CODE.UNAUTHORIZED, cause: new HttpError(HTTP_ERR.e401.Unauthorized) });
   }
 
   return opts.next({
