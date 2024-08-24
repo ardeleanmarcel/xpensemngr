@@ -21,16 +21,16 @@ export const authRouter = t.router({
   signIn: t.procedure.input(signInSchema).mutation(async (opts) => {
     const { username, password } = opts.input;
 
-    const user = (
-      await selectUsers([
-        { name: 'username', type: FILTER_TYPE.In, value: [username] },
-        { name: 'user_status_id', type: FILTER_TYPE.Is, value: 10 },
-      ])
-    )[0];
+    const users = await selectUsers([
+      { name: 'username', type: FILTER_TYPE.In, value: [username] },
+      { name: 'user_status_id', type: FILTER_TYPE.Is, value: 10 },
+    ]);
 
-    if (!user) {
+    if (users.length === 0) {
       throw new TRPCError({ code: TRPC_ERR_CODE.BAD_REQUEST, cause: new HttpError(HTTP_ERR.e400.BadCredentials) });
     }
+
+    const user = users[0];
 
     const isAllowed = await compare(password, user.password);
 

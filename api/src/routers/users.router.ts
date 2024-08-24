@@ -59,14 +59,16 @@ export const usersRouter = t.router({
   activate: t.procedure.input(z.string().uuid()).query(async (opts) => {
     const uuid = opts.input;
 
-    const userActivation = (await selectUserActivations([uuid]))[0];
+    const userActivations = await selectUserActivations([uuid]);
 
-    if (!userActivation) {
+    if (userActivations.length === 0) {
       throw new TRPCError({
         code: TRPC_ERR_CODE.NOT_FOUND,
         cause: new HttpError(HTTP_ERR.e404.NotFound('Activation code', uuid)),
       });
     }
+
+    const userActivation = userActivations[0];
 
     if (userActivation.is_used) {
       throw new TRPCError({
