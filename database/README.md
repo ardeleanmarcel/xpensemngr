@@ -7,6 +7,10 @@
 
 ## Local Environment
 
+<span style="color: orange;">**WARNING!**</span>
+This _Local Development_ reference is **ONLY** if you want to work on the the DB by itself!<br>
+If you want to work on the entire project, refer to the [PROJECT LEVEL README](../README.md).
+
 - Create `.env` file based on `.env.example`
 - Start the DB using `docker compose up`
 - Set the user's schema search by running `ALTER ROLE <user> SET search_path TO <schema name>`

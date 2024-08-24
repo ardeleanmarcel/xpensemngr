@@ -2,6 +2,10 @@
 
 ## Local Development
 
+<span style="color: orange;">**WARNING!**</span>
+This _Local Development_ reference is **ONLY** if you want to work on the the API by itself!<br>
+If you want to work on the entire project, refer to the [PROJECT LEVEL README](../README.md).
+
 - Create `.env` file based on `.env.example` file
 - Start development server with `npm run dev`
 

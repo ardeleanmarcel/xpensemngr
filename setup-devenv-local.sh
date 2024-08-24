@@ -20,7 +20,9 @@ NOTIFICATION_EMAIL_SOURCE='account-activation@xpensemngr.com'
 
 ./scripts/local-env/check-software.sh
 
-echo -e "${CYAN}[XPM] Let's configure the local database!
+echo -e "${CYAN}
+[XPM] Let's configure the DB credentials!
+[XPM] Pick a username and password for connecting to your local database.
 ${NC}"
 
 read -p "User: " DB_USER
