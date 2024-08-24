@@ -60,26 +60,13 @@ export default function Register() {
   const [text, setText] = useState('');
   const [registerSuccess, setRegisterSuccess] = useState(false);
 
-  const closeTab = () => {
-    window.opener = null;
-    window.open('', '_self');
-    registerSuccess && window.close();
-    // window.close();
-  };
-
   const handleOpenModal = () => {
     setOpenModal(true);
   };
 
   const handleCloseModal = () => {
     setOpenModal(false);
-    closeTab();
-    // if (registerSuccess) {
-    //   closeTab();
-    // }
-    // setTimeout(() => {
-    //   registerSuccess && closeTab();
-    // }, 300);
+    registerSuccess && navigate('/');
   };
 
   const handleRegister = async () => {
@@ -96,7 +83,6 @@ export default function Register() {
       setText('please, check your email for validation!');
       handleOpenModal();
 
-      // navigate('/');
       setRegisterSuccess(true);
       return { registerSuccessful: true };
     } catch (error) {
@@ -243,6 +229,7 @@ export default function Register() {
           handleCloseModal={handleCloseModal}
           title={title}
           text={text}
+          registerSuccess={registerSuccess}
         />
       </CardContent>
     </Card>

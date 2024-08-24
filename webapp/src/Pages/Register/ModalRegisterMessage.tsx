@@ -21,6 +21,7 @@ export function ModalRegisterMessage({
   openModal,
   title,
   text,
+  registerSuccess,
 }) {
   return (
     <div>
@@ -48,7 +49,7 @@ export function ModalRegisterMessage({
             }}
             onClick={handleCloseModal}
           >
-            Close
+            {registerSuccess ? 'Go to Login Page' : 'Close'}
           </Button>
         </Box>
       </Modal>
