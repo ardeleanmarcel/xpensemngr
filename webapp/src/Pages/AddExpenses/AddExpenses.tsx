@@ -34,13 +34,17 @@ const initialValues = {
   description: '',
 };
 
+const TITLE = 'Add Expenses';
+const successMessage = 'Expense added successfully!';
+const errorMessage = 'Failed to add expense. Please try again!';
+const SUCCESS = 'success';
+const ERROR = 'error';
+
 export const AddExpenses = () => {
   const classes = useStyles();
 
   const { handleChange, values, handleSubmit, isSubmitting, status } =
     useFormikContext<typeof initialValues>();
-
-  console.log('🚀 ~ AddExpenses ~ status:', status);
 
   return (
     <Card>
@@ -58,10 +62,10 @@ export const AddExpenses = () => {
               align="center"
               className={classes.title}
             >
-              Add Expenses
+              {TITLE}
             </Typography>
             {status && (
-              <Alert severity={status.success ? 'success' : 'error'}>
+              <Alert severity={status.success ? SUCCESS : ERROR}>
                 {status.message}
               </Alert>
             )}
@@ -127,11 +131,11 @@ const handleSubmit = async (
     ]);
     setSubmitting(false);
     resetForm();
-    setStatus({ success: true, message: 'Expense added successfully!' });
+    setStatus({ success: true, message: successMessage });
   } catch (error) {
     setStatus({
       success: false,
-      message: 'Failed to add expense. Please try again.',
+      message: errorMessage,
     });
     resetForm();
   } finally {
