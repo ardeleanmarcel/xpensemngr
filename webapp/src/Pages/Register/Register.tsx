@@ -84,7 +84,6 @@ export default function Register() {
       handleOpenModal();
 
       setRegisterSuccess(true);
-      return { registerSuccessful: true };
     } catch (error) {
       console.log('error: ', error);
 
@@ -94,7 +93,6 @@ export default function Register() {
       handleOpenModal();
 
       setRegisterSuccess(false);
-      return { registerSuccessful: false, error: error.message };
     }
   };
 
@@ -229,7 +227,7 @@ export default function Register() {
           handleCloseModal={handleCloseModal}
           title={title}
           text={text}
-          registerSuccess={registerSuccess}
+          modalBtnText={registerSuccess ? 'Go to Login Page' : 'Close'}
         />
       </CardContent>
     </Card>

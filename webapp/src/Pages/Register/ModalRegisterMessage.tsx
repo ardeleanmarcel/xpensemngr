@@ -21,38 +21,34 @@ export function ModalRegisterMessage({
   openModal,
   title,
   text,
-  registerSuccess,
+  modalBtnText,
 }) {
   return (
-    <div>
-      <Modal
-        open={openModal}
-        onClose={handleCloseModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {/* Password reset request accepted. */}
-            {title}
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {/* For further instructions please check your email! */}
-            {text}
-          </Typography>
-          <Button
-            variant="outlined"
-            sx={{
-              boxShadow: 3,
-              marginTop: '40px',
-              marginBottom: '40px',
-            }}
-            onClick={handleCloseModal}
-          >
-            {registerSuccess ? 'Go to Login Page' : 'Close'}
-          </Button>
-        </Box>
-      </Modal>
-    </div>
+    <Modal
+      open={openModal}
+      onClose={handleCloseModal}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        <Typography id="modal-modal-title" variant="h6" component="h2">
+          {title}
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {text}
+        </Typography>
+        <Button
+          variant="outlined"
+          sx={{
+            boxShadow: 3,
+            marginTop: '40px',
+            marginBottom: '40px',
+          }}
+          onClick={handleCloseModal}
+        >
+          {modalBtnText}
+        </Button>
+      </Box>
+    </Modal>
   );
 }
