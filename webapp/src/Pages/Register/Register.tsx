@@ -10,6 +10,7 @@ import Stack from '@mui/material/Stack';
 
 import { client } from '../../api/apiClient';
 import { ColorModeContext } from '../../App';
+import { ModalRegisterMessage } from './ModalRegisterMessage';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -54,14 +55,45 @@ export default function Register() {
     navigate('/');
   };
 
-  const handleRegister = async () => {
-    const res = await client.users.create.mutate({
-      username: userInput.username,
-      password: userInput.password,
-      email: userInput.email,
-    });
+  const [openModal, setOpenModal] = useState(false);
+  const [title, setTitle] = useState('');
+  const [text, setText] = useState('');
+  const [registerSuccess, setRegisterSuccess] = useState(false);
 
-    console.log('res', res);
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    registerSuccess && navigate('/');
+  };
+
+  const handleRegister = async () => {
+    try {
+      const res = await client.users.create.mutate({
+        username: userInput.username,
+        password: userInput.password,
+        email: userInput.email,
+      });
+      console.log('res', res);
+
+      setOpenModal(true);
+      setTitle('you have successfuly been registered!');
+      setText('please, check your email for validation!');
+      handleOpenModal();
+
+      setRegisterSuccess(true);
+    } catch (error) {
+      console.log('error: ', error);
+
+      setOpenModal(true);
+      setTitle('there has been an error!');
+      setText('please, make sure you entered the corect data');
+      handleOpenModal();
+
+      setRegisterSuccess(false);
+    }
   };
 
   return (
@@ -189,6 +221,14 @@ export default function Register() {
         >
           Login
         </Button>
+
+        <ModalRegisterMessage
+          openModal={openModal}
+          handleCloseModal={handleCloseModal}
+          title={title}
+          text={text}
+          modalBtnText={registerSuccess ? 'Go to Login Page' : 'Close'}
+        />
       </CardContent>
     </Card>
   );
