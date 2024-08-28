@@ -1,3 +1,4 @@
+import { useFormikContext } from 'formik';
 import {
   Alert,
   Button,
@@ -8,9 +9,10 @@ import {
   Typography,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+
 import { withFormik } from '../../withFormik';
-import { useFormikContext } from 'formik';
 import { client } from '../../api/apiClient';
+import { getCurrentDate } from './dateUtils';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -107,20 +109,10 @@ export const AddExpenses = () => {
   );
 };
 
-const getCurrentDate = () => {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
-
-  return `${year}-${month}-${day}`;
-};
-
 const handleSubmit = async (
   values,
   { setSubmitting, setStatus, resetForm }
 ) => {
-  console.log(getCurrentDate());
   try {
     await client.expenses.create.mutate([
       {
@@ -129,7 +121,6 @@ const handleSubmit = async (
         date_expended_at: getCurrentDate(),
       },
     ]);
-    setSubmitting(false);
     resetForm();
     setStatus({ success: true, message: successMessage });
   } catch (error) {
