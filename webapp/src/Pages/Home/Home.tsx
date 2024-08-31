@@ -15,6 +15,7 @@ import { makeStyles } from '@mui/styles';
 import { withFormik } from '../../withFormik';
 import { ColorModeContext } from '../../App';
 import { ForgotPassword } from './ForgotPassword';
+import { client } from '../../api/apiClient';
 
 const initialValues = {
   username: '',
@@ -42,6 +43,11 @@ function Home() {
   const classes = useStyles();
   const navigate = useNavigate();
 
+  const isLoggedIn = localStorage.getItem('authToken');
+  if (isLoggedIn) {
+    navigate('/add-expenses');
+  }
+
   const { handleChange, values, handleSubmit, isSubmitting } =
     useFormikContext<typeof initialValues>();
 
@@ -67,7 +73,7 @@ function Home() {
               align="center"
               className={classes.title}
             >
-              Manage Your Expenses
+              Expense Manager
             </Typography>
             <TextField
               id="username"
@@ -128,11 +134,17 @@ function Home() {
   );
 }
 
-const handleSubmit = (values, { setSubmitting }) => {
-  setTimeout(() => {
-    alert(JSON.stringify(values, null, 2));
+const handleSubmit = async (values, { setSubmitting }) => {
+  try {
+    const response = await client.auth.signIn.mutate({
+      username: values.username,
+      password: values.password,
+    });
+    localStorage.setItem('authToken', response.token);
     setSubmitting(false);
-  }, 400);
+  } catch (error) {
+    setSubmitting(false);
+  }
 };
 
 const LoginWithFormik = withFormik(initialValues, handleSubmit, Home);
