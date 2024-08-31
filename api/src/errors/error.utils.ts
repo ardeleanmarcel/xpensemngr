@@ -1,3 +1,6 @@
+import { TRPCError } from '@trpc/server';
+import { HttpError, HttpErrorArgs } from './HttpError.class';
+
 export const TRPC_ERR_CODE = {
   BAD_REQUEST: 'BAD_REQUEST',
   UNAUTHORIZED: 'UNAUTHORIZED',
@@ -23,4 +26,11 @@ export function getTRPCErrorCodeFromHTTPStatus(httpStatusCode: number) {
     default:
       throw new Error(`Unknown HTTP status code: ${httpStatusCode}`);
   }
+}
+
+export function throwHttpError(cfg: HttpErrorArgs): never {
+  throw new TRPCError({
+    code: getTRPCErrorCodeFromHTTPStatus(cfg.httpCode),
+    cause: new HttpError(cfg),
+  });
 }

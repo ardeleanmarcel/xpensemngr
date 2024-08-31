@@ -5,10 +5,9 @@ import lodash from 'lodash';
 
 import { t } from '@src/trpc';
 import { selectUsers } from '@src/db/sql/users.sql';
-import { HttpError, HTTP_ERR } from '@src/errors';
+import { HTTP_ERR } from '@src/errors';
 import { FILTER_TYPE } from '@src/db/db.utils';
-import { TRPCError } from '@trpc/server';
-import { TRPC_ERR_CODE } from '@src/errors/error.utils';
+import { throwHttpError } from '@src/errors/error.utils';
 
 const { pick } = lodash;
 
@@ -27,7 +26,7 @@ export const authRouter = t.router({
     ]);
 
     if (users.length === 0) {
-      throw new TRPCError({ code: TRPC_ERR_CODE.BAD_REQUEST, cause: new HttpError(HTTP_ERR.e400.BadCredentials) });
+      throwHttpError(HTTP_ERR.e400.BadCredentials);
     }
 
     const user = users[0];
@@ -35,7 +34,7 @@ export const authRouter = t.router({
     const isAllowed = await compare(password, user.password);
 
     if (!isAllowed) {
-      throw new TRPCError({ code: TRPC_ERR_CODE.BAD_REQUEST, cause: new HttpError(HTTP_ERR.e400.BadCredentials) });
+      throwHttpError(HTTP_ERR.e400.BadCredentials);
     }
 
     const payload = pick(user, ['user_id', 'username', 'email']);

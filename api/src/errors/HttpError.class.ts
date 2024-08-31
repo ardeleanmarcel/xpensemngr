@@ -1,4 +1,4 @@
-interface HttpErrorArgs {
+export interface HttpErrorArgs {
   errorCode: number;
   httpCode: number;
   message: string;

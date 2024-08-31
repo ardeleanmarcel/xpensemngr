@@ -1,3 +1,9 @@
+export type HttpErrorConfig = {
+  errorCode: number;
+  httpCode: number;
+  message: string;
+};
+
 export const HTTP_ERR = {
   e400: {
     BadCredentials: {

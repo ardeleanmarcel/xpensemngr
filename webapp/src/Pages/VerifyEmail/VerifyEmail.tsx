@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { TRPCClientError } from '@trpc/client';
 import { Button, Card, CardContent, Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { client } from '../../api/apiClient';
 
 import { VerifyEmailErrorMessages } from './VerifyEmailErrorMessages';
+import { getXpmErrCode } from '../../api/api.utils';
 
 const useStyles = makeStyles<Theme>(() => ({
   container: {
@@ -19,7 +19,7 @@ const useStyles = makeStyles<Theme>(() => ({
 
 export const VerifyEmail = () => {
   const [registrationStatus, setRegistrationStatus] = useState(false);
-  const [errorCode, setErrorCode] = useState(null);
+  const [errorCode, setErrorCode] = useState<number | null>(null);
   const classes = useStyles();
   const location = useLocation();
   const navigate = useNavigate();
@@ -36,10 +36,8 @@ export const VerifyEmail = () => {
       const response = await client.users.activate.query(activationCode);
       setRegistrationStatus(response.success); // Activation successful
     } catch (error) {
-      if (error instanceof TRPCClientError) {
-        const code = error.data.xpmErrorCode;
-        setErrorCode(code);
-      }
+      const code = getXpmErrCode(error);
+      setErrorCode(code);
     }
   };
 
