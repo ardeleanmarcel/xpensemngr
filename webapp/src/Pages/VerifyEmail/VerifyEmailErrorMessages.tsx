@@ -6,6 +6,8 @@ export const VerifyEmailErrorMessages = ({ errorCode }) => {
     message = 'This activation code has expired.';
   } else if (errorCode === 404001) {
     message = 'This activation code was not found.';
+  } else if (errorCode === 400_004) {
+    message = 'Unable to process request.';
   }
   return <div>{message}</div>;
 };

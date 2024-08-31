@@ -6,7 +6,7 @@ const queryInputSchema = z.array(
   z
     .object({
       name: z.string(),
-      type: z.enum([FILTER_TYPE.In]),
+      type: z.enum([FILTER_TYPE.In, FILTER_TYPE.Is]),
       value: z.union([z.string(), z.number(), z.array(z.number()), z.array(z.string())]),
     })
     .strict()
