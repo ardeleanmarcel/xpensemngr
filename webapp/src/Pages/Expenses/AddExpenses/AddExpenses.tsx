@@ -10,9 +10,9 @@ import {
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-import { withFormik } from '../../withFormik';
-import { client } from '../../api/apiClient';
-import { getCurrentDate } from './dateUtils';
+import { withFormik } from '../../../withFormik';
+import { client } from '../../../api/apiClient';
+import { getCurrentDate } from './expensesUtils';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
