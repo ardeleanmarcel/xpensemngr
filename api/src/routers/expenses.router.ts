@@ -1,7 +1,7 @@
 import { protectedProcedure, t } from '@src/trpc';
 import { expenseCreateSchema } from '@src/models/expense.models';
 import { AllowedExpensesFilters, createExpenses, selectExpenses } from '@src/db/sql/expenses.sql';
-import { Filter } from '@src/db/db.utils';
+import { Filter, FILTER_TYPE } from '@src/db/db.utils';
 
 export const expensesRouter = t.router({
   create: protectedProcedure.input(expenseCreateSchema).mutation(async (opts) => {
@@ -17,7 +17,7 @@ export const expensesRouter = t.router({
     const filters: Filter<AllowedExpensesFilters>[] = [
       {
         name: 'added_by_user_id',
-        type: '=',
+        type: FILTER_TYPE.Is,
         value: user.user_id,
       },
     ];

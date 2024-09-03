@@ -11,53 +11,7 @@ import { Card, CardContent, TableHead, Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { TITLE } from './constants';
-import { formatDate, getAllExpenses } from './expensesUtils';
-
-interface Column {
-  id: 'description' | 'amount' | 'date_expended_at';
-  label: string;
-  minWidth?: number;
-  align?: 'center';
-}
-
-const columns: Column[] = [
-  { id: 'description', label: 'Description', minWidth: 170, align: 'center' },
-  {
-    id: 'amount',
-    label: 'Amount',
-    minWidth: 170,
-    align: 'center',
-  },
-  {
-    id: 'date_expended_at',
-    label: 'Date',
-    minWidth: 170,
-    align: 'center',
-  },
-];
-
-interface Data {
-  description: string;
-  amount: number;
-  date_expended_at: string;
-  expense_id: number;
-}
-
-function createData(
-  expenses: {
-    description: string;
-    amount: number;
-    date_expended_at: string;
-    expense_id: number;
-  }[]
-): Data[] {
-  return expenses.map((expense) => ({
-    description: expense.description,
-    amount: expense.amount,
-    date_expended_at: formatDate(expense.date_expended_at),
-    expense_id: expense.expense_id,
-  }));
-}
+import { columns, createData, Data, getAllExpenses } from './expensesUtils';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
