@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-
+import { useContext, useState } from 'react';
 import { useFormikContext } from 'formik';
 
 import { Theme } from '@mui/material';
@@ -15,6 +14,7 @@ import { XpmTypography } from '../../components/XpmTypography';
 import { ForgotPassword } from './ForgotPassword';
 import { XpmCard } from '../../components/XpmCard';
 import { XpmCardContent } from '../../components/XpmCardContent';
+import { SnackbarLogin } from './SnackbarLogin';
 
 const initialValues = {
   username: '',
@@ -43,6 +43,20 @@ const useStyles = makeStyles<Theme>((theme) => ({
 function Home() {
   const classes = useStyles();
   const navigate = useNavigate();
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const handleOpenSnackbar = () => {
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = (reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnackbar(false);
+  };
 
   const isLoggedIn = localStorage.getItem('authToken');
   if (isLoggedIn) {
@@ -127,6 +141,12 @@ function Home() {
             />
           </div>
         </form>
+
+        <SnackbarLogin
+          openSnackbar={openSnackbar}
+          handleOpenSnackbar={handleOpenSnackbar}
+          handleCloseSnackbar={handleCloseSnackbar}
+        />
       </XpmCardContent>
     </XpmCard>
   );
@@ -140,6 +160,7 @@ const handleSubmit = async (values, { setSubmitting }) => {
     });
     localStorage.setItem('authToken', response.token);
     setSubmitting(false);
+    handleOpenSnackbar();
   } catch (error) {
     setSubmitting(false);
   }
