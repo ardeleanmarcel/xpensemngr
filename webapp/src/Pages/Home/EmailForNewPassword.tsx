@@ -1,10 +1,12 @@
+import { useState } from 'react';
+
 import Stack from '@mui/material/Stack';
-import { Button } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { useState } from 'react';
 import Typography from '@mui/material/Typography';
+
+import { XpmButton } from '../../components/XpmButton';
 import { ModalReceivedEmail } from './ModalReceivedEmail';
 
 export function EmailForNewPassword() {
@@ -47,7 +49,7 @@ export function EmailForNewPassword() {
           <Typography variant="caption">
             Email contains "@" character
           </Typography>
-          <Button
+          <XpmButton
             variant="contained"
             color="secondary"
             sx={{
@@ -57,9 +59,8 @@ export function EmailForNewPassword() {
             }}
             disabled={isActive}
             onClick={handleOpenModal}
-          >
-            Submit
-          </Button>
+            buttonName="Submit"
+          />
           {openModal && (
             <ModalReceivedEmail
               handleCloseModal={handleCloseModal}

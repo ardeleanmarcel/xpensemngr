@@ -1,7 +1,7 @@
 import { useFormikContext } from 'formik';
+
 import {
   Alert,
-  Button,
   Card,
   CardContent,
   TextField,
@@ -12,6 +12,7 @@ import { makeStyles } from '@mui/styles';
 
 import { withFormik } from '../../../withFormik';
 import { client } from '../../../api/apiClient';
+import { XpmButton } from '../../../components/XpmButton';
 import { getCurrentDate } from './expensesUtils';
 
 const useStyles = makeStyles<Theme>((theme) => ({
@@ -90,18 +91,15 @@ export const AddExpenses = () => {
               value={values.description}
               disabled={isSubmitting}
             />
-            <Button
-              type="submit"
-              variant="contained"
-              color="secondary"
-              sx={{
-                boxShadow: 3,
-              }}
-              fullWidth
+            <XpmButton
               disabled={isSubmitting}
-            >
-              Add
-            </Button>
+              color="secondary"
+              buttonName="Add"
+              type="submit"
+              onClick={() => {}}
+              variant="contained"
+              fullWidth
+            />
           </div>
         </form>
       </CardContent>

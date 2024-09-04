@@ -1,21 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
+
 import { useFormikContext } from 'formik';
 
-import {
-  Button,
-  Card,
-  CardContent,
-  TextField,
-  Theme,
-  Typography,
-} from '@mui/material';
+import { Card, CardContent, TextField, Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { withFormik } from '../../withFormik';
 import { ColorModeContext } from '../../App';
-import { ForgotPassword } from './ForgotPassword';
 import { client } from '../../api/apiClient';
+import { XpmButton } from '../../components/XpmButton';
+import { ForgotPassword } from './ForgotPassword';
 
 const initialValues = {
   username: '',
@@ -98,7 +93,7 @@ function Home() {
               disabled={isSubmitting}
             />
             <ForgotPassword />
-            <Button
+            <XpmButton
               type="submit"
               variant="contained"
               color="secondary"
@@ -107,13 +102,12 @@ function Home() {
               }}
               fullWidth
               disabled={isSubmitting}
-            >
-              Login
-            </Button>
+              buttonName="Login"
+            />
             <div className={classes.actionText}>
               You do not have an account? Register below
             </div>
-            <Button
+            <XpmButton
               variant="outlined"
               color="secondary"
               sx={{
@@ -124,9 +118,8 @@ function Home() {
               fullWidth
               onClick={handleRegister}
               disabled={isSubmitting}
-            >
-              Register
-            </Button>
+              buttonName="Register"
+            />
           </div>
         </form>
       </CardContent>

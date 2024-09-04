@@ -1,7 +1,8 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { Button } from '@mui/material';
+
+import { XpmButton } from '../../components/XpmButton';
 
 const style = {
   position: 'absolute',
@@ -32,7 +33,7 @@ export function ModalReceivedEmail({ handleCloseModal, openModal }) {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             For further instructions please check your email!
           </Typography>
-          <Button
+          <XpmButton
             variant="outlined"
             sx={{
               boxShadow: 3,
@@ -40,9 +41,8 @@ export function ModalReceivedEmail({ handleCloseModal, openModal }) {
               marginBottom: '40px',
             }}
             onClick={handleCloseModal}
-          >
-            Close
-          </Button>
+            buttonName="Close"
+          />
         </Box>
       </Modal>
     </div>

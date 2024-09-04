@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 
-import { Button } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
@@ -10,6 +9,7 @@ import Stack from '@mui/material/Stack';
 
 import { client } from '../../api/apiClient';
 import { ColorModeContext } from '../../App';
+import { XpmButton } from '../../components/XpmButton';
 import { ModalRegisterMessage } from './ModalRegisterMessage';
 
 export default function Register() {
@@ -190,8 +190,7 @@ export default function Register() {
             fullWidth
           />
         </Stack>
-
-        <Button
+        <XpmButton
           variant="contained"
           color="secondary"
           sx={{
@@ -201,13 +200,12 @@ export default function Register() {
           }}
           fullWidth
           onClick={handleRegister}
-        >
-          Register
-        </Button>
+          buttonName="Register"
+        />
         <Typography sx={{ marginBottom: '20px', textAlign: 'center' }}>
           You already have an account? Login below
         </Typography>
-        <Button
+        <XpmButton
           variant="outlined"
           color="secondary"
           sx={{
@@ -218,9 +216,8 @@ export default function Register() {
           }}
           fullWidth
           onClick={handleGoToSignIn}
-        >
-          Login
-        </Button>
+          buttonName="Login"
+        />
 
         <ModalRegisterMessage
           openModal={openModal}

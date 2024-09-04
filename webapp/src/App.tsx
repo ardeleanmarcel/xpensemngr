@@ -1,20 +1,21 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 import {
-  Button,
   GlobalStyles,
   PaletteMode,
   ThemeProvider,
   createTheme,
 } from '@mui/material';
 
+import { EmailForNewPassword } from './Pages/Home/EmailForNewPassword';
+import { VerifyEmail } from './Pages/VerifyEmail/VerifyEmail';
+import { ExpensesDashboard } from './Pages/Expenses/AddExpenses/ExpensesDashboard';
+import { XpmButton } from './components/XpmButton';
+import AddExpensesWithFormik from './Pages/Expenses/AddExpenses/AddExpenses';
 import Register from './Pages/Register/Register';
 import LoginWithFormik from './Pages/Home/Home';
 import './App.css';
-import { EmailForNewPassword } from './Pages/Home/EmailForNewPassword';
-import { VerifyEmail } from './Pages/VerifyEmail/VerifyEmail';
-import AddExpensesWithFormik from './Pages/Expenses/AddExpenses/AddExpenses';
-import { ExpensesDashboard } from './Pages/Expenses/AddExpenses/ExpensesDashboard';
 
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
@@ -112,7 +113,7 @@ export default function App() {
             },
           }}
         />
-        <Button
+        <XpmButton
           size="small"
           variant="outlined"
           color="secondary"
@@ -120,9 +121,8 @@ export default function App() {
           sx={{
             top: 50,
           }}
-        >
-          {mode === 'light' ? 'Dark Theme' : 'Light Theme'}
-        </Button>
+          buttonName={mode === 'light' ? 'Dark Theme' : 'Light Theme'}
+        />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<LoginWithFormik />} />

@@ -1,7 +1,8 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { Button } from '@mui/material';
+
+import { XpmButton } from '../../components/XpmButton';
 
 const style = {
   position: 'absolute',
@@ -37,7 +38,7 @@ export function ModalRegisterMessage({
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           {text}
         </Typography>
-        <Button
+        <XpmButton
           variant="outlined"
           sx={{
             boxShadow: 3,
@@ -45,9 +46,8 @@ export function ModalRegisterMessage({
             marginBottom: '40px',
           }}
           onClick={handleCloseModal}
-        >
-          {modalBtnText}
-        </Button>
+          buttonName={modalBtnText}
+        />
       </Box>
     </Modal>
   );
