@@ -1,18 +1,12 @@
 import { useFormikContext } from 'formik';
 
-import {
-  Alert,
-  Card,
-  CardContent,
-  TextField,
-  Theme,
-  Typography,
-} from '@mui/material';
+import { Alert, Card, CardContent, Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { withFormik } from '../../../withFormik';
 import { client } from '../../../api/apiClient';
 import { XpmButton } from '../../../components/XpmButton';
+import { XpmTextField } from '../../../components/XpmTextField';
 import { getCurrentDate } from './expensesUtils';
 
 const useStyles = makeStyles<Theme>((theme) => ({
@@ -72,7 +66,7 @@ export const AddExpenses = () => {
                 {status.message}
               </Alert>
             )}
-            <TextField
+            <XpmTextField
               name="amount"
               required
               id="outlined-number"
@@ -81,8 +75,9 @@ export const AddExpenses = () => {
               onChange={handleChange}
               value={values.amount}
               disabled={isSubmitting}
+              color="inputsColor"
             />
-            <TextField
+            <XpmTextField
               name="description"
               required
               id="outlined-required"
@@ -90,13 +85,13 @@ export const AddExpenses = () => {
               onChange={handleChange}
               value={values.description}
               disabled={isSubmitting}
+              color="inputsColor"
             />
             <XpmButton
               disabled={isSubmitting}
               color="secondary"
               buttonName="Add"
               type="submit"
-              onClick={() => {}}
               variant="contained"
               fullWidth
             />

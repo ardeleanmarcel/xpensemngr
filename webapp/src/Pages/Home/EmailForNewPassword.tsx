@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
 import { XpmButton } from '../../components/XpmButton';
+import { XpmTextField } from '../../components/XpmTextField';
 import { ModalReceivedEmail } from './ModalReceivedEmail';
 
 export function EmailForNewPassword() {
@@ -40,12 +40,12 @@ export function EmailForNewPassword() {
     <Card sx={{ width: '380px' }}>
       <CardContent sx={{ marginTop: '30vh' }}>
         <Stack>
-          <TextField
+          <XpmTextField
             label="your email"
             name="email"
             value={userInput.email}
             onChange={(e) => handleInput(e)}
-          ></TextField>
+          />
           <Typography variant="caption">
             Email contains "@" character
           </Typography>

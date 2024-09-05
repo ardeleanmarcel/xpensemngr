@@ -3,13 +3,14 @@ import { useContext } from 'react';
 
 import { useFormikContext } from 'formik';
 
-import { Card, CardContent, TextField, Theme, Typography } from '@mui/material';
+import { Card, CardContent, Theme, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { withFormik } from '../../withFormik';
 import { ColorModeContext } from '../../App';
 import { client } from '../../api/apiClient';
 import { XpmButton } from '../../components/XpmButton';
+import { XpmTextField } from '../../components/XpmTextField';
 import { ForgotPassword } from './ForgotPassword';
 
 const initialValues = {
@@ -70,18 +71,18 @@ function Home() {
             >
               Expense Manager
             </Typography>
-            <TextField
+            <XpmTextField
               id="username"
               variant="outlined"
               label="Username"
-              type="username"
+              type="text"
               name="username"
               color="inputsColor"
               onChange={handleChange}
               value={values.username}
               disabled={isSubmitting}
             />
-            <TextField
+            <XpmTextField
               id="password"
               variant="outlined"
               label="Password"

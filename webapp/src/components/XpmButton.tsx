@@ -2,10 +2,10 @@ import { Button, ButtonProps, SxProps } from '@mui/material';
 
 type XpmButtonProps = {
   size?: 'small' | 'medium' | 'large';
-  buttonName?: string;
+  buttonName: string;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
-  onClick?: () => void;
+  onClick?: (...args: unknown[]) => void;
   variant?: 'text' | 'contained' | 'outlined';
   color?: ButtonProps['color'];
   fullWidth?: boolean;
@@ -14,10 +14,10 @@ type XpmButtonProps = {
 
 export const XpmButton = ({
   size = 'small',
-  buttonName = 'ButtonName',
+  buttonName,
   disabled = false,
   type = 'button',
-  onClick = () => {},
+  onClick,
   variant = 'contained',
   color = 'primary',
   fullWidth = false,

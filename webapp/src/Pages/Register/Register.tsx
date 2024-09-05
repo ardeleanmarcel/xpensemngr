@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -10,6 +9,7 @@ import Stack from '@mui/material/Stack';
 import { client } from '../../api/apiClient';
 import { ColorModeContext } from '../../App';
 import { XpmButton } from '../../components/XpmButton';
+import { XpmTextField } from '../../components/XpmTextField';
 import { ModalRegisterMessage } from './ModalRegisterMessage';
 
 export default function Register() {
@@ -118,7 +118,7 @@ export default function Register() {
           * indicates a required field
         </Typography>
         <Stack>
-          <TextField
+          <XpmTextField
             required
             label="First Name"
             name="firstName"
@@ -131,7 +131,7 @@ export default function Register() {
           />
         </Stack>
         <Stack>
-          <TextField
+          <XpmTextField
             required
             label="Last Name"
             color="inputsColor"
@@ -143,7 +143,7 @@ export default function Register() {
           />
         </Stack>
         <Stack>
-          <TextField
+          <XpmTextField
             required
             label="Username"
             color="inputsColor"
@@ -154,7 +154,7 @@ export default function Register() {
             fullWidth
           />
         </Stack>
-        <TextField
+        <XpmTextField
           required
           label="Email"
           color="inputsColor"
@@ -165,7 +165,7 @@ export default function Register() {
           fullWidth
         />
         <Stack>
-          <TextField
+          <XpmTextField
             required
             label="Password"
             type="password"
@@ -178,7 +178,7 @@ export default function Register() {
           />
         </Stack>
         <Stack>
-          <TextField
+          <XpmTextField
             required
             label="Confirm Password"
             type="password"
