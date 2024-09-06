@@ -1,6 +1,6 @@
 import { useFormikContext } from 'formik';
 
-import { Alert, Card, CardContent, Theme } from '@mui/material';
+import { Card, CardContent, Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { withFormik } from '../../../withFormik';
@@ -8,6 +8,7 @@ import { client } from '../../../api/apiClient';
 import { XpmButton } from '../../../components/XpmButton';
 import { XpmTextField } from '../../../components/XpmTextField';
 import { XpmTypography } from '../../../components/XpmTypography';
+import { XpmAlert } from '../../../components/XpmAlert';
 import { getCurrentDate } from './expensesUtils';
 
 const useStyles = makeStyles<Theme>((theme) => ({
@@ -62,9 +63,10 @@ export const AddExpenses = () => {
               text={TITLE}
             />
             {status && (
-              <Alert severity={status.success ? SUCCESS : ERROR}>
-                {status.message}
-              </Alert>
+              <XpmAlert
+                severity={status.success ? SUCCESS : ERROR}
+                message={status.message}
+              />
             )}
             <XpmTextField
               name="amount"
