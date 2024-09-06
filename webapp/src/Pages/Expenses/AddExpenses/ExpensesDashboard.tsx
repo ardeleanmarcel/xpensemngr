@@ -7,11 +7,12 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Card, CardContent, TableHead, Theme, Typography } from '@mui/material';
+import { Card, CardContent, TableHead, Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { TITLE } from './constants';
 import { columns, createData, Data, getAllExpenses } from './expensesUtils';
+import { XpmTypography } from '../../../components/XpmTypography';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -70,14 +71,13 @@ export const ExpensesDashboard = () => {
         }}
       >
         <div className={classes.container}>
-          <Typography
+          <XpmTypography
             variant="h4"
             component="h2"
             align="center"
             className={classes.title}
-          >
-            {TITLE}
-          </Typography>
+            text={TITLE}
+          />
           <Paper sx={{ width: '100%' }}>
             <TableContainer>
               <Table stickyHeader aria-label="sticky table">

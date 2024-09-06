@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
 import { XpmButton } from '../../components/XpmButton';
+import { XpmTypography } from '../../components/XpmTypography';
 
 const style = {
   position: 'absolute',
@@ -28,16 +28,17 @@ export function ModalRegisterMessage({
     <Modal
       open={openModal}
       onClose={handleCloseModal}
-      aria-labelledby="modal-modal-title"
+      aria-labelledby="modal-title"
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          {title}
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          {text}
-        </Typography>
+        <XpmTypography
+          id="modal-title"
+          variant="h6"
+          component="h2"
+          text={title}
+        />
+        <XpmTypography id="modal-description" sx={{ mt: 2 }} text={text} />
         <XpmButton
           variant="outlined"
           sx={{

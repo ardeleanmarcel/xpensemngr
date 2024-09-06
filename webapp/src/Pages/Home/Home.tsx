@@ -3,7 +3,7 @@ import { useContext } from 'react';
 
 import { useFormikContext } from 'formik';
 
-import { Card, CardContent, Theme, Typography } from '@mui/material';
+import { Card, CardContent, Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { withFormik } from '../../withFormik';
@@ -12,11 +12,14 @@ import { client } from '../../api/apiClient';
 import { XpmButton } from '../../components/XpmButton';
 import { XpmTextField } from '../../components/XpmTextField';
 import { ForgotPassword } from './ForgotPassword';
+import { XpmTypography } from '../../components/XpmTypography';
 
 const initialValues = {
   username: '',
   password: '',
 };
+
+const TITLE = 'Expense Manager';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -63,14 +66,13 @@ function Home() {
       >
         <form onSubmit={handleSubmit}>
           <div className={classes.container}>
-            <Typography
+            <XpmTypography
               variant="h4"
               component="h2"
               align="center"
               className={classes.title}
-            >
-              Expense Manager
-            </Typography>
+              text={TITLE}
+            />
             <XpmTextField
               id="username"
               variant="outlined"

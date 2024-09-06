@@ -1,12 +1,13 @@
 import { useFormikContext } from 'formik';
 
-import { Alert, Card, CardContent, Theme, Typography } from '@mui/material';
+import { Alert, Card, CardContent, Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { withFormik } from '../../../withFormik';
 import { client } from '../../../api/apiClient';
 import { XpmButton } from '../../../components/XpmButton';
 import { XpmTextField } from '../../../components/XpmTextField';
+import { XpmTypography } from '../../../components/XpmTypography';
 import { getCurrentDate } from './expensesUtils';
 
 const useStyles = makeStyles<Theme>((theme) => ({
@@ -53,14 +54,13 @@ export const AddExpenses = () => {
       >
         <form onSubmit={handleSubmit}>
           <div className={classes.container}>
-            <Typography
+            <XpmTypography
               variant="h4"
               component="h2"
               align="center"
               className={classes.title}
-            >
-              {TITLE}
-            </Typography>
+              text={TITLE}
+            />
             {status && (
               <Alert severity={status.success ? SUCCESS : ERROR}>
                 {status.message}

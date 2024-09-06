@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 
-import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Stack from '@mui/material/Stack';
@@ -10,7 +9,32 @@ import { client } from '../../api/apiClient';
 import { ColorModeContext } from '../../App';
 import { XpmButton } from '../../components/XpmButton';
 import { XpmTextField } from '../../components/XpmTextField';
+import { XpmTypography } from '../../components/XpmTypography';
 import { ModalRegisterMessage } from './ModalRegisterMessage';
+
+const inputsStyle = {
+  marginBottom: '21px',
+};
+
+const cardContainerStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  boxShadow: 5,
+  padding: '16px',
+  width: '380px',
+};
+
+const requiredInfoStyle = {
+  marginBottom: '15px',
+  fontSize: '15px',
+  color: 'grey',
+};
+
+const LOGIN_BUTTON = 'Login';
+const REGISTER_BUTTON = 'Register';
+const REQUIRED_TEXT = '* indicates a required field';
+const REGISTER_ACCOUNT = 'Register account';
+const INFO_TEXT = 'You already have an account? Login below';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -24,24 +48,6 @@ export default function Register() {
     password: '',
     confirmPassword: '',
   });
-
-  const inputsStyle = {
-    marginBottom: '21px',
-  };
-
-  const cardContainerStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    boxShadow: 5,
-    padding: '16px',
-    width: '380px',
-  };
-
-  const requiredInfoStyle = {
-    marginBottom: '15px',
-    fontSize: '15px',
-    color: 'grey',
-  };
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -103,20 +109,17 @@ export default function Register() {
           textAlign: 'left',
         }}
       >
-        <Typography
+        <XpmTypography
           variant="h5"
-          fontWeight="fontWeightBold"
           sx={{
             display: 'flex',
             justifyContent: 'center',
             margin: '25px 0px 25px 0px',
+            fontWeight: 'fontWeightBold',
           }}
-        >
-          Register account
-        </Typography>
-        <Typography sx={requiredInfoStyle}>
-          * indicates a required field
-        </Typography>
+          text={REGISTER_ACCOUNT}
+        />
+        <XpmTypography sx={{ requiredInfoStyle }} text={REQUIRED_TEXT} />
         <Stack>
           <XpmTextField
             required
@@ -200,11 +203,12 @@ export default function Register() {
           }}
           fullWidth
           onClick={handleRegister}
-          buttonName="Register"
+          buttonName={REGISTER_BUTTON}
         />
-        <Typography sx={{ marginBottom: '20px', textAlign: 'center' }}>
-          You already have an account? Login below
-        </Typography>
+        <XpmTypography
+          sx={{ marginBottom: '20px', textAlign: 'center' }}
+          text={INFO_TEXT}
+        />
         <XpmButton
           variant="outlined"
           color="secondary"
@@ -216,7 +220,7 @@ export default function Register() {
           }}
           fullWidth
           onClick={handleGoToSignIn}
-          buttonName="Login"
+          buttonName={LOGIN_BUTTON}
         />
 
         <ModalRegisterMessage

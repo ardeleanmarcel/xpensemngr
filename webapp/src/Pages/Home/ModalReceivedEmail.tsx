@@ -1,8 +1,12 @@
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
 import { XpmButton } from '../../components/XpmButton';
+import { XpmTypography } from '../../components/XpmTypography';
+
+const TITLE = 'Password reset request accepted.';
+const INFO = 'For further instructions please check your email!';
+const CLOSE_BUTTON = 'Close';
 
 const style = {
   position: 'absolute',
@@ -23,16 +27,23 @@ export function ModalReceivedEmail({ handleCloseModal, openModal }) {
       <Modal
         open={openModal}
         onClose={handleCloseModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Password reset request accepted.
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            For further instructions please check your email!
-          </Typography>
+          <XpmTypography
+            id="modal-title"
+            variant="h6"
+            component="h2"
+            text={TITLE}
+          />
+
+          <XpmTypography
+            id="modal-description"
+            sx={{ mt: 2 }}
+            text={INFO}
+            variant="body1"
+          />
           <XpmButton
             variant="outlined"
             sx={{
@@ -41,7 +52,7 @@ export function ModalReceivedEmail({ handleCloseModal, openModal }) {
               marginBottom: '40px',
             }}
             onClick={handleCloseModal}
-            buttonName="Close"
+            buttonName={CLOSE_BUTTON}
           />
         </Box>
       </Modal>

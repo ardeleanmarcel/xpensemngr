@@ -3,11 +3,13 @@ import { useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
 
 import { XpmButton } from '../../components/XpmButton';
 import { XpmTextField } from '../../components/XpmTextField';
+import { XpmTypography } from '../../components/XpmTypography';
 import { ModalReceivedEmail } from './ModalReceivedEmail';
+
+const TITLE = "Email contains '@' character";
 
 export function EmailForNewPassword() {
   const [userInput, setUserInput] = useState({ email: '' });
@@ -46,9 +48,7 @@ export function EmailForNewPassword() {
             value={userInput.email}
             onChange={(e) => handleInput(e)}
           />
-          <Typography variant="caption">
-            Email contains "@" character
-          </Typography>
+          <XpmTypography variant="caption" text={TITLE} />
           <XpmButton
             variant="contained"
             color="secondary"
