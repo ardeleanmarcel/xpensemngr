@@ -11,8 +11,8 @@ import { ColorModeContext } from '../../App';
 import { client } from '../../api/apiClient';
 import { XpmButton } from '../../components/XpmButton';
 import { XpmTextField } from '../../components/XpmTextField';
-import { ForgotPassword } from './ForgotPassword';
 import { XpmTypography } from '../../components/XpmTypography';
+import { ForgotPassword } from './ForgotPassword';
 
 const initialValues = {
   username: '',
