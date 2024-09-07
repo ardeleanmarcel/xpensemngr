@@ -1,13 +1,13 @@
 import { useState } from 'react';
 
 import Stack from '@mui/material/Stack';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 
 import { XpmButton } from '../../components/XpmButton';
 import { XpmTextField } from '../../components/XpmTextField';
 import { XpmTypography } from '../../components/XpmTypography';
 import { ModalReceivedEmail } from './ModalReceivedEmail';
+import { XpmCard } from '../../components/XpmCard';
+import { XpmCardContent } from '../../components/XpmCardContent';
 
 const TITLE = "Email contains '@' character";
 
@@ -39,8 +39,8 @@ export function EmailForNewPassword() {
   };
 
   return (
-    <Card sx={{ width: '380px' }}>
-      <CardContent sx={{ marginTop: '30vh' }}>
+    <XpmCard sx={{ width: '380px' }}>
+      <XpmCardContent sx={{ marginTop: '30vh' }}>
         <Stack>
           <XpmTextField
             label="your email"
@@ -68,7 +68,7 @@ export function EmailForNewPassword() {
             />
           )}
         </Stack>
-      </CardContent>
-    </Card>
+      </XpmCardContent>
+    </XpmCard>
   );
 }

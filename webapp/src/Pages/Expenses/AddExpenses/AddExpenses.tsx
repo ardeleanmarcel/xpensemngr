@@ -1,6 +1,6 @@
 import { useFormikContext } from 'formik';
 
-import { Card, CardContent, Theme } from '@mui/material';
+import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { withFormik } from '../../../withFormik';
@@ -10,6 +10,8 @@ import { XpmTextField } from '../../../components/XpmTextField';
 import { XpmTypography } from '../../../components/XpmTypography';
 import { XpmAlert } from '../../../components/XpmAlert';
 import { getCurrentDate } from './expensesUtils';
+import { XpmCard } from '../../../components/XpmCard';
+import { XpmCardContent } from '../../../components/XpmCardContent';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -46,8 +48,8 @@ export const AddExpenses = () => {
     useFormikContext<typeof initialValues>();
 
   return (
-    <Card>
-      <CardContent
+    <XpmCard>
+      <XpmCardContent
         sx={{
           textAlign: 'left',
           marginTop: '30px',
@@ -99,8 +101,8 @@ export const AddExpenses = () => {
             />
           </div>
         </form>
-      </CardContent>
-    </Card>
+      </XpmCardContent>
+    </XpmCard>
   );
 };
 

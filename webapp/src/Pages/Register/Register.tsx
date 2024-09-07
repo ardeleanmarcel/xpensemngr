@@ -1,8 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import Stack from '@mui/material/Stack';
 
 import { client } from '../../api/apiClient';
@@ -10,7 +8,9 @@ import { ColorModeContext } from '../../App';
 import { XpmButton } from '../../components/XpmButton';
 import { XpmTextField } from '../../components/XpmTextField';
 import { XpmTypography } from '../../components/XpmTypography';
+import { XpmCard } from '../../components/XpmCard';
 import { ModalRegisterMessage } from './ModalRegisterMessage';
+import { XpmCardContent } from '../../components/XpmCardContent';
 
 const inputsStyle = {
   marginBottom: '21px',
@@ -103,8 +103,8 @@ export default function Register() {
   };
 
   return (
-    <Card sx={cardContainerStyle}>
-      <CardContent
+    <XpmCard sx={cardContainerStyle}>
+      <XpmCardContent
         sx={{
           textAlign: 'left',
         }}
@@ -230,7 +230,7 @@ export default function Register() {
           text={text}
           modalBtnText={registerSuccess ? 'Go to Login Page' : 'Close'}
         />
-      </CardContent>
-    </Card>
+      </XpmCardContent>
+    </XpmCard>
   );
 }

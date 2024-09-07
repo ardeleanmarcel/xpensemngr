@@ -3,7 +3,7 @@ import { useContext } from 'react';
 
 import { useFormikContext } from 'formik';
 
-import { Card, CardContent, Theme } from '@mui/material';
+import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { withFormik } from '../../withFormik';
@@ -13,6 +13,8 @@ import { XpmButton } from '../../components/XpmButton';
 import { XpmTextField } from '../../components/XpmTextField';
 import { XpmTypography } from '../../components/XpmTypography';
 import { ForgotPassword } from './ForgotPassword';
+import { XpmCard } from '../../components/XpmCard';
+import { XpmCardContent } from '../../components/XpmCardContent';
 
 const initialValues = {
   username: '',
@@ -57,8 +59,8 @@ function Home() {
   };
 
   return (
-    <Card>
-      <CardContent
+    <XpmCard>
+      <XpmCardContent
         sx={{
           textAlign: 'left',
           marginTop: '30px',
@@ -125,8 +127,8 @@ function Home() {
             />
           </div>
         </form>
-      </CardContent>
-    </Card>
+      </XpmCardContent>
+    </XpmCard>
   );
 }
 

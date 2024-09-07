@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 
 import Paper from '@mui/material/Paper';
-import { Card, CardContent, Theme } from '@mui/material';
+import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { XpmTypography } from '../../../components/XpmTypography';
 import { XpmTable } from '../../../components/XpmTable';
 import { TITLE } from './constants';
 import { columns, createData, Data, getAllExpenses } from './expensesUtils';
+import { XpmCard } from '../../../components/XpmCard';
+import { XpmCardContent } from '../../../components/XpmCardContent';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -58,8 +60,8 @@ export const ExpensesDashboard = () => {
   }, []);
 
   return (
-    <Card>
-      <CardContent
+    <XpmCard>
+      <XpmCardContent
         sx={{
           textAlign: 'left',
           marginTop: '30px',
@@ -84,7 +86,7 @@ export const ExpensesDashboard = () => {
             />
           </Paper>
         </div>
-      </CardContent>
-    </Card>
+      </XpmCardContent>
+    </XpmCard>
   );
 };
