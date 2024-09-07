@@ -1,7 +1,5 @@
-import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
-
-import Stack from '@mui/material/Stack';
+import { useNavigate } from 'react-router-dom';
 
 import { client } from '../../api/apiClient';
 import { ColorModeContext } from '../../App';
@@ -9,8 +7,8 @@ import { XpmButton } from '../../components/XpmButton';
 import { XpmTextField } from '../../components/XpmTextField';
 import { XpmTypography } from '../../components/XpmTypography';
 import { XpmCard } from '../../components/XpmCard';
-import { ModalRegisterMessage } from './ModalRegisterMessage';
 import { XpmCardContent } from '../../components/XpmCardContent';
+import { ModalRegisterMessage } from './ModalRegisterMessage';
 
 const inputsStyle = {
   marginBottom: '21px',
@@ -120,43 +118,37 @@ export default function Register() {
           text={REGISTER_ACCOUNT}
         />
         <XpmTypography sx={{ requiredInfoStyle }} text={REQUIRED_TEXT} />
-        <Stack>
-          <XpmTextField
-            required
-            label="First Name"
-            name="firstName"
-            color="inputsColor"
-            value={userInput.firstName}
-            onChange={(e) => handleInput(e)}
-            aria-invalid="false"
-            sx={inputsStyle}
-            fullWidth
-          />
-        </Stack>
-        <Stack>
-          <XpmTextField
-            required
-            label="Last Name"
-            color="inputsColor"
-            value={userInput.lastName}
-            name="lastName"
-            onChange={(e) => handleInput(e)}
-            sx={inputsStyle}
-            fullWidth
-          />
-        </Stack>
-        <Stack>
-          <XpmTextField
-            required
-            label="Username"
-            color="inputsColor"
-            value={userInput.username}
-            name="username"
-            onChange={(e) => handleInput(e)}
-            sx={inputsStyle}
-            fullWidth
-          />
-        </Stack>
+        <XpmTextField
+          required
+          label="First Name"
+          name="firstName"
+          color="inputsColor"
+          value={userInput.firstName}
+          onChange={(e) => handleInput(e)}
+          aria-invalid="false"
+          sx={inputsStyle}
+          fullWidth
+        />
+        <XpmTextField
+          required
+          label="Last Name"
+          color="inputsColor"
+          value={userInput.lastName}
+          name="lastName"
+          onChange={(e) => handleInput(e)}
+          sx={inputsStyle}
+          fullWidth
+        />
+        <XpmTextField
+          required
+          label="Username"
+          color="inputsColor"
+          value={userInput.username}
+          name="username"
+          onChange={(e) => handleInput(e)}
+          sx={inputsStyle}
+          fullWidth
+        />
         <XpmTextField
           required
           label="Email"
@@ -167,32 +159,28 @@ export default function Register() {
           sx={inputsStyle}
           fullWidth
         />
-        <Stack>
-          <XpmTextField
-            required
-            label="Password"
-            type="password"
-            value={userInput.password}
-            name="password"
-            color="inputsColor"
-            onChange={(e) => handleInput(e)}
-            sx={inputsStyle}
-            fullWidth
-          />
-        </Stack>
-        <Stack>
-          <XpmTextField
-            required
-            label="Confirm Password"
-            type="password"
-            color="inputsColor"
-            value={userInput.confirmPassword}
-            name="confirmPassword"
-            onChange={(e) => handleInput(e)}
-            sx={inputsStyle}
-            fullWidth
-          />
-        </Stack>
+        <XpmTextField
+          required
+          label="Password"
+          type="password"
+          value={userInput.password}
+          name="password"
+          color="inputsColor"
+          onChange={(e) => handleInput(e)}
+          sx={inputsStyle}
+          fullWidth
+        />
+        <XpmTextField
+          required
+          label="Confirm Password"
+          type="password"
+          color="inputsColor"
+          value={userInput.confirmPassword}
+          name="confirmPassword"
+          onChange={(e) => handleInput(e)}
+          sx={inputsStyle}
+          fullWidth
+        />
         <XpmButton
           variant="contained"
           color="secondary"

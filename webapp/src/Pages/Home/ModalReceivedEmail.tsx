@@ -1,8 +1,7 @@
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-
 import { XpmButton } from '../../components/XpmButton';
 import { XpmTypography } from '../../components/XpmTypography';
+import { XpmModal } from '../../components/XpmModal';
+import { XpmBox } from '../../components/XpmBox';
 
 const TITLE = 'Password reset request accepted.';
 const INFO = 'For further instructions please check your email!';
@@ -24,13 +23,13 @@ const style = {
 export function ModalReceivedEmail({ handleCloseModal, openModal }) {
   return (
     <div>
-      <Modal
+      <XpmModal
         open={openModal}
         onClose={handleCloseModal}
-        aria-labelledby="modal-title"
-        aria-describedby="modal-description"
+        ariaLabelledBy="modal-title"
+        ariaDescribedBy="modal-description"
       >
-        <Box sx={style}>
+        <XpmBox sx={style}>
           <XpmTypography
             id="modal-title"
             variant="h6"
@@ -54,8 +53,8 @@ export function ModalReceivedEmail({ handleCloseModal, openModal }) {
             onClick={handleCloseModal}
             buttonName={CLOSE_BUTTON}
           />
-        </Box>
-      </Modal>
+        </XpmBox>
+      </XpmModal>
     </div>
   );
 }

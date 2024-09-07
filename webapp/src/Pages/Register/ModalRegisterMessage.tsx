@@ -1,8 +1,7 @@
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-
 import { XpmButton } from '../../components/XpmButton';
 import { XpmTypography } from '../../components/XpmTypography';
+import { XpmModal } from '../../components/XpmModal';
+import { XpmBox } from '../../components/XpmBox';
 
 const style = {
   position: 'absolute',
@@ -25,13 +24,13 @@ export function ModalRegisterMessage({
   modalBtnText,
 }) {
   return (
-    <Modal
+    <XpmModal
       open={openModal}
       onClose={handleCloseModal}
-      aria-labelledby="modal-title"
-      aria-describedby="modal-modal-description"
+      ariaLabelledBy="modal-title"
+      ariaDescribedBy="modal-modal-description"
     >
-      <Box sx={style}>
+      <XpmBox sx={style}>
         <XpmTypography
           id="modal-title"
           variant="h6"
@@ -49,7 +48,7 @@ export function ModalRegisterMessage({
           onClick={handleCloseModal}
           buttonName={modalBtnText}
         />
-      </Box>
-    </Modal>
+      </XpmBox>
+    </XpmModal>
   );
 }

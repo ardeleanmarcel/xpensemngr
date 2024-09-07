@@ -1,15 +1,14 @@
 import { useState } from 'react';
 
-import Stack from '@mui/material/Stack';
-
 import { XpmButton } from '../../components/XpmButton';
 import { XpmTextField } from '../../components/XpmTextField';
 import { XpmTypography } from '../../components/XpmTypography';
 import { ModalReceivedEmail } from './ModalReceivedEmail';
 import { XpmCard } from '../../components/XpmCard';
 import { XpmCardContent } from '../../components/XpmCardContent';
+import { XpmStack } from '../../components/XpmStack';
 
-const TITLE = "Email contains '@' character";
+const INFO_TEXT = "Email contains '@' character";
 
 export function EmailForNewPassword() {
   const [userInput, setUserInput] = useState({ email: '' });
@@ -41,14 +40,14 @@ export function EmailForNewPassword() {
   return (
     <XpmCard sx={{ width: '380px' }}>
       <XpmCardContent sx={{ marginTop: '30vh' }}>
-        <Stack>
+        <XpmStack>
           <XpmTextField
             label="your email"
             name="email"
             value={userInput.email}
             onChange={(e) => handleInput(e)}
           />
-          <XpmTypography variant="caption" text={TITLE} />
+          <XpmTypography variant="caption" text={INFO_TEXT} />
           <XpmButton
             variant="contained"
             color="secondary"
@@ -67,7 +66,7 @@ export function EmailForNewPassword() {
               openModal={openModal}
             />
           )}
-        </Stack>
+        </XpmStack>
       </XpmCardContent>
     </XpmCard>
   );
