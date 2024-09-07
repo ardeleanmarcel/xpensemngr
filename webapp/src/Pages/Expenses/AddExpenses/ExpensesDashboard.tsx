@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import Paper from '@mui/material/Paper';
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
@@ -10,6 +9,7 @@ import { TITLE } from './constants';
 import { columns, createData, Data, getAllExpenses } from './expensesUtils';
 import { XpmCard } from '../../../components/XpmCard';
 import { XpmCardContent } from '../../../components/XpmCardContent';
+import { XpmPaper } from '../../../components/XpmPaper';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -75,7 +75,7 @@ export const ExpensesDashboard = () => {
             className={classes.title}
             text={TITLE}
           />
-          <Paper sx={{ width: '100%' }}>
+          <XpmPaper sx={{ width: '100%' }}>
             <XpmTable
               columns={columns}
               rows={rows}
@@ -84,7 +84,7 @@ export const ExpensesDashboard = () => {
               handleChangePage={handleChangePage}
               handleChangeRowsPerPage={handleChangeRowsPerPage}
             />
-          </Paper>
+          </XpmPaper>
         </div>
       </XpmCardContent>
     </XpmCard>
