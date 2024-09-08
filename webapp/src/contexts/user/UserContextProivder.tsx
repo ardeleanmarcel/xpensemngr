@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+
 import { client } from '../../api/apiClient';
-import { extractJwtPayload } from '../../utils/auth.utils';
-import { userContext, UserData } from './user.context';
+import { extractAuthPayload } from '../../utils/auth.utils';
 import { useRunOnce } from '../../hooks/useRunOnce';
+
+import { userContext, UserData } from './user.context';
 
 // TODO (valle) -> implement an interval that checks for token expiration and refreseh or revoke
 export function UserContextProvider({ children }: React.PropsWithChildren) {
@@ -17,9 +19,7 @@ export function UserContextProvider({ children }: React.PropsWithChildren) {
     }
 
     try {
-      const payload = extractJwtPayload(token);
-
-      const { username, email, exp } = payload;
+      const { username, email, exp } = extractAuthPayload(token);
 
       const isExpired = exp * 1000 < new Date().getTime();
 
@@ -46,9 +46,7 @@ export function UserContextProvider({ children }: React.PropsWithChildren) {
 
     localStorage.setItem('authToken', token);
     try {
-      // TODO (Valle) -> add zod or similar to parse the value
-      const parsedToken = extractJwtPayload(token);
-      const { email } = parsedToken;
+      const { username, email } = extractAuthPayload(token);
 
       setUser({ username, email });
 
