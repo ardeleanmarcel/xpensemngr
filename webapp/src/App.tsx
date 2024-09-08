@@ -8,6 +8,7 @@ import {
   createTheme,
 } from '@mui/material';
 
+import { UserContextProvider } from './contexts/user/UserContextProivder';
 import { EmailForNewPassword } from './Pages/Home/EmailForNewPassword';
 import { VerifyEmail } from './Pages/VerifyEmail/VerifyEmail';
 import { ExpensesDashboard } from './Pages/Expenses/AddExpenses/ExpensesDashboard';
@@ -102,38 +103,44 @@ export default function App() {
   const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
   return (
-    <ColorModeContext.Provider
-      value={{ mode, toggleColorMode: colorMode.toggleColorMode }}
-    >
-      <ThemeProvider theme={theme}>
-        <GlobalStyles
-          styles={{
-            body: {
-              backgroundColor: theme.palette.background.default,
-            },
-          }}
-        />
-        <XpmButton
-          size="small"
-          variant="outlined"
-          color="secondary"
-          onClick={changeTheme}
-          sx={{
-            top: 50,
-          }}
-          buttonName={mode === 'light' ? 'Dark Theme' : 'Light Theme'}
-        />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<LoginWithFormik />} />
-            <Route path="register" element={<Register />} />
-            <Route path="reset-email" element={<EmailForNewPassword />} />
-            <Route path="verify-email" element={<VerifyEmail />} />
-            <Route path="add-expenses" element={<AddExpensesWithFormik />} />
-            <Route path="expenses-dashboard" element={<ExpensesDashboard />} />
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
+    <UserContextProvider>
+      <ColorModeContext.Provider
+        value={{ mode, toggleColorMode: colorMode.toggleColorMode }}
+      >
+        <ThemeProvider theme={theme}>
+          <GlobalStyles
+            styles={{
+              body: {
+                backgroundColor: theme.palette.background.default,
+              },
+            }}
+          />
+          <XpmButton
+            size="small"
+            variant="outlined"
+            color="secondary"
+            onClick={changeTheme}
+            sx={{
+              top: 50,
+            }}
+            buttonName={mode === 'light' ? 'Dark Theme' : 'Light Theme'}
+          />
+          {/* appbar here? */}
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<LoginWithFormik />} />
+              <Route path="register" element={<Register />} />
+              <Route path="reset-email" element={<EmailForNewPassword />} />
+              <Route path="verify-email" element={<VerifyEmail />} />
+              <Route path="add-expenses" element={<AddExpensesWithFormik />} />
+              <Route
+                path="expenses-dashboard"
+                element={<ExpensesDashboard />}
+              />
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </ColorModeContext.Provider>
+    </UserContextProvider>
   );
 }
