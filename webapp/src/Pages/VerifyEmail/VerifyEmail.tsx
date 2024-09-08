@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, Card, CardContent, Theme } from '@mui/material';
+
+import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { client } from '../../api/apiClient';
+import { getXpmErrCode } from '../../api/api.utils';
+import { XpmButton } from '../../components/XpmButton';
 
 import { VerifyEmailErrorMessages } from './VerifyEmailErrorMessages';
-import { getXpmErrCode } from '../../api/api.utils';
+import { XpmCard } from '../../components/XpmCard';
+import { XpmCardContent } from '../../components/XpmCardContent';
 
 const useStyles = makeStyles<Theme>(() => ({
   container: {
@@ -50,8 +54,8 @@ export const VerifyEmail = () => {
   }
 
   return (
-    <Card>
-      <CardContent
+    <XpmCard>
+      <XpmCardContent
         sx={{
           textAlign: 'left',
         }}
@@ -63,13 +67,12 @@ export const VerifyEmail = () => {
                 Hello! Click on the button below in order to activate your
                 account. The link is available maximum 24 hours!
               </div>
-              <Button
+              <XpmButton
                 variant="contained"
                 color="secondary"
                 onClick={handleActivate}
-              >
-                Complete Registration
-              </Button>
+                buttonName="Complete Registration"
+              />
             </>
           ) : (
             <>
@@ -78,17 +81,16 @@ export const VerifyEmail = () => {
                 on the button bellow and you will be redirected to login page!
                 Enjoy!
               </div>
-              <Button
+              <XpmButton
                 variant="contained"
                 color="secondary"
                 onClick={redirectToLoginPage}
-              >
-                Login
-              </Button>
+                buttonName="Login"
+              />
             </>
           )}
         </div>
-      </CardContent>
-    </Card>
+      </XpmCardContent>
+    </XpmCard>
   );
 };

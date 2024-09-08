@@ -1,16 +1,38 @@
-import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
-
-import { Button } from '@mui/material';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Stack from '@mui/material/Stack';
+import { useNavigate } from 'react-router-dom';
 
 import { client } from '../../api/apiClient';
 import { ColorModeContext } from '../../App';
+import { XpmButton } from '../../components/XpmButton';
+import { XpmTextField } from '../../components/XpmTextField';
+import { XpmTypography } from '../../components/XpmTypography';
+import { XpmCard } from '../../components/XpmCard';
+import { XpmCardContent } from '../../components/XpmCardContent';
 import { ModalRegisterMessage } from './ModalRegisterMessage';
+
+const inputsStyle = {
+  marginBottom: '21px',
+};
+
+const cardContainerStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  boxShadow: 5,
+  padding: '16px',
+  width: '380px',
+};
+
+const requiredInfoStyle = {
+  marginBottom: '15px',
+  fontSize: '15px',
+  color: 'grey',
+};
+
+const LOGIN_BUTTON = 'Login';
+const REGISTER_BUTTON = 'Register';
+const REQUIRED_TEXT = '* indicates a required field';
+const REGISTER_ACCOUNT = 'Register account';
+const INFO_TEXT = 'You already have an account? Login below';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -24,24 +46,6 @@ export default function Register() {
     password: '',
     confirmPassword: '',
   });
-
-  const inputsStyle = {
-    marginBottom: '21px',
-  };
-
-  const cardContainerStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    boxShadow: 5,
-    padding: '16px',
-    width: '380px',
-  };
-
-  const requiredInfoStyle = {
-    marginBottom: '15px',
-    fontSize: '15px',
-    color: 'grey',
-  };
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -97,64 +101,55 @@ export default function Register() {
   };
 
   return (
-    <Card sx={cardContainerStyle}>
-      <CardContent
+    <XpmCard sx={cardContainerStyle}>
+      <XpmCardContent
         sx={{
           textAlign: 'left',
         }}
       >
-        <Typography
+        <XpmTypography
           variant="h5"
-          fontWeight="fontWeightBold"
           sx={{
             display: 'flex',
             justifyContent: 'center',
             margin: '25px 0px 25px 0px',
+            fontWeight: 'fontWeightBold',
           }}
-        >
-          Register account
-        </Typography>
-        <Typography sx={requiredInfoStyle}>
-          * indicates a required field
-        </Typography>
-        <Stack>
-          <TextField
-            required
-            label="First Name"
-            name="firstName"
-            color="inputsColor"
-            value={userInput.firstName}
-            onChange={(e) => handleInput(e)}
-            aria-invalid="false"
-            sx={inputsStyle}
-            fullWidth
-          />
-        </Stack>
-        <Stack>
-          <TextField
-            required
-            label="Last Name"
-            color="inputsColor"
-            value={userInput.lastName}
-            name="lastName"
-            onChange={(e) => handleInput(e)}
-            sx={inputsStyle}
-            fullWidth
-          />
-        </Stack>
-        <Stack>
-          <TextField
-            required
-            label="Username"
-            color="inputsColor"
-            value={userInput.username}
-            name="username"
-            onChange={(e) => handleInput(e)}
-            sx={inputsStyle}
-            fullWidth
-          />
-        </Stack>
-        <TextField
+          text={REGISTER_ACCOUNT}
+        />
+        <XpmTypography sx={{ requiredInfoStyle }} text={REQUIRED_TEXT} />
+        <XpmTextField
+          required
+          label="First Name"
+          name="firstName"
+          color="inputsColor"
+          value={userInput.firstName}
+          onChange={(e) => handleInput(e)}
+          aria-invalid="false"
+          sx={inputsStyle}
+          fullWidth
+        />
+        <XpmTextField
+          required
+          label="Last Name"
+          color="inputsColor"
+          value={userInput.lastName}
+          name="lastName"
+          onChange={(e) => handleInput(e)}
+          sx={inputsStyle}
+          fullWidth
+        />
+        <XpmTextField
+          required
+          label="Username"
+          color="inputsColor"
+          value={userInput.username}
+          name="username"
+          onChange={(e) => handleInput(e)}
+          sx={inputsStyle}
+          fullWidth
+        />
+        <XpmTextField
           required
           label="Email"
           color="inputsColor"
@@ -164,34 +159,29 @@ export default function Register() {
           sx={inputsStyle}
           fullWidth
         />
-        <Stack>
-          <TextField
-            required
-            label="Password"
-            type="password"
-            value={userInput.password}
-            name="password"
-            color="inputsColor"
-            onChange={(e) => handleInput(e)}
-            sx={inputsStyle}
-            fullWidth
-          />
-        </Stack>
-        <Stack>
-          <TextField
-            required
-            label="Confirm Password"
-            type="password"
-            color="inputsColor"
-            value={userInput.confirmPassword}
-            name="confirmPassword"
-            onChange={(e) => handleInput(e)}
-            sx={inputsStyle}
-            fullWidth
-          />
-        </Stack>
-
-        <Button
+        <XpmTextField
+          required
+          label="Password"
+          type="password"
+          value={userInput.password}
+          name="password"
+          color="inputsColor"
+          onChange={(e) => handleInput(e)}
+          sx={inputsStyle}
+          fullWidth
+        />
+        <XpmTextField
+          required
+          label="Confirm Password"
+          type="password"
+          color="inputsColor"
+          value={userInput.confirmPassword}
+          name="confirmPassword"
+          onChange={(e) => handleInput(e)}
+          sx={inputsStyle}
+          fullWidth
+        />
+        <XpmButton
           variant="contained"
           color="secondary"
           sx={{
@@ -201,13 +191,13 @@ export default function Register() {
           }}
           fullWidth
           onClick={handleRegister}
-        >
-          Register
-        </Button>
-        <Typography sx={{ marginBottom: '20px', textAlign: 'center' }}>
-          You already have an account? Login below
-        </Typography>
-        <Button
+          buttonName={REGISTER_BUTTON}
+        />
+        <XpmTypography
+          sx={{ marginBottom: '20px', textAlign: 'center' }}
+          text={INFO_TEXT}
+        />
+        <XpmButton
           variant="outlined"
           color="secondary"
           sx={{
@@ -218,9 +208,8 @@ export default function Register() {
           }}
           fullWidth
           onClick={handleGoToSignIn}
-        >
-          Login
-        </Button>
+          buttonName={LOGIN_BUTTON}
+        />
 
         <ModalRegisterMessage
           openModal={openModal}
@@ -229,7 +218,7 @@ export default function Register() {
           text={text}
           modalBtnText={registerSuccess ? 'Go to Login Page' : 'Close'}
         />
-      </CardContent>
-    </Card>
+      </XpmCardContent>
+    </XpmCard>
   );
 }

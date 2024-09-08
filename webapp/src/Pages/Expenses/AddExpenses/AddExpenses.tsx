@@ -1,18 +1,17 @@
 import { useFormikContext } from 'formik';
-import {
-  Alert,
-  Button,
-  Card,
-  CardContent,
-  TextField,
-  Theme,
-  Typography,
-} from '@mui/material';
+
+import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { withFormik } from '../../../withFormik';
 import { client } from '../../../api/apiClient';
+import { XpmButton } from '../../../components/XpmButton';
+import { XpmTextField } from '../../../components/XpmTextField';
+import { XpmTypography } from '../../../components/XpmTypography';
+import { XpmAlert } from '../../../components/XpmAlert';
 import { getCurrentDate } from './expensesUtils';
+import { XpmCard } from '../../../components/XpmCard';
+import { XpmCardContent } from '../../../components/XpmCardContent';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -49,8 +48,8 @@ export const AddExpenses = () => {
     useFormikContext<typeof initialValues>();
 
   return (
-    <Card>
-      <CardContent
+    <XpmCard>
+      <XpmCardContent
         sx={{
           textAlign: 'left',
           marginTop: '30px',
@@ -58,20 +57,20 @@ export const AddExpenses = () => {
       >
         <form onSubmit={handleSubmit}>
           <div className={classes.container}>
-            <Typography
+            <XpmTypography
               variant="h4"
               component="h2"
               align="center"
               className={classes.title}
-            >
-              {TITLE}
-            </Typography>
+              text={TITLE}
+            />
             {status && (
-              <Alert severity={status.success ? SUCCESS : ERROR}>
-                {status.message}
-              </Alert>
+              <XpmAlert
+                severity={status.success ? SUCCESS : ERROR}
+                message={status.message}
+              />
             )}
-            <TextField
+            <XpmTextField
               name="amount"
               required
               id="outlined-number"
@@ -80,8 +79,9 @@ export const AddExpenses = () => {
               onChange={handleChange}
               value={values.amount}
               disabled={isSubmitting}
+              color="inputsColor"
             />
-            <TextField
+            <XpmTextField
               name="description"
               required
               id="outlined-required"
@@ -89,23 +89,20 @@ export const AddExpenses = () => {
               onChange={handleChange}
               value={values.description}
               disabled={isSubmitting}
+              color="inputsColor"
             />
-            <Button
+            <XpmButton
+              disabled={isSubmitting}
+              color="secondary"
+              buttonName="Add"
               type="submit"
               variant="contained"
-              color="secondary"
-              sx={{
-                boxShadow: 3,
-              }}
               fullWidth
-              disabled={isSubmitting}
-            >
-              Add
-            </Button>
+            />
           </div>
         </form>
-      </CardContent>
-    </Card>
+      </XpmCardContent>
+    </XpmCard>
   );
 };
 

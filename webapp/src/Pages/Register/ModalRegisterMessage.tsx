@@ -1,7 +1,7 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import { Button } from '@mui/material';
+import { XpmButton } from '../../components/XpmButton';
+import { XpmTypography } from '../../components/XpmTypography';
+import { XpmModal } from '../../components/XpmModal';
+import { XpmBox } from '../../components/XpmBox';
 
 const style = {
   position: 'absolute',
@@ -24,20 +24,21 @@ export function ModalRegisterMessage({
   modalBtnText,
 }) {
   return (
-    <Modal
+    <XpmModal
       open={openModal}
       onClose={handleCloseModal}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
+      ariaLabelledBy="modal-title"
+      ariaDescribedBy="modal-modal-description"
     >
-      <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          {title}
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          {text}
-        </Typography>
-        <Button
+      <XpmBox sx={style}>
+        <XpmTypography
+          id="modal-title"
+          variant="h6"
+          component="h2"
+          text={title}
+        />
+        <XpmTypography id="modal-description" sx={{ mt: 2 }} text={text} />
+        <XpmButton
           variant="outlined"
           sx={{
             boxShadow: 3,
@@ -45,10 +46,9 @@ export function ModalRegisterMessage({
             marginBottom: '40px',
           }}
           onClick={handleCloseModal}
-        >
-          {modalBtnText}
-        </Button>
-      </Box>
-    </Modal>
+          buttonName={modalBtnText}
+        />
+      </XpmBox>
+    </XpmModal>
   );
 }

@@ -1,11 +1,14 @@
-import Stack from '@mui/material/Stack';
-import { Button } from '@mui/material';
-import TextField from '@mui/material/TextField';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import { useState } from 'react';
-import Typography from '@mui/material/Typography';
+
+import { XpmButton } from '../../components/XpmButton';
+import { XpmTextField } from '../../components/XpmTextField';
+import { XpmTypography } from '../../components/XpmTypography';
 import { ModalReceivedEmail } from './ModalReceivedEmail';
+import { XpmCard } from '../../components/XpmCard';
+import { XpmCardContent } from '../../components/XpmCardContent';
+import { XpmStack } from '../../components/XpmStack';
+
+const INFO_TEXT = "Email contains '@' character";
 
 export function EmailForNewPassword() {
   const [userInput, setUserInput] = useState({ email: '' });
@@ -35,19 +38,17 @@ export function EmailForNewPassword() {
   };
 
   return (
-    <Card sx={{ width: '380px' }}>
-      <CardContent sx={{ marginTop: '30vh' }}>
-        <Stack>
-          <TextField
+    <XpmCard sx={{ width: '380px' }}>
+      <XpmCardContent sx={{ marginTop: '30vh' }}>
+        <XpmStack>
+          <XpmTextField
             label="your email"
             name="email"
             value={userInput.email}
             onChange={(e) => handleInput(e)}
-          ></TextField>
-          <Typography variant="caption">
-            Email contains "@" character
-          </Typography>
-          <Button
+          />
+          <XpmTypography variant="caption" text={INFO_TEXT} />
+          <XpmButton
             variant="contained"
             color="secondary"
             sx={{
@@ -57,17 +58,16 @@ export function EmailForNewPassword() {
             }}
             disabled={isActive}
             onClick={handleOpenModal}
-          >
-            Submit
-          </Button>
+            buttonName="Submit"
+          />
           {openModal && (
             <ModalReceivedEmail
               handleCloseModal={handleCloseModal}
               openModal={openModal}
             />
           )}
-        </Stack>
-      </CardContent>
-    </Card>
+        </XpmStack>
+      </XpmCardContent>
+    </XpmCard>
   );
 }

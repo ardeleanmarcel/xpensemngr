@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react';
 
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import { Card, CardContent, TableHead, Theme, Typography } from '@mui/material';
+import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
+import { XpmTypography } from '../../../components/XpmTypography';
+import { XpmTable } from '../../../components/XpmTable';
 import { TITLE } from './constants';
 import { columns, createData, Data, getAllExpenses } from './expensesUtils';
+import { XpmCard } from '../../../components/XpmCard';
+import { XpmCardContent } from '../../../components/XpmCardContent';
+import { XpmPaper } from '../../../components/XpmPaper';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -62,75 +60,33 @@ export const ExpensesDashboard = () => {
   }, []);
 
   return (
-    <Card>
-      <CardContent
+    <XpmCard>
+      <XpmCardContent
         sx={{
           textAlign: 'left',
           marginTop: '30px',
         }}
       >
         <div className={classes.container}>
-          <Typography
+          <XpmTypography
             variant="h4"
             component="h2"
             align="center"
             className={classes.title}
-          >
-            {TITLE}
-          </Typography>
-          <Paper sx={{ width: '100%' }}>
-            <TableContainer>
-              <Table stickyHeader aria-label="sticky table">
-                <TableHead>
-                  <TableRow>
-                    {columns.map((column) => (
-                      <TableCell
-                        key={column.id}
-                        align={column.align}
-                        style={{ top: 57, minWidth: column.minWidth }}
-                      >
-                        {column.label}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
-                      return (
-                        <TableRow
-                          hover
-                          role="checkbox"
-                          tabIndex={-1}
-                          key={row.expense_id}
-                        >
-                          {columns.map((column) => {
-                            const value = row[column.id];
-                            return (
-                              <TableCell key={column.id} align={column.align}>
-                                {value}
-                              </TableCell>
-                            );
-                          })}
-                        </TableRow>
-                      );
-                    })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
-              component="div"
-              count={rows.length}
+            text={TITLE}
+          />
+          <XpmPaper sx={{ width: '100%' }}>
+            <XpmTable
+              columns={columns}
+              rows={rows}
               rowsPerPage={rowsPerPage}
               page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
+              handleChangePage={handleChangePage}
+              handleChangeRowsPerPage={handleChangeRowsPerPage}
             />
-          </Paper>
+          </XpmPaper>
         </div>
-      </CardContent>
-    </Card>
+      </XpmCardContent>
+    </XpmCard>
   );
 };
