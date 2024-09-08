@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useFormikContext } from 'formik';
 
 import { Theme } from '@mui/material';
@@ -15,10 +15,12 @@ import { ForgotPassword } from './ForgotPassword';
 import { XpmCard } from '../../components/XpmCard';
 import { XpmCardContent } from '../../components/XpmCardContent';
 import { SnackbarLogin } from './SnackbarLogin';
+import { SUCCESS_MSG, FAIL_MSG } from './SnackbarLogin';
 
 const initialValues = {
   username: '',
   password: '',
+  message: '',
 };
 
 const TITLE = 'Expense Manager';
@@ -44,27 +46,33 @@ function Home() {
   const classes = useStyles();
   const navigate = useNavigate();
 
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-
-  const handleOpenSnackbar = () => {
-    setOpenSnackbar(true);
-  };
+  const [isFeedbackVisible, setIsFeedbackVisible] = useState(false);
 
   const handleCloseSnackbar = (reason) => {
     if (reason === 'clickaway') {
       return;
     }
 
-    setOpenSnackbar(false);
+    setIsFeedbackVisible(false);
   };
 
-  const isLoggedIn = localStorage.getItem('authToken');
-  if (isLoggedIn) {
-    navigate('/add-expenses');
-  }
+  // const isLoggedIn = localStorage.getItem('authToken');
+  // if (isLoggedIn) {
+  //   navigate('/add-expenses');
+  // }
 
   const { handleChange, values, handleSubmit, isSubmitting } =
     useFormikContext<typeof initialValues>();
+
+  console.log('values: ', values);
+
+  useEffect(() => {
+    if (values.message) {
+      setIsFeedbackVisible(true);
+    } else {
+      setIsFeedbackVisible(false);
+    }
+  }, [values.message]);
 
   const { mode } = useContext(ColorModeContext);
 
@@ -80,6 +88,9 @@ function Home() {
           marginTop: '30px',
         }}
       >
+        <button onClick={() => setIsFeedbackVisible(!isFeedbackVisible)}>
+          test
+        </button>
         <form onSubmit={handleSubmit}>
           <div className={classes.container}>
             <XpmTypography
@@ -143,26 +154,30 @@ function Home() {
         </form>
 
         <SnackbarLogin
-          openSnackbar={openSnackbar}
-          handleOpenSnackbar={handleOpenSnackbar}
-          handleCloseSnackbar={handleCloseSnackbar}
+          isOpen={isFeedbackVisible}
+          onClose={handleCloseSnackbar}
+          message={values.message}
         />
       </XpmCardContent>
     </XpmCard>
   );
 }
 
-const handleSubmit = async (values, { setSubmitting }) => {
+const handleSubmit = async (values, { setSubmitting, setValues }) => {
   try {
     const response = await client.auth.signIn.mutate({
       username: values.username,
       password: values.password,
     });
     localStorage.setItem('authToken', response.token);
+    setValues({ ...values, message: SUCCESS_MSG });
     setSubmitting(false);
-    handleOpenSnackbar();
   } catch (error) {
     setSubmitting(false);
+    setValues({
+      ...values,
+      message: FAIL_MSG,
+    });
   }
 };
 

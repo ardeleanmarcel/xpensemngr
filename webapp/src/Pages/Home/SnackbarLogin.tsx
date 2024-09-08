@@ -3,26 +3,25 @@
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
-export function SnackbarLogin({
-  openSnackbar,
-  //   handleOpenSnackbar,
-  handleCloseSnackbar,
-}) {
+export const SUCCESS_MSG = 'You have successfully logged in.';
+export const FAIL_MSG = 'Fail! Make sure your credential are valid.';
+
+export function SnackbarLogin({ isOpen, message, onClose }) {
   return (
     <div>
       {/* <Button onClick={handleOpenSnackbar}>Open Snackbar</Button> */}
       <Snackbar
-        open={openSnackbar}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
+        open={isOpen}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        onClose={onClose}
       >
         <Alert
-          onClose={handleCloseSnackbar}
-          severity="success"
+          onClose={onClose}
+          severity={message === SUCCESS_MSG ? 'success' : 'error'}
           variant="filled"
           sx={{ width: '100%' }}
         >
-          You successfully logged in!
+          {message}
         </Alert>
       </Snackbar>
     </div>
