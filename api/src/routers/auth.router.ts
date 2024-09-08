@@ -37,12 +37,13 @@ export const authRouter = t.router({
       throwHttpError(HTTP_ERR.e400.BadCredentials);
     }
 
-    const payload = pick(user, ['user_id', 'username', 'email']);
+    const payload = { ...pick(user, ['user_id', 'username', 'email']) };
     const secret = process.env.AUTH_JWT_SECRET;
     if (!secret) throw new Error('Missing AUTH_JWT_SECRET environment variable!');
 
     // TODO (Valle) -> study algorithms and make an informed selection for the token. HS256 is the default
-    const token = jwt.sign(payload, secret, { algorithm: 'HS256' });
+    // TODO (Valle) -> implement refresh token and reduce expiration time
+    const token = jwt.sign(payload, secret, { algorithm: 'HS256', expiresIn: '12h' });
 
     return { token };
   }),
