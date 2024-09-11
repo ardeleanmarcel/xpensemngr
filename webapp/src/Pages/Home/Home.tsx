@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { useFormikContext } from 'formik';
 
 import { Theme } from '@mui/material';
@@ -15,8 +15,6 @@ import { XpmTypography } from '../../components/XpmTypography';
 import { ForgotPassword } from './ForgotPassword';
 import { XpmCard } from '../../components/XpmCard';
 import { XpmCardContent } from '../../components/XpmCardContent';
-import { SnackbarLogin } from './SnackbarLogin';
-import { SUCCESS_MSG, FAIL_MSG } from './SnackbarLogin';
 
 const initialValues = {
   username: '',
@@ -25,6 +23,9 @@ const initialValues = {
 };
 
 const TITLE = 'Expense Manager';
+
+export const SUCCESS_MSG = 'You have successfully logged in.';
+export const FAIL_MSG = 'Fail! Make sure your credential are valid.';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -49,31 +50,25 @@ function Home() {
 
   const { displaySnackbar } = useNotification();
 
-  const [isFeedbackVisible, setIsFeedbackVisible] = useState(false);
+  const { handleChange, values, handleSubmit, isSubmitting, setValues } =
+    useFormikContext<typeof initialValues>();
 
-  const handleCloseSnackbar = (reason) => {
-    if (reason === 'clickaway') {
+  useEffect(() => {
+    if (!values.message) return;
+
+    setValues((prev) => ({
+      ...prev,
+      message: '',
+    }));
+
+    if (values.message === SUCCESS_MSG) {
+      displaySnackbar({ message: SUCCESS_MSG, type: 'success' });
+      navigate('/add-expenses');
       return;
     }
 
-    setIsFeedbackVisible(false);
-  };
-
-  // const isLoggedIn = localStorage.getItem('authToken');
-  // if (isLoggedIn) {
-  //   navigate('/add-expenses');
-  // }
-
-  const { handleChange, values, handleSubmit, isSubmitting } =
-    useFormikContext<typeof initialValues>();
-
-  console.log('values: ', values);
-
-  useEffect(() => {
-    if (values.message) {
-      setIsFeedbackVisible(true);
-    } else {
-      setIsFeedbackVisible(false);
+    if (values.message === FAIL_MSG) {
+      displaySnackbar({ message: FAIL_MSG, type: 'error' });
     }
   }, [values.message]);
 
@@ -159,12 +154,6 @@ function Home() {
             />
           </div>
         </form>
-
-        <SnackbarLogin
-          isOpen={isFeedbackVisible}
-          onClose={handleCloseSnackbar}
-          message={values.message}
-        />
       </XpmCardContent>
     </XpmCard>
   );
