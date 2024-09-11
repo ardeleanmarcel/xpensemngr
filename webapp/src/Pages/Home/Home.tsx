@@ -5,6 +5,7 @@ import { useFormikContext } from 'formik';
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
+import { useNotification } from '../../contexts/notification/notification.context';
 import { withFormik } from '../../withFormik';
 import { ColorModeContext } from '../../App';
 import { client } from '../../api/apiClient';
@@ -45,6 +46,8 @@ const useStyles = makeStyles<Theme>((theme) => ({
 function Home() {
   const classes = useStyles();
   const navigate = useNavigate();
+
+  const { displaySnackbar } = useNotification();
 
   const [isFeedbackVisible, setIsFeedbackVisible] = useState(false);
 
@@ -88,7 +91,11 @@ function Home() {
           marginTop: '30px',
         }}
       >
-        <button onClick={() => setIsFeedbackVisible(!isFeedbackVisible)}>
+        <button
+          onClick={() =>
+            displaySnackbar({ message: 'wow, it works', type: 'error' })
+          }
+        >
           test
         </button>
         <form onSubmit={handleSubmit}>
