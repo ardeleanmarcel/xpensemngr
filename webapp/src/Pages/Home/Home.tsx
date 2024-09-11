@@ -86,13 +86,6 @@ function Home() {
           marginTop: '30px',
         }}
       >
-        <button
-          onClick={() =>
-            displaySnackbar({ message: 'wow, it works', type: 'error' })
-          }
-        >
-          test
-        </button>
         <form onSubmit={handleSubmit}>
           <div className={classes.container}>
             <XpmTypography
@@ -159,6 +152,7 @@ function Home() {
   );
 }
 
+// TODO -> try replacing with react-hook-form and make use of the user context for sign in
 const handleSubmit = async (values, { setSubmitting, setValues }) => {
   try {
     const response = await client.auth.signIn.mutate({
