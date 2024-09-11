@@ -10,6 +10,7 @@ import { columns, createData, Data, getAllExpenses } from './expensesUtils';
 import { XpmCard } from '../../../components/XpmCard';
 import { XpmCardContent } from '../../../components/XpmCardContent';
 import { XpmPaper } from '../../../components/XpmPaper';
+import MenuNavigation from './MenuNavigation';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -67,6 +68,7 @@ export const ExpensesDashboard = () => {
           marginTop: '30px',
         }}
       >
+        <MenuNavigation />
         <div className={classes.container}>
           <XpmTypography
             variant="h4"
