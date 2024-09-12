@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
+
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { AccountSettings } from './AccountSettings';
+import { Box, Stack } from '@mui/material';
 
 interface LinkTabProps {
   label?: string;
@@ -46,11 +48,19 @@ export default function MenuNavigation() {
   };
 
   return (
-    <Box sx={{ width: '100%', marginTop: '70px' }} boxShadow="3">
-      <Tabs value={value} onChange={handleChange} role="navigation">
-        <LinkTab label="Add Expenses" />
-        <LinkTab label="Dashboard" />
-      </Tabs>
-    </Box>
+    <Stack
+      sx={{ width: '100%', marginTop: '70px' }}
+      boxShadow="3"
+      direction="row"
+      justifyContent="space-between"
+    >
+      <Box>
+        <Tabs value={value} onChange={handleChange} role="navigation">
+          <LinkTab label="Add Expenses" />
+          <LinkTab label="Dashboard" />
+        </Tabs>
+      </Box>
+      <AccountSettings />
+    </Stack>
   );
 }

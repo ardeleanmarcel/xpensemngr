@@ -62,13 +62,13 @@ export const ExpensesDashboard = () => {
 
   return (
     <XpmCard>
+      <MenuNavigation />
       <XpmCardContent
         sx={{
           textAlign: 'left',
           marginTop: '30px',
         }}
       >
-        <MenuNavigation />
         <div className={classes.container}>
           <XpmTypography
             variant="h4"
