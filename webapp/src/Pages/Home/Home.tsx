@@ -1,29 +1,23 @@
 import { useNavigate } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
-import { useFormikContext } from 'formik';
+import { FormEvent, useContext, useState } from 'react';
 
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-import { withFormik } from '../../withFormik';
+import { useNotification } from '../../contexts/notification/notification.context';
 import { ColorModeContext } from '../../App';
-import { client } from '../../api/apiClient';
 import { XpmButton } from '../../components/XpmButton';
 import { XpmTextField } from '../../components/XpmTextField';
 import { XpmTypography } from '../../components/XpmTypography';
 import { ForgotPassword } from './ForgotPassword';
 import { XpmCard } from '../../components/XpmCard';
 import { XpmCardContent } from '../../components/XpmCardContent';
-import { SnackbarLogin } from './SnackbarLogin';
-import { SUCCESS_MSG, FAIL_MSG } from './SnackbarLogin';
-
-const initialValues = {
-  username: '',
-  password: '',
-  message: '',
-};
+import { useUser } from '../../contexts/user/user.context';
 
 const TITLE = 'Expense Manager';
+
+export const SUCCESS_MSG = 'You have successfully logged in.';
+export const FAIL_MSG = 'Fail! Make sure your credential are valid.';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -45,39 +39,33 @@ const useStyles = makeStyles<Theme>((theme) => ({
 function Home() {
   const classes = useStyles();
   const navigate = useNavigate();
-
-  const [isFeedbackVisible, setIsFeedbackVisible] = useState(false);
-
-  const handleCloseSnackbar = (reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setIsFeedbackVisible(false);
-  };
-
-  // const isLoggedIn = localStorage.getItem('authToken');
-  // if (isLoggedIn) {
-  //   navigate('/add-expenses');
-  // }
-
-  const { handleChange, values, handleSubmit, isSubmitting } =
-    useFormikContext<typeof initialValues>();
-
-  console.log('values: ', values);
-
-  useEffect(() => {
-    if (values.message) {
-      setIsFeedbackVisible(true);
-    } else {
-      setIsFeedbackVisible(false);
-    }
-  }, [values.message]);
+  const { displaySnackbar } = useNotification();
 
   const { mode } = useContext(ColorModeContext);
+  const { signIn } = useUser();
+
+  const [form, setForm] = useState({ username: '', password: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleRegister = () => {
     navigate('/register');
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('calling handlesubmit');
+    setIsSubmitting(true);
+    const success = await signIn(form);
+
+    console.log('success', success);
+    if (success) {
+      displaySnackbar({ message: SUCCESS_MSG, type: 'success' });
+      navigate('/add-expenses');
+    } else {
+      displaySnackbar({ message: FAIL_MSG, type: 'error' });
+    }
+
+    setIsSubmitting(false);
   };
 
   return (
@@ -88,9 +76,6 @@ function Home() {
           marginTop: '30px',
         }}
       >
-        <button onClick={() => setIsFeedbackVisible(!isFeedbackVisible)}>
-          test
-        </button>
         <form onSubmit={handleSubmit}>
           <div className={classes.container}>
             <XpmTypography
@@ -107,8 +92,10 @@ function Home() {
               type="text"
               name="username"
               color="inputsColor"
-              onChange={handleChange}
-              value={values.username}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, username: e.target.value }))
+              }
+              value={form.username}
               disabled={isSubmitting}
             />
             <XpmTextField
@@ -118,8 +105,10 @@ function Home() {
               type="password"
               name="password"
               color="inputsColor"
-              onChange={handleChange}
-              value={values.password}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, password: e.target.value }))
+              }
+              value={form.password}
               disabled={isSubmitting}
             />
             <ForgotPassword />
@@ -152,35 +141,9 @@ function Home() {
             />
           </div>
         </form>
-
-        <SnackbarLogin
-          isOpen={isFeedbackVisible}
-          onClose={handleCloseSnackbar}
-          message={values.message}
-        />
       </XpmCardContent>
     </XpmCard>
   );
 }
 
-const handleSubmit = async (values, { setSubmitting, setValues }) => {
-  try {
-    const response = await client.auth.signIn.mutate({
-      username: values.username,
-      password: values.password,
-    });
-    localStorage.setItem('authToken', response.token);
-    setValues({ ...values, message: SUCCESS_MSG });
-    setSubmitting(false);
-  } catch (error) {
-    setSubmitting(false);
-    setValues({
-      ...values,
-      message: FAIL_MSG,
-    });
-  }
-};
-
-const LoginWithFormik = withFormik(initialValues, handleSubmit, Home);
-
-export default LoginWithFormik;
+export default Home;

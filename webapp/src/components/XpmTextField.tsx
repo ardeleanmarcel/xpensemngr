@@ -1,5 +1,4 @@
 import { SxProps, TextField, TextFieldVariants } from '@mui/material';
-import { ChangeEvent } from 'react';
 
 type XpmTextFieldProps = {
   name: string;
@@ -23,7 +22,7 @@ type XpmTextFieldProps = {
     | 'date'
     | 'checkbox'
     | 'radio';
-  onChange: (e: ChangeEvent<unknown>) => void;
+  onChange: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>;
   value: string;
   disabled?: boolean;
   sx?: SxProps;
