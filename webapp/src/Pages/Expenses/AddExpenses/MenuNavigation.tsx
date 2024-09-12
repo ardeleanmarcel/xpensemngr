@@ -1,68 +1,44 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { useNavigate } from 'react-router-dom';
-
-function samePageLinkNavigation(event) {
-  if (
-    event.defaultPrevented ||
-    event.button !== 0 || // ignore everything but left-click
-    event.metaKey ||
-    event.ctrlKey ||
-    event.altKey ||
-    event.shiftKey
-  ) {
-    return false;
-  }
-  return true;
-}
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface LinkTabProps {
   label?: string;
-  href?: string;
-  selected?: boolean;
 }
 
 function LinkTab(props: LinkTabProps) {
-  return (
-    <Tab
-      onClick={(event) => {
-        // Routing libraries handle this, you can remove the onClick handle when using them.
-        if (samePageLinkNavigation(event)) {
-          event.preventDefault();
-        }
-      }}
-      aria-current={props.selected && 'page'}
-      {...props}
-    />
-  );
+  return <Tab {...props} />;
 }
 
-LinkTab.propTypes = {
-  selected: PropTypes.bool,
-};
-
 export default function MenuNavigation() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleChange = (event, newValue) => {
-    // event.type can be equal to focus with selectionFollowsFocus.
-    if (
-      event.type !== 'click' ||
-      (event.type === 'click' && samePageLinkNavigation(event))
-    ) {
-      setValue(newValue);
+  // Sync the tab index with the current route
+  useEffect(() => {
+    if (location.pathname === '/add-expenses') {
+      setValue(0);
+    } else if (location.pathname === '/expenses-dashboard') {
+      setValue(1);
     }
+  }, [location.pathname]);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    console.log('Selected tab index:', newValue);
+
+    // Update the selected tab index:
+    setValue(newValue);
+
     switch (newValue) {
       case 0:
-        navigate('/add-expenses'); // Navigate to Add Expenses page
+        navigate('/add-expenses');
         break;
       case 1:
-        navigate('/expenses-dashboard'); // Navigate to Dashboard page
+        navigate('/expenses-dashboard');
         break;
       default:
         break;
