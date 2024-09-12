@@ -42,17 +42,18 @@ export function UserContextProvider({ children }: React.PropsWithChildren) {
     username: string;
     password: string;
   }) {
-    const { token } = await client.auth.signIn.mutate({ username, password });
-
-    localStorage.setItem('authToken', token);
     try {
-      const { username, email } = extractAuthPayload(token);
+      const { token } = await client.auth.signIn.mutate({ username, password });
 
-      setUser({ username, email });
+      localStorage.setItem('authToken', token);
+      const payload = extractAuthPayload(token);
+
+      setUser({ username: payload.username, email: payload.email });
 
       return true;
     } catch (error) {
       console.error(error);
+      console.log('caught the error');
       return false;
     }
   }

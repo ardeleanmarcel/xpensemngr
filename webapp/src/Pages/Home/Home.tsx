@@ -1,26 +1,18 @@
 import { useNavigate } from 'react-router-dom';
-import { useContext, useEffect } from 'react';
-import { useFormikContext } from 'formik';
+import { FormEvent, useContext, useState } from 'react';
 
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { useNotification } from '../../contexts/notification/notification.context';
-import { withFormik } from '../../withFormik';
 import { ColorModeContext } from '../../App';
-import { client } from '../../api/apiClient';
 import { XpmButton } from '../../components/XpmButton';
 import { XpmTextField } from '../../components/XpmTextField';
 import { XpmTypography } from '../../components/XpmTypography';
 import { ForgotPassword } from './ForgotPassword';
 import { XpmCard } from '../../components/XpmCard';
 import { XpmCardContent } from '../../components/XpmCardContent';
-
-const initialValues = {
-  username: '',
-  password: '',
-  message: '',
-};
+import { useUser } from '../../contexts/user/user.context';
 
 const TITLE = 'Expense Manager';
 
@@ -47,35 +39,33 @@ const useStyles = makeStyles<Theme>((theme) => ({
 function Home() {
   const classes = useStyles();
   const navigate = useNavigate();
-
   const { displaySnackbar } = useNotification();
 
-  const { handleChange, values, handleSubmit, isSubmitting, setValues } =
-    useFormikContext<typeof initialValues>();
-
-  useEffect(() => {
-    if (!values.message) return;
-
-    setValues((prev) => ({
-      ...prev,
-      message: '',
-    }));
-
-    if (values.message === SUCCESS_MSG) {
-      displaySnackbar({ message: SUCCESS_MSG, type: 'success' });
-      navigate('/add-expenses');
-      return;
-    }
-
-    if (values.message === FAIL_MSG) {
-      displaySnackbar({ message: FAIL_MSG, type: 'error' });
-    }
-  }, [values.message]);
-
   const { mode } = useContext(ColorModeContext);
+  const { signIn } = useUser();
+
+  const [form, setForm] = useState({ username: '', password: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleRegister = () => {
     navigate('/register');
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('calling handlesubmit');
+    setIsSubmitting(true);
+    const success = await signIn(form);
+
+    console.log('success', success);
+    if (success) {
+      displaySnackbar({ message: SUCCESS_MSG, type: 'success' });
+      navigate('/add-expenses');
+    } else {
+      displaySnackbar({ message: FAIL_MSG, type: 'error' });
+    }
+
+    setIsSubmitting(false);
   };
 
   return (
@@ -102,8 +92,10 @@ function Home() {
               type="text"
               name="username"
               color="inputsColor"
-              onChange={handleChange}
-              value={values.username}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, username: e.target.value }))
+              }
+              value={form.username}
               disabled={isSubmitting}
             />
             <XpmTextField
@@ -113,8 +105,10 @@ function Home() {
               type="password"
               name="password"
               color="inputsColor"
-              onChange={handleChange}
-              value={values.password}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, password: e.target.value }))
+              }
+              value={form.password}
               disabled={isSubmitting}
             />
             <ForgotPassword />
@@ -152,25 +146,4 @@ function Home() {
   );
 }
 
-// TODO -> try replacing with react-hook-form and make use of the user context for sign in
-const handleSubmit = async (values, { setSubmitting, setValues }) => {
-  try {
-    const response = await client.auth.signIn.mutate({
-      username: values.username,
-      password: values.password,
-    });
-    localStorage.setItem('authToken', response.token);
-    setValues({ ...values, message: SUCCESS_MSG });
-    setSubmitting(false);
-  } catch (error) {
-    setSubmitting(false);
-    setValues({
-      ...values,
-      message: FAIL_MSG,
-    });
-  }
-};
-
-const LoginWithFormik = withFormik(initialValues, handleSubmit, Home);
-
-export default LoginWithFormik;
+export default Home;
