@@ -5,9 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-// import PersonAdd from '@mui/icons-material/PersonAdd';
-// import Settings from '@mui/icons-material/Settings';
-// import Logout from '@mui/icons-material/Logout';
+import { PersonAdd, Settings, Logout } from '@mui/icons-material';
 import { useState } from 'react';
 
 export function AccountSettings() {
@@ -79,28 +77,16 @@ export function AccountSettings() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            {
-              // <PersonAdd fontSize="small" />
-            }
-          </ListItemIcon>
-          Add another account
+        <MenuItem disabled onClick={handleClose}>
+          <ListItemIcon>{<PersonAdd fontSize="small" />}</ListItemIcon>
+          Add another account (coming soon)
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            {
-              // <Settings fontSize="small" />
-            }
-          </ListItemIcon>
+          <ListItemIcon>{<Settings fontSize="small" />}</ListItemIcon>
           Settings
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            {
-              // <Logout fontSize="small" />
-            }
-          </ListItemIcon>
+          <ListItemIcon>{<Logout fontSize="small" />}</ListItemIcon>
           Logout
         </MenuItem>
       </Menu>

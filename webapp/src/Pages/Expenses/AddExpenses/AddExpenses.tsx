@@ -12,7 +12,6 @@ import { XpmAlert } from '../../../components/XpmAlert';
 import { getCurrentDate } from './expensesUtils';
 import { XpmCard } from '../../../components/XpmCard';
 import { XpmCardContent } from '../../../components/XpmCardContent';
-import MenuNavigation from './MenuNavigation';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -50,7 +49,6 @@ export const AddExpenses = () => {
 
   return (
     <XpmCard>
-      <MenuNavigation />
       <XpmCardContent
         sx={{
           textAlign: 'left',

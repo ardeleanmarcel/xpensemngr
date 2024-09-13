@@ -49,7 +49,12 @@ export default function MenuNavigation() {
 
   return (
     <Stack
-      sx={{ width: '100%', marginTop: '70px' }}
+      sx={{
+        width: '100%',
+        marginTop: '70px',
+        marginBottom: '5px',
+        zIndex: '3',
+      }}
       boxShadow="3"
       direction="row"
       justifyContent="space-between"
