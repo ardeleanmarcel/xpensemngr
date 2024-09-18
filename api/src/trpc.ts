@@ -48,6 +48,7 @@ const jwtUserPayloadSchema = z
     username: z.string(),
     email: z.string(),
     iat: z.number(),
+    exp: z.number(),
   })
   .strict();
 
