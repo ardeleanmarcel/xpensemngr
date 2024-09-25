@@ -48,11 +48,12 @@ export const AddExpenses = () => {
     useFormikContext<typeof initialValues>();
 
   return (
-    <XpmCard>
+    <XpmCard sx={{ display: 'flex', justifyContent: 'center' }}>
       <XpmCardContent
         sx={{
           textAlign: 'left',
           marginTop: '30px',
+          width: '400px',
         }}
       >
         <form onSubmit={handleSubmit}>

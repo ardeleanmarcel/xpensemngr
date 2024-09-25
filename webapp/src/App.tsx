@@ -17,6 +17,7 @@ import { XpmButton } from './components/XpmButton';
 import AddExpensesWithFormik from './Pages/Expenses/AddExpenses/AddExpenses';
 import Register from './Pages/Register/Register';
 import LoginWithFormik from './Pages/Home/Home';
+import MenuNavigation from './Pages/Expenses/AddExpenses/MenuNavigation';
 import './App.css';
 
 const getDesignTokens = (mode: PaletteMode) => ({
@@ -127,8 +128,8 @@ export default function App() {
               }}
               buttonName={mode === 'light' ? 'Dark Theme' : 'Light Theme'}
             />
-            {/* appbar here? */}
             <BrowserRouter>
+              <MenuNavigation />
               <Routes>
                 <Route path="/" element={<LoginWithFormik />} />
                 <Route path="register" element={<Register />} />

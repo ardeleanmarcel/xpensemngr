@@ -1,9 +1,11 @@
+/* leaving the comments here because we will return to this file to style the root of the project */
+
 body {
-  display: flex;
-  justify-content: center;
+  /* display: flex; */
+  /* justify-content: center; */
 }
 
 #root {
-  padding: 2rem;
-  text-align: center;
+  /* padding: 2rem;
+  text-align: center; */
 }
