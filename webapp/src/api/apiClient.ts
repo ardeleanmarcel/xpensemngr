@@ -15,5 +15,5 @@ export const client = createTRPCClient<AppRouter>({
 });
 
 function getAuthToken() {
-  return 'Bearer ' + localStorage.getItem('authToken') ?? '';
+  return 'Bearer ' + (localStorage.getItem('authToken') ?? '');
 }
