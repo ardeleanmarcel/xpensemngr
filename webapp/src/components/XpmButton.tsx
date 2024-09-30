@@ -10,6 +10,7 @@ type XpmButtonProps = {
   color?: ButtonProps['color'];
   fullWidth?: boolean;
   sx?: SxProps;
+  nameInLowercase?: boolean;
 };
 
 export const XpmButton = ({
@@ -22,6 +23,7 @@ export const XpmButton = ({
   color = 'primary',
   fullWidth = false,
   sx,
+  nameInLowercase = false,
 }: XpmButtonProps) => {
   return (
     <Button
@@ -29,7 +31,10 @@ export const XpmButton = ({
       type={type}
       variant={variant}
       color={color}
-      sx={sx}
+      sx={{
+        textTransform: nameInLowercase ? 'none' : 'inherit',
+        ...sx,
+      }}
       fullWidth={fullWidth}
       disabled={disabled}
       onClick={onClick}

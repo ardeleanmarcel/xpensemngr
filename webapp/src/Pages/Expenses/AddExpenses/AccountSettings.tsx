@@ -1,3 +1,5 @@
+import { useContext, useState } from 'react';
+
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -6,19 +8,27 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { PersonAdd, Settings, Logout } from '@mui/icons-material';
-import { useState } from 'react';
+import ContrastIcon from '@mui/icons-material/Contrast';
+
+import { XpmButton } from '../../../components/XpmButton';
+import { ColorModeContext } from '../../../App';
 
 export function AccountSettings() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const { toggleColorMode } = useContext(ColorModeContext);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <>
+      {/* TODO => replace Box with XpmBox */}
       <Box
         sx={{
           display: 'flex',
@@ -84,6 +94,18 @@ export function AccountSettings() {
         <MenuItem onClick={handleClose}>
           <ListItemIcon>{<Settings fontSize="small" />}</ListItemIcon>
           Settings
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <ListItemIcon>{<ContrastIcon fontSize="small" />}</ListItemIcon>
+          {/* TODO => (try to remove button padding ?) remove XpmButton and use the onClick menuItem prop */}
+          <XpmButton
+            size="small"
+            variant="text"
+            color="secondary"
+            onClick={toggleColorMode}
+            buttonName="Change Theme"
+            nameInLowercase
+          ></XpmButton>
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <ListItemIcon>{<Logout fontSize="small" />}</ListItemIcon>
