@@ -3,8 +3,10 @@ import { Construct } from "constructs";
 
 export class XpmVpc extends ec2.Vpc {
   constructor(scope: Construct, id: string) {
-    super(scope, id, {
-      vpcName: id,
+    const vpcId = `xpm-vpc-${id}`;
+
+    super(scope, vpcId, {
+      vpcName: vpcId,
       maxAzs: 2,
       createInternetGateway: true,
       natGateways: 0,
