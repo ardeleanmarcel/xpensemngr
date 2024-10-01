@@ -10,7 +10,6 @@ import Tooltip from '@mui/material/Tooltip';
 import { PersonAdd, Settings, Logout } from '@mui/icons-material';
 import ContrastIcon from '@mui/icons-material/Contrast';
 
-import { XpmButton } from '../../../components/XpmButton';
 import { ColorModeContext } from '../../../App';
 
 export function AccountSettings() {
@@ -95,17 +94,9 @@ export function AccountSettings() {
           <ListItemIcon>{<Settings fontSize="small" />}</ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={toggleColorMode}>
           <ListItemIcon>{<ContrastIcon fontSize="small" />}</ListItemIcon>
-          {/* TODO => (try to remove button padding ?) remove XpmButton and use the onClick menuItem prop */}
-          <XpmButton
-            size="small"
-            variant="text"
-            color="secondary"
-            onClick={toggleColorMode}
-            buttonName="Change Theme"
-            nameInLowercase
-          ></XpmButton>
+          Change Theme
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <ListItemIcon>{<Logout fontSize="small" />}</ListItemIcon>
