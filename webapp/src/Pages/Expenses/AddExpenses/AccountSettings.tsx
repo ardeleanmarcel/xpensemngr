@@ -1,6 +1,5 @@
 import { useContext, useState } from 'react';
 
-import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -11,6 +10,7 @@ import { PersonAdd, Settings, Logout } from '@mui/icons-material';
 import ContrastIcon from '@mui/icons-material/Contrast';
 
 import { ColorModeContext } from '../../../App';
+import { XpmBox } from '../../../components/XpmBox';
 
 export function AccountSettings() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -27,8 +27,7 @@ export function AccountSettings() {
 
   return (
     <>
-      {/* TODO => replace Box with XpmBox */}
-      <Box
+      <XpmBox
         sx={{
           display: 'flex',
           alignItems: 'center',
@@ -48,7 +47,7 @@ export function AccountSettings() {
             <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
           </IconButton>
         </Tooltip>
-      </Box>
+      </XpmBox>
       <Menu
         anchorEl={anchorEl}
         id="account-menu"
