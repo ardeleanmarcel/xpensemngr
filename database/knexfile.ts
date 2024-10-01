@@ -3,7 +3,8 @@ import { ENV_NAME, EnvName } from './constants.ts';
 
 // example of async password retrieval
 const getPassword = async () => {
-  return 'my_pass';
+  // TODO (Valle) -> retrieve password from AWS secrets manager
+  return process.env.PROD_DB_PASS;
 };
 
 const stubFile = 'migration.stub';
@@ -25,13 +26,26 @@ export const postgresConfig: { [key in EnvName]: Knex.Config } = {
       extension: 'ts',
     },
   },
-
-  // TODO (Valle) -> update prod data
   production: {
     client: 'pg',
     connection: async () => {
       const password = await getPassword();
-      return { user: 'me', password };
+
+      return {
+        host: process.env.PROD_DB_HOST,
+        port: parseInt(process.env.PROD_DB_PORT ?? '5432'),
+        database: process.env.PROD_DB_NAME,
+        user: process.env.PROD_DB_USER,
+        password,
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      };
+    },
+    migrations: {
+      stub: stubFile,
+      schemaName: ENV_NAME.production,
+      extension: 'ts',
     },
   },
 };
