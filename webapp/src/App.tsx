@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import {
@@ -13,7 +13,6 @@ import { NotificationContextProvider } from './contexts/notification/Notificatio
 import { EmailForNewPassword } from './Pages/Home/EmailForNewPassword';
 import { VerifyEmail } from './Pages/VerifyEmail/VerifyEmail';
 import { ExpensesDashboard } from './Pages/Expenses/AddExpenses/ExpensesDashboard';
-import { XpmButton } from './components/XpmButton';
 import AddExpensesWithFormik from './Pages/Expenses/AddExpenses/AddExpenses';
 import Register from './Pages/Register/Register';
 import LoginWithFormik from './Pages/Home/Home';
@@ -76,26 +75,18 @@ const getDesignTokens = (mode: PaletteMode) => ({
   },
 });
 
-export const ColorModeContext = React.createContext({
-  mode: 'light',
+export const ColorModeContext = createContext<{
+  mode: PaletteMode;
+  toggleColorMode: () => void;
+}>({
+  mode: 'dark',
   toggleColorMode: () => {},
 });
 
 export default function App() {
-  const [mode, setMode] = React.useState<PaletteMode>('light');
-  const colorMode = React.useMemo(
-    () => ({
-      // The dark mode switch would invoke this method
-      toggleColorMode: () => {
-        setMode((prevMode: PaletteMode) =>
-          prevMode === 'light' ? 'dark' : 'light'
-        );
-      },
-    }),
-    []
-  );
+  const [mode, setMode] = useState<PaletteMode>('light');
 
-  const changeTheme = () => {
+  const toggleColorMode = () => {
     setMode((prevMode: PaletteMode) =>
       prevMode === 'light' ? 'dark' : 'light'
     );
@@ -107,7 +98,10 @@ export default function App() {
   return (
     <UserContextProvider>
       <ColorModeContext.Provider
-        value={{ mode, toggleColorMode: colorMode.toggleColorMode }}
+        value={{
+          mode,
+          toggleColorMode,
+        }}
       >
         <ThemeProvider theme={theme}>
           <GlobalStyles
@@ -118,16 +112,6 @@ export default function App() {
             }}
           />
           <NotificationContextProvider>
-            <XpmButton
-              size="small"
-              variant="outlined"
-              color="secondary"
-              onClick={changeTheme}
-              sx={{
-                top: 50,
-              }}
-              buttonName={mode === 'light' ? 'Dark Theme' : 'Light Theme'}
-            />
             <BrowserRouter>
               <MenuNavigation />
               <Routes>

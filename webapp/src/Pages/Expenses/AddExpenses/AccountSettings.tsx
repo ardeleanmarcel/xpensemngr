@@ -1,4 +1,5 @@
-import Box from '@mui/material/Box';
+import { useContext, useState } from 'react';
+
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -6,20 +7,27 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { PersonAdd, Settings, Logout } from '@mui/icons-material';
-import { useState } from 'react';
+import ContrastIcon from '@mui/icons-material/Contrast';
+
+import { ColorModeContext } from '../../../App';
+import { XpmBox } from '../../../components/XpmBox';
 
 export function AccountSettings() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const { toggleColorMode } = useContext(ColorModeContext);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <>
-      <Box
+      <XpmBox
         sx={{
           display: 'flex',
           alignItems: 'center',
@@ -39,7 +47,7 @@ export function AccountSettings() {
             <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
           </IconButton>
         </Tooltip>
-      </Box>
+      </XpmBox>
       <Menu
         anchorEl={anchorEl}
         id="account-menu"
@@ -84,6 +92,10 @@ export function AccountSettings() {
         <MenuItem onClick={handleClose}>
           <ListItemIcon>{<Settings fontSize="small" />}</ListItemIcon>
           Settings
+        </MenuItem>
+        <MenuItem onClick={toggleColorMode}>
+          <ListItemIcon>{<ContrastIcon fontSize="small" />}</ListItemIcon>
+          Change Theme
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <ListItemIcon>{<Logout fontSize="small" />}</ListItemIcon>
