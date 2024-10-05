@@ -4,7 +4,7 @@ import { AppRouter } from '../../../api/src/trpcAppRouter';
 export const client = createTRPCClient<AppRouter>({
   links: [
     httpBatchLink({
-      url: 'http://localhost:3000/trpc',
+      url: `${import.meta.env.VITE_MAIN_API_URL}/trpc`,
       async headers() {
         return {
           authorization: getAuthToken(),

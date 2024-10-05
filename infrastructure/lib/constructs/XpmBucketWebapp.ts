@@ -25,6 +25,12 @@ export class XpmBucketWebapp extends s3.Bucket {
           },
           replaceKey: s3.ReplaceKey.with("index.html"),
         },
+        {
+          condition: {
+            httpErrorCodeReturnedEquals: "403",
+          },
+          replaceKey: s3.ReplaceKey.with("index.html"),
+        },
       ],
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
