@@ -4,6 +4,7 @@ import { Construct } from "constructs";
 import { XpmVpc } from "./constructs/XpmVpc";
 import { RdsInstanceWithSecurityGroup } from "./constructs/XpmRds";
 import { Ec2WithSecurityGroup } from "./constructs/XpmEc2WithSg";
+import { XpmBucketWebapp } from "./constructs/XpmBucketWebapp";
 
 export class InfrastructureStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -23,5 +24,7 @@ export class InfrastructureStack extends cdk.Stack {
     mainRelDb.rdsInstance.connections.allowDefaultPortFrom(
       mainApi.securityGroup
     );
+
+    new XpmBucketWebapp(this, "webapp-prod");
   }
 }
