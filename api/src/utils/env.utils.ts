@@ -29,7 +29,7 @@ const checkEnvVars = () => {
 
 checkEnvVars();
 
-export const ENV_VARS = envConfigSchema.parse({
+const ENV_VARS = envConfigSchema.parse({
   XPM_ENV: process.env.XPM_ENV,
   DB_HOST: process.env.DB_HOST,
   DB_PORT: parseInt(process.env.DB_PORT ?? ''),
@@ -41,3 +41,7 @@ export const ENV_VARS = envConfigSchema.parse({
   SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
   NOTIFICATION_EMAIL_SOURCE: process.env.NOTIFICATION_EMAIL_SOURCE,
 });
+
+console.log('ENV_VARS', ENV_VARS);
+
+export { ENV_VARS };

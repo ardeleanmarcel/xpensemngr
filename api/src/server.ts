@@ -33,13 +33,28 @@ server.register(fastifyTRPCPlugin, {
     if (ENV_VARS.XPM_ENV === XPM_ENV.production) {
       // TODO (Valle) -> make it listen to 443 as well (redirect 80 to 443?)
       await server.listen({ port: 80, host: '0.0.0.0' });
+      console.log('Listening on port 80');
     }
 
     if (ENV_VARS.XPM_ENV === XPM_ENV.development) {
       await server.listen({ port: 3000, host: '0.0.0.0' });
+      console.log('Listening on port 3000');
     }
   } catch (err) {
     server.log.error(err);
+    console.error('Error starting server:', err);
     process.exit(1);
   }
 })();
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  // You can also exit the process here if you want
+  // process.exit(1);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled Rejection:', reason);
+  // You can also exit the process here if you want
+  // process.exit(1);
+});
