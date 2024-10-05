@@ -1,4 +1,5 @@
-import 'dotenv/config';
+import { XPM_ENV } from '@src/constants/env.const';
+import { ENV_VARS } from '@src/utils/env.utils';
 import knex from 'knex';
 
 // because pg returns BIGINT as strings by default
@@ -7,15 +8,23 @@ pg.types.setTypeParser(20, function (val) {
   return parseInt(val, 10);
 });
 
-export const knexClient = knex({
+const config: knex.Knex.Config = {
   client: 'pg',
   connection: {
-    host: process.env.DB_HOST,
-    port: parseInt(process.env.DB_PORT ?? '5432'),
-    database: process.env.DB_NAME,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
+    host: ENV_VARS.DB_HOST,
+    port: ENV_VARS.DB_PORT,
+    database: ENV_VARS.DB_NAME,
+    user: ENV_VARS.DB_USER,
+    password: ENV_VARS.DB_PASS,
+    ssl:
+      ENV_VARS.XPM_ENV === XPM_ENV.production
+        ? {
+            rejectUnauthorized: false,
+          }
+        : undefined,
   },
   // TODO (Valle) -> setting the search path like this might be an improvement for "MYE databse"
-  searchPath: [process.env.XPM_ENV ?? 'development', 'public'],
-});
+  searchPath: [ENV_VARS.XPM_ENV, 'public'],
+};
+
+export const knexClient = knex(config);

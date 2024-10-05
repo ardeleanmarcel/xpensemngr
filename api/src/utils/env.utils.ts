@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { z } from 'zod';
 
 import { XPM_ENV } from '@src/constants/env.const';
