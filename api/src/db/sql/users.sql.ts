@@ -68,6 +68,30 @@ export async function updateUserPassword(userId: number, hashedPassword: string)
   }
 }
 
+export async function updateUserEmail(userId: number, email: string) {
+  const query = `
+    UPDATE users
+    SET email = ?
+    WHERE user_id = ?
+    RETURNING
+      user_id,
+      username,
+      email
+  `;
+
+  const bindings = [email, userId];
+
+  try {
+    const result = await sqlClient.queryWithParams<UserType>(query, bindings);
+    if (result.length === 0) {
+      throw new Error('User not found or email update failed');
+    }
+    return result[0];
+  } catch (error) {
+    throw new Error(`Failed to update email for user ${userId}: ${error.message}`);
+  }
+}
+
 export async function hardDeleteAccount(userId: number) {
   const deleteExpensesQuery = `
     DELETE FROM expenses WHERE added_by_user_id = ?;

@@ -5,7 +5,7 @@ import lodash from 'lodash';
 import { protectedProcedure, t } from '@src/trpc';
 import { DEFAULT_SALT_ROUNDS } from '@constants/auth.const';
 import { userCreateSchema } from '@models/user.models';
-import { createUsers, hardDeleteAccount, selectUsers, updateUserPassword } from '@sql/users.sql';
+import { createUsers, hardDeleteAccount, selectUsers, updateUserEmail, updateUserPassword } from '@sql/users.sql';
 import { createUserActivations, selectUserActivations, updateUserActivations } from '@sql/user_activations.sql';
 
 import { createInputSchema } from './utils/router.utils';
@@ -115,6 +115,57 @@ export const usersRouter = t.router({
       const hashedNewPassword = await hash(newPassword, DEFAULT_SALT_ROUNDS);
 
       await updateUserPassword(userId, hashedNewPassword);
+
+      res.status(200);
+      return { success: true };
+    }),
+
+  changeEmail: protectedProcedure
+    .input(
+      z
+        .object({
+          userId: z.number().int().positive(),
+          currentEmail: z.string().email(),
+          newEmail: z.string().email(),
+          password: z.string().min(8),
+        })
+        .refine((data) => data.newEmail !== data.currentEmail, {
+          message: 'New email must be different from current email',
+          path: ['newEmail'],
+        })
+    )
+    .mutation(async (opts) => {
+      const { userId, currentEmail, newEmail, password } = opts.input;
+      const {
+        ctx: { res },
+      } = opts;
+
+      const filters: Filter<'user_id'>[] = [
+        {
+          name: 'user_id',
+          type: FILTER_TYPE.Is,
+          value: userId,
+        },
+      ];
+
+      const users = await selectUsers(filters);
+      if (users.length === 0) {
+        throwHttpError(HTTP_ERR.e404.NotFound('User', userId));
+      }
+
+      const user = users[0];
+
+      const isPasswordMatch = await compare(password, user.password);
+      if (!isPasswordMatch) {
+        throwHttpError(HTTP_ERR.e400.BadCredentials);
+      }
+
+      const isEmailMatch = currentEmail === user.email;
+      if (!isEmailMatch) {
+        throwHttpError(HTTP_ERR.e400.BadCredentials);
+      }
+
+      await updateUserEmail(userId, newEmail);
 
       res.status(200);
       return { success: true };
