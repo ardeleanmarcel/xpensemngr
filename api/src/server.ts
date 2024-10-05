@@ -34,7 +34,12 @@ app.use(
     createContext,
   })
 );
-app.listen(3000);
+
+const port = ENV_VARS.XPM_ENV === XPM_ENV.production ? 80 : 3000;
+console.log('Starting server on env: ', ENV_VARS.XPM_ENV);
+
+app.listen(port);
+console.log(`Server listening on port ${port}`);
 // ----------------------------------------------- expres expirement below ------------------------------------------------
 
 // const server = fastify({
