@@ -67,3 +67,30 @@ export async function updateUserPassword(userId: number, hashedPassword: string)
     throw new Error(`Failed to update password for user ${userId}: ${error.message}`);
   }
 }
+
+export async function hardDeleteAccount(userId: number) {
+  const deleteExpensesQuery = `
+    DELETE FROM expenses WHERE added_by_user_id = ?;
+  `;
+  const deleteActivationsQuery = `
+    DELETE FROM user_activations WHERE user_id = ?;
+  `;
+  const deleteUserQuery = `
+    DELETE FROM users WHERE user_id = ?;
+  `;
+
+  const bindings = [userId];
+
+  try {
+    await sqlClient.query('BEGIN');
+    await sqlClient.queryWithParams(deleteExpensesQuery, bindings);
+    await sqlClient.queryWithParams(deleteActivationsQuery, bindings);
+    await sqlClient.queryWithParams(deleteUserQuery, bindings);
+    await sqlClient.query('COMMIT');
+
+    return { success: true };
+  } catch (error) {
+    await sqlClient.query('ROLLBACK');
+    throw new Error(`Failed to delete account for user ${userId}: ${error.message}`);
+  }
+}
