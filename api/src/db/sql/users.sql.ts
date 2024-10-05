@@ -33,7 +33,7 @@ export async function createUsers(users: UserCreateType[]) {
 // TODO (Valle) -> add "created_at" column to users table
 // TODO (Valle) -> add seed script for root admin
 
-type AllowedUserFilters = 'username' | 'user_status_id';
+type AllowedUserFilters = 'username' | 'user_status_id' | 'user_id';
 export async function selectUsers(filters: Filter<AllowedUserFilters>[]) {
   const { whereClauses, bindings } = composeWhereClause(filters);
 
@@ -42,4 +42,79 @@ export async function selectUsers(filters: Filter<AllowedUserFilters>[]) {
   const res = await sqlClient.queryWithParams<UserType>(query, bindings);
 
   return res;
+}
+
+export async function updateUserPassword(userId: number, hashedPassword: string) {
+  const query = `
+    UPDATE users
+    SET password = ?
+    WHERE user_id = ?
+    RETURNING
+      user_id,
+      username,
+      email
+  `;
+
+  const bindings = [hashedPassword, userId];
+
+  try {
+    const result = await sqlClient.queryWithParams<UserType>(query, bindings);
+    if (result.length === 0) {
+      throw new Error('User not found or password update failed');
+    }
+    return result[0];
+  } catch (error) {
+    throw new Error(`Failed to update password for user ${userId}: ${error.message}`);
+  }
+}
+
+export async function updateUserEmail(userId: number, email: string) {
+  const query = `
+    UPDATE users
+    SET email = ?
+    WHERE user_id = ?
+    RETURNING
+      user_id,
+      username,
+      email
+  `;
+
+  const bindings = [email, userId];
+
+  try {
+    const result = await sqlClient.queryWithParams<UserType>(query, bindings);
+    if (result.length === 0) {
+      throw new Error('User not found or email update failed');
+    }
+    return result[0];
+  } catch (error) {
+    throw new Error(`Failed to update email for user ${userId}: ${error.message}`);
+  }
+}
+
+export async function hardDeleteAccount(userId: number) {
+  const deleteExpensesQuery = `
+    DELETE FROM expenses WHERE added_by_user_id = ?;
+  `;
+  const deleteActivationsQuery = `
+    DELETE FROM user_activations WHERE user_id = ?;
+  `;
+  const deleteUserQuery = `
+    DELETE FROM users WHERE user_id = ?;
+  `;
+
+  const bindings = [userId];
+
+  try {
+    await sqlClient.query('BEGIN');
+    await sqlClient.queryWithParams(deleteExpensesQuery, bindings);
+    await sqlClient.queryWithParams(deleteActivationsQuery, bindings);
+    await sqlClient.queryWithParams(deleteUserQuery, bindings);
+    await sqlClient.query('COMMIT');
+
+    return { success: true };
+  } catch (error) {
+    await sqlClient.query('ROLLBACK');
+    throw new Error(`Failed to delete account for user ${userId}: ${error.message}`);
+  }
 }

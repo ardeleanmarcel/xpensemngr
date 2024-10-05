@@ -4,6 +4,18 @@ export type HttpErrorConfig = {
   message: string;
 };
 
+export type NotFoundError = HttpErrorConfig;
+
+function NotFound(name: string, value: string): NotFoundError;
+function NotFound(name: string, value: number): NotFoundError;
+function NotFound(name: string, value: string | number): NotFoundError {
+  return {
+    errorCode: 404001,
+    httpCode: 404,
+    message: `${name} with value ${value} not found.`,
+  };
+}
+
 export const HTTP_ERR = {
   e400: {
     BadCredentials: {
@@ -43,11 +55,7 @@ export const HTTP_ERR = {
     },
   },
   e404: {
-    NotFound: (name: string, value: string) => ({
-      errorCode: 404001,
-      httpCode: 404,
-      message: `${name} with value ${value} not found.`,
-    }),
+    NotFound: NotFound,
   },
   e500: {
     Unavailable: {
