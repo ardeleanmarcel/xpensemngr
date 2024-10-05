@@ -1,16 +1,15 @@
 import { z } from 'zod';
-import { hash } from 'bcrypt';
+import { hash, compare } from 'bcrypt';
 import lodash from 'lodash';
 
 import { protectedProcedure, t } from '@src/trpc';
 import { DEFAULT_SALT_ROUNDS } from '@constants/auth.const';
 import { userCreateSchema } from '@models/user.models';
-import { createUsers, selectUsers } from '@sql/users.sql';
+import { createUsers, selectUsers, updateUserPassword } from '@sql/users.sql';
 import { createUserActivations, selectUserActivations, updateUserActivations } from '@sql/user_activations.sql';
 
 import { createInputSchema } from './utils/router.utils';
-
-import { Filter } from '@src/db/db.utils';
+import { Filter, FILTER_TYPE } from '@src/db/db.utils';
 import { notificationService } from '@src/adapters/service.notification';
 import { HTTP_ERR } from '@src/errors';
 import { throwHttpError } from '@src/errors/error.utils';
@@ -78,4 +77,46 @@ export const usersRouter = t.router({
 
     return { success: true };
   }),
+
+  changePassword: protectedProcedure
+    .input(
+      z.object({
+        userId: z.number().int().positive(),
+        currentPassword: z.string().min(8),
+        newPassword: z.string().min(8),
+      })
+    )
+    .mutation(async (opts) => {
+      const { userId, currentPassword, newPassword } = opts.input;
+      const {
+        ctx: { res },
+      } = opts;
+
+      const filters: Filter<'user_id'>[] = [
+        {
+          name: 'user_id',
+          type: FILTER_TYPE.Is,
+          value: userId,
+        },
+      ];
+
+      const users = await selectUsers(filters);
+      if (users.length === 0) {
+        throwHttpError(HTTP_ERR.e404.NotFound('User', userId));
+      }
+
+      const user = users[0];
+
+      const isMatch = await compare(currentPassword, user.password);
+      if (!isMatch) {
+        throwHttpError(HTTP_ERR.e400.BadCredentials);
+      }
+
+      const hashedNewPassword = await hash(newPassword, DEFAULT_SALT_ROUNDS);
+
+      await updateUserPassword(userId, hashedNewPassword);
+
+      res.status(200);
+      return { success: true };
+    }),
 });
