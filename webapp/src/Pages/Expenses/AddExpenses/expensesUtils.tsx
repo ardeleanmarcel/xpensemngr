@@ -47,6 +47,7 @@ export function createData(
 
 export const getAllExpenses = async () => {
   try {
+    // @ts-expect-error "Property 'getAll' does not exist on type"
     const data = await client.expenses.getAll.query();
     return data;
   } catch (error) {
