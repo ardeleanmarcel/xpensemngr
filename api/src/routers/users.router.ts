@@ -5,7 +5,14 @@ import lodash from 'lodash';
 import { protectedProcedure, t } from '@src/trpc';
 import { DEFAULT_SALT_ROUNDS } from '@constants/auth.const';
 import { userCreateSchema } from '@models/user.models';
-import { createUsers, hardDeleteAccount, selectUsers, updateUserEmail, updateUserPassword } from '@sql/users.sql';
+import {
+  createUsers,
+  hardDeleteAccount,
+  selectUsers,
+  softDeleteAccount,
+  updateUserEmail,
+  updateUserPassword,
+} from '@sql/users.sql';
 import { createUserActivations, selectUserActivations, updateUserActivations } from '@sql/user_activations.sql';
 
 import { createInputSchema } from './utils/router.utils';
@@ -13,6 +20,7 @@ import { Filter, FILTER_TYPE } from '@src/db/db.utils';
 import { notificationService } from '@src/adapters/service.notification';
 import { HTTP_ERR } from '@src/errors';
 import { throwHttpError } from '@src/errors/error.utils';
+import { email, password } from '@src/models/common.models';
 
 const { pick } = lodash;
 
@@ -81,16 +89,17 @@ export const usersRouter = t.router({
   changePassword: protectedProcedure
     .input(
       z.object({
-        userId: z.number().int().positive(),
-        currentPassword: z.string().min(8),
-        newPassword: z.string().min(8),
+        currentPassword: password,
+        newPassword: password,
       })
     )
     .mutation(async (opts) => {
-      const { userId, currentPassword, newPassword } = opts.input;
+      const { currentPassword, newPassword } = opts.input;
       const {
-        ctx: { res },
+        ctx: { user: userContext },
       } = opts;
+
+      const userId = userContext.user_id;
 
       const filters: Filter<'user_id'>[] = [
         {
@@ -102,7 +111,7 @@ export const usersRouter = t.router({
 
       const users = await selectUsers(filters);
       if (users.length === 0) {
-        throwHttpError(HTTP_ERR.e404.NotFound('User', userId));
+        throwHttpError(HTTP_ERR.e404.NotFound('User', userId.toString()));
       }
 
       const user = users[0];
@@ -116,7 +125,6 @@ export const usersRouter = t.router({
 
       await updateUserPassword(userId, hashedNewPassword);
 
-      res.status(200);
       return { success: true };
     }),
 
@@ -124,10 +132,9 @@ export const usersRouter = t.router({
     .input(
       z
         .object({
-          userId: z.number().int().positive(),
-          currentEmail: z.string().email(),
-          newEmail: z.string().email(),
-          password: z.string().min(8),
+          currentEmail: email,
+          newEmail: email,
+          password: password,
         })
         .refine((data) => data.newEmail !== data.currentEmail, {
           message: 'New email must be different from current email',
@@ -135,10 +142,12 @@ export const usersRouter = t.router({
         })
     )
     .mutation(async (opts) => {
-      const { userId, currentEmail, newEmail, password } = opts.input;
+      const { currentEmail, newEmail, password } = opts.input;
       const {
-        ctx: { res },
+        ctx: { user: userContext },
       } = opts;
+
+      const userId = userContext.user_id;
 
       const filters: Filter<'user_id'>[] = [
         {
@@ -150,7 +159,7 @@ export const usersRouter = t.router({
 
       const users = await selectUsers(filters);
       if (users.length === 0) {
-        throwHttpError(HTTP_ERR.e404.NotFound('User', userId));
+        throwHttpError(HTTP_ERR.e404.NotFound('User', userId.toString()));
       }
 
       const user = users[0];
@@ -166,18 +175,63 @@ export const usersRouter = t.router({
       }
 
       await updateUserEmail(userId, newEmail);
+      return { success: true };
+    }),
 
-      res.status(200);
+  softDelete: protectedProcedure
+    .input(
+      z.object({
+        password: password,
+      })
+    )
+    .mutation(async (opts) => {
+      const { password } = opts.input;
+      const {
+        ctx: { user: userContext },
+      } = opts;
+
+      const userId = userContext.user_id;
+
+      const filters: Filter<'user_id'>[] = [
+        {
+          name: 'user_id',
+          type: FILTER_TYPE.Is,
+          value: userId,
+        },
+      ];
+
+      const users = await selectUsers(filters);
+      console.log('🚀 ~ .mutation ~ users:', users);
+      if (users.length === 0) {
+        throwHttpError(HTTP_ERR.e404.NotFound('User', userId.toString()));
+      }
+
+      const user = users[0];
+      console.log('🚀 ~ .mutation ~ user:', user);
+
+      const isMatch = await compare(password, user.password);
+      if (!isMatch) {
+        throwHttpError(HTTP_ERR.e400.BadCredentials);
+      }
+
+      await softDeleteAccount(userId);
+
       return { success: true };
     }),
 
   hardDelete: protectedProcedure
-    .input(z.object({ userId: z.number().int().positive(), password: z.string().min(8) }))
+    .input(
+      z.object({
+        password: password,
+      })
+    )
     .mutation(async (opts) => {
-      const { userId, password } = opts.input;
+      const { password } = opts.input;
       const {
-        ctx: { res },
+        ctx: { user: userContext },
       } = opts;
+
+      const userId = userContext.user_id;
 
       const filters: Filter<'user_id'>[] = [
         {
@@ -189,7 +243,7 @@ export const usersRouter = t.router({
 
       const users = await selectUsers(filters);
       if (users.length === 0) {
-        throwHttpError(HTTP_ERR.e404.NotFound('User', userId));
+        throwHttpError(HTTP_ERR.e404.NotFound('User', userId.toString()));
       }
 
       const user = users[0];
@@ -201,7 +255,6 @@ export const usersRouter = t.router({
 
       await hardDeleteAccount(userId);
 
-      res.status(200);
       return { success: true };
     }),
 });

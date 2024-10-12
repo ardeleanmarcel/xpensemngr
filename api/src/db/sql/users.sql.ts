@@ -1,7 +1,9 @@
-import { UserCreateType, UserType } from '../../models/user.models';
 import { sqlClient } from '@src/adapters/sqlClient';
+import { throwHttpError } from '@src/errors/error.utils';
+import { HTTP_ERR } from '@src/errors';
 import { Filter } from '../db.utils';
 import { composeWhereClause } from './utils/sql.utils';
+import { UserCreateType, UserType } from '../../models/user.models';
 
 export async function createUsers(users: UserCreateType[]) {
   // TODO (Valle) -> wrap DB requests in a try-catch and throw an HttpError if the query fails
@@ -52,7 +54,9 @@ export async function updateUserPassword(userId: number, hashedPassword: string)
     RETURNING
       user_id,
       username,
-      email
+      password,
+      email,
+      user_status_id;
   `;
 
   const bindings = [hashedPassword, userId];
@@ -60,11 +64,12 @@ export async function updateUserPassword(userId: number, hashedPassword: string)
   try {
     const result = await sqlClient.queryWithParams<UserType>(query, bindings);
     if (result.length === 0) {
-      throw new Error('User not found or password update failed');
+      throwHttpError(HTTP_ERR.e404.NotFound('User', userId.toString()));
     }
     return result[0];
   } catch (error) {
-    throw new Error(`Failed to update password for user ${userId}: ${error.message}`);
+    console.log('error', error);
+    throwHttpError(HTTP_ERR.e500.Unavailable);
   }
 }
 
@@ -76,7 +81,9 @@ export async function updateUserEmail(userId: number, email: string) {
     RETURNING
       user_id,
       username,
-      email
+      password,
+      email,
+      user_status_id;
   `;
 
   const bindings = [email, userId];
@@ -84,37 +91,57 @@ export async function updateUserEmail(userId: number, email: string) {
   try {
     const result = await sqlClient.queryWithParams<UserType>(query, bindings);
     if (result.length === 0) {
-      throw new Error('User not found or email update failed');
+      throwHttpError(HTTP_ERR.e404.NotFound('user', userId.toString()));
     }
     return result[0];
   } catch (error) {
-    throw new Error(`Failed to update email for user ${userId}: ${error.message}`);
+    console.log('error', error);
+    throwHttpError(HTTP_ERR.e500.Unavailable);
   }
 }
 
-export async function hardDeleteAccount(userId: number) {
-  const deleteExpensesQuery = `
-    DELETE FROM expenses WHERE added_by_user_id = ?;
-  `;
-  const deleteActivationsQuery = `
-    DELETE FROM user_activations WHERE user_id = ?;
-  `;
-  const deleteUserQuery = `
-    DELETE FROM users WHERE user_id = ?;
-  `;
+export async function softDeleteAccount(userId: number) {
+  const query = `UPDATE users SET user_status_id = 30 WHERE user_id = ? 
+  RETURNING
+    user_id,
+    username,
+    password,
+    email,
+    user_status_id;`;
 
   const bindings = [userId];
 
   try {
-    await sqlClient.query('BEGIN');
-    await sqlClient.queryWithParams(deleteExpensesQuery, bindings);
-    await sqlClient.queryWithParams(deleteActivationsQuery, bindings);
-    await sqlClient.queryWithParams(deleteUserQuery, bindings);
-    await sqlClient.query('COMMIT');
+    const result = await sqlClient.queryWithParams<UserType>(query, bindings);
+    console.log('🚀 ~ softDeleteAccount ~ result:', result);
+    if (result.length === 0) {
+      throwHttpError(HTTP_ERR.e404.NotFound('User', userId.toString()));
+    }
+    return result[0];
+  } catch (error) {
+    console.log('error', error);
+    throwHttpError(HTTP_ERR.e500.Unavailable);
+  }
+}
 
+export async function hardDeleteAccount(userId: number) {
+  const deleteExpensesQuery = `DELETE FROM expenses WHERE added_by_user_id = ?;`;
+  const deleteUserActivationsQuery = `DELETE FROM user_activations WHERE user_id = ?;`;
+  const deleteUsersQuery = `DELETE FROM users WHERE user_id = ?;`;
+
+  const bindings = [userId];
+
+  try {
+    const result1 = await sqlClient.queryWithParams<UserType>(deleteExpensesQuery, bindings);
+    const result2 = await sqlClient.queryWithParams<UserType>(deleteUserActivationsQuery, bindings);
+    const result3 = await sqlClient.queryWithParams<UserType>(deleteUsersQuery, bindings);
+    if (result1.length === 0 || result2.length === 0 || result3.length === 0) {
+      throwHttpError(HTTP_ERR.e404.NotFound('User', userId.toString()));
+    }
+    // TODO -> fix this function (the result1,2,3 is always null because the query does not have RETURNING)
     return { success: true };
   } catch (error) {
-    await sqlClient.query('ROLLBACK');
-    throw new Error(`Failed to delete account for user ${userId}: ${error.message}`);
+    console.log('error', error);
+    throwHttpError(HTTP_ERR.e500.Unavailable);
   }
 }
