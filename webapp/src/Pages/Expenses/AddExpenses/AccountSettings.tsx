@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -25,6 +26,10 @@ export function AccountSettings() {
     setAnchorEl(null);
   };
 
+  const navigate = useNavigate();
+  const goToSettingsPage = () => {
+    navigate('/settings');
+  };
   return (
     <>
       <XpmBox
@@ -89,7 +94,7 @@ export function AccountSettings() {
           <ListItemIcon>{<PersonAdd fontSize="small" />}</ListItemIcon>
           Add another account (coming soon)
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={goToSettingsPage}>
           <ListItemIcon>{<Settings fontSize="small" />}</ListItemIcon>
           Settings
         </MenuItem>

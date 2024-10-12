@@ -18,6 +18,7 @@ import Register from './Pages/Register/Register';
 import LoginWithFormik from './Pages/Home/Home';
 import MenuNavigation from './Pages/Expenses/AddExpenses/MenuNavigation';
 import './App.css';
+import { Settings } from './Pages/Expenses/AddExpenses/Settings';
 
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
@@ -119,6 +120,7 @@ export default function App() {
                 <Route path="register" element={<Register />} />
                 <Route path="reset-email" element={<EmailForNewPassword />} />
                 <Route path="verify-email" element={<VerifyEmail />} />
+                <Route path="settings" element={<Settings />} />
                 <Route
                   path="add-expenses"
                   element={<AddExpensesWithFormik />}
