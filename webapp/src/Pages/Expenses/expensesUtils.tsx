@@ -1,6 +1,6 @@
 import { client } from '../../api/apiClient';
 export interface Column {
-  id: 'description' | 'amount' | 'date_expended_at';
+  id: 'description' | 'amount' | 'date_expended_at' | 'labels';
   label: string;
   minWidth?: number;
   align?: 'center';
@@ -11,6 +11,11 @@ export interface Data {
   amount: number;
   date_expended_at: string;
   expense_id: number;
+  labels: {
+    label_id: number;
+    name: string;
+    description?: string;
+  }[];
 }
 
 export const columns: Column[] = [
@@ -27,6 +32,12 @@ export const columns: Column[] = [
     minWidth: 170,
     align: 'center',
   },
+  {
+    id: 'labels',
+    label: 'Labels',
+    minWidth: 170,
+    align: 'center',
+  },
 ];
 
 export function createData(
@@ -35,13 +46,16 @@ export function createData(
     amount: number;
     date_expended_at: string;
     expense_id: number;
+    labels: {
+      label_id: number;
+      name: string;
+      description?: string;
+    }[];
   }[]
 ): Data[] {
   return expenses.map((expense) => ({
-    description: expense.description,
-    amount: expense.amount,
+    ...expense,
     date_expended_at: formatDate(expense.date_expended_at),
-    expense_id: expense.expense_id,
   }));
 }
 
