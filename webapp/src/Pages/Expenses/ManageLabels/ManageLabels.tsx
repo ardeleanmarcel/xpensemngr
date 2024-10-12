@@ -9,6 +9,7 @@ import { XpmCard } from '../../../components/XpmCard';
 import { XpmCardContent } from '../../../components/XpmCardContent';
 import { XpmPaper } from '../../../components/XpmPaper';
 import { ColumnTableV2, XpmTableV2 } from '../../../components/XpmTableV2';
+import { AddLabel } from './components/AddLabel';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -68,18 +69,23 @@ export const ManageLabels = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  useEffect(() => {
-    const fetchLabels = async () => {
-      try {
-        const labels = await getAllLabels();
-        setLabels(labels);
-      } catch (error) {
-        console.error('Error fetching labels:', error);
-      }
-    };
 
+  const fetchLabels = async () => {
+    try {
+      const labels = await getAllLabels();
+      setLabels(labels);
+    } catch (error) {
+      console.error('Error fetching labels:', error);
+    }
+  };
+
+  useEffect(() => {
     fetchLabels();
   }, []);
+
+  const handleAddedLabel = () => {
+    fetchLabels();
+  };
 
   return (
     <XpmCard>
@@ -89,7 +95,7 @@ export const ManageLabels = () => {
           marginTop: '30px',
         }}
       >
-        aici e labelurile!!
+        <AddLabel onAddEnd={handleAddedLabel} />
         <div className={classes.container}>
           <XpmTypography
             variant="h4"
@@ -98,6 +104,7 @@ export const ManageLabels = () => {
             className={classes.title}
             text="LABELURI"
           />
+
           <XpmPaper sx={{ width: '100%' }}>
             <XpmTableV2
               columns={columns}
