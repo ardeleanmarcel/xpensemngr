@@ -26,6 +26,8 @@ export default function MenuNavigation() {
       setValue(0);
     } else if (location.pathname === '/expenses-dashboard') {
       setValue(1);
+    } else {
+      setValue(2);
     }
   }, [location.pathname]);
 
