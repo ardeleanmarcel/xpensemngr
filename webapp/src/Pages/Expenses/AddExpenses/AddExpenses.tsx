@@ -9,9 +9,11 @@ import { XpmButton } from '../../../components/XpmButton';
 import { XpmTextField } from '../../../components/XpmTextField';
 import { XpmTypography } from '../../../components/XpmTypography';
 import { XpmAlert } from '../../../components/XpmAlert';
-import { getCurrentDate } from '../expensesUtils';
+import { getAllLabels, getCurrentDate } from '../expensesUtils';
 import { XpmCard } from '../../../components/XpmCard';
 import { XpmCardContent } from '../../../components/XpmCardContent';
+import { useEffect, useState } from 'react';
+import { LabelSelector } from './components/LabelSelector';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -46,6 +48,27 @@ export const AddExpenses = () => {
 
   const { handleChange, values, handleSubmit, isSubmitting, status } =
     useFormikContext<typeof initialValues>();
+
+  const [labels, setLabels] = useState<
+    {
+      name: string;
+      label_id: number;
+      added_by_user_id: string;
+      description?: string;
+    }[]
+  >([]);
+  const [selectedLabels, setSelectedLabels] = useState<number[]>([]);
+
+  const getLabels = async () => {
+    const lbs = await getAllLabels();
+    setLabels(lbs);
+  };
+
+  useEffect(() => {
+    getLabels();
+  }, []);
+
+  console.log('selectedLabels', selectedLabels);
 
   return (
     <XpmCard sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -91,6 +114,11 @@ export const AddExpenses = () => {
               value={values.description}
               disabled={isSubmitting}
               color="inputsColor"
+            />
+            <LabelSelector
+              labels={labels}
+              onSelectionChange={setSelectedLabels}
+              selectedLabels={selectedLabels}
             />
             <XpmButton
               disabled={isSubmitting}
