@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+// TODO (Valle) -> add "added_by_user_id"
 export const expenseSchema = z
   .object({
     expense_id: z.number().int().positive(),

@@ -6,7 +6,7 @@ import { makeStyles } from '@mui/styles';
 import { XpmTypography } from '../../../components/XpmTypography';
 import { XpmTable } from '../../../components/XpmTable';
 import { TITLE } from './constants';
-import { columns, createData, Data, getAllExpenses } from './expensesUtils';
+import { columns, createData, Data, getAllExpenses } from '../expensesUtils';
 import { XpmCard } from '../../../components/XpmCard';
 import { XpmCardContent } from '../../../components/XpmCardContent';
 import { XpmPaper } from '../../../components/XpmPaper';

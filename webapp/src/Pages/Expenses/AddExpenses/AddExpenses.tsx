@@ -9,7 +9,7 @@ import { XpmButton } from '../../../components/XpmButton';
 import { XpmTextField } from '../../../components/XpmTextField';
 import { XpmTypography } from '../../../components/XpmTypography';
 import { XpmAlert } from '../../../components/XpmAlert';
-import { getCurrentDate } from './expensesUtils';
+import { getCurrentDate } from '../expensesUtils';
 import { XpmCard } from '../../../components/XpmCard';
 import { XpmCardContent } from '../../../components/XpmCardContent';
 

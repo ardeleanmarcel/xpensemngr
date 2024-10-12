@@ -31,7 +31,7 @@ If you want to work on the entire project, refer to the [PROJECT LEVEL README](.
 
 ## Creating Migrations
 
-- Use command `npm run make:migration -- <your_snake_case_name>`
+- Use command `npm run make:migration <your_snake_case_name>`
 
 ## Running Migrations
 
