@@ -1,4 +1,4 @@
-import { client } from '../../../api/apiClient';
+import { client } from '../../api/apiClient';
 export interface Column {
   id: 'description' | 'amount' | 'date_expended_at';
   label: string;
@@ -49,6 +49,16 @@ export const getAllExpenses = async () => {
   try {
     // @ts-expect-error "Property 'getAll' does not exist on type"
     const data = await client.expenses.getAll.query();
+    return data;
+  } catch (error) {
+    return [];
+  }
+};
+
+export const getAllLabels = async () => {
+  try {
+    // @ts-expect-error "Property 'getAll' does not exist on type"
+    const data = await client.labels.getAll.query();
     return data;
   } catch (error) {
     return [];

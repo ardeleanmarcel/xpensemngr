@@ -43,6 +43,9 @@ export default function MenuNavigation() {
       case 1:
         navigate('/expenses-dashboard');
         break;
+      case 2:
+        navigate('/expense-labels');
+        break;
       default:
         break;
     }
@@ -64,6 +67,7 @@ export default function MenuNavigation() {
         <Tabs value={value} onChange={handleChange} role="navigation">
           <LinkTab label="Add Expenses" />
           <LinkTab label="Dashboard" />
+          <LinkTab label="Labels" />
         </Tabs>
       </Box>
       <AccountSettings />

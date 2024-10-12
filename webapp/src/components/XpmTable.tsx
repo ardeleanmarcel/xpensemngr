@@ -7,7 +7,7 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material';
-import { Column, Data } from '../Pages/Expenses/AddExpenses/expensesUtils';
+import { Column, Data } from '../Pages/Expenses/expensesUtils';
 
 type XpmTableProps = {
   columns: Column[];
