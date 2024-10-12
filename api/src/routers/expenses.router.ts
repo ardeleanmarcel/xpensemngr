@@ -1,15 +1,23 @@
 import { protectedProcedure, t } from '@src/trpc';
 import { expenseCreateSchema } from '@src/models/expense.models';
-import { AllowedExpensesFilters, createExpenses, selectExpenses } from '@src/db/sql/expenses.sql';
+import { AllowedExpensesFilters, createLabelsWithExpenses, selectExpenses } from '@src/db/sql/expenses.sql';
 import { Filter, FILTER_TYPE } from '@src/db/db.utils';
+import { checkLabelsBelongToUser } from '@src/db/sql/labels.sql';
 
 export const expensesRouter = t.router({
   create: protectedProcedure.input(expenseCreateSchema).mutation(async (opts) => {
     const { user } = opts.ctx;
+    const newExpenses = opts.input;
 
-    const result = createExpenses(opts.input, user.user_id);
+    const requestedLabels = newExpenses.reduce((acc, expense) => {
+      return [...acc, ...expense.label_ids];
+    }, []);
 
-    return result;
+    await checkLabelsBelongToUser(requestedLabels, user.user_id);
+
+    const newExpIds = await createLabelsWithExpenses(newExpenses, user.user_id);
+
+    return newExpIds;
   }),
   getAll: protectedProcedure.query(async (opts) => {
     const { user } = opts.ctx;

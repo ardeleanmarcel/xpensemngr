@@ -25,6 +25,9 @@ export const expenseCreateSchema = z.array(
       amount: true,
       date_expended_at: true,
     })
+    .extend({
+      label_ids: z.array(z.number().int().positive()),
+    })
     .strict()
 );
 

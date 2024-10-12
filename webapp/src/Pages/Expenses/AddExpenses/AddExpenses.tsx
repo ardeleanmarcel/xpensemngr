@@ -15,6 +15,12 @@ import { XpmCardContent } from '../../../components/XpmCardContent';
 import { useEffect, useState } from 'react';
 import { LabelSelector } from './components/LabelSelector';
 
+type FormValues = {
+  amount: string;
+  description: string;
+  selectedLabels: number[];
+};
+
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
     display: 'grid',
@@ -32,9 +38,10 @@ const useStyles = makeStyles<Theme>((theme) => ({
   },
 }));
 
-const initialValues = {
+const initialValues: FormValues = {
   amount: '',
   description: '',
+  selectedLabels: [],
 };
 
 const TITLE = 'Add Expenses';
@@ -46,8 +53,14 @@ const ERROR = 'error';
 export const AddExpenses = () => {
   const classes = useStyles();
 
-  const { handleChange, values, handleSubmit, isSubmitting, status } =
-    useFormikContext<typeof initialValues>();
+  const {
+    handleChange,
+    values,
+    handleSubmit,
+    isSubmitting,
+    status,
+    setValues,
+  } = useFormikContext<FormValues>();
 
   const [labels, setLabels] = useState<
     {
@@ -57,7 +70,6 @@ export const AddExpenses = () => {
       description?: string;
     }[]
   >([]);
-  const [selectedLabels, setSelectedLabels] = useState<number[]>([]);
 
   const getLabels = async () => {
     const lbs = await getAllLabels();
@@ -68,7 +80,9 @@ export const AddExpenses = () => {
     getLabels();
   }, []);
 
-  console.log('selectedLabels', selectedLabels);
+  const handleLabelSelection = (selectedLabels: number[]) => {
+    setValues({ ...values, selectedLabels });
+  };
 
   return (
     <XpmCard sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -117,8 +131,8 @@ export const AddExpenses = () => {
             />
             <LabelSelector
               labels={labels}
-              onSelectionChange={setSelectedLabels}
-              selectedLabels={selectedLabels}
+              onSelectionChange={handleLabelSelection}
+              selectedLabels={values.selectedLabels}
             />
             <XpmButton
               disabled={isSubmitting}
@@ -145,6 +159,7 @@ const handleSubmit = async (
         description: values.description,
         amount: values.amount,
         date_expended_at: getCurrentDate(),
+        label_ids: values.selectedLabels,
       },
     ]);
     resetForm();

@@ -34,6 +34,19 @@ export const HTTP_ERR = {
         message,
       };
     },
+    BadRequest: (reason?: string) => {
+      let message = 'Bad request.';
+
+      if (reason) {
+        message += ` Reason: ${reason}`;
+      }
+
+      return {
+        errorCode: 400002,
+        httpCode: 400,
+        message,
+      };
+    },
   },
   e401: {
     Unauthorized: {

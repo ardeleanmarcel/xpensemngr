@@ -2,6 +2,8 @@ import { sqlClient } from '@src/adapters/sqlClient';
 import { LabelCreateType, LabelType } from '@src/models/label.models';
 import { Filter } from '../db.utils';
 import { composeWhereClause } from './utils/sql.utils';
+import { throwHttpError } from '@src/errors/error.utils';
+import { HTTP_ERR } from '@src/errors';
 
 export async function createLabels(labels: LabelCreateType, user_id: number) {
   const queryValues = new Array(labels.length)
@@ -39,4 +41,24 @@ export async function selectLabels(filters: Filter<AllowedLabelsFilters>[]) {
   const res = await sqlClient.queryWithParams<LabelType>(query, bindings);
 
   return res;
+}
+
+export async function checkLabelsBelongToUser(label_ids: number[], user_id: number) {
+  const query = `
+    SELECT label_id FROM labels
+    WHERE label_id IN (${label_ids.map(() => '?').join(', ')})
+    AND added_by_user_id = ?
+  `;
+
+  const foundLabels = (await sqlClient.queryWithParams<{ label_id: number }>(query, [...label_ids, user_id])).map(
+    ({ label_id }) => label_id
+  );
+
+  for (const label_id of label_ids) {
+    if (!foundLabels.includes(label_id)) {
+      throwHttpError(HTTP_ERR.e400.BadRequest(`Label ${label_id} does not belong to user ${user_id}`));
+    }
+  }
+
+  return true;
 }

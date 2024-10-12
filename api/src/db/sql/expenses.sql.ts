@@ -3,6 +3,19 @@ import { ExpenseCreateType, ExpenseType } from '@src/models/expense.models';
 import { Filter } from '../db.utils';
 import { composeWhereClause } from './utils/sql.utils';
 
+// TODO (Valle) -> this is highly inefficient, because we are doing a lot of write operations
+//  should be a fun challenge to improve
+export function createLabelsWithExpenses(expenses: ExpenseCreateType, user_id: number) {
+  return Promise.all(
+    expenses.map(async (expense) => {
+      const newExp = await createExpenses([expense], user_id);
+      await addLabelsToExpenses([{ expense_id: newExp[0].expense_id, label_ids: expense.label_ids }]);
+
+      return newExp[0].expense_id;
+    })
+  );
+}
+
 export async function createExpenses(expenses: ExpenseCreateType, user_id: number) {
   const queryValues = new Array(expenses.length)
     .fill(null)
@@ -28,6 +41,31 @@ export async function createExpenses(expenses: ExpenseCreateType, user_id: numbe
   }, []);
 
   return await sqlClient.queryWithParams<ExpenseType>(query, bindings);
+}
+
+export async function addLabelsToExpenses(relations: { expense_id: number; label_ids: number[] }[]) {
+  const numOfAdditions = relations.reduce((acc, { label_ids }) => acc + label_ids.length, 0);
+
+  const queryValues = new Array(numOfAdditions)
+    .fill(null)
+    .map(() => `( ?, ? )`)
+    .join(',\n');
+
+  const query = `
+      INSERT INTO expenses_labels
+        (expense_id, label_id)
+      VALUES
+        ${queryValues}
+      RETURNING
+        expense_id,
+        label_id
+  `;
+
+  const bindings = relations.reduce((bindings, { expense_id, label_ids }) => {
+    return [...bindings, ...label_ids.reduce((acc, label_id) => [...acc, expense_id, label_id], [])];
+  }, []);
+
+  return await sqlClient.queryWithParams<{ expense_id: number; label_id: number }>(query, bindings);
 }
 
 export type AllowedExpensesFilters = 'added_by_user_id';
