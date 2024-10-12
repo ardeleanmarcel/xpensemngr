@@ -26,7 +26,8 @@ If you want to work on the entire project, refer to the [PROJECT LEVEL README](.
 
 ## Adding environments
 
-- When a new env is made, if using Postgres, the schema must be manually created.
+- When a new env is made, if using Postgres, the schema must be created using `npm run bootstrap`.
+  Make sure the correct values are set in your `.env` file and also that `knexfile.ts` is configured correctly.
 
 ## Creating Migrations
 

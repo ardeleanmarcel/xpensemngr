@@ -29,6 +29,7 @@ export default function MenuNavigation() {
     }
   }, [location.pathname]);
 
+  // @ts-expect-error "event" is not used?!?!
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     console.log('Selected tab index:', newValue);
 

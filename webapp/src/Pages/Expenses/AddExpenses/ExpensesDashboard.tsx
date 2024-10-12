@@ -35,6 +35,7 @@ export const ExpensesDashboard = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState<Data[]>([]);
 
+  // @ts-expect-error "event: unknown"
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
