@@ -1,5 +1,4 @@
 import { initTRPC } from '@trpc/server';
-// import * as trpcExpress from '@trpc/server/adapters/express';
 
 import { z, ZodError } from 'zod';
 import { fromError } from 'zod-validation-error';
@@ -7,11 +6,6 @@ import { fromError } from 'zod-validation-error';
 import jwt from 'jsonwebtoken';
 
 import { Context } from './trpcFastifyContext';
-
-// ------------------------------------------------ expres expirement below ------------------------------------------------
-// export const createContext = ({ req, res }: trpcExpress.CreateExpressContextOptions) => ({ req, res });
-// type Context = Awaited<ReturnType<typeof createContext>>;
-// ------------------------------------------------ expres expirement above ------------------------------------------------
 
 import { HTTP_ERR, HttpError } from './errors';
 import { throwHttpError } from './errors/error.utils';

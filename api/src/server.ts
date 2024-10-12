@@ -1,46 +1,11 @@
 import { fastifyTRPCPlugin, FastifyTRPCPluginOptions } from '@trpc/server/adapters/fastify';
 import fastify from 'fastify';
 import cors from '@fastify/cors';
-// import { initTRPC } from '@trpc/server';
-// import * as trpcExpress from '@trpc/server/adapters/express';
-// import express from 'express';
-// import cors from 'cors';
-// import { createContext } from './trpc';
 
 import { createContext } from './trpcFastifyContext';
 import { appRouter, AppRouter } from './trpcAppRouter';
 import { ENV_VARS } from './utils/env.utils';
 import { XPM_ENV } from './constants/env.const';
-
-// ----------------------------------------------- expres expirement below ------------------------------------------------
-// created for each request
-// const createContext = ({ req, res }: trpcExpress.CreateExpressContextOptions) => ({ req, res }); // no context
-
-// const app = express();
-
-// console.log('origin: ', origin);
-// const origin = Array.from(new Set(['http://localhost:5173', ENV_VARS.MYE_WEB_UI_ROOT_URL]));
-
-// app.use(
-//   cors({
-//     origin,
-//   })
-// );
-
-// app.use(
-//   '/trpc',
-//   trpcExpress.createExpressMiddleware({
-//     router: appRouter,
-//     createContext,
-//   })
-// );
-
-// const port = ENV_VARS.XPM_ENV === XPM_ENV.production ? 80 : 3000;
-// console.log('Starting server on env: ', ENV_VARS.XPM_ENV);
-
-// app.listen(port);
-// console.log(`Server listening on port ${port}`);
-// ----------------------------------------------- expres expirement below ------------------------------------------------
 
 const server = fastify({
   maxParamLength: 5000,
@@ -85,11 +50,11 @@ server.register(fastifyTRPCPlugin, {
 process.on('uncaughtException', (err) => {
   console.error('Uncaught Exception:', err);
   // You can also exit the process here if you want
-  // process.exit(1);
+  process.exit(1);
 });
 
 process.on('unhandledRejection', (reason) => {
   console.error('Unhandled Rejection:', reason);
   // You can also exit the process here if you want
-  // process.exit(1);
+  process.exit(1);
 });

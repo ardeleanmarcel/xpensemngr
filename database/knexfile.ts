@@ -26,7 +26,7 @@ export const postgresConfig: { [key in EnvName]: Knex.Config } = {
       extension: 'ts',
     },
   },
-  production: {
+  [ENV_NAME.production]: {
     client: 'pg',
     connection: async () => {
       const password = await getPassword();

@@ -5,6 +5,9 @@ type Ec2WithSecurityGroupProps = {
   vpc: ec2.IVpc;
 };
 
+// TODO (Valle)  -> configure cloudwatch
+// TODO (Valle)  -> add github ssh keypair??
+// TODO (Valle) -> find a way to persist git, node etc
 export class Ec2WithSecurityGroup extends Construct {
   public readonly ec2Instance: ec2.Instance;
   public readonly securityGroup: ec2.SecurityGroup;
@@ -38,9 +41,10 @@ export class Ec2WithSecurityGroup extends Construct {
       "Allow inbound SSH traffic"
     );
 
-    const keyPair = new ec2.KeyPair(this, `${sshKeyId}--manual`, {
+    // TODO -> move keypair to secrets manager
+    const keyPair = new ec2.KeyPair(this, `${sshKeyId}--manual2`, {
       publicKeyMaterial:
-        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDfsCDobn2s8NLPisQtjrFR33hvrVMVvEILHoLbExqxBL92d+9Zra8pYuYpqDX3TaHJ3ZrYYlB8ta2hxBjiizf0HI4uSG8tz9uEv1GPJPVWmQbrLUhLNfX1HEtesKl38/VihiSWF3Fi8n0gFHnFGLxyal8uELRt+NtPnk9pIITGnPp73d09k2yjWaH+KZTS/+SfGnTdLvT/JOCxCOYvhp0PSmg+zJQhs2q0cWSxZebRNFvNqUaCqF0DNVE+BSi6lWjVzFnw/bAYsN84hfAj+hbKpFmIsmeEbWI4TfK/CmGU/EtxzqUuNRYayJkPt67+Py34wHXV2b3LXWm0z0i63yFS2eeLnfiyod0KnaUcMSOd3oBOl4wGi8pYh+3o0FwvAPmDTSPWKk9J0saz9yUxJRUCPvGPwuOSU8ng3MYog5UTEBLkp5E7IZa2R3r8gBZ91Jyus6Tw9ebZmpLWDnLZESV5kKoUPY64SEo/8H/fjkUIujlMvXPF8FoMvjPuAU0d0kDhYxioNYxk8C2ISnrpwEUkB50EGD0osj98UFcGOIIZo0Xw5Ub40g9/nQs0MX7hCwoSUDBNqbhMFttS72G3Kf9illJ7Ew8iI3PEHMKoyGgbuXsPNiQf9MJhoZ3TY/9LafLlYXEIgkiXpOGeIxmPb4kMKAmTQcx6n/e0uoFPBxRnGw== valle@Vallelica",
+        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDhWiZVTIOFkqyLnX2xvXrMc/mnxn2t7lls6+DE4aW09gUH1PXsRcygCXt/1vkOb/CaCNK6JpCc/7rOj1HtlA+rpgzyr6PI/YXMj0NmSGLLTymamNHa5vheeXp8F4YnetZhyp3zhX6J4vChAX9Hn6Sb9Z4QP42MftTrmIHWTDCoDpJxGgaa25t1v6XF2FcWBMy7zcKDOfYTUCrpuCOnEid1OAafis/uCHVXUVkgkP9w08fd4txVa63tic4lwEjgNwkI1HHzkuVkpTIIjhrvr0q5Bm6bUjjNHsr9KQej8oBsye5BwrGRwBfmr6AonRf1Sa7Lp2CfGxzfmvjXE3rhYyZirngwOCUuYdESmhpZ0Upbf4e5+6Qz1lgy1kw4ujgP+ee1KKy8w9nnjew9APt54yYMEB3Ow1gC7UWCqhKAB38Hpim4QFpdtCwEn2nO1RFBcMbKEjSPXq2lDmFevNtsH8iaEYj6uuMP70KiPYrNbiijozaUJw4EI4LLBTl0xwHih5E= ahara@Vallelica",
     });
 
     this.ec2Instance = new ec2.Instance(this, ec2Id, {
