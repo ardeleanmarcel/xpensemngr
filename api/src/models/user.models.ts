@@ -1,10 +1,11 @@
 import { z } from 'zod';
+import { email, password } from './common.models';
 
 export const userSchema = z.object({
   user_id: z.number().int().positive(),
   username: z.string().min(3).max(20),
-  password: z.string().min(8).max(20),
-  email: z.string().email(),
+  password: password,
+  email: email,
   user_status_id: z.number().int().positive(),
 });
 
