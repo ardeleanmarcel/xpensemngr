@@ -9,9 +9,17 @@ import { XpmButton } from '../../../components/XpmButton';
 import { XpmTextField } from '../../../components/XpmTextField';
 import { XpmTypography } from '../../../components/XpmTypography';
 import { XpmAlert } from '../../../components/XpmAlert';
-import { getCurrentDate } from '../expensesUtils';
+import { getAllLabels, getCurrentDate } from '../expensesUtils';
 import { XpmCard } from '../../../components/XpmCard';
 import { XpmCardContent } from '../../../components/XpmCardContent';
+import { useEffect, useState } from 'react';
+import { LabelSelector } from './components/LabelSelector';
+
+type FormValues = {
+  amount: string;
+  description: string;
+  selectedLabels: number[];
+};
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -30,9 +38,10 @@ const useStyles = makeStyles<Theme>((theme) => ({
   },
 }));
 
-const initialValues = {
+const initialValues: FormValues = {
   amount: '',
   description: '',
+  selectedLabels: [],
 };
 
 const TITLE = 'Add Expenses';
@@ -44,8 +53,36 @@ const ERROR = 'error';
 export const AddExpenses = () => {
   const classes = useStyles();
 
-  const { handleChange, values, handleSubmit, isSubmitting, status } =
-    useFormikContext<typeof initialValues>();
+  const {
+    handleChange,
+    values,
+    handleSubmit,
+    isSubmitting,
+    status,
+    setValues,
+  } = useFormikContext<FormValues>();
+
+  const [labels, setLabels] = useState<
+    {
+      name: string;
+      label_id: number;
+      added_by_user_id: string;
+      description?: string;
+    }[]
+  >([]);
+
+  const getLabels = async () => {
+    const lbs = await getAllLabels();
+    setLabels(lbs);
+  };
+
+  useEffect(() => {
+    getLabels();
+  }, []);
+
+  const handleLabelSelection = (selectedLabels: number[]) => {
+    setValues({ ...values, selectedLabels });
+  };
 
   return (
     <XpmCard sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -92,6 +129,11 @@ export const AddExpenses = () => {
               disabled={isSubmitting}
               color="inputsColor"
             />
+            <LabelSelector
+              labels={labels}
+              onSelectionChange={handleLabelSelection}
+              selectedLabels={values.selectedLabels}
+            />
             <XpmButton
               disabled={isSubmitting}
               color="secondary"
@@ -117,6 +159,7 @@ const handleSubmit = async (
         description: values.description,
         amount: values.amount,
         date_expended_at: getCurrentDate(),
+        label_ids: values.selectedLabels,
       },
     ]);
     resetForm();

@@ -1,4 +1,5 @@
 import {
+  Chip,
   Table,
   TableBody,
   TableCell,
@@ -8,6 +9,7 @@ import {
   TableRow,
 } from '@mui/material';
 import { Column, Data } from '../Pages/Expenses/expensesUtils';
+import React, { ReactNode } from 'react';
 
 type XpmTableProps = {
   columns: Column[];
@@ -52,11 +54,20 @@ export const XpmTable = ({
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={rowKey}>
                     {columns.map((column) => {
-                      const value = row[column.id] as React.ReactNode;
+                      let content: unknown = row[column.id];
+
+                      if (column.id === 'labels') {
+                        content =
+                          row[column.id].length === 0
+                            ? '-'
+                            : row[column.id].map((label) => (
+                                <Chip key={label.label_id} label={label.name} />
+                              ));
+                      }
 
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {value}
+                          {content as ReactNode}
                         </TableCell>
                       );
                     })}
