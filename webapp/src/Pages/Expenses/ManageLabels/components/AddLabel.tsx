@@ -8,6 +8,7 @@ export const AddLabel = ({ onAddEnd }: { onAddEnd?: () => void }) => {
   const [description, setDescription] = useState('');
 
   const handleAdd = async () => {
+    // @ts-expect-error "TS2339: Property 'labels' does not exist on type 'DecoratedProcedureRecord<BuiltRouter"
     await client.labels.create.mutate([
       { name, description: description || undefined },
     ]);
