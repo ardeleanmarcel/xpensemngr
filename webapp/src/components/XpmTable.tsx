@@ -57,11 +57,6 @@ export const XpmTable = ({
                       let content: unknown = row[column.id];
 
                       if (column.id === 'labels') {
-                        console.log(
-                          'row[column.id].length',
-                          row[column.id].length
-                        );
-
                         content =
                           row[column.id].length === 0
                             ? '-'
