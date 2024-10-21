@@ -1,0 +1,20 @@
+meta {
+  name: Change email
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:3000/trpc/users.changeEmail
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "userId" : 32, 
+    "currentEmail": "ardeleanmarcel1923+19@gmail.com", 
+    "newEmail" : "ardeleanmarcel1923+18@gmail.com", 
+    "password": "marcel19"
+  }
+}

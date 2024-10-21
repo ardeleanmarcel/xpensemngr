@@ -1,0 +1,18 @@
+meta {
+  name: Delete User
+  type: http
+  seq: 5
+}
+
+delete {
+  url: http://localhost:3000/trpc/users.hardDelete
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "userId": 17,
+    "password": "marcel12"
+  }
+}
