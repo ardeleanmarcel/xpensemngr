@@ -8,7 +8,8 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "diff": "cdk diff --profile xpm-admin"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
