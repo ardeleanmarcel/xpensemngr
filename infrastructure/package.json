@@ -5,13 +5,13 @@
     "infrastructure": "bin/infrastructure.js"
   },
   "scripts": {
-    "aws:login": "AWS_PROFILE=xpm-admin aws sso login",
+    "aws:login": "aws sso login --profile xpm-admin",
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
     "diff": "cdk diff --profile xpm-admin",
-    "deploy": "cdk deploy --profile xpm-admin"
+    "deploy:all": "cdk deploy --all --profile xpm-admin"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

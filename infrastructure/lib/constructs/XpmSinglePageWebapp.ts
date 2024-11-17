@@ -17,15 +17,15 @@ export class XpmSinglePageWebapp extends Construct {
 
     this.webBucket = new XpmS3BucketPublic(this, `${id}-webapp`);
 
-    // this.hostedZone = new route53.HostedZone(this, `${id}-hosted_zone`, {
-    //   zoneName: "xpensemngr.com",
-    //   comment: `${id}-hosted_zone for xpensemngr.com`,
-    // });
-
-    // this.certificate = new acm.Certificate(this, `${id}-acm_cert`, {
-    //   domainName: "*.xpensemngr.com",
-    //   validation: acm.CertificateValidation.fromDns(this.hostedZone),
-    // });
+    // The certificate needs to be in us-east-1 region due to AWS limitations
+    // Because we are hosting the app in eu-central-1, the certificate is deployed with the DnsStack
+    const certificateArn =
+      "arn:aws:acm:us-east-1:571600868208:certificate/e6e052ce-963e-4233-a49e-58f60675f691";
+    this.certificate = acm.Certificate.fromCertificateArn(
+      this,
+      "domainCert",
+      certificateArn
+    );
 
     this.distribution = new cloudfront.Distribution(
       this,
@@ -36,9 +36,8 @@ export class XpmSinglePageWebapp extends Construct {
           origin: new cfOrigins.S3StaticWebsiteOrigin(this.webBucket.bucket),
         },
         priceClass: cloudfront.PriceClass.PRICE_CLASS_100,
-        // TODO (Valle) -> certificate needs to be in us-east-1
-        // domainNames: ["www.xpensemngr.com"],
-        // certificate: this.certificate,
+        domainNames: ["www.xpensemngr.com"],
+        certificate: this.certificate,
       }
     );
   }
