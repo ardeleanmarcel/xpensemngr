@@ -14,6 +14,11 @@ export class DnsStack extends cdk.Stack {
 
     const certificate = new acm.Certificate(this, `${id}-acm_cert`, {
       domainName: "*.xpensemngr.com",
+      subjectAlternativeNames: [
+        "*.xpensemngr.com",
+        "www.xpensemngr.com",
+        "xpensemngr.com",
+      ],
       validation: acm.CertificateValidation.fromDns(hostedZone),
     });
   }

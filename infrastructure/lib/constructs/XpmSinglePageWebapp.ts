@@ -20,7 +20,7 @@ export class XpmSinglePageWebapp extends Construct {
     // The certificate needs to be in us-east-1 region due to AWS limitations
     // Because we are hosting the app in eu-central-1, the certificate is deployed with the DnsStack
     const certificateArn =
-      "arn:aws:acm:us-east-1:571600868208:certificate/e6e052ce-963e-4233-a49e-58f60675f691";
+      "arn:aws:acm:us-east-1:571600868208:certificate/7f17d2b7-0745-4651-a571-23338ad22db4";
     this.certificate = acm.Certificate.fromCertificateArn(
       this,
       "domainCert",
@@ -36,7 +36,7 @@ export class XpmSinglePageWebapp extends Construct {
           origin: new cfOrigins.S3StaticWebsiteOrigin(this.webBucket.bucket),
         },
         priceClass: cloudfront.PriceClass.PRICE_CLASS_100,
-        domainNames: ["www.xpensemngr.com"],
+        domainNames: ["www.xpensemngr.com", "xpensemngr.com"],
         certificate: this.certificate,
       }
     );
