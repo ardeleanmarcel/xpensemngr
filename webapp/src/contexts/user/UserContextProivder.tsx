@@ -6,6 +6,12 @@ import { useRunOnce } from '../../hooks/useRunOnce';
 
 import { userContext, UserData } from './user.context';
 
+const MILLISECONDS = {
+  Minutes: {
+    Five: 1000 * 60 * 5,
+  },
+};
+
 // TODO (valle) -> implement an interval that checks for token expiration and refresh or revoke
 export function UserContextProvider({ children }: React.PropsWithChildren) {
   const [user, setUser] = useState<UserData | null>(null);
@@ -21,9 +27,10 @@ export function UserContextProvider({ children }: React.PropsWithChildren) {
     try {
       const { username, email, exp } = extractAuthPayload(token);
 
-      const isExpired = exp * 1000 < new Date().getTime();
+      const isOldToken =
+        exp * 1000 < new Date().getTime() + MILLISECONDS.Minutes.Five;
 
-      if (isExpired) {
+      if (isOldToken) {
         localStorage.removeItem('authToken');
       } else {
         setUser({ username, email });

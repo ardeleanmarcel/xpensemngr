@@ -12,12 +12,12 @@ import { UserContextProvider } from './contexts/user/UserContextProivder';
 import { NotificationContextProvider } from './contexts/notification/NotificationContextProvider';
 import { EmailForNewPassword } from './Pages/Home/EmailForNewPassword';
 import { VerifyEmail } from './Pages/VerifyEmail/VerifyEmail';
-import { ExpensesDashboard } from './Pages/Expenses/ExpensesDashboard/ExpensesDashboard';
-import AddExpensesWithFormik from './Pages/Expenses/AddExpenses/AddExpenses';
+import { ProtectedExpensesDashboard } from './Pages/Expenses/ExpensesDashboard/ExpensesDashboard';
+import { ProtectedAddExpensesPage } from './Pages/Expenses/AddExpenses/AddExpenses';
 import Register from './Pages/Register/Register';
 import LoginWithFormik from './Pages/Home/Home';
 import MenuNavigation from './Pages/Expenses/AddExpenses/MenuNavigation';
-import { ManageLabels } from './Pages/Expenses/ManageLabels/ManageLabels';
+import { ProtectedManageLabels } from './Pages/Expenses/ManageLabels/ManageLabels';
 import './App.css';
 
 const getDesignTokens = (mode: PaletteMode) => ({
@@ -122,13 +122,16 @@ export default function App() {
                 <Route path="verify-email" element={<VerifyEmail />} />
                 <Route
                   path="add-expenses"
-                  element={<AddExpensesWithFormik />}
+                  element={<ProtectedAddExpensesPage />}
                 />
                 <Route
                   path="expenses-dashboard"
-                  element={<ExpensesDashboard />}
+                  element={<ProtectedExpensesDashboard />}
                 />
-                <Route path="expense-labels" element={<ManageLabels />} />
+                <Route
+                  path="expense-labels"
+                  element={<ProtectedManageLabels />}
+                />
               </Routes>
             </BrowserRouter>
           </NotificationContextProvider>

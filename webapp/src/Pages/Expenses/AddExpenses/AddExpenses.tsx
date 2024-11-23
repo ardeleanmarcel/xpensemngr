@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useFormikContext } from 'formik';
 
 import { Theme } from '@mui/material';
@@ -11,8 +12,8 @@ import { XpmTypography } from '../../../components/XpmTypography';
 import { XpmAlert } from '../../../components/XpmAlert';
 import { getAllLabels, getCurrentDate } from '../expensesUtils';
 import { XpmCard } from '../../../components/XpmCard';
+import { AuthProtected } from '../../../components/utils/AuthProtected';
 import { XpmCardContent } from '../../../components/XpmCardContent';
-import { useEffect, useState } from 'react';
 import { LabelSelector } from './components/LabelSelector';
 
 type FormValues = {
@@ -182,3 +183,9 @@ const AddExpensesWithFormik = withFormik(
 );
 
 export default AddExpensesWithFormik;
+
+export const ProtectedAddExpensesPage = () => (
+  <AuthProtected>
+    <AddExpensesWithFormik />
+  </AuthProtected>
+);

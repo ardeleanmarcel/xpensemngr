@@ -10,6 +10,7 @@ import { columns, createData, Data, getAllExpenses } from '../expensesUtils';
 import { XpmCard } from '../../../components/XpmCard';
 import { XpmCardContent } from '../../../components/XpmCardContent';
 import { XpmPaper } from '../../../components/XpmPaper';
+import { AuthProtected } from '../../../components/utils/AuthProtected';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -91,3 +92,9 @@ export const ExpensesDashboard = () => {
     </XpmCard>
   );
 };
+
+export const ProtectedExpensesDashboard = () => (
+  <AuthProtected>
+    <ExpensesDashboard />
+  </AuthProtected>
+);
