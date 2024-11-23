@@ -18,7 +18,9 @@ import Register from './Pages/Register/Register';
 import LoginWithFormik from './Pages/Home/Home';
 import MenuNavigation from './Pages/Expenses/AddExpenses/MenuNavigation';
 import { ProtectedManageLabels } from './Pages/Expenses/ManageLabels/ManageLabels';
-import './App.css';
+
+import './css/fonts.scss';
+import './App.scss';
 
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {

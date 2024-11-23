@@ -13,6 +13,7 @@ import { ForgotPassword } from './ForgotPassword';
 import { XpmCard } from '../../components/XpmCard';
 import { XpmCardContent } from '../../components/XpmCardContent';
 import { useUser } from '../../contexts/user/user.context';
+import { XpmButtonV2 } from '../../components/XpmButtonV2/XpmButtonV2';
 
 const TITLE = 'Expense Manager';
 
@@ -123,6 +124,7 @@ function Home() {
               disabled={isSubmitting}
               buttonName="Login"
             />
+            <XpmButtonV2 text="Login" onClick={() => {}} />
             <div className={classes.actionText}>
               You do not have an account? Register below
             </div>
