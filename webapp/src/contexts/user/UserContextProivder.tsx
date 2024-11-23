@@ -6,7 +6,7 @@ import { useRunOnce } from '../../hooks/useRunOnce';
 
 import { userContext, UserData } from './user.context';
 
-// TODO (valle) -> implement an interval that checks for token expiration and refreseh or revoke
+// TODO (valle) -> implement an interval that checks for token expiration and refresh or revoke
 export function UserContextProvider({ children }: React.PropsWithChildren) {
   const [user, setUser] = useState<UserData | null>(null);
   const [isInitializing, setIsInitializing] = useState(true);
