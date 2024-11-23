@@ -4,12 +4,13 @@ import { Construct } from "constructs";
 import { XpmVpc } from "./constructs/XpmVpc";
 import { RdsInstanceWithSecurityGroup } from "./constructs/XpmRds";
 import { Ec2WithSecurityGroup } from "./constructs/XpmEc2WithSg";
-import { XpmBucketWebapp } from "./constructs/XpmBucketWebapp";
+import { XpmSinglePageWebapp } from "./constructs/XpmSinglePageWebapp";
 
 export class InfrastructureStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    // TODO (Valle) -> replace "-prod" with "-${env}"
     const vpc = new XpmVpc(this, "main-prod");
 
     const mainRelDb = new RdsInstanceWithSecurityGroup(this, "main-prod", {
@@ -25,6 +26,6 @@ export class InfrastructureStack extends cdk.Stack {
       mainApi.securityGroup
     );
 
-    new XpmBucketWebapp(this, "webapp-prod");
+    new XpmSinglePageWebapp(this, "spa-prod");
   }
 }
