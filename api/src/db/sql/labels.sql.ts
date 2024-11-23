@@ -44,6 +44,10 @@ export async function selectLabels(filters: Filter<AllowedLabelsFilters>[]) {
 }
 
 export async function checkLabelsBelongToUser(label_ids: number[], user_id: number) {
+  if (label_ids.length === 0) {
+    return true;
+  }
+
   const query = `
     SELECT label_id FROM labels
     WHERE label_id IN (${label_ids.map(() => '?').join(', ')})

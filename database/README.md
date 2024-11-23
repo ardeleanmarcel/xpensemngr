@@ -1,4 +1,4 @@
-# mye-database
+# database
 
 ## TODO
 
