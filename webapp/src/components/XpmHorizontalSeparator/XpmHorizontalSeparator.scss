@@ -1,0 +1,6 @@
+@use '../../css/colors.scss' as colors;
+
+.XpmHorizontalSeparator {
+  height: 2px;
+  background-color: colors.$shadow-secondary;
+}

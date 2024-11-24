@@ -1,1 +1,12 @@
+// base colors
 $purple-500: rgba(72, 67, 217, 1);
+
+$gray-500-opacity-2: rgba(66, 66, 66, 0.2);
+$gray-300-opacity-25: rgba(161, 161, 161, 0.25);
+
+
+// cross-element aliases
+$highlight-primary: $purple-500;
+
+$shadow-primary: $gray-300-opacity-25;
+$shadow-secondary: $gray-500-opacity-2;

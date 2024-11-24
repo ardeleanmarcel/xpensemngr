@@ -15,8 +15,11 @@ import { XpmCardContent } from '../../components/XpmCardContent';
 import { useUser } from '../../contexts/user/user.context';
 import { XpmButtonV2 } from '../../components/XpmButtonV2/XpmButtonV2';
 import { XpmInputText } from '../../components/XpmInputText/XpmInputText';
+import { XpmText } from '../../components/XpmText/XpmText';
+import { XpmLogoMain } from '../../components/icons/XpmLogoMain/XpmLogoMain';
+import { XpmHorizontalSeparator } from '../../components/XpmHorizontalSeparator/XpmHorizontalSeparator';
 
-const TITLE = 'Expense Manager';
+const TITLE = 'Login';
 
 export const SUCCESS_MSG = 'You have successfully logged in.';
 export const FAIL_MSG = 'Fail! Make sure your credential are valid.';
@@ -78,13 +81,21 @@ function Home() {
       >
         <form onSubmit={handleSubmit}>
           <div className={classes.container}>
-            <XpmTypography
-              variant="h4"
-              component="h2"
-              align="center"
-              className={classes.title}
-              text={TITLE}
-            />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
+              <XpmLogoMain />
+              <XpmText content="Xpensemngr" size="m" />
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '8px',
+              }}
+            >
+              <XpmText content="Login" size="m" />
+              <XpmHorizontalSeparator width="32px" />
+            </div>
             <XpmInputText
               name="Username"
               value={form.username}
