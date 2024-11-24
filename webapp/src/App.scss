@@ -2,8 +2,15 @@
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+
+  min-inline-size: unset;
+
+  margin: unset;
+  margin-inline: unset;
+
+  padding: unset;
+  padding-block: unset;
+  padding-inline: unset;
 
   font-family: fonts.$font-default;
 }
