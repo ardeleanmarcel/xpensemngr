@@ -14,6 +14,7 @@ import { XpmCard } from '../../components/XpmCard';
 import { XpmCardContent } from '../../components/XpmCardContent';
 import { useUser } from '../../contexts/user/user.context';
 import { XpmButtonV2 } from '../../components/XpmButtonV2/XpmButtonV2';
+import { XpmInputText } from '../../components/XpmInputText/XpmInputText';
 
 const TITLE = 'Expense Manager';
 
@@ -54,11 +55,9 @@ function Home() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('calling handlesubmit');
     setIsSubmitting(true);
     const success = await signIn(form);
 
-    console.log('success', success);
     if (success) {
       displaySnackbar({ message: SUCCESS_MSG, type: 'success' });
       navigate('/add-expenses');
@@ -86,18 +85,12 @@ function Home() {
               className={classes.title}
               text={TITLE}
             />
-            <XpmTextField
-              id="username"
-              variant="outlined"
-              label="Username"
-              type="text"
-              name="username"
-              color="inputsColor"
+            <XpmInputText
+              name="Username"
+              value={form.username}
               onChange={(e) =>
                 setForm((p) => ({ ...p, username: e.target.value }))
               }
-              value={form.username}
-              disabled={isSubmitting}
             />
             <XpmTextField
               id="password"
