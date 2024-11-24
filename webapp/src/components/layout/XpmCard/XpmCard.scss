@@ -1,0 +1,12 @@
+@use '../../../css/colors.scss' as colors;
+
+.XpmCard {
+  min-width: 200px;
+  border-radius: 16px;
+  box-shadow: 2px 2px 20px 0 colors.$shadow-primary;
+  padding: 24px 32px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

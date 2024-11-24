@@ -1,4 +1,4 @@
-import { cleanObject } from '../../utils/object.utils';
+import { cleanObject } from '../../../utils/object.utils';
 
 import './XpmHorizontalSeparator.scss';
 
