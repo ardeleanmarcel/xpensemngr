@@ -126,6 +126,7 @@ function Home() {
           <XpmVerticalSpacer size="l" />
           <XpmInputText
             name="Password"
+            type="password"
             value={form.password}
             onChange={(e) =>
               setForm((p) => ({ ...p, password: e.target.value }))

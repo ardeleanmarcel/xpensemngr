@@ -6,6 +6,7 @@ interface XpmInputTextProps {
   value: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   width?: string;
+  type?: 'text' | 'password';
 }
 
 // TODO -> add transition from underline to outline
@@ -17,12 +18,13 @@ export function XpmInputText({
   value,
   onChange,
   width,
+  type = 'text',
 }: React.PropsWithChildren<XpmInputTextProps>) {
   const style = cleanObject({ width });
 
   return (
     <div className="XpmInputText" style={style}>
-      <input type="text" value={value} placeholder={name} onChange={onChange} />
+      <input type={type} value={value} placeholder={name} onChange={onChange} />
       <fieldset>
         <legend>{name}</legend>
       </fieldset>
