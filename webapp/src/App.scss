@@ -1,4 +1,12 @@
-/* leaving the comments here because we will return to this file to style the root of the project */
+@use './css/fonts.scss' as fonts;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  font-family: fonts.$font-default;
+}
 
 body {
   /* display: flex; */
