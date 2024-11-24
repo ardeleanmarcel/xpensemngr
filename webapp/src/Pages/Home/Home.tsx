@@ -8,7 +8,6 @@ import { useNotification } from '../../contexts/notification/notification.contex
 import { ColorModeContext } from '../../App';
 import { XpmButton } from '../../components/XpmButton';
 import { XpmTextField } from '../../components/XpmTextField';
-import { XpmTypography } from '../../components/XpmTypography';
 import { ForgotPassword } from './ForgotPassword';
 import { XpmCard } from '../../components/XpmCard';
 import { XpmCardContent } from '../../components/XpmCardContent';
@@ -18,8 +17,6 @@ import { XpmInputText } from '../../components/XpmInputText/XpmInputText';
 import { XpmText } from '../../components/XpmText/XpmText';
 import { XpmLogoMain } from '../../components/icons/XpmLogoMain/XpmLogoMain';
 import { XpmHorizontalSeparator } from '../../components/XpmHorizontalSeparator/XpmHorizontalSeparator';
-
-const TITLE = 'Login';
 
 export const SUCCESS_MSG = 'You have successfully logged in.';
 export const FAIL_MSG = 'Fail! Make sure your credential are valid.';
