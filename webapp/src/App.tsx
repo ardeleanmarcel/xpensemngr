@@ -19,7 +19,9 @@ import LoginWithFormik from './Pages/Home/Home';
 import MenuNavigation from './Pages/Expenses/AddExpenses/MenuNavigation';
 import { ProtectedManageLabels } from './Pages/Expenses/ManageLabels/ManageLabels';
 
+// TODO -> check best practices for this
 import './css/fonts.scss';
+import './css/colors.scss';
 import './App.scss';
 
 const getDesignTokens = (mode: PaletteMode) => ({

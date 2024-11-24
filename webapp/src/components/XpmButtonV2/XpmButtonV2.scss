@@ -1,7 +1,7 @@
 @use '../../css/fonts.scss' as fonts;
 
 .XpmButtonV2 {
-  @include fonts.font-regular-s;
+  @include fonts.font-regular-xs;
 
   // TODO -> create a file in the /fonts folder for colors
   background-color:  rgba(36, 153, 84, 1);

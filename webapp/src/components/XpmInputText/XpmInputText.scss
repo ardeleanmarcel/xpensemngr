@@ -1,25 +1,43 @@
 @use '../../css/fonts.scss' as fonts;
+@use '../../css/colors.scss' as colors;
+
+$element-height: 42px;
 
 .XpmInputText {
-  @include fonts.font-regular-s;
-
-  height: 42px;
+  height: $element-height;
   width: 460px;
-  // border: 1px solid black;
+  position: relative;
+
+  input {
+    @include fonts.font-regular-s;
+    height: 100%;
+    width: 100%;
+    padding: 6px 20px 0px;
+
+    color: colors.$purple-500;
+  }
 
   fieldset {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
 
-    border: 3px solid black;
-    border-radius: 20px;
-    background-color: aqua;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+
+    height: $element-height + 6px; // need to account for the legend "sticking out" at the top
+
+    pointer-events: none;
+
+    border-width: 1px;
+    border-style: solid;
+    border-color: colors.$purple-500;
+    border-radius: 16px;
 
     legend {
-      margin-left: 20px;
+      @include fonts.font-regular-xs;
+
+      color: colors.$purple-500;
+      margin-left: 24px;
       padding: 0 8px;
     }
   }

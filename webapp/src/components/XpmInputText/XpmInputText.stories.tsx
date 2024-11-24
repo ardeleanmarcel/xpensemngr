@@ -16,6 +16,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Regular: Story = {
   args: {
-    value: 'Here is the content',
+    value: 'i-am-th3-be@st',
+    name: 'Username',
   },
 };
