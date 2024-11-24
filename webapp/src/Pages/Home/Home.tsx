@@ -69,69 +69,94 @@ function Home() {
   };
 
   return (
-    <XpmCardV2 width="700px">
+    <div
+      style={{
+        height: '100%',
+        position: 'relative',
+        backgroundImage: `url('/images/piggyV2.jpg')`, // Path relative to the public folder
+
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       <div
         style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: '18px',
+          position: 'absolute',
+          right: '50%',
+          top: '50%',
+          transform: 'translate(5%, -50%)',
         }}
       >
-        <XpmLogoMain />
-        <XpmText content="Xpensemngr" size="m" />
+        <XpmCardV2 width="700px">
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '18px',
+            }}
+          >
+            <XpmLogoMain />
+            <XpmText content="Xpensemngr" size="m" />
+          </div>
+          <XpmVerticalSpacer size="m" />
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <XpmText content="Login" size="m" />
+            <XpmHorizontalSeparator width="32px" />
+          </div>
+          <XpmVerticalSpacer size="xxxl" />
+          <XpmVerticalSpacer size="l" />
+          <XpmInputText
+            name="Username"
+            value={form.username}
+            onChange={(e) =>
+              setForm((p) => ({ ...p, username: e.target.value }))
+            }
+            width="460px"
+          />
+          <XpmVerticalSpacer size="xxxl" />
+          <XpmVerticalSpacer size="l" />
+          <XpmInputText
+            name="Password"
+            value={form.password}
+            onChange={(e) =>
+              setForm((p) => ({ ...p, password: e.target.value }))
+            }
+            width="460px"
+          />
+          <XpmVerticalSpacer size="l" />
+          <ForgotPassword />
+          <XpmVerticalSpacer size="l" />
+          <XpmButtonV2 text="Login" onClick={handleSubmit} />
+          <XpmVerticalSpacer size="l" />
+          <div className={classes.actionText}>
+            You do not have an account? Register below
+          </div>
+          <XpmVerticalSpacer size="l" />
+          <XpmButton
+            variant="outlined"
+            color="secondary"
+            sx={{
+              border: '1px solid',
+              borderColor: mode === 'light' ? 'black' : 'white',
+              boxShadow: 3,
+            }}
+            fullWidth
+            onClick={handleRegister}
+            disabled={isSubmitting}
+            buttonName="Register"
+          />
+        </XpmCardV2>
       </div>
-      <XpmVerticalSpacer size="m" />
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '8px',
-        }}
-      >
-        <XpmText content="Login" size="m" />
-        <XpmHorizontalSeparator width="32px" />
-      </div>
-      <XpmVerticalSpacer size="xxxl" />
-      <XpmVerticalSpacer size="l" />
-      <XpmInputText
-        name="Username"
-        value={form.username}
-        onChange={(e) => setForm((p) => ({ ...p, username: e.target.value }))}
-        width="460px"
-      />
-      <XpmVerticalSpacer size="xxxl" />
-      <XpmVerticalSpacer size="l" />
-      <XpmInputText
-        name="Password"
-        value={form.password}
-        onChange={(e) => setForm((p) => ({ ...p, password: e.target.value }))}
-        width="460px"
-      />
-      <XpmVerticalSpacer size="l" />
-      <ForgotPassword />
-      <XpmVerticalSpacer size="l" />
-      <XpmButtonV2 text="Login" onClick={handleSubmit} />
-      <XpmVerticalSpacer size="l" />
-      <div className={classes.actionText}>
-        You do not have an account? Register below
-      </div>
-      <XpmVerticalSpacer size="l" />
-      <XpmButton
-        variant="outlined"
-        color="secondary"
-        sx={{
-          border: '1px solid',
-          borderColor: mode === 'light' ? 'black' : 'white',
-          boxShadow: 3,
-        }}
-        fullWidth
-        onClick={handleRegister}
-        disabled={isSubmitting}
-        buttonName="Register"
-      />
-    </XpmCardV2>
+    </div>
   );
 }
 
