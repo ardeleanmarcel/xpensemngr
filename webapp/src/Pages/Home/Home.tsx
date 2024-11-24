@@ -7,7 +7,6 @@ import { makeStyles } from '@mui/styles';
 import { useNotification } from '../../contexts/notification/notification.context';
 import { ColorModeContext } from '../../App';
 import { XpmButton } from '../../components/XpmButton';
-import { XpmTextField } from '../../components/XpmTextField';
 import { ForgotPassword } from './ForgotPassword';
 import { useUser } from '../../contexts/user/user.context';
 import { XpmButtonV2 } from '../../components/XpmButtonV2/XpmButtonV2';
@@ -16,6 +15,7 @@ import { XpmText } from '../../components/XpmText/XpmText';
 import { XpmLogoMain } from '../../components/icons/XpmLogoMain/XpmLogoMain';
 import { XpmHorizontalSeparator } from '../../components/layout/XpmHorizontalSeparator/XpmHorizontalSeparator';
 import { XpmCardV2 } from '../../components/layout/XpmCard/XpmCard';
+import { XpmVerticalSpacer } from '../../components/layout/XpmVerticalSpacer/XpmVerticalSpacer';
 
 export const SUCCESS_MSG = 'You have successfully logged in.';
 export const FAIL_MSG = 'Fail! Make sure your credential are valid.';
@@ -81,6 +81,7 @@ function Home() {
         <XpmLogoMain />
         <XpmText content="Xpensemngr" size="m" />
       </div>
+      <XpmVerticalSpacer size="m" />
       <div
         style={{
           display: 'flex',
@@ -92,28 +93,31 @@ function Home() {
         <XpmText content="Login" size="m" />
         <XpmHorizontalSeparator width="32px" />
       </div>
+      <XpmVerticalSpacer size="xxxl" />
+      <XpmVerticalSpacer size="l" />
       <XpmInputText
         name="Username"
         value={form.username}
         onChange={(e) => setForm((p) => ({ ...p, username: e.target.value }))}
         width="460px"
       />
-      <XpmTextField
-        id="password"
-        variant="outlined"
-        label="Password"
-        type="password"
-        name="password"
-        color="inputsColor"
-        onChange={(e) => setForm((p) => ({ ...p, password: e.target.value }))}
+      <XpmVerticalSpacer size="xxxl" />
+      <XpmVerticalSpacer size="l" />
+      <XpmInputText
+        name="Password"
         value={form.password}
-        disabled={isSubmitting}
+        onChange={(e) => setForm((p) => ({ ...p, password: e.target.value }))}
+        width="460px"
       />
+      <XpmVerticalSpacer size="l" />
       <ForgotPassword />
+      <XpmVerticalSpacer size="l" />
       <XpmButtonV2 text="Login" onClick={handleSubmit} />
+      <XpmVerticalSpacer size="l" />
       <div className={classes.actionText}>
         You do not have an account? Register below
       </div>
+      <XpmVerticalSpacer size="l" />
       <XpmButton
         variant="outlined"
         color="secondary"
