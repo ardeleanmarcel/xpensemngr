@@ -7,6 +7,20 @@
 
 $font-default: 'Ubuntu', sans-serif;
 
+@mixin font-regular-3xs {
+  font-family: $font-default;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+}
+
+@mixin font-regular-xxs {
+  font-family: $font-default;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
+
 @mixin font-regular-xs {
   font-family: $font-default;
   font-weight: 400;

@@ -1,0 +1,94 @@
+@use '../../../css/fonts.scss' as fonts;
+$offset-from-center: 100px;
+
+.XpmLoadingSpinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+
+  .XpmLoadingSpinner--rotatingWrapper {
+    // background-color: azure;
+    position: absolute;
+    // width: 100%;
+    // height: 100%;
+    width: 2 * $offset-from-center + 150px;
+    height: 2 * $offset-from-center + 150px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    animation: rotate-around-center 5s linear infinite;
+    // overflow: hidden;
+  }
+
+  span {
+    @include fonts.font-regular-m;
+    position: absolute;
+    z-index: 1;
+    background-color: aqua;
+    width: 20px;
+    height: 20px;
+
+    // USD
+    &:nth-child(1) {
+      top: calc(50% - #{$offset-from-center});
+      left: 50%;
+      animation: slide-out-usd 5s ease-out forwards;
+    }
+
+    // EUR
+    &:nth-child(2) {
+      top: calc(50% + #{$offset-from-center * 0.5});
+      left: calc(50% - #{$offset-from-center * 0.866});
+      animation: slide-out-eur 5s ease-out forwards;
+      animation-delay: 0.2s; // Starts immediately
+    }
+
+    // GBP
+    &:nth-child(3) {
+      transform-origin: center;
+      top: calc(50% + #{$offset-from-center * 0.5});
+      left: calc(50% + #{$offset-from-center * 0.866});
+      animation: slide-out-gbp 5s ease-out forwards;
+      animation-delay: 0.4s; // Starts immediately
+    }
+  }
+}
+
+@keyframes rotate-around-center {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes slide-out-usd {
+  0% {
+    transform: translate(0px, $offset-from-center) scale(0); // Start from center
+  }
+  100% {
+    transform: translate(0, 0) scale(1); // Reach full size and final position
+  }
+}
+
+@keyframes slide-out-eur {
+  0% {
+    transform: translate(#{$offset-from-center * 0.866}, -#{$offset-from-center * 0.50}) scale(0) rotate(240deg); // Start from center
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1) rotate(240deg); // Move to bottom-left vertex
+  }
+}
+
+@keyframes slide-out-gbp {
+  0% {
+    transform: translate(-#{$offset-from-center * 0.866}, -#{$offset-from-center * 0.5}) scale(0) rotate(120deg); // Start from center
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1) rotate(120deg); // Move to bottom-right vertex
+  }
+}

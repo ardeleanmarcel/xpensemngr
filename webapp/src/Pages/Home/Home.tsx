@@ -16,6 +16,7 @@ import { XpmLogoMain } from '../../components/icons/XpmLogoMain/XpmLogoMain';
 import { XpmHorizontalSeparator } from '../../components/layout/XpmHorizontalSeparator/XpmHorizontalSeparator';
 import { XpmCardV2 } from '../../components/layout/XpmCard/XpmCard';
 import { XpmVerticalSpacer } from '../../components/layout/XpmVerticalSpacer/XpmVerticalSpacer';
+import { XpmLoadingSpinner } from '../../components/info/XpmLoadingSpinner/XpmLoadingSpinner';
 
 export const SUCCESS_MSG = 'You have successfully logged in.';
 export const FAIL_MSG = 'Fail! Make sure your credential are valid.';
@@ -80,6 +81,7 @@ function Home() {
         backgroundRepeat: 'no-repeat',
       }}
     >
+      <XpmLoadingSpinner />
       <div
         style={{
           position: 'absolute',
