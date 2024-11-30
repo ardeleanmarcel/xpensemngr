@@ -1,6 +1,12 @@
 @use '../../../css/fonts.scss' as fonts;
 $offset-from-center: 30px;
 
+@mixin currency($index, $name) {
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate($index * 72deg) scale(0) translateY(0px);
+  animation: slide-#{$name} 0.3s linear forwards #{(($index - 1) * 0.1 + (0.4 / $index))}s;
+}
+
 .XpmLoadingSpinner {
   position: absolute;
   top: 0;
@@ -30,37 +36,27 @@ $offset-from-center: 30px;
 
     // USD
     &:nth-child(1) {
-      opacity: 0;
-      transform: translate(-50%, -50%) rotate(0deg) translateY(0px);
-      animation: slide-usd 1s ease-out forwards 0.35s;
+      @include currency(1, usd);
     }
 
     // EUR
     &:nth-child(2) {
-      opacity: 0;
-      transform: translate(-50%, -50%) rotate(72deg) translateY(0px);
-      animation: slide-eur 1s ease-out forwards 0.27s;
+      @include currency(2, eur);
     }
 
     // GBP
     &:nth-child(3) {
-      opacity: 0;
-      transform: translate(-50%, -50%) rotate(144deg) translateY(0px);
-      animation: slide-gbp 1s ease-out forwards 0.2s;
+      @include currency(3, gbp);
     }
 
     // YEN
     &:nth-child(4) {
-      opacity: 0;
-      transform: translate(-50%, -50%) rotate(216deg) translateY(0px);
-      animation: slide-yen 1s ease-out forwards 0.1s;
+      @include currency(4, yen);
     }
 
     // WON
     &:nth-child(5) {
-      opacity: 0;
-      transform: translate(-50%, -50%) rotate(288deg) translateY(0px);
-      animation: slide-won 1s ease-out forwards 0s;
+      @include currency(5, php);
     }
   }
 }
@@ -117,7 +113,7 @@ $offset-from-center: 30px;
     transform: translate(-50%, -50%) rotate(216deg) scale(1) translateY(-$offset-from-center);
   }
 }
-@keyframes slide-won {
+@keyframes slide-php {
   0% {
     opacity: 0;
     transform: translate(-50%, -50%) rotate(288deg) scale(0) translateY(0px);

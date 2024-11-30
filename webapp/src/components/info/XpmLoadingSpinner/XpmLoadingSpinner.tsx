@@ -20,7 +20,7 @@ export function XpmLoadingSpinner() {
         <span>€</span>
         <span>£</span>
         <span>¥</span>
-        <span>₩</span>
+        <span>₱</span>
       </div>
     </div>
   );
