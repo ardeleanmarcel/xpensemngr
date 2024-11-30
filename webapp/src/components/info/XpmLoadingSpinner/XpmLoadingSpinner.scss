@@ -1,5 +1,5 @@
 @use '../../../css/fonts.scss' as fonts;
-$offset-from-center: 100px;
+$offset-from-center: 30px;
 
 .XpmLoadingSpinner {
   position: absolute;
@@ -10,49 +10,57 @@ $offset-from-center: 100px;
   background-color: rgba(0, 0, 0, 0.3);
 
   .XpmLoadingSpinner--rotatingWrapper {
-    // background-color: azure;
     position: absolute;
-    // width: 100%;
-    // height: 100%;
     width: 2 * $offset-from-center + 150px;
     height: 2 * $offset-from-center + 150px;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     animation: rotate-around-center 5s linear infinite;
-    // overflow: hidden;
   }
 
   span {
     @include fonts.font-regular-m;
     position: absolute;
-    z-index: 1;
-    background-color: aqua;
     width: 20px;
     height: 20px;
 
+    top: 50%;
+    left: 50%;
+
     // USD
     &:nth-child(1) {
-      top: calc(50% - #{$offset-from-center});
-      left: 50%;
-      animation: slide-out-usd 5s ease-out forwards;
+      opacity: 0;
+      transform: translate(-50%, -50%) rotate(0deg) translateY(0px);
+      animation: slide-usd 1s ease-out forwards 0.35s;
     }
 
     // EUR
     &:nth-child(2) {
-      top: calc(50% + #{$offset-from-center * 0.5});
-      left: calc(50% - #{$offset-from-center * 0.866});
-      animation: slide-out-eur 5s ease-out forwards;
-      animation-delay: 0.2s; // Starts immediately
+      opacity: 0;
+      transform: translate(-50%, -50%) rotate(72deg) translateY(0px);
+      animation: slide-eur 1s ease-out forwards 0.27s;
     }
 
     // GBP
     &:nth-child(3) {
-      transform-origin: center;
-      top: calc(50% + #{$offset-from-center * 0.5});
-      left: calc(50% + #{$offset-from-center * 0.866});
-      animation: slide-out-gbp 5s ease-out forwards;
-      animation-delay: 0.4s; // Starts immediately
+      opacity: 0;
+      transform: translate(-50%, -50%) rotate(144deg) translateY(0px);
+      animation: slide-gbp 1s ease-out forwards 0.2s;
+    }
+
+    // YEN
+    &:nth-child(4) {
+      opacity: 0;
+      transform: translate(-50%, -50%) rotate(216deg) translateY(0px);
+      animation: slide-yen 1s ease-out forwards 0.1s;
+    }
+
+    // WON
+    &:nth-child(5) {
+      opacity: 0;
+      transform: translate(-50%, -50%) rotate(288deg) translateY(0px);
+      animation: slide-won 1s ease-out forwards 0s;
     }
   }
 }
@@ -66,29 +74,56 @@ $offset-from-center: 100px;
   }
 }
 
-@keyframes slide-out-usd {
+@keyframes slide-usd {
   0% {
-    transform: translate(0px, $offset-from-center) scale(0); // Start from center
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(0deg) scale(0) translateY(0px);
   }
   100% {
-    transform: translate(0, 0) scale(1); // Reach full size and final position
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg) scale(1) translateY(-$offset-from-center);
   }
 }
 
-@keyframes slide-out-eur {
+@keyframes slide-eur {
   0% {
-    transform: translate(#{$offset-from-center * 0.866}, -#{$offset-from-center * 0.50}) scale(0) rotate(240deg); // Start from center
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(72deg) scale(0) translateY(0px);
   }
   100% {
-    transform: translate(0px, 0px) scale(1) rotate(240deg); // Move to bottom-left vertex
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(72deg) scale(1) translateY(-$offset-from-center);
   }
 }
 
-@keyframes slide-out-gbp {
+@keyframes slide-gbp {
   0% {
-    transform: translate(-#{$offset-from-center * 0.866}, -#{$offset-from-center * 0.5}) scale(0) rotate(120deg); // Start from center
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(144deg) scale(0) translateY(0px);
   }
   100% {
-    transform: translate(0px, 0px) scale(1) rotate(120deg); // Move to bottom-right vertex
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(144deg) scale(1) translateY(-$offset-from-center);
+  }
+}
+
+@keyframes slide-yen {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(216deg) scale(0) translateY(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(216deg) scale(1) translateY(-$offset-from-center);
+  }
+}
+@keyframes slide-won {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(288deg) scale(0) translateY(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(288deg) scale(1) translateY(-$offset-from-center);
   }
 }
