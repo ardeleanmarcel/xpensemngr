@@ -1,11 +1,14 @@
 @use '../../../css/fonts.scss' as fonts;
-$offset-from-center: 30px;
 
-@mixin currency($index, $name) {
+$offset-from-center: 30px;
+$number-of-currencies: 5;
+$angle-between-currencies: calc(360 / $number-of-currencies);
+
+@mixin currency($index) {
   &:nth-child(#{$index}) {
     opacity: 0;
-    transform: translate(-50%, -50%) rotate($index * 72deg) scale(0) translateY(0px);
-    animation: slide-#{$name} 0.3s linear forwards #{(($index - 1) * 0.1 + (0.4 / $index))}s;
+    transform: translate(-50%, -50%) rotate(#{$angle-between-currencies * $index}deg) scale(0) translateY(0px);
+    animation: slide-currency-#{$index} 0.3s ease-out forwards #{(($index - 1) * 0.1 + calc(0.4 / $index))}s;
   }
 }
 
@@ -36,11 +39,9 @@ $offset-from-center: 30px;
     top: 50%;
     left: 50%;
 
-      @include currency(1, usd);
-      @include currency(2, eur);
-      @include currency(3, gbp);
-      @include currency(4, yen);
-      @include currency(5, php);
+    @for $i from 1 through $number-of-currencies {
+      @include currency($i);
+    }
   }
 }
 
@@ -53,56 +54,15 @@ $offset-from-center: 30px;
   }
 }
 
-@keyframes slide-usd {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) rotate(0deg) scale(0) translateY(0px);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) rotate(0deg) scale(1) translateY(-$offset-from-center);
-  }
-}
-
-@keyframes slide-eur {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) rotate(72deg) scale(0) translateY(0px);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) rotate(72deg) scale(1) translateY(-$offset-from-center);
-  }
-}
-
-@keyframes slide-gbp {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) rotate(144deg) scale(0) translateY(0px);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) rotate(144deg) scale(1) translateY(-$offset-from-center);
-  }
-}
-
-@keyframes slide-yen {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) rotate(216deg) scale(0) translateY(0px);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) rotate(216deg) scale(1) translateY(-$offset-from-center);
-  }
-}
-@keyframes slide-php {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) rotate(288deg) scale(0) translateY(0px);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) rotate(288deg) scale(1) translateY(-$offset-from-center);
+@for $i from 1 through $number-of-currencies {
+  @keyframes slide-currency-#{$i} {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -50%) rotate(#{$angle-between-currencies * ($i - 1)}deg) scale(0) translateY(0px);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(-50%, -50%) rotate(#{$angle-between-currencies * ($i - 1)}deg) scale(1) translateY(-$offset-from-center);
+    }
   }
 }
