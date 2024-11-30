@@ -47,7 +47,6 @@ function Home() {
 
   const [form, setForm] = useState({ username: '', password: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showSpinner, setShowSpinner] = useState(false);
 
   const handleRegister = () => {
     navigate('/register');
@@ -69,8 +68,6 @@ function Home() {
     setIsSubmitting(false);
   };
 
-  console.log('showSpinner', showSpinner);
-
   return (
     <div
       style={{
@@ -83,7 +80,6 @@ function Home() {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <button onClick={() => setShowSpinner(!showSpinner)}>spin</button>
       <div
         style={{
           position: 'absolute',
@@ -92,8 +88,7 @@ function Home() {
           transform: 'translate(5%, -50%)',
         }}
       >
-        <XpmCardV2 width="700px" showLoading={showSpinner}>
-          {/* <XpmLoadingSpinner isVisible={showSpinner} /> */}
+        <XpmCardV2 width="700px" showLoading={isSubmitting}>
           <div
             style={{
               display: 'flex',

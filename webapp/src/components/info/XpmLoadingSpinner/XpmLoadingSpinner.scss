@@ -26,6 +26,7 @@ $fade-in-duration: 0.2;
   pointer-events: none;
 
   &--visible {
+    pointer-events: unset;
     opacity: 1;
   }
 

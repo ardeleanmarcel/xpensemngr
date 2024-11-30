@@ -16,8 +16,8 @@ export function XpmCardV2({
 
   return (
     <div className="XpmCard" style={style}>
-      <XpmLoadingSpinner isVisible={showLoading} />
       {children}
+      <XpmLoadingSpinner isVisible={showLoading} />
     </div>
   );
 }
