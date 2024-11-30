@@ -2,9 +2,11 @@
 $offset-from-center: 30px;
 
 @mixin currency($index, $name) {
-  opacity: 0;
-  transform: translate(-50%, -50%) rotate($index * 72deg) scale(0) translateY(0px);
-  animation: slide-#{$name} 0.3s linear forwards #{(($index - 1) * 0.1 + (0.4 / $index))}s;
+  &:nth-child(#{$index}) {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate($index * 72deg) scale(0) translateY(0px);
+    animation: slide-#{$name} 0.3s linear forwards #{(($index - 1) * 0.1 + (0.4 / $index))}s;
+  }
 }
 
 .XpmLoadingSpinner {
@@ -34,30 +36,11 @@ $offset-from-center: 30px;
     top: 50%;
     left: 50%;
 
-    // USD
-    &:nth-child(1) {
       @include currency(1, usd);
-    }
-
-    // EUR
-    &:nth-child(2) {
       @include currency(2, eur);
-    }
-
-    // GBP
-    &:nth-child(3) {
       @include currency(3, gbp);
-    }
-
-    // YEN
-    &:nth-child(4) {
       @include currency(4, yen);
-    }
-
-    // WON
-    &:nth-child(5) {
       @include currency(5, php);
-    }
   }
 }
 
