@@ -3,12 +3,13 @@
 $offset-from-center: 30px;
 $number-of-currencies: 5;
 $angle-between-currencies: calc(360 / $number-of-currencies);
+$fade-in-duration: 0.2;
 
-@mixin currency($index) {
-  &:nth-child(#{$index}) {
+@mixin currency($idx) {
+  &:nth-child(#{$idx}) {
     opacity: 0;
-    transform: translate(-50%, -50%) rotate(#{$angle-between-currencies * $index}deg) scale(0) translateY(0px);
-    animation: slide-currency-#{$index} 0.3s ease-out forwards #{(($index - 1) * 0.1 + calc(0.4 / $index))}s;
+    transform: translate(-50%, -50%) rotate(#{$angle-between-currencies * $idx}deg) scale(0) translateY(0px);
+    animation: slide-currency-#{$idx} 0.3s ease-out forwards #{(($idx - 1) * 0.05)}s;
   }
 }
 
@@ -18,7 +19,15 @@ $angle-between-currencies: calc(360 / $number-of-currencies);
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.15);
+
+  transition-duration: #{$fade-in-duration}s;
+  opacity: 0;
+  pointer-events: none;
+
+  &--visible {
+    opacity: 1;
+  }
 
   .XpmLoadingSpinner--rotatingWrapper {
     position: absolute;
@@ -27,20 +36,18 @@ $angle-between-currencies: calc(360 / $number-of-currencies);
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    animation: rotate-around-center 5s linear infinite;
-  }
+    animation: rotate-around-center 3s linear infinite;
 
-  span {
-    @include fonts.font-regular-m;
-    position: absolute;
-    width: 20px;
-    height: 20px;
+    span {
+      @include fonts.font-bold-sm;
+      position: absolute;
 
-    top: 50%;
-    left: 50%;
+      top: 50%;
+      left: 50%;
 
-    @for $i from 1 through $number-of-currencies {
-      @include currency($i);
+      @for $i from 1 through $number-of-currencies {
+        @include currency($i);
+      }
     }
   }
 }
@@ -61,7 +68,7 @@ $angle-between-currencies: calc(360 / $number-of-currencies);
       transform: translate(-50%, -50%) rotate(#{$angle-between-currencies * ($i - 1)}deg) scale(0) translateY(0px);
     }
     100% {
-      opacity: 1;
+      opacity: 0.4;
       transform: translate(-50%, -50%) rotate(#{$angle-between-currencies * ($i - 1)}deg) scale(1) translateY(-$offset-from-center);
     }
   }
