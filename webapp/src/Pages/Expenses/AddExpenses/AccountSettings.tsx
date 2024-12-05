@@ -11,11 +11,13 @@ import ContrastIcon from '@mui/icons-material/Contrast';
 
 import { ColorModeContext } from '../../../App';
 import { XpmBox } from '../../../components/XpmBox';
+import { useUser } from '../../../contexts/user/user.context';
 
 export function AccountSettings() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const { toggleColorMode } = useContext(ColorModeContext);
+  const { signOut } = useUser();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -23,6 +25,11 @@ export function AccountSettings() {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    setAnchorEl(null);
+    signOut();
   };
 
   return (
@@ -97,7 +104,7 @@ export function AccountSettings() {
           <ListItemIcon>{<ContrastIcon fontSize="small" />}</ListItemIcon>
           Change Theme
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>{<Logout fontSize="small" />}</ListItemIcon>
           Logout
         </MenuItem>

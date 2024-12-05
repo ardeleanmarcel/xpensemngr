@@ -5,6 +5,7 @@ import Tab from '@mui/material/Tab';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AccountSettings } from './AccountSettings';
 import { Box, Stack } from '@mui/material';
+import { useUser } from '../../../contexts/user/user.context';
 
 interface LinkTabProps {
   label?: string;
@@ -16,6 +17,7 @@ function LinkTab(props: LinkTabProps) {
 
 export default function MenuNavigation() {
   const [value, setValue] = useState(0);
+  const { user } = useUser();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -50,6 +52,10 @@ export default function MenuNavigation() {
         break;
     }
   };
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <Stack

@@ -1,0 +1,21 @@
+@use '../../css/fonts.scss' as fonts;
+
+.XpmText {
+  color: black; // TODO -> is this the default color?
+}
+
+.XpmText--xs {
+  @include fonts.font-regular-xs;
+}
+
+.XpmText--s {
+  @include fonts.font-regular-s;
+}
+
+.XpmText--sm {
+  @include fonts.font-regular-sm;
+}
+
+.XpmText--m {
+  @include fonts.font-regular-m;
+}

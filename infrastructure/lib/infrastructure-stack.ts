@@ -6,6 +6,7 @@ import { RdsInstanceWithSecurityGroup } from "./constructs/XpmRds";
 import { Ec2WithSecurityGroup } from "./constructs/XpmEc2WithSg";
 import { XpmSinglePageWebapp } from "./constructs/XpmSinglePageWebapp";
 
+// TODO (Valle) ->  use this: constructA.node.addDependency(constructB)
 export class InfrastructureStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);

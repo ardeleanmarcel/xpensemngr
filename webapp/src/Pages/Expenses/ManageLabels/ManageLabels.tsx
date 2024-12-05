@@ -9,6 +9,7 @@ import { XpmCard } from '../../../components/XpmCard';
 import { XpmCardContent } from '../../../components/XpmCardContent';
 import { XpmPaper } from '../../../components/XpmPaper';
 import { ColumnTableV2, XpmTableV2 } from '../../../components/XpmTableV2';
+import { AuthProtected } from '../../../components/utils/AuthProtected';
 import { AddLabel } from './components/AddLabel';
 
 const useStyles = makeStyles<Theme>((theme) => ({
@@ -120,3 +121,9 @@ export const ManageLabels = () => {
     </XpmCard>
   );
 };
+
+export const ProtectedManageLabels = () => (
+  <AuthProtected>
+    <ManageLabels />
+  </AuthProtected>
+);
