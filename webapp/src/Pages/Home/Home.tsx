@@ -1,13 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
-
-import { Theme } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { useState } from 'react';
 
 import { useNotification } from '../../contexts/notification/notification.context';
-import { ColorModeContext } from '../../App';
-import { XpmButton } from '../../components/XpmButton';
-import { ForgotPassword } from './ForgotPassword';
 import { useUser } from '../../contexts/user/user.context';
 import { XpmButtonV2 } from '../../components/XpmButtonV2/XpmButtonV2';
 import { XpmInputText } from '../../components/XpmInputText/XpmInputText';
@@ -16,41 +10,19 @@ import { XpmLogoMain } from '../../components/icons/XpmLogoMain/XpmLogoMain';
 import { XpmHorizontalSeparator } from '../../components/layout/XpmHorizontalSeparator/XpmHorizontalSeparator';
 import { XpmCardV2 } from '../../components/layout/XpmCard/XpmCard';
 import { XpmVerticalSpacer } from '../../components/layout/XpmVerticalSpacer/XpmVerticalSpacer';
+import { XpmLinkButton } from '../../components/input/XpmLinkButton/XpmLinkButton';
 
 export const SUCCESS_MSG = 'You have successfully logged in.';
 export const FAIL_MSG = 'Fail! Make sure your credential are valid.';
 
-const useStyles = makeStyles<Theme>((theme) => ({
-  container: {
-    display: 'grid',
-    gap: '50px',
-  },
-  title: {
-    color: theme.palette.text.primary,
-    marginTop: '40px !important',
-    //TODO -> remove '!important'
-  },
-  actionText: {
-    display: 'flex',
-    justifyContent: 'center',
-    color: theme.palette.text.primary,
-  },
-}));
-
 function Home() {
-  const classes = useStyles();
   const navigate = useNavigate();
   const { displaySnackbar } = useNotification();
 
-  const { mode } = useContext(ColorModeContext);
   const { signIn } = useUser();
 
   const [form, setForm] = useState({ username: '', password: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleRegister = () => {
-    navigate('/register');
-  };
 
   // TODO -> fix type for event
   const handleSubmit = async (e) => {
@@ -117,9 +89,7 @@ function Home() {
           <XpmInputText
             name="Username"
             value={form.username}
-            onChange={(e) =>
-              setForm((p) => ({ ...p, username: e.target.value }))
-            }
+            onChange={(e) => setForm((p) => ({ ...p, username: e.target.value }))}
             width="460px"
           />
           <XpmVerticalSpacer size="xxxl" />
@@ -128,33 +98,29 @@ function Home() {
             name="Password"
             type="password"
             value={form.password}
-            onChange={(e) =>
-              setForm((p) => ({ ...p, password: e.target.value }))
-            }
+            onChange={(e) => setForm((p) => ({ ...p, password: e.target.value }))}
             width="460px"
           />
-          <XpmVerticalSpacer size="l" />
-          <ForgotPassword />
-          <XpmVerticalSpacer size="l" />
-          <XpmButtonV2 text="Login" onClick={handleSubmit} />
-          <XpmVerticalSpacer size="l" />
-          <div className={classes.actionText}>
-            You do not have an account? Register below
+          <XpmVerticalSpacer size="xs" />
+          <div style={{ display: 'flex', justifyContent: 'flex-end', width: '450px' }}>
+            <XpmLinkButton text="Forgot Password" to="/forgot-password" size="xs" showUnderline={false} />
           </div>
           <XpmVerticalSpacer size="l" />
-          <XpmButton
-            variant="outlined"
-            color="secondary"
-            sx={{
-              border: '1px solid',
-              borderColor: mode === 'light' ? 'black' : 'white',
-              boxShadow: 3,
+          <XpmButtonV2 text="Login" onClick={handleSubmit} />
+          <XpmVerticalSpacer size="xxl" />
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '480px',
             }}
-            fullWidth
-            onClick={handleRegister}
-            disabled={isSubmitting}
-            buttonName="Register"
-          />
+          >
+            <XpmText content="Don't have an account?" />
+            <XpmLinkButton text="Register Here" to="/register" />
+          </div>
+          <XpmVerticalSpacer size="xxl" />
+          <XpmLinkButton text="Continue without an account" onClick={() => console.log('Continue without an account')} />
+          <XpmVerticalSpacer size="xs" />
         </XpmCardV2>
       </div>
     </div>
