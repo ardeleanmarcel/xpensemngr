@@ -1,0 +1,24 @@
+.BasicDialog--container {
+
+}
+
+.BasicDialog {
+  // TODO (Valle) -> this z-index is here because of the way Material UI renders tables and should be removed
+  z-index: 3;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  &--open {
+    display: flex;
+  }
+}

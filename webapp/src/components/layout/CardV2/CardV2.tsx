@@ -1,7 +1,7 @@
 import { cleanObject } from '../../../utils/object.utils';
 import { XpmLoadingSpinner } from '../../info/XpmLoadingSpinner/XpmLoadingSpinner';
 
-import './XpmCardV2.scss';
+import './CardV2.scss';
 
 interface XpmCardProps {
   width?: string;
@@ -9,7 +9,7 @@ interface XpmCardProps {
   showLoading?: boolean;
 }
 
-export function XpmCardV2({ width, height, showLoading = false, children }: React.PropsWithChildren<XpmCardProps>) {
+export function CardV2({ width, height, showLoading = false, children }: React.PropsWithChildren<XpmCardProps>) {
   const style = cleanObject({ width, height });
 
   return (

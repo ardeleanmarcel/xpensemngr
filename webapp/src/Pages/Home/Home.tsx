@@ -8,7 +8,7 @@ import { XpmInputText } from '../../components/XpmInputText/XpmInputText';
 import { XpmText } from '../../components/XpmText/XpmText';
 import { XpmLogoMain } from '../../components/icons/XpmLogoMain/XpmLogoMain';
 import { XpmHorizontalSeparator } from '../../components/layout/XpmHorizontalSeparator/XpmHorizontalSeparator';
-import { XpmCardV2 } from '../../components/layout/XpmCardV2/XpmCardV2';
+import { CardV2 } from '../../components/layout/CardV2/CardV2';
 import { XpmVerticalSpacer } from '../../components/layout/XpmVerticalSpacer/XpmVerticalSpacer';
 import { XpmLinkButton } from '../../components/input/XpmLinkButton/XpmLinkButton';
 
@@ -59,7 +59,7 @@ function Home() {
           transform: 'translate(5%, -50%)',
         }}
       >
-        <XpmCardV2 width="700px" showLoading={isSubmitting}>
+        <CardV2 width="700px" showLoading={isSubmitting}>
           <div
             style={{
               display: 'flex',
@@ -120,7 +120,7 @@ function Home() {
           <XpmVerticalSpacer size="xxl" />
           <XpmLinkButton text="Continue without an account" onClick={() => console.log('Continue without an account')} />
           <XpmVerticalSpacer size="xs" />
-        </XpmCardV2>
+        </CardV2>
       </div>
     </div>
   );
