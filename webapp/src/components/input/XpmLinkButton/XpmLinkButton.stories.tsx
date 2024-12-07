@@ -1,17 +1,23 @@
 import type { Meta, StoryObj } from '@storybook/react';
-
-import { XpmLinkButton } from './XpmLinkButton';
 import { fn } from '@storybook/test';
 
-// TODO (Valle) -> can this work without the react-rotuter-dom dependency?
+import { XpmLinkButton, XpmLinkButtonProps } from './XpmLinkButton';
+import { BrowserRouter } from 'react-router-dom';
+
+const StoryComponent = (args: XpmLinkButtonProps) => (
+  <BrowserRouter>
+    <XpmLinkButton {...args} />
+  </BrowserRouter>
+);
+
 const meta = {
-  title: 'Base Components/Feedback/LoadingSpinner',
-  component: XpmLinkButton,
+  title: 'Base Components/Input/LinkButton',
+  component: StoryComponent,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
-  args: { text: 'click Me', onClick: fn(), to: '/' },
+  args: { text: 'click Me', onClick: fn(() => alert('clicked')) },
 } satisfies Meta<typeof XpmLinkButton>;
 
 export default meta;

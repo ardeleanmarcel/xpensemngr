@@ -4,7 +4,7 @@ import cn from 'classnames';
 
 import './XpmLinkButton.scss';
 
-interface XpmLinkButtonProps {
+export interface XpmLinkButtonProps {
   text: string;
   to?: string;
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
