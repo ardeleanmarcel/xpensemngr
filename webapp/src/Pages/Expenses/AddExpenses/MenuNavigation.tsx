@@ -31,11 +31,13 @@ export default function MenuNavigation() {
     }
   }, [location.pathname]);
 
-  // @ts-expect-error "event" is not used?!?!
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    console.log('Selected tab index:', newValue);
+  const handleTabChange = (...args: [React.SyntheticEvent, unknown]) => {
+    const newValue = args[1];
 
-    // Update the selected tab index:
+    if (typeof newValue !== 'number') {
+      throw new Error('newValue must be a number');
+    }
+
     setValue(newValue);
 
     switch (newValue) {
@@ -70,7 +72,7 @@ export default function MenuNavigation() {
       justifyContent="space-between"
     >
       <Box>
-        <Tabs value={value} onChange={handleChange} role="navigation">
+        <Tabs value={value} onChange={handleTabChange} role="navigation">
           <LinkTab label="Add Expenses" />
           <LinkTab label="Dashboard" />
           <LinkTab label="Labels" />

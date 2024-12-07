@@ -1,12 +1,7 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useMemo, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import {
-  GlobalStyles,
-  PaletteMode,
-  ThemeProvider,
-  createTheme,
-} from '@mui/material';
+import { GlobalStyles, PaletteMode, ThemeProvider, createTheme } from '@mui/material';
 
 import { UserContextProvider } from './contexts/user/UserContextProivder';
 import { NotificationContextProvider } from './contexts/notification/NotificationContextProvider';
@@ -16,13 +11,14 @@ import { ProtectedExpensesDashboard } from './Pages/Expenses/ExpensesDashboard/E
 import { ProtectedAddExpensesPage } from './Pages/Expenses/AddExpenses/AddExpenses';
 import Register from './Pages/Register/Register';
 import LoginWithFormik from './Pages/Home/Home';
-import MenuNavigation from './Pages/Expenses/AddExpenses/MenuNavigation';
+// import MenuNavigation from './Pages/Expenses/AddExpenses/MenuNavigation';
 import { ProtectedManageLabels } from './Pages/Expenses/ManageLabels/ManageLabels';
 
-// TODO -> check best practices for this
+// TODO -> check best practices for this (imports might not actually be needed for fonts and colors)
 import './css/fonts.scss';
 import './css/colors.scss';
 import './App.scss';
+import { DesktopLayout } from './components/layout/DesktopLayout/DesktopLayout';
 
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
@@ -92,22 +88,23 @@ export default function App() {
   const [mode, setMode] = useState<PaletteMode>('light');
 
   const toggleColorMode = () => {
-    setMode((prevMode: PaletteMode) =>
-      prevMode === 'light' ? 'dark' : 'light'
-    );
+    setMode((prevMode: PaletteMode) => (prevMode === 'light' ? 'dark' : 'light'));
   };
 
   // Update the theme only if the mode changes
   const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
+  const themeContext = useMemo(
+    () => ({
+      mode,
+      toggleColorMode,
+    }),
+    [mode]
+  );
+
   return (
     <UserContextProvider>
-      <ColorModeContext.Provider
-        value={{
-          mode,
-          toggleColorMode,
-        }}
-      >
+      <ColorModeContext.Provider value={themeContext}>
         <ThemeProvider theme={theme}>
           <GlobalStyles
             styles={{
@@ -118,25 +115,21 @@ export default function App() {
           />
           <NotificationContextProvider>
             <BrowserRouter>
-              <MenuNavigation />
               <Routes>
                 <Route path="/" element={<LoginWithFormik />} />
                 <Route path="register" element={<Register />} />
                 <Route path="reset-email" element={<EmailForNewPassword />} />
                 <Route path="verify-email" element={<VerifyEmail />} />
-                <Route
-                  path="add-expenses"
-                  element={<ProtectedAddExpensesPage />}
-                />
-                <Route
-                  path="expenses-dashboard"
-                  element={<ProtectedExpensesDashboard />}
-                />
-                <Route
-                  path="expense-labels"
-                  element={<ProtectedManageLabels />}
-                />
+                <Route path="*" element={null} />
               </Routes>
+              <DesktopLayout>
+                <Routes>
+                  <Route path="add-expenses" element={<ProtectedAddExpensesPage />} />
+                  <Route path="expenses-dashboard" element={<ProtectedExpensesDashboard />} />
+                  <Route path="expense-labels" element={<ProtectedManageLabels />} />
+                  <Route path="*" element={null} />
+                </Routes>
+              </DesktopLayout>
             </BrowserRouter>
           </NotificationContextProvider>
         </ThemeProvider>

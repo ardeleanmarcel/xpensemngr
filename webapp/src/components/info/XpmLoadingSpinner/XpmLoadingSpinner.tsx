@@ -10,14 +10,12 @@ interface XpmLoadingSpinnerProps {
   fullscreen?: boolean;
 }
 
-export function XpmLoadingSpinner({
-  fullscreen,
-  isVisible,
-}: React.PropsWithChildren<XpmLoadingSpinnerProps>) {
+export function XpmLoadingSpinner({ fullscreen, isVisible }: React.PropsWithChildren<XpmLoadingSpinnerProps>) {
   useEffect(() => {
     if (!fullscreen) {
       return;
     }
+    // TODO (Valle) -> this div is not really used... check the fullscreen mount
     const div = document.createElement('div');
     document.body.prepend(div);
 

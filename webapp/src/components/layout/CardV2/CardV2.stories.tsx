@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { XpmCardV2 } from './XpmCard';
+import { CardV2 } from './CardV2';
 
 const meta = {
   title: 'Base Components/Layout/Card',
-  component: XpmCardV2,
+  component: CardV2,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof XpmCardV2>;
+} satisfies Meta<typeof CardV2>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
