@@ -1,0 +1,76 @@
+@use '../../../css/fonts.scss' as fonts;
+
+$offset-from-center: 30px;
+$number-of-currencies: 5;
+$angle-between-currencies: calc(360 / $number-of-currencies);
+$fade-in-duration: 0.2;
+
+@mixin currency($idx) {
+  &:nth-child(#{$idx}) {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(#{$angle-between-currencies * $idx}deg) scale(0) translateY(0px);
+    animation: slide-currency-#{$idx} 0.3s ease-out forwards #{(($idx - 1) * 0.05)}s;
+  }
+}
+
+.XpmLoadingSpinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.15);
+
+  transition-duration: #{$fade-in-duration}s;
+  opacity: 0;
+  pointer-events: none;
+
+  &--visible {
+    pointer-events: unset;
+    opacity: 1;
+  }
+
+  .XpmLoadingSpinner--rotatingWrapper {
+    position: absolute;
+    width: 2 * $offset-from-center + 150px;
+    height: 2 * $offset-from-center + 150px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    animation: rotate-around-center 3s linear infinite;
+
+    span {
+      @include fonts.font-bold-sm;
+      position: absolute;
+
+      top: 50%;
+      left: 50%;
+
+      @for $i from 1 through $number-of-currencies {
+        @include currency($i);
+      }
+    }
+  }
+}
+
+@keyframes rotate-around-center {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@for $i from 1 through $number-of-currencies {
+  @keyframes slide-currency-#{$i} {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -50%) rotate(#{$angle-between-currencies * ($i - 1)}deg) scale(0) translateY(0px);
+    }
+    100% {
+      opacity: 0.4;
+      transform: translate(-50%, -50%) rotate(#{$angle-between-currencies * ($i - 1)}deg) scale(1) translateY(-$offset-from-center);
+    }
+  }
+}

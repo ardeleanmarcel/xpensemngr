@@ -5,7 +5,28 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('/fonts/Ubuntu-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: bold;
+}
+
 $font-default: 'Ubuntu', sans-serif;
+
+@mixin font-regular-3xs {
+  font-family: $font-default;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+}
+
+@mixin font-regular-xxs {
+  font-family: $font-default;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
 
 @mixin font-regular-xs {
   font-family: $font-default;
@@ -33,4 +54,11 @@ $font-default: 'Ubuntu', sans-serif;
   font-weight: 400;
   font-size: 24px;
   line-height: 28px;
+}
+
+@mixin font-bold-sm {
+  font-family: $font-default;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 26px;
 }

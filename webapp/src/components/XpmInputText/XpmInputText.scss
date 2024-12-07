@@ -9,7 +9,7 @@ $element-height: 42px;
   position: relative;
 
   input {
-    @include fonts.font-regular-s;
+    @include fonts.font-regular-xs;
     height: 100%;
     width: 100%;
     padding: 6px 20px 0px;
@@ -34,7 +34,7 @@ $element-height: 42px;
     border-radius: 16px;
 
     legend {
-      @include fonts.font-regular-xs;
+      @include fonts.font-regular-xxs;
 
       color: colors.$purple-500;
       margin-left: 24px;
