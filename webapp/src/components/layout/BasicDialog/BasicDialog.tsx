@@ -9,13 +9,17 @@ import './BasicDialog.scss';
 interface BasicDialogProps extends React.PropsWithChildren {
   isOpen: boolean;
   onBackdropClick?: React.MouseEventHandler<HTMLDialogElement>;
+  width?: string;
+  height?: string;
 }
 
-export const BasicDialog: React.FunctionComponent<BasicDialogProps> = ({ isOpen, children, onBackdropClick }) => {
+export const BasicDialog: React.FunctionComponent<BasicDialogProps> = ({ isOpen, children, onBackdropClick, width, height }) => {
   const dialog = (
     <dialog className={cn('BasicDialog', { 'BasicDialog--open': isOpen })} onClick={onBackdropClick}>
       <div onClick={(e) => e.stopPropagation()}>
-        <CardV2>{children}</CardV2>
+        <CardV2 width={width} height={height}>
+          {children}
+        </CardV2>
       </div>
     </dialog>
   );
