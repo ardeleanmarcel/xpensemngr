@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { XpmCardV2 } from './XpmCard';
+import { XpmCardV2 } from './XpmCardV2';
 
 const meta = {
   title: 'Base Components/Layout/Card',

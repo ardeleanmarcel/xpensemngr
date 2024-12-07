@@ -8,7 +8,7 @@ import { XpmInputText } from '../../components/XpmInputText/XpmInputText';
 import { XpmText } from '../../components/XpmText/XpmText';
 import { XpmLogoMain } from '../../components/icons/XpmLogoMain/XpmLogoMain';
 import { XpmHorizontalSeparator } from '../../components/layout/XpmHorizontalSeparator/XpmHorizontalSeparator';
-import { XpmCardV2 } from '../../components/layout/XpmCard/XpmCard';
+import { XpmCardV2 } from '../../components/layout/XpmCardV2/XpmCardV2';
 import { XpmVerticalSpacer } from '../../components/layout/XpmVerticalSpacer/XpmVerticalSpacer';
 import { XpmLinkButton } from '../../components/input/XpmLinkButton/XpmLinkButton';
 
@@ -24,8 +24,7 @@ function Home() {
   const [form, setForm] = useState({ username: '', password: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // TODO -> fix type for event
-  const handleSubmit = async (e) => {
+  const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     const success = await signIn(form);
