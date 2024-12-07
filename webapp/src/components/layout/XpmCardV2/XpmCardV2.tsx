@@ -1,5 +1,6 @@
 import { cleanObject } from '../../../utils/object.utils';
 import { XpmLoadingSpinner } from '../../info/XpmLoadingSpinner/XpmLoadingSpinner';
+
 import './XpmCardV2.scss';
 
 interface XpmCardProps {

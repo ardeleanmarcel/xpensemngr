@@ -31,7 +31,7 @@ function Home() {
 
     if (success) {
       displaySnackbar({ message: SUCCESS_MSG, type: 'success' });
-      navigate('/add-expenses');
+      navigate('/expenses-dashboard');
     } else {
       displaySnackbar({ message: FAIL_MSG, type: 'error' });
     }
