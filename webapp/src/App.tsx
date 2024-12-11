@@ -19,6 +19,7 @@ import './css/fonts.scss';
 import './css/colors.scss';
 import './App.scss';
 import { DesktopLayout } from './components/layout/DesktopLayout/DesktopLayout';
+import { PATH } from './constants/paths';
 
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
@@ -125,8 +126,8 @@ export default function App() {
               <DesktopLayout>
                 <Routes>
                   <Route path="add-expenses" element={<ProtectedAddExpensesPage />} />
-                  <Route path="expenses-dashboard" element={<ProtectedExpensesDashboard />} />
-                  <Route path="expense-labels" element={<ProtectedManageLabels />} />
+                  <Route path={PATH.ExpenseDashboard.Segment} element={<ProtectedExpensesDashboard />} />
+                  <Route path={PATH.ExpenseLabels.Segment} element={<ProtectedManageLabels />} />
                   <Route path="*" element={null} />
                 </Routes>
               </DesktopLayout>

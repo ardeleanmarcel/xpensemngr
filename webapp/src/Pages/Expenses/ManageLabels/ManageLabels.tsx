@@ -10,7 +10,6 @@ import { XpmCardContent } from '../../../components/XpmCardContent';
 import { XpmPaper } from '../../../components/XpmPaper';
 import { ColumnTableV2, XpmTableV2 } from '../../../components/XpmTableV2';
 import { AuthProtected } from '../../../components/utils/AuthProtected';
-import { AddLabel } from './components/AddLabel';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -64,9 +63,7 @@ export const ManageLabels = () => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
@@ -84,10 +81,6 @@ export const ManageLabels = () => {
     fetchLabels();
   }, []);
 
-  const handleAddedLabel = () => {
-    fetchLabels();
-  };
-
   return (
     <XpmCard>
       <XpmCardContent
@@ -96,15 +89,8 @@ export const ManageLabels = () => {
           marginTop: '30px',
         }}
       >
-        <AddLabel onAddEnd={handleAddedLabel} />
         <div className={classes.container}>
-          <XpmTypography
-            variant="h4"
-            component="h2"
-            align="center"
-            className={classes.title}
-            text="LABELURI"
-          />
+          <XpmTypography variant="h4" component="h2" align="center" className={classes.title} text="LABELURI" />
 
           <XpmPaper sx={{ width: '100%' }}>
             <XpmTableV2

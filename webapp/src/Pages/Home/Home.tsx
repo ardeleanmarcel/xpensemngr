@@ -11,6 +11,7 @@ import { XpmHorizontalSeparator } from '../../components/layout/XpmHorizontalSep
 import { CardV2 } from '../../components/layout/CardV2/CardV2';
 import { XpmVerticalSpacer } from '../../components/layout/XpmVerticalSpacer/XpmVerticalSpacer';
 import { XpmLinkButton } from '../../components/input/XpmLinkButton/XpmLinkButton';
+import { PATH } from '../../constants/paths';
 
 export const SUCCESS_MSG = 'You have successfully logged in.';
 export const FAIL_MSG = 'Fail! Make sure your credential are valid.';
@@ -31,7 +32,7 @@ function Home() {
 
     if (success) {
       displaySnackbar({ message: SUCCESS_MSG, type: 'success' });
-      navigate('/expenses-dashboard');
+      navigate(PATH.ExpenseDashboard.Segment);
     } else {
       displaySnackbar({ message: FAIL_MSG, type: 'error' });
     }
