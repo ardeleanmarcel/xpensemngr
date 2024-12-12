@@ -18,10 +18,8 @@ export function MenuNavagationV2() {
   const [isAddExpenseDialogOpen, setIsAddExpenseDialogOpen] = useState(false);
   const [isAddLabelDialogOpen, setIsAddLabelDialogOpen] = useState(false);
 
-  console.log('pathname', pathname);
-
-  const secondaryItemText = getAddItemButtonText(pathname);
   const currentPage = getCurrentPage(pathname);
+  const secondaryItemText = getAddItemButtonText(currentPage);
 
   const handleSecondaryItemClick = () => {
     if (currentPage === PAGE.Labels) {
@@ -53,8 +51,12 @@ export function MenuNavagationV2() {
 
         <XpmButtonV2 text="Add Expense" onClick={() => setIsAddExpenseDialogOpen(true)} />
         <XpmVerticalSpacer size="m" />
-        <XpmButtonV2 text={secondaryItemText} onClick={handleSecondaryItemClick} />
-        <XpmVerticalSpacer size="m" />
+        {currentPage && (
+          <>
+            <XpmButtonV2 text={secondaryItemText} onClick={handleSecondaryItemClick} />
+            <XpmVerticalSpacer size="m" />
+          </>
+        )}
         <XpmHorizontalSeparator width="150px" />
 
         <XpmVerticalSpacer size="m" />
@@ -71,7 +73,7 @@ export function MenuNavagationV2() {
   );
 }
 
-function getCurrentPage(path: string): PAGE {
+function getCurrentPage(path: string): PAGE | undefined {
   if (path === PATH.ExpenseLabels.Segment) {
     return PAGE.Labels;
   }
@@ -79,16 +81,14 @@ function getCurrentPage(path: string): PAGE {
   if (path === PATH.ExpenseDashboard.Segment) {
     return PAGE.Dashboard;
   }
-
-  throw new Error('Unknown page');
 }
 
-function getAddItemButtonText(pathname: string): string {
-  if (pathname === PATH.ExpenseLabels.Segment) {
+function getAddItemButtonText(page?: PAGE): string {
+  if (page === PAGE.Labels) {
     return 'Add Label';
   }
 
-  if (pathname === PATH.ExpenseDashboard.Segment) {
+  if (page === PAGE.Dashboard) {
     return 'Add Dashboard';
   }
 

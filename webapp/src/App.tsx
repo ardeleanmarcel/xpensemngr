@@ -1,25 +1,23 @@
 import React, { createContext, useMemo, useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { GlobalStyles, PaletteMode, ThemeProvider, createTheme } from '@mui/material';
 
-import { UserContextProvider } from './contexts/user/UserContextProivder';
 import { NotificationContextProvider } from './contexts/notification/NotificationContextProvider';
-import { EmailForNewPassword } from './Pages/Home/EmailForNewPassword';
-import { VerifyEmail } from './Pages/VerifyEmail/VerifyEmail';
+import { UserContextProvider } from './contexts/user/UserContextProivder';
 import { ProtectedExpensesDashboard } from './Pages/Expenses/ExpensesDashboard/ExpensesDashboard';
-import { ProtectedAddExpensesPage } from './Pages/Expenses/AddExpenses/AddExpenses';
-import Register from './Pages/Register/Register';
+import { EmailForNewPassword } from './Pages/Home/EmailForNewPassword';
 import LoginWithFormik from './Pages/Home/Home';
-// import MenuNavigation from './Pages/Expenses/AddExpenses/MenuNavigation';
+import Register from './Pages/Register/Register';
+import { VerifyEmail } from './Pages/VerifyEmail/VerifyEmail';
 import { ProtectedManageLabels } from './Pages/Expenses/ManageLabels/ManageLabels';
-
-// TODO -> check best practices for this (imports might not actually be needed for fonts and colors)
-import './css/fonts.scss';
-import './css/colors.scss';
-import './App.scss';
 import { DesktopLayout } from './components/layout/DesktopLayout/DesktopLayout';
 import { PATH } from './constants/paths';
+
+import './App.scss';
+// TODO -> check best practices for this (imports might not actually be needed for fonts and colors)
+import './css/colors.scss';
+import './css/fonts.scss';
 
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
@@ -125,7 +123,6 @@ export default function App() {
               </Routes>
               <DesktopLayout>
                 <Routes>
-                  <Route path="add-expenses" element={<ProtectedAddExpensesPage />} />
                   <Route path={PATH.ExpenseDashboard.Segment} element={<ProtectedExpensesDashboard />} />
                   <Route path={PATH.ExpenseLabels.Segment} element={<ProtectedManageLabels />} />
                   <Route path="*" element={null} />
