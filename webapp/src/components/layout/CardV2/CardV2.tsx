@@ -1,7 +1,7 @@
+import './CardV2.scss';
+
 import { cleanObject } from '../../../utils/object.utils';
 import { XpmLoadingSpinner } from '../../info/XpmLoadingSpinner/XpmLoadingSpinner';
-
-import './CardV2.scss';
 
 interface XpmCardProps {
   width?: string;

@@ -1,10 +1,10 @@
+import './BasicDialog.scss';
+
+import cn from 'classnames';
 import React from 'react';
 import { createPortal } from 'react-dom';
-import cn from 'classnames';
 
 import { CardV2 } from '../CardV2/CardV2';
-
-import './BasicDialog.scss';
 
 interface BasicDialogProps extends React.PropsWithChildren {
   isOpen: boolean;

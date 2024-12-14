@@ -1,5 +1,6 @@
-import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+
 import { SnackbarType } from './notification.context';
 
 type NotificationSnackbarProps = {

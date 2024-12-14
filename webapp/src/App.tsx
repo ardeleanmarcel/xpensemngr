@@ -1,23 +1,22 @@
-import React, { createContext, useMemo, useState } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
-import { GlobalStyles, PaletteMode, ThemeProvider, createTheme } from '@mui/material';
-
-import { NotificationContextProvider } from './contexts/notification/NotificationContextProvider';
-import { UserContextProvider } from './contexts/user/UserContextProivder';
-import { ProtectedExpensesDashboard } from './Pages/Expenses/ExpensesDashboard/ExpensesDashboard';
-import { EmailForNewPassword } from './Pages/Home/EmailForNewPassword';
-import LoginWithFormik from './Pages/Home/Home';
-import Register from './Pages/Register/Register';
-import { VerifyEmail } from './Pages/VerifyEmail/VerifyEmail';
-import { ProtectedManageLabels } from './Pages/Expenses/ManageLabels/ManageLabels';
-import { DesktopLayout } from './components/layout/DesktopLayout/DesktopLayout';
-import { PATH } from './constants/paths';
-
 import './App.scss';
 // TODO -> check best practices for this (imports might not actually be needed for fonts and colors)
 import './css/colors.scss';
 import './css/fonts.scss';
+
+import { createTheme, GlobalStyles, PaletteMode, ThemeProvider } from '@mui/material';
+import React, { createContext, useMemo, useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+import { DesktopLayout } from './components/layout/DesktopLayout/DesktopLayout';
+import { PATH } from './constants/paths';
+import { NotificationContextProvider } from './contexts/notification/NotificationContextProvider';
+import { UserContextProvider } from './contexts/user/UserContextProivder';
+import { ProtectedExpensesDashboard } from './Pages/Expenses/ExpensesDashboard/ExpensesDashboard';
+import { ProtectedManageLabels } from './Pages/Expenses/ManageLabels/ManageLabels';
+import { EmailForNewPassword } from './Pages/Home/EmailForNewPassword';
+import LoginWithFormik from './Pages/Home/Home';
+import Register from './Pages/Register/Register';
+import { VerifyEmail } from './Pages/VerifyEmail/VerifyEmail';
 
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {

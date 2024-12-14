@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
 import { Card, SxProps } from '@mui/material';
+import { ReactNode } from 'react';
 
 type XpmCardProps = {
   children: ReactNode;

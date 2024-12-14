@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
 import { XpmButton } from '../../components/XpmButton';
-import { XpmTextField } from '../../components/XpmTextField';
-import { XpmTypography } from '../../components/XpmTypography';
-import { ModalReceivedEmail } from './ModalReceivedEmail';
 import { XpmCard } from '../../components/XpmCard';
 import { XpmCardContent } from '../../components/XpmCardContent';
 import { XpmStack } from '../../components/XpmStack';
+import { XpmTextField } from '../../components/XpmTextField';
+import { XpmTypography } from '../../components/XpmTypography';
+import { ModalReceivedEmail } from './ModalReceivedEmail';
 
 const INFO_TEXT = "Email contains '@' character";
 

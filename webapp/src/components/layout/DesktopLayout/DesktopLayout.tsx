@@ -1,6 +1,6 @@
-import { MenuNavagationV2 } from './components/MenuNavagationV2';
-
 import './DesktopLayout.scss';
+
+import { MenuNavagationV2 } from './components/MenuNavagationV2';
 
 interface DesktopLayoutProps extends React.PropsWithChildren {}
 

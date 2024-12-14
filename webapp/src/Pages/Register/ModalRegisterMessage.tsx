@@ -1,7 +1,7 @@
-import { XpmButton } from '../../components/XpmButton';
-import { XpmTypography } from '../../components/XpmTypography';
-import { XpmModal } from '../../components/XpmModal';
 import { XpmBox } from '../../components/XpmBox';
+import { XpmButton } from '../../components/XpmButton';
+import { XpmModal } from '../../components/XpmModal';
+import { XpmTypography } from '../../components/XpmTypography';
 
 const style = {
   position: 'absolute',

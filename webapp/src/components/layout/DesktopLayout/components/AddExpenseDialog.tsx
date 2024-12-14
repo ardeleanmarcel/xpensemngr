@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 
+import { client } from '../../../../api/apiClient';
 import { LabelSelector } from '../../../../Pages/Expenses/AddExpenses/components/LabelSelector';
 import { getAllLabels, getCurrentDate } from '../../../../Pages/Expenses/expensesUtils';
-import { client } from '../../../../api/apiClient';
-
 import { XpmButtonV2 } from '../../../XpmButtonV2/XpmButtonV2';
 import { XpmInputText } from '../../../XpmInputText/XpmInputText';
 import { XpmText } from '../../../XpmText/XpmText';
-
 import { BasicDialog } from '../../BasicDialog/BasicDialog';
 import { XpmHorizontalSeparator } from '../../XpmHorizontalSeparator/XpmHorizontalSeparator';
 import { XpmVerticalSpacer } from '../../XpmVerticalSpacer/XpmVerticalSpacer';

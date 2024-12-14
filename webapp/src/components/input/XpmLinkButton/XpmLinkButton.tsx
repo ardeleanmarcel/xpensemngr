@@ -1,8 +1,8 @@
+import './XpmLinkButton.scss';
+
+import cn from 'classnames';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import cn from 'classnames';
-
-import './XpmLinkButton.scss';
 
 export interface XpmLinkButtonProps {
   text: string;

@@ -1,6 +1,6 @@
-import cn from 'classnames';
-
 import './XpmText.scss';
+
+import cn from 'classnames';
 
 interface XpmTextProps {
   content: string;

@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 
 import { client } from '../../api/apiClient';
-import { extractAuthPayload } from '../../utils/auth.utils';
 import { useRunOnce } from '../../hooks/useRunOnce';
-
-import { userContext, UserData } from './user.context';
+import { extractAuthPayload } from '../../utils/auth.utils';
+import { userContext,UserData } from './user.context';
 
 const MILLISECONDS = {
   Minutes: {

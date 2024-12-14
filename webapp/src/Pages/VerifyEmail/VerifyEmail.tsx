@@ -1,16 +1,14 @@
+import { Theme } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { Theme } from '@mui/material';
-import { makeStyles } from '@mui/styles';
-
-import { client } from '../../api/apiClient';
 import { getXpmErrCode } from '../../api/api.utils';
+import { client } from '../../api/apiClient';
 import { XpmButton } from '../../components/XpmButton';
-
-import { VerifyEmailErrorMessages } from './VerifyEmailErrorMessages';
 import { XpmCard } from '../../components/XpmCard';
 import { XpmCardContent } from '../../components/XpmCardContent';
+import { VerifyEmailErrorMessages } from './VerifyEmailErrorMessages';
 
 const useStyles = makeStyles<Theme>(() => ({
   container: {

@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
 import { Box, SxProps } from '@mui/material';
+import { ReactNode } from 'react';
 
 type XpmBoxProps = {
   children: ReactNode;

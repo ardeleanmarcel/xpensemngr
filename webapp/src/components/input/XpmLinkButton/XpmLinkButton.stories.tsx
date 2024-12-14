@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
+import { BrowserRouter } from 'react-router-dom';
 
 import { XpmLinkButton, XpmLinkButtonProps } from './XpmLinkButton';
-import { BrowserRouter } from 'react-router-dom';
 
 const StoryComponent = (args: XpmLinkButtonProps) => (
   <BrowserRouter>

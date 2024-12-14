@@ -1,9 +1,8 @@
-import { createPortal } from 'react-dom';
-import { useEffect } from 'react';
+import './XpmLoadingSpinner.scss';
 
 import cn from 'classnames';
-
-import './XpmLoadingSpinner.scss';
+import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 interface XpmLoadingSpinnerProps {
   isVisible: boolean;

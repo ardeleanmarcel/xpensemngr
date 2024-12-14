@@ -1,16 +1,15 @@
-import { useEffect, useState } from 'react';
-
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { useEffect, useState } from 'react';
 
-import { XpmTypography } from '../../../components/XpmTypography';
-import { XpmTable } from '../../../components/XpmTable';
-import { TITLE } from './constants';
-import { columns, createData, Data, getAllExpenses } from '../expensesUtils';
+import { AuthProtected } from '../../../components/utils/AuthProtected';
 import { XpmCard } from '../../../components/XpmCard';
 import { XpmCardContent } from '../../../components/XpmCardContent';
 import { XpmPaper } from '../../../components/XpmPaper';
-import { AuthProtected } from '../../../components/utils/AuthProtected';
+import { XpmTable } from '../../../components/XpmTable';
+import { XpmTypography } from '../../../components/XpmTypography';
+import { columns, createData, Data, getAllExpenses } from '../expensesUtils';
+import { TITLE } from './constants';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {

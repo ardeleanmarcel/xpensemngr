@@ -1,5 +1,6 @@
-import { cleanObject } from '../../utils/object.utils';
 import './XpmInputText.scss';
+
+import { cleanObject } from '../../utils/object.utils';
 
 interface XpmInputTextProps {
   name: string;

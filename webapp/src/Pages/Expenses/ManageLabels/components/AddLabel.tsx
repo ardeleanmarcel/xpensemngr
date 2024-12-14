@@ -1,7 +1,8 @@
 import { useState } from 'react';
+
+import { client } from '../../../../api/apiClient';
 import { XpmButton } from '../../../../components/XpmButton';
 import { XpmTextField } from '../../../../components/XpmTextField';
-import { client } from '../../../../api/apiClient';
 
 export const AddLabel = ({ onAddEnd }: { onAddEnd?: () => void }) => {
   const [name, setName] = useState('');

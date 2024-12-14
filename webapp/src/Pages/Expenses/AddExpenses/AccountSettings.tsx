@@ -1,13 +1,12 @@
-import { useContext, useState } from 'react';
-
+import { Logout, PersonAdd, Settings } from '@mui/icons-material';
+import ContrastIcon from '@mui/icons-material/Contrast';
 import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import { PersonAdd, Settings, Logout } from '@mui/icons-material';
-import ContrastIcon from '@mui/icons-material/Contrast';
+import { useContext, useState } from 'react';
 
 import { ColorModeContext } from '../../../App';
 import { XpmBox } from '../../../components/XpmBox';

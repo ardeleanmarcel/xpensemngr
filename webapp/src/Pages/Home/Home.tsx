@@ -1,17 +1,17 @@
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { useNotification } from '../../contexts/notification/notification.context';
-import { useUser } from '../../contexts/user/user.context';
+import { XpmLogoMain } from '../../components/icons/XpmLogoMain/XpmLogoMain';
+import { XpmLinkButton } from '../../components/input/XpmLinkButton/XpmLinkButton';
+import { CardV2 } from '../../components/layout/CardV2/CardV2';
+import { XpmHorizontalSeparator } from '../../components/layout/XpmHorizontalSeparator/XpmHorizontalSeparator';
+import { XpmVerticalSpacer } from '../../components/layout/XpmVerticalSpacer/XpmVerticalSpacer';
 import { XpmButtonV2 } from '../../components/XpmButtonV2/XpmButtonV2';
 import { XpmInputText } from '../../components/XpmInputText/XpmInputText';
 import { XpmText } from '../../components/XpmText/XpmText';
-import { XpmLogoMain } from '../../components/icons/XpmLogoMain/XpmLogoMain';
-import { XpmHorizontalSeparator } from '../../components/layout/XpmHorizontalSeparator/XpmHorizontalSeparator';
-import { CardV2 } from '../../components/layout/CardV2/CardV2';
-import { XpmVerticalSpacer } from '../../components/layout/XpmVerticalSpacer/XpmVerticalSpacer';
-import { XpmLinkButton } from '../../components/input/XpmLinkButton/XpmLinkButton';
 import { PATH } from '../../constants/paths';
+import { useNotification } from '../../contexts/notification/notification.context';
+import { useUser } from '../../contexts/user/user.context';
 
 export const SUCCESS_MSG = 'You have successfully logged in.';
 export const FAIL_MSG = 'Fail! Make sure your credential are valid.';

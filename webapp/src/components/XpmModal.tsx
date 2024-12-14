@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
 import { Modal } from '@mui/material';
+import { ReactNode } from 'react';
 
 type XpmModalProps = {
   children: ReactNode;

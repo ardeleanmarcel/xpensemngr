@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
-
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { AccountSettings } from './AccountSettings';
 import { Box, Stack } from '@mui/material';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import { useUser } from '../../../contexts/user/user.context';
+import { AccountSettings } from './AccountSettings';
 
 interface LinkTabProps {
   label?: string;

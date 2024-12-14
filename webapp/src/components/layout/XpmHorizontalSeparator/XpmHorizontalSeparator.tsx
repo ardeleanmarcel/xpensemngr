@@ -1,6 +1,6 @@
-import { cleanObject } from '../../../utils/object.utils';
-
 import './XpmHorizontalSeparator.scss';
+
+import { cleanObject } from '../../../utils/object.utils';
 
 interface XpmHorizontalSeparatorProps {
   width?: string;

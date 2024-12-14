@@ -8,8 +8,9 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material';
-import { Column, Data } from '../Pages/Expenses/expensesUtils';
 import React, { ReactNode } from 'react';
+
+import { Column, Data } from '../Pages/Expenses/expensesUtils';
 
 type XpmTableProps = {
   columns: Column[];

@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { client } from '../../api/apiClient';
 import { ColorModeContext } from '../../App';
 import { XpmButton } from '../../components/XpmButton';
-import { XpmTextField } from '../../components/XpmTextField';
-import { XpmTypography } from '../../components/XpmTypography';
 import { XpmCard } from '../../components/XpmCard';
 import { XpmCardContent } from '../../components/XpmCardContent';
+import { XpmTextField } from '../../components/XpmTextField';
+import { XpmTypography } from '../../components/XpmTypography';
 import { ModalRegisterMessage } from './ModalRegisterMessage';
 
 const inputsStyle = {
