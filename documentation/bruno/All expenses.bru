@@ -5,11 +5,13 @@ meta {
 }
 
 get {
-  url: http://localhost:3000/trpc/expenses.getAll?input={"label_ids":[3]}
+  url: http://localhost:3000/trpc/expenses.getAll?input={"amount_gte": 30,"amount_lte":100}
   body: json
   auth: inherit
 }
 
 params:query {
-  input: {"label_ids":[3]}
+  input: {"amount_gte": 30,"amount_lte":100}
+  ~input: {"amount_gte": 30}
+  ~input: {"label_ids":[3],"amount_gte": 30}
 }

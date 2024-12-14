@@ -80,7 +80,7 @@ export async function selectExpenses(filters: Filter<AllowedExpensesFilters>[]) 
   return res;
 }
 
-export type AllowedExpensesWithLabelsFilters = 'ex.added_by_user_id' | 'ex_lb.label_id';
+export type AllowedExpensesWithLabelsFilters = 'ex.added_by_user_id' | 'ex.amount' | 'ex_lb.label_id';
 
 export async function selectExpensesWithLabels(filters: Filter<AllowedExpensesWithLabelsFilters>[]) {
   const { whereClauses, bindings } = composeWhereClause(filters);

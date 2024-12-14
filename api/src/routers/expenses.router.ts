@@ -25,7 +25,7 @@ export const expensesRouter = t.router({
   }),
   getAll: protectedProcedure.input(expensesGetAllFilterSchema).query(async (opts) => {
     const { user } = opts.ctx;
-    const { label_ids } = opts.input;
+    const { label_ids, amount_gte, amount_lte } = opts.input;
 
     const filters: Filter<AllowedExpensesWithLabelsFilters>[] = [
       {
@@ -40,6 +40,22 @@ export const expensesRouter = t.router({
         name: 'ex_lb.label_id',
         type: FILTER_TYPE.In,
         value: label_ids,
+      });
+    }
+
+    if (amount_gte) {
+      filters.push({
+        name: 'ex.amount',
+        type: FILTER_TYPE.GreaterOrEqualThan,
+        value: amount_gte,
+      });
+    }
+
+    if (amount_lte) {
+      filters.push({
+        name: 'ex.amount',
+        type: FILTER_TYPE.LessOrEqualThan,
+        value: amount_lte,
       });
     }
 

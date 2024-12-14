@@ -1,15 +1,13 @@
-// import { Filter } from '../db/utils';
+import z from 'zod';
 
-// type FilterSchemaConfig = {
-//   [x: string]: string | number | (string | number)[];
-// };
+export const amountSchema = z
+  .number()
+  .positive()
+  .lt(1_000_000_000_000)
+  .refine((num) => {
+    const asString = String(num);
+    const decimals = asString.split('.')[1];
+    return !decimals || decimals.length < 3;
+  }, 'amount should be a number with maximum 2 decimals');
 
-// z.string()
-
-// function createFilterSchema(cfg: FilterSchemaConfig) {
-//   const entries = Object.entries(cfg);
-
-//   return entries.map<Filter>(([k, v]) => {
-
-//   });
-// }
+export const dbIdSchema = z.number().int().positive();
