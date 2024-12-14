@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { ExpensesGetAllFilterType } from '../../../../../api/src/models/expense.models';
 import type { LabelType } from '../../../../../api/src/models/label.models';
+import { ConstrainedRange } from '../../../components/input/ConstrainedRange/ConstrainedRange';
 import { LabelSelector } from '../../../components/specialized/LabelSelector';
 import { AuthProtected } from '../../../components/utils/AuthProtected';
 import { XpmCard } from '../../../components/XpmCard';
@@ -116,6 +117,13 @@ export const ExpensesDashboard = () => {
             onSelectionChange={handleLabelSelection}
             selectedLabels={selectedLabels}
             onClose={handleLableSelectionClose}
+          />
+          <ConstrainedRange
+            min={0}
+            max={1000}
+            onChange={() => {
+              console.log('changed');
+            }}
           />
           <XpmPaper sx={{ width: '100%' }}>
             <XpmTable
