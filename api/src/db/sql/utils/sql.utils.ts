@@ -1,4 +1,5 @@
 import { FilterForBeloningToGroup, FILTER_TYPE, Filter, FilterValue } from '../../db.utils';
+import { OrderBy } from '../types/sql.types';
 
 export function composeWhereClause(filters: Filter<string>[]) {
   if (filters.length === 0) return { whereClauses: '', bindings: [] };
@@ -24,4 +25,12 @@ export function composeWhereClause(filters: Filter<string>[]) {
 
 function isArrayFilter(filter: Filter<string>): filter is FilterForBeloningToGroup<string> {
   return filter.type === FILTER_TYPE.In;
+}
+
+export function composeLimitClause(limit?: number) {
+  return limit ? `LIMIT ${limit}` : '';
+}
+
+export function composeOrderByClause(orderBy: Array<OrderBy<Array<string>>> = []) {
+  return 'ORDER BY\n' + orderBy.map(({ column, direction }) => `  ${column} ${direction}`).join(',\n');
 }

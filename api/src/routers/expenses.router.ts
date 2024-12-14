@@ -1,11 +1,12 @@
 import { protectedProcedure, t } from '@src/trpc';
 import { expenseCreateSchema, expensesGetAllFilterSchema } from '@src/models/expense.models';
 import {
-  AllowedExpensesWithLabelsFilters,
+  ExpenseFilters,
+  ExpenseOrder,
   createLabelsWithExpenses,
   selectExpensesWithLabels,
 } from '@src/db/sql/expenses.sql';
-import { Filter, FILTER_TYPE } from '@src/db/db.utils';
+import { FILTER_TYPE } from '@src/db/db.utils';
 import { checkLabelsBelongToUser } from '@src/db/sql/labels.sql';
 
 export const expensesRouter = t.router({
@@ -27,7 +28,7 @@ export const expensesRouter = t.router({
     const { user } = opts.ctx;
     const { label_ids, amount_gte, amount_lte } = opts.input;
 
-    const filters: Filter<AllowedExpensesWithLabelsFilters>[] = [
+    const filters: ExpenseFilters = [
       {
         name: 'ex.added_by_user_id',
         type: FILTER_TYPE.Is,
@@ -59,7 +60,27 @@ export const expensesRouter = t.router({
       });
     }
 
-    const result = await selectExpensesWithLabels(filters);
+    const result = await selectExpensesWithLabels({ filters });
+
+    return result;
+  }),
+  getHighestAmount: protectedProcedure.query(async (opts) => {
+    const { user } = opts.ctx;
+
+    const filters: ExpenseFilters = [
+      {
+        name: 'ex.added_by_user_id',
+        type: FILTER_TYPE.Is,
+        value: user.user_id,
+      },
+    ];
+
+    const order: ExpenseOrder = {
+      column: 'ex.amount',
+      direction: 'DESC',
+    };
+
+    const result = await selectExpensesWithLabels({ filters, order, limit: 1 });
 
     return result;
   }),

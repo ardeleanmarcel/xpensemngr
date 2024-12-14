@@ -1,8 +1,9 @@
 import { sqlClient } from '@src/adapters/sqlClient';
 import { ExpenseCreateType, ExpenseType } from '@src/models/expense.models';
 import { Filter } from '../db.utils';
-import { composeWhereClause } from './utils/sql.utils';
+import { composeLimitClause, composeOrderByClause, composeWhereClause } from './utils/sql.utils';
 import { LabelType } from '@src/models/label.models';
+import { OrderBy } from './types/sql.types';
 
 // TODO (Valle) -> this is highly inefficient, because we are doing a lot of write operations
 //  should be a fun challenge to improve
@@ -80,10 +81,34 @@ export async function selectExpenses(filters: Filter<AllowedExpensesFilters>[]) 
   return res;
 }
 
-export type AllowedExpensesWithLabelsFilters = 'ex.added_by_user_id' | 'ex.amount' | 'ex_lb.label_id';
+export type ExpenseFilterNames = 'ex.added_by_user_id' | 'ex.amount' | 'ex_lb.label_id';
 
-export async function selectExpensesWithLabels(filters: Filter<AllowedExpensesWithLabelsFilters>[]) {
+export type ExpenseFilters = Array<Filter<ExpenseFilterNames>>;
+
+export type ExpenseOrder = OrderBy<['ex.amount', 'ex.expense_id']>;
+
+interface SelectExpensesOptions {
+  filters: ExpenseFilters;
+  limit?: number;
+  order?: ExpenseOrder;
+}
+export async function selectExpensesWithLabels({ filters, limit, order }: SelectExpensesOptions) {
   const { whereClauses, bindings } = composeWhereClause(filters);
+
+  const limitClause = composeLimitClause(limit);
+
+  const orders: Array<ExpenseOrder> = [
+    {
+      column: 'ex.expense_id',
+      direction: 'DESC',
+    },
+  ];
+
+  if (order) {
+    orders.unshift(order);
+  }
+
+  const orderByClause = composeOrderByClause(orders);
 
   const query = `SELECT
       ex.expense_id,
@@ -111,8 +136,11 @@ export async function selectExpensesWithLabels(filters: Filter<AllowedExpensesWi
       ex.description,
       amount,
       date_expended_at
-    ORDER BY expense_id DESC
+    ${orderByClause}
+    ${limitClause}
     `;
+
+  console.log('query', query);
 
   const res = await sqlClient.queryWithParams<ExpenseType & { labels: Omit<LabelType, 'added_by_user_id'>[] }>(
     query,
