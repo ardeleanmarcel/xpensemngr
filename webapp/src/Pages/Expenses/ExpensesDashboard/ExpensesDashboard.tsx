@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles';
 import { isEqual } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 
-import { ExpensesGetAllFilterType } from '../../../../../api/src/models/expense.models';
+import { ExpenseGetAllFilterType } from '../../../../../api/src/models/expense.models';
 import type { LabelType } from '../../../../../api/src/models/label.models';
 import { ConstrainedRange } from '../../../components/input/ConstrainedRange/ConstrainedRange';
 import { LabelSelector } from '../../../components/specialized/LabelSelector';
@@ -42,7 +42,7 @@ export const ExpensesDashboard = () => {
   const [labels, setLabels] = useState<Array<LabelType>>([]);
   const [selectedLabels, setSelectedLabels] = useState<Array<number>>([]);
 
-  const lastSearchOptions = useRef<ExpensesGetAllFilterType>();
+  const lastSearchOptions = useRef<ExpenseGetAllFilterType>();
 
   const getLabels = async () => {
     const lbs = await getAllLabels();
@@ -51,7 +51,7 @@ export const ExpensesDashboard = () => {
 
   const fetchExpenses = async () => {
     try {
-      const opts: ExpensesGetAllFilterType = {};
+      const opts: ExpenseGetAllFilterType = {};
       if (selectedLabels.length > 0) {
         opts.label_ids = selectedLabels;
       }
@@ -72,8 +72,8 @@ export const ExpensesDashboard = () => {
     getLabels();
   }, []);
 
-  const getSearchOptions = (): ExpensesGetAllFilterType => {
-    const opts: ExpensesGetAllFilterType = {};
+  const getSearchOptions = (): ExpenseGetAllFilterType => {
+    const opts: ExpenseGetAllFilterType = {};
     if (selectedLabels.length > 0) {
       opts.label_ids = selectedLabels;
     }

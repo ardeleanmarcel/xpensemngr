@@ -1,4 +1,4 @@
-import type { ExpensesGetAllFilterType } from '../../../../api/src/models/expense.models';
+import type { ExpenseGetAllFilterType } from '../../../../api/src/models/expense.models';
 import { client } from '../../api/apiClient';
 
 export interface Column {
@@ -61,7 +61,7 @@ export function createData(
   }));
 }
 
-export const getAllExpenses = async (opts: ExpensesGetAllFilterType) => {
+export const getAllExpenses = async (opts: ExpenseGetAllFilterType) => {
   try {
     const data = await client.expenses.getAll.query(opts);
     return data;

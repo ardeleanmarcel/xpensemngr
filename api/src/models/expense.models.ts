@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import { amountSchema, dbIdSchema } from './utils';
 
-// TODO (Valle) -> add "added_by_user_id"
 export const expenseSchema = z
   .object({
+    added_by_user_id: dbIdSchema,
     expense_id: z.number().int().positive(),
     description: z.string().min(3).max(50),
     amount: amountSchema,
@@ -24,12 +24,15 @@ export const expenseCreateSchema = z.array(
     .strict()
 );
 
-export const expensesGetAllFilterSchema = z.object({
+export const expenseGetAllSchema = z.object({
   label_ids: z.array(dbIdSchema).min(1).optional(),
   amount_gte: amountSchema.optional(),
   amount_lte: amountSchema.optional(),
 });
 
+export const expenseDeleteSchema = z.array(dbIdSchema);
+
 export type ExpenseType = z.infer<typeof expenseSchema>;
 export type ExpenseCreateType = z.infer<typeof expenseCreateSchema>;
-export type ExpensesGetAllFilterType = z.infer<typeof expensesGetAllFilterSchema>;
+export type ExpenseGetAllFilterType = z.infer<typeof expenseGetAllSchema>;
+export type ExpenseDeleteType = z.infer<typeof expenseDeleteSchema>;

@@ -1,17 +1,17 @@
 meta {
   name: All expenses
   type: http
-  seq: 1
+  seq: 4
 }
 
 get {
-  url: http://localhost:3000/trpc/expenses.getAll?input={"amount_gte": 30,"amount_lte":100}
+  url: http://localhost:3000/trpc/expenses.getAll
   body: json
   auth: inherit
 }
 
 params:query {
-  input: {"amount_gte": 30,"amount_lte":100}
+  ~input: {"amount_gte": 30,"amount_lte":100}
   ~input: {"amount_gte": 30}
   ~input: {"label_ids":[3],"amount_gte": 30}
 }

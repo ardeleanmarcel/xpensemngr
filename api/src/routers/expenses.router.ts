@@ -1,9 +1,10 @@
 import { protectedProcedure, t } from '@src/trpc';
-import { expenseCreateSchema, expensesGetAllFilterSchema } from '@src/models/expense.models';
+import { expenseCreateSchema, expenseDeleteSchema, expenseGetAllSchema } from '@src/models/expense.models';
 import {
-  ExpenseFilters,
-  ExpenseOrder,
-  createLabelsWithExpenses,
+  ExpenseSelectFilters,
+  ExpenseSelectOrder,
+  createExpensesWithLabels,
+  deleteExpenses,
   selectExpensesWithLabels,
 } from '@src/db/sql/expenses.sql';
 import { FILTER_TYPE } from '@src/db/db.utils';
@@ -20,15 +21,15 @@ export const expensesRouter = t.router({
 
     await checkLabelsBelongToUser(requestedLabels, user.user_id);
 
-    const newExpIds = await createLabelsWithExpenses(newExpenses, user.user_id);
+    const newExpIds = await createExpensesWithLabels(newExpenses, user.user_id);
 
     return newExpIds;
   }),
-  getAll: protectedProcedure.input(expensesGetAllFilterSchema).query(async (opts) => {
+  getAll: protectedProcedure.input(expenseGetAllSchema).query(async (opts) => {
     const { user } = opts.ctx;
     const { label_ids, amount_gte, amount_lte } = opts.input;
 
-    const filters: ExpenseFilters = [
+    const filters: ExpenseSelectFilters = [
       {
         name: 'ex.added_by_user_id',
         type: FILTER_TYPE.Is,
@@ -67,7 +68,7 @@ export const expensesRouter = t.router({
   getHighestAmount: protectedProcedure.query(async (opts) => {
     const { user } = opts.ctx;
 
-    const filters: ExpenseFilters = [
+    const filters: ExpenseSelectFilters = [
       {
         name: 'ex.added_by_user_id',
         type: FILTER_TYPE.Is,
@@ -75,12 +76,35 @@ export const expensesRouter = t.router({
       },
     ];
 
-    const order: ExpenseOrder = {
+    const order: ExpenseSelectOrder = {
       column: 'ex.amount',
       direction: 'DESC',
     };
 
     const result = await selectExpensesWithLabels({ filters, order, limit: 1 });
+
+    return result;
+  }),
+  delete: protectedProcedure.input(expenseDeleteSchema).mutation(async (opts) => {
+    const { user } = opts.ctx;
+    const ids = opts.input;
+
+    // TODO (Valle) -> should add check that all the IDs marked for deletion actually belong to the user
+
+    const result = await deleteExpenses({
+      filters: [
+        {
+          name: 'ex.added_by_user_id',
+          type: FILTER_TYPE.Is,
+          value: user.user_id,
+        },
+        {
+          name: 'ex.expense_id',
+          type: FILTER_TYPE.In,
+          value: ids,
+        },
+      ],
+    });
 
     return result;
   }),

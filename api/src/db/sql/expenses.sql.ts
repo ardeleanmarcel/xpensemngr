@@ -7,7 +7,7 @@ import { OrderBy } from './types/sql.types';
 
 // TODO (Valle) -> this is highly inefficient, because we are doing a lot of write operations
 //  should be a fun challenge to improve
-export function createLabelsWithExpenses(expenses: ExpenseCreateType, user_id: number) {
+export function createExpensesWithLabels(expenses: ExpenseCreateType, user_id: number) {
   return Promise.all(
     expenses.map(async (expense) => {
       const newExp = await createExpenses([expense], user_id);
@@ -81,23 +81,23 @@ export async function selectExpenses(filters: Filter<AllowedExpensesFilters>[]) 
   return res;
 }
 
-export type ExpenseFilterNames = 'ex.added_by_user_id' | 'ex.amount' | 'ex_lb.label_id';
+export type ExpenseSelectFilterNames = 'ex.added_by_user_id' | 'ex.amount' | 'ex_lb.label_id';
 
-export type ExpenseFilters = Array<Filter<ExpenseFilterNames>>;
+export type ExpenseSelectFilters = Array<Filter<ExpenseSelectFilterNames>>;
 
-export type ExpenseOrder = OrderBy<['ex.amount', 'ex.expense_id']>;
+export type ExpenseSelectOrder = OrderBy<['ex.amount', 'ex.expense_id']>;
 
-interface SelectExpensesOptions {
-  filters: ExpenseFilters;
+interface ExpenseSelectSqlOptions {
+  filters: ExpenseSelectFilters;
   limit?: number;
-  order?: ExpenseOrder;
+  order?: ExpenseSelectOrder;
 }
-export async function selectExpensesWithLabels({ filters, limit, order }: SelectExpensesOptions) {
+export async function selectExpensesWithLabels({ filters, limit, order }: ExpenseSelectSqlOptions) {
   const { whereClauses, bindings } = composeWhereClause(filters);
 
   const limitClause = composeLimitClause(limit);
 
-  const orders: Array<ExpenseOrder> = [
+  const orders: Array<ExpenseSelectOrder> = [
     {
       column: 'ex.expense_id',
       direction: 'DESC',
@@ -140,12 +140,30 @@ export async function selectExpensesWithLabels({ filters, limit, order }: Select
     ${limitClause}
     `;
 
-  console.log('query', query);
-
   const res = await sqlClient.queryWithParams<ExpenseType & { labels: Omit<LabelType, 'added_by_user_id'>[] }>(
     query,
     bindings
   );
+
+  return res;
+}
+
+export type ExpenseDeleteFilterNames = 'ex.added_by_user_id' | 'ex.expense_id';
+
+export type ExpenseDeleteFilters = Array<Filter<ExpenseDeleteFilterNames>>;
+
+interface ExpenseDeleteSqlOptions {
+  filters: ExpenseDeleteFilters;
+}
+
+export async function deleteExpenses({ filters }: ExpenseDeleteSqlOptions) {
+  const { whereClauses, bindings } = composeWhereClause(filters);
+
+  const query = `DELETE FROM expenses ex
+  ${whereClauses}
+  RETURNING *`;
+
+  const res = await sqlClient.queryWithParams<ExpenseType>(query, bindings);
 
   return res;
 }
