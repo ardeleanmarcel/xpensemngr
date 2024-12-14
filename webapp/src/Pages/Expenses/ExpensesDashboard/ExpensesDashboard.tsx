@@ -1,14 +1,18 @@
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { useEffect, useState } from 'react';
+import { isEqual } from 'lodash';
+import { useEffect, useRef, useState } from 'react';
 
+import { ExpensesGetAllFilterType } from '../../../../../api/src/models/expense.models';
+import type { LabelType } from '../../../../../api/src/models/label.models';
+import { LabelSelector } from '../../../components/specialized/LabelSelector';
 import { AuthProtected } from '../../../components/utils/AuthProtected';
 import { XpmCard } from '../../../components/XpmCard';
 import { XpmCardContent } from '../../../components/XpmCardContent';
 import { XpmPaper } from '../../../components/XpmPaper';
 import { XpmTable } from '../../../components/XpmTable';
 import { XpmTypography } from '../../../components/XpmTypography';
-import { columns, createData, Data, getAllExpenses } from '../expensesUtils';
+import { columns, createData, Data, getAllExpenses, getAllLabels } from '../expensesUtils';
 import { TITLE } from './constants';
 
 const useStyles = makeStyles<Theme>((theme) => ({
@@ -34,31 +38,68 @@ export const ExpensesDashboard = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState<Data[]>([]);
+  const [labels, setLabels] = useState<Array<LabelType>>([]);
+  const [selectedLabels, setSelectedLabels] = useState<Array<number>>([]);
+
+  const lastSearchOptions = useRef<ExpensesGetAllFilterType>();
+
+  const getLabels = async () => {
+    const lbs = await getAllLabels();
+    setLabels(lbs);
+  };
+
+  const fetchExpenses = async () => {
+    try {
+      const opts: ExpensesGetAllFilterType = {};
+      if (selectedLabels.length > 0) {
+        opts.label_ids = selectedLabels;
+      }
+
+      lastSearchOptions.current = opts;
+
+      const expenses = await getAllExpenses(opts);
+      const processedData = createData(expenses);
+      setRows(processedData);
+    } catch (error) {
+      console.error('Error fetching expenses:', error);
+    }
+  };
+
+  // TODO (Valle) -> replace with useRunOnce
+  useEffect(() => {
+    fetchExpenses();
+    getLabels();
+  }, []);
+
+  const getSearchOptions = (): ExpensesGetAllFilterType => {
+    const opts: ExpensesGetAllFilterType = {};
+    if (selectedLabels.length > 0) {
+      opts.label_ids = selectedLabels;
+    }
+    return opts;
+  };
+
+  const handleLabelSelection = (sl: number[]) => {
+    setSelectedLabels(sl);
+  };
+
+  const handleLableSelectionClose = () => {
+    const newOptions = getSearchOptions();
+
+    if (!isEqual(lastSearchOptions.current, newOptions)) {
+      fetchExpenses();
+    }
+  };
 
   // @ts-expect-error "event: unknown"
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  useEffect(() => {
-    const fetchExpenses = async () => {
-      try {
-        const expenses = await getAllExpenses();
-        const processedData = createData(expenses);
-        setRows(processedData);
-      } catch (error) {
-        console.error('Error fetching expenses:', error);
-      }
-    };
-
-    fetchExpenses();
-  }, []);
 
   return (
     <XpmCard>
@@ -69,12 +110,12 @@ export const ExpensesDashboard = () => {
         }}
       >
         <div className={classes.container}>
-          <XpmTypography
-            variant="h4"
-            component="h2"
-            align="center"
-            className={classes.title}
-            text={TITLE}
+          <XpmTypography variant="h4" component="h2" align="center" className={classes.title} text={TITLE} />
+          <LabelSelector
+            labels={labels}
+            onSelectionChange={handleLabelSelection}
+            selectedLabels={selectedLabels}
+            onClose={handleLableSelectionClose}
           />
           <XpmPaper sx={{ width: '100%' }}>
             <XpmTable

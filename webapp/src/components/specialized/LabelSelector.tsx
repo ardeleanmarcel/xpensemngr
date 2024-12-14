@@ -26,13 +26,15 @@ interface LabelSelectorProps {
   labels: Label[];
   selectedLabels: number[];
   onSelectionChange: (labels: number[]) => void;
+  onClose?: () => void;
 }
 
 export function LabelSelector({
   labels,
   selectedLabels,
   onSelectionChange,
-}: LabelSelectorProps) {
+  onClose,
+}: React.PropsWithChildren<LabelSelectorProps>) {
   const handleChange = (event: SelectChangeEvent<number[]>) => {
     const {
       target: { value },
@@ -43,7 +45,8 @@ export function LabelSelector({
       return;
     }
 
-    onSelectionChange(value);
+    // Sorting is performed to ensure equality when comparing previous and current states
+    onSelectionChange(value.toSorted((a, b) => a - b));
   };
 
   return (
@@ -57,12 +60,9 @@ export function LabelSelector({
           value={selectedLabels}
           onChange={handleChange}
           input={<OutlinedInput label="Labels" />}
-          renderValue={(selected) =>
-            selected
-              .map((id) => labels.find((lb) => lb.label_id === id)?.name)
-              .join(', ')
-          }
+          renderValue={(selected) => selected.map((id) => labels.find((lb) => lb.label_id === id)?.name).join(', ')}
           MenuProps={MenuProps}
+          onClose={onClose}
         >
           {labels.map((lb) => (
             <MenuItem key={lb.label_id} value={lb.label_id}>

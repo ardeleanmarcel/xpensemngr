@@ -37,3 +37,4 @@ export const expensesGetAllFilterSchema = z.object({
 
 export type ExpenseType = z.infer<typeof expenseSchema>;
 export type ExpenseCreateType = z.infer<typeof expenseCreateSchema>;
+export type ExpensesGetAllFilterType = z.infer<typeof expensesGetAllFilterSchema>;

@@ -13,7 +13,7 @@ import { XpmTextField } from '../../../components/XpmTextField';
 import { XpmTypography } from '../../../components/XpmTypography';
 import { withFormik } from '../../../withFormik';
 import { getAllLabels, getCurrentDate } from '../expensesUtils';
-import { LabelSelector } from './components/LabelSelector';
+import { LabelSelector } from '../../../components/specialized/LabelSelector';
 
 type FormValues = {
   amount: string;
@@ -53,14 +53,7 @@ const ERROR = 'error';
 export const AddExpenses = () => {
   const classes = useStyles();
 
-  const {
-    handleChange,
-    values,
-    handleSubmit,
-    isSubmitting,
-    status,
-    setValues,
-  } = useFormikContext<FormValues>();
+  const { handleChange, values, handleSubmit, isSubmitting, status, setValues } = useFormikContext<FormValues>();
 
   const [labels, setLabels] = useState<
     {
@@ -95,19 +88,8 @@ export const AddExpenses = () => {
       >
         <form onSubmit={handleSubmit}>
           <div className={classes.container}>
-            <XpmTypography
-              variant="h4"
-              component="h2"
-              align="center"
-              className={classes.title}
-              text={TITLE}
-            />
-            {status && (
-              <XpmAlert
-                severity={status.success ? SUCCESS : ERROR}
-                message={status.message}
-              />
-            )}
+            <XpmTypography variant="h4" component="h2" align="center" className={classes.title} text={TITLE} />
+            {status && <XpmAlert severity={status.success ? SUCCESS : ERROR} message={status.message} />}
             <XpmTextField
               name="amount"
               required
@@ -129,19 +111,8 @@ export const AddExpenses = () => {
               disabled={isSubmitting}
               color="inputsColor"
             />
-            <LabelSelector
-              labels={labels}
-              onSelectionChange={handleLabelSelection}
-              selectedLabels={values.selectedLabels}
-            />
-            <XpmButton
-              disabled={isSubmitting}
-              color="secondary"
-              buttonName="Add"
-              type="submit"
-              variant="contained"
-              fullWidth
-            />
+            <LabelSelector labels={labels} onSelectionChange={handleLabelSelection} selectedLabels={values.selectedLabels} />
+            <XpmButton disabled={isSubmitting} color="secondary" buttonName="Add" type="submit" variant="contained" fullWidth />
           </div>
         </form>
       </XpmCardContent>
@@ -149,10 +120,7 @@ export const AddExpenses = () => {
   );
 };
 
-const handleSubmit = async (
-  values,
-  { setSubmitting, setStatus, resetForm }
-) => {
+const handleSubmit = async (values, { setSubmitting, setStatus, resetForm }) => {
   try {
     await client.expenses.create.mutate([
       {
@@ -175,11 +143,7 @@ const handleSubmit = async (
   }
 };
 
-const AddExpensesWithFormik = withFormik(
-  initialValues,
-  handleSubmit,
-  AddExpenses
-);
+const AddExpensesWithFormik = withFormik(initialValues, handleSubmit, AddExpenses);
 
 export default AddExpensesWithFormik;
 

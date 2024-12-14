@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
 import { client } from '../../../../api/apiClient';
-import { LabelSelector } from '../../../../Pages/Expenses/AddExpenses/components/LabelSelector';
 import { getAllLabels, getCurrentDate } from '../../../../Pages/Expenses/expensesUtils';
+import { LabelSelector } from '../../../specialized/LabelSelector';
 import { XpmButtonV2 } from '../../../XpmButtonV2/XpmButtonV2';
 import { XpmInputText } from '../../../XpmInputText/XpmInputText';
 import { XpmText } from '../../../XpmText/XpmText';
