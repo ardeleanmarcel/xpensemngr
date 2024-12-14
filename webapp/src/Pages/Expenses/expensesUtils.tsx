@@ -61,7 +61,7 @@ export function createData(
 
 export const getAllExpenses = async () => {
   try {
-    const data = await client.expenses.getAll.query();
+    const data = await client.expenses.getAll.query({});
     return data;
   } catch (error) {
     return [];

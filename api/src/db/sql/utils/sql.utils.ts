@@ -1,4 +1,4 @@
-import { ArrayFilter, FILTER_TYPE, Filter, FilterValue } from '../../db.utils';
+import { FilterForBeloningToGroup, FILTER_TYPE, Filter, FilterValue } from '../../db.utils';
 
 export function composeWhereClause(filters: Filter<string>[]) {
   if (filters.length === 0) return { whereClauses: '', bindings: [] };
@@ -22,6 +22,6 @@ export function composeWhereClause(filters: Filter<string>[]) {
   return { whereClauses, bindings };
 }
 
-function isArrayFilter(filter: Filter<string>): filter is ArrayFilter<string> {
+function isArrayFilter(filter: Filter<string>): filter is FilterForBeloningToGroup<string> {
   return filter.type === FILTER_TYPE.In;
 }

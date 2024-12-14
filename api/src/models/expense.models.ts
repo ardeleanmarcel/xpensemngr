@@ -31,5 +31,9 @@ export const expenseCreateSchema = z.array(
     .strict()
 );
 
+export const expensesGetAllFilterSchema = z.object({
+  label_ids: z.array(z.number().int().positive()).min(1).optional(),
+});
+
 export type ExpenseType = z.infer<typeof expenseSchema>;
 export type ExpenseCreateType = z.infer<typeof expenseCreateSchema>;

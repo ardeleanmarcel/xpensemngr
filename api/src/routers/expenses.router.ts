@@ -1,5 +1,5 @@
 import { protectedProcedure, t } from '@src/trpc';
-import { expenseCreateSchema } from '@src/models/expense.models';
+import { expenseCreateSchema, expensesGetAllFilterSchema } from '@src/models/expense.models';
 import {
   AllowedExpensesWithLabelsFilters,
   createLabelsWithExpenses,
@@ -23,8 +23,9 @@ export const expensesRouter = t.router({
 
     return newExpIds;
   }),
-  getAll: protectedProcedure.query(async (opts) => {
+  getAll: protectedProcedure.input(expensesGetAllFilterSchema).query(async (opts) => {
     const { user } = opts.ctx;
+    const { label_ids } = opts.input;
 
     const filters: Filter<AllowedExpensesWithLabelsFilters>[] = [
       {
@@ -33,6 +34,14 @@ export const expensesRouter = t.router({
         value: user.user_id,
       },
     ];
+
+    if (label_ids) {
+      filters.push({
+        name: 'ex_lb.label_id',
+        type: FILTER_TYPE.In,
+        value: label_ids,
+      });
+    }
 
     const result = await selectExpensesWithLabels(filters);
 
