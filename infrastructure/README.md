@@ -46,3 +46,18 @@ First you need to access the instance. This can be done from the AWS web console
 1. Use the `nohup npm run start &` command to launch a server process and keep it running.
 1. run `netstat -ntlp` to identify to process id (PID).
 1. run `kill <PID>` to kill the process if needed.
+1. Add log rotation to prevent `nohup.out` from eating all available memory.
+   `nano /etc/logrotate.d/nohup`
+   Paste the following into the file:
+   ```
+   /root/xpensemngr/api/nohup.out {
+     size 10M
+     rotate 5
+     compress
+     missingok
+     notifempty
+     copytruncate
+   }
+   ```
+   `logrotate -f /etc/logrotate.d/nohup`
+   To check if configured correctly, you can try `logrotate -d /etc/logrotate.d/nohup` and read the output.

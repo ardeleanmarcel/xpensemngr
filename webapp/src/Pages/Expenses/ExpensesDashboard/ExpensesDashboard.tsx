@@ -100,9 +100,7 @@ export const ExpensesDashboard = () => {
       return;
     }
 
-    console.log('setting debounced run');
     debounced.run(() => {
-      console.log('running debounced function');
       fetchExpenses();
     });
   }, [selectedRange, selectedLabels, filters]);
