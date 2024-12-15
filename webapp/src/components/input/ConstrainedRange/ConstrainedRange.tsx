@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface ConstrainedRangeProps {
   min: number;
@@ -12,6 +12,10 @@ export const ConstrainedRange: React.FunctionComponent<ConstrainedRangeProps> = 
   const [maxPercent, setMaxPercent] = useState(100);
 
   const valueRange = max - min;
+
+  useEffect(() => {
+    onChange(getVal(valueRange, minPercent), getVal(valueRange, maxPercent));
+  }, [minPercent, maxPercent]);
 
   const handleMinPercentChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = parseInt(event.target.value, 10);
@@ -27,8 +31,6 @@ export const ConstrainedRange: React.FunctionComponent<ConstrainedRangeProps> = 
     }
 
     setMinPercent(value);
-
-    onChange(getVal(valueRange, minPercent), getVal(valueRange, maxPercent));
   };
 
   const handleMaxPercentChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {

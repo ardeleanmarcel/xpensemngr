@@ -79,6 +79,15 @@ export const getAllLabels = async () => {
   }
 };
 
+export const getHighestAmountExpense = async () => {
+  try {
+    const data = await client.expenses.getHighestAmount.query();
+    return data;
+  } catch (error) {
+    return null;
+  }
+};
+
 export const getCurrentDate = () => {
   const today = new Date();
   const year = today.getFullYear();

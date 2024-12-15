@@ -13,7 +13,7 @@ import { XpmCardContent } from '../../../components/XpmCardContent';
 import { XpmPaper } from '../../../components/XpmPaper';
 import { XpmTable } from '../../../components/XpmTable';
 import { XpmTypography } from '../../../components/XpmTypography';
-import { columns, createData, Data, getAllExpenses, getAllLabels } from '../expensesUtils';
+import { columns, createData, Data, getAllExpenses, getAllLabels, getHighestAmountExpense } from '../expensesUtils';
 import { TITLE } from './constants';
 
 const useStyles = makeStyles<Theme>((theme) => ({
@@ -41,20 +41,19 @@ export const ExpensesDashboard = () => {
   const [rows, setRows] = useState<Data[]>([]);
   const [labels, setLabels] = useState<Array<LabelType>>([]);
   const [selectedLabels, setSelectedLabels] = useState<Array<number>>([]);
+  const [maxAmount, setMaxAmount] = useState(0);
+  const [selectedRange, setSelectedRange] = useState({ min: 0, max: 1000 });
 
   const lastSearchOptions = useRef<ExpenseGetAllFilterType>();
 
-  const getLabels = async () => {
+  const fetchLabels = async () => {
     const lbs = await getAllLabels();
     setLabels(lbs);
   };
 
   const fetchExpenses = async () => {
     try {
-      const opts: ExpenseGetAllFilterType = {};
-      if (selectedLabels.length > 0) {
-        opts.label_ids = selectedLabels;
-      }
+      const opts = getSearchOptions();
 
       lastSearchOptions.current = opts;
 
@@ -66,14 +65,43 @@ export const ExpensesDashboard = () => {
     }
   };
 
+  const fetchHighestAmountExpense = async () => {
+    const expense = await getHighestAmountExpense();
+
+    const max = expense && expense.length > 0 ? expense[0].amount : 1000;
+    setMaxAmount(max);
+  };
+
   // TODO (Valle) -> replace with useRunOnce
   useEffect(() => {
     fetchExpenses();
-    getLabels();
+    fetchLabels();
+    fetchHighestAmountExpense();
   }, []);
 
+  useEffect(() => {
+    const opts = getSearchOptions();
+
+    if (isEqual(lastSearchOptions.current, opts)) {
+      return;
+    }
+
+    fetchExpenses();
+  }, [selectedRange, selectedLabels]);
+
   const getSearchOptions = (): ExpenseGetAllFilterType => {
-    const opts: ExpenseGetAllFilterType = {};
+    const opts: ExpenseGetAllFilterType = {
+      amount_lte: selectedRange.max,
+    };
+
+    if (selectedLabels.length > 0) {
+      opts.label_ids = selectedLabels;
+    }
+
+    if (selectedRange.min > 0) {
+      opts.amount_gte = selectedRange.min;
+    }
+
     if (selectedLabels.length > 0) {
       opts.label_ids = selectedLabels;
     }
@@ -102,6 +130,11 @@ export const ExpensesDashboard = () => {
     setPage(0);
   };
 
+  const handleRangeChange = (min: number, max: number) => {
+    setSelectedRange({ min, max });
+    fetchExpenses(); // TODO (Valle) -> need to debounce
+  };
+
   return (
     <XpmCard>
       <XpmCardContent
@@ -118,13 +151,7 @@ export const ExpensesDashboard = () => {
             selectedLabels={selectedLabels}
             onClose={handleLableSelectionClose}
           />
-          <ConstrainedRange
-            min={0}
-            max={1000}
-            onChange={() => {
-              console.log('changed');
-            }}
-          />
+          <ConstrainedRange min={0} max={maxAmount} onChange={handleRangeChange} />
           <XpmPaper sx={{ width: '100%' }}>
             <XpmTable
               columns={columns}
