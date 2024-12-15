@@ -13,6 +13,7 @@ import { XpmCardContent } from '../../../components/XpmCardContent';
 import { XpmPaper } from '../../../components/XpmPaper';
 import { XpmTable } from '../../../components/XpmTable';
 import { XpmTypography } from '../../../components/XpmTypography';
+import { useDebounced } from '../../../hooks/useDebounced';
 import { columns, createData, Data, getAllExpenses, getAllLabels, getHighestAmountExpense } from '../expensesUtils';
 import { TITLE } from './constants';
 
@@ -35,6 +36,8 @@ const useStyles = makeStyles<Theme>((theme) => ({
 
 export const ExpensesDashboard = () => {
   const classes = useStyles();
+  // TODO (Valle) -> only debounce the range change? and have the rest make calls on blur?
+  const debounced = useDebounced(1000);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -86,13 +89,19 @@ export const ExpensesDashboard = () => {
       return;
     }
 
-    fetchExpenses();
+    console.log('setting debounced run');
+    debounced.run(() => {
+      console.log('running debounced function');
+      fetchExpenses();
+    });
   }, [selectedRange, selectedLabels]);
 
   const getSearchOptions = (): ExpenseGetAllFilterType => {
-    const opts: ExpenseGetAllFilterType = {
-      amount_lte: selectedRange.max,
-    };
+    const opts: ExpenseGetAllFilterType = {};
+
+    if (selectedRange.max > 0) {
+      opts.amount_lte = selectedRange.max;
+    }
 
     if (selectedLabels.length > 0) {
       opts.label_ids = selectedLabels;
@@ -132,7 +141,6 @@ export const ExpensesDashboard = () => {
 
   const handleRangeChange = (min: number, max: number) => {
     setSelectedRange({ min, max });
-    fetchExpenses(); // TODO (Valle) -> need to debounce
   };
 
   return (

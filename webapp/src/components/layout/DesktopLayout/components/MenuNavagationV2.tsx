@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { PAGE, PATH } from '../../../../constants/paths';
 import { AccountSettings } from '../../../../Pages/Expenses/AddExpenses/AccountSettings';
 import { XpmLogoMain } from '../../../icons/XpmLogoMain/XpmLogoMain';
-import { XpmButtonV2 } from '../../../XpmButtonV2/XpmButtonV2';
+import { XpmButtonV2 } from '../../../input/XpmButtonV2/XpmButtonV2';
 import { CardV2 } from '../../CardV2/CardV2';
 import { XpmHorizontalSeparator } from '../../XpmHorizontalSeparator/XpmHorizontalSeparator';
 import { XpmVerticalSpacer } from '../../XpmVerticalSpacer/XpmVerticalSpacer';

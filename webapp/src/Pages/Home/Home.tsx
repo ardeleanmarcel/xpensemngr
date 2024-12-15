@@ -6,7 +6,7 @@ import { XpmLinkButton } from '../../components/input/XpmLinkButton/XpmLinkButto
 import { CardV2 } from '../../components/layout/CardV2/CardV2';
 import { XpmHorizontalSeparator } from '../../components/layout/XpmHorizontalSeparator/XpmHorizontalSeparator';
 import { XpmVerticalSpacer } from '../../components/layout/XpmVerticalSpacer/XpmVerticalSpacer';
-import { XpmButtonV2 } from '../../components/XpmButtonV2/XpmButtonV2';
+import { XpmButtonV2 } from '../../components/input/XpmButtonV2/XpmButtonV2';
 import { XpmInputText } from '../../components/XpmInputText/XpmInputText';
 import { XpmText } from '../../components/XpmText/XpmText';
 import { PATH } from '../../constants/paths';
