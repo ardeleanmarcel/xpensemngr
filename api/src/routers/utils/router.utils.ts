@@ -1,12 +1,12 @@
 import { z } from 'zod';
 
-import { FILTER_TYPE } from '@src/db/db.utils';
+import { FILTER_COMPARATOR } from '@src/db/db.utils';
 
 const queryInputSchema = z.array(
   z
     .object({
       name: z.string(),
-      type: z.enum([FILTER_TYPE.In, FILTER_TYPE.Is]),
+      type: z.enum([FILTER_COMPARATOR.In, FILTER_COMPARATOR.Is]),
       value: z.union([z.string(), z.number(), z.array(z.number()), z.array(z.string())]),
     })
     .strict()
@@ -26,7 +26,7 @@ export function createInputSchema(cfg: FilterSchemaConfig) {
 
         const filterType = cfg[f.name];
 
-        if (f.type === FILTER_TYPE.In) {
+        if (f.type === FILTER_COMPARATOR.In) {
           return Array.isArray(f.value) && f.value.every((val) => typeof val === filterType);
         }
 

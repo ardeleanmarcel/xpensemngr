@@ -34,6 +34,16 @@ const useStyles = makeStyles<Theme>((theme) => ({
   },
 }));
 
+interface DashboardFilters {
+  dateFrom: string;
+  dateTo: string;
+}
+
+const DEFAULT_FILTERS = {
+  dateFrom: '',
+  dateTo: '',
+};
+
 export const ExpensesDashboard = () => {
   const classes = useStyles();
   // TODO (Valle) -> only debounce the range change? and have the rest make calls on blur?
@@ -46,6 +56,7 @@ export const ExpensesDashboard = () => {
   const [selectedLabels, setSelectedLabels] = useState<Array<number>>([]);
   const [maxAmount, setMaxAmount] = useState(0);
   const [selectedRange, setSelectedRange] = useState({ min: 0, max: 1000 });
+  const [filters, setFilters] = useState<DashboardFilters>(DEFAULT_FILTERS);
 
   const lastSearchOptions = useRef<ExpenseGetAllFilterType>();
 
@@ -94,7 +105,7 @@ export const ExpensesDashboard = () => {
       console.log('running debounced function');
       fetchExpenses();
     });
-  }, [selectedRange, selectedLabels]);
+  }, [selectedRange, selectedLabels, filters]);
 
   const getSearchOptions = (): ExpenseGetAllFilterType => {
     const opts: ExpenseGetAllFilterType = {};
@@ -113,6 +124,14 @@ export const ExpensesDashboard = () => {
 
     if (selectedLabels.length > 0) {
       opts.label_ids = selectedLabels;
+    }
+
+    if (filters.dateFrom) {
+      opts.date_gte = filters.dateFrom;
+    }
+
+    if (filters.dateTo) {
+      opts.date_lte = filters.dateTo;
     }
     return opts;
   };
@@ -153,6 +172,23 @@ export const ExpensesDashboard = () => {
       >
         <div className={classes.container}>
           <XpmTypography variant="h4" component="h2" align="center" className={classes.title} text={TITLE} />
+          <div>
+            <label htmlFor="date-from">From:&nbsp;</label>
+            <input
+              id="date-from"
+              type="date"
+              value={filters.dateFrom}
+              onChange={(e) => setFilters((f) => ({ ...f, dateFrom: e.target.value }))}
+            />
+            <div style={{ width: '40px', display: 'inline-block' }} />
+            <label htmlFor="date-to">To:&nbsp;</label>
+            <input
+              id="date-to"
+              type="date"
+              value={filters.dateTo}
+              onChange={(e) => setFilters((f) => ({ ...f, dateTo: e.target.value }))}
+            />
+          </div>
           <LabelSelector
             labels={labels}
             onSelectionChange={handleLabelSelection}

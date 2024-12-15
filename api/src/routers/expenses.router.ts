@@ -7,7 +7,7 @@ import {
   deleteExpenses,
   selectExpensesWithLabels,
 } from '@src/db/sql/expenses.sql';
-import { FILTER_TYPE } from '@src/db/db.utils';
+import { FILTER_COMPARATOR } from '@src/db/db.utils';
 import { checkLabelsBelongToUser } from '@src/db/sql/labels.sql';
 
 export const expensesRouter = t.router({
@@ -27,12 +27,12 @@ export const expensesRouter = t.router({
   }),
   getAll: protectedProcedure.input(expenseGetAllSchema).query(async (opts) => {
     const { user } = opts.ctx;
-    const { label_ids, amount_gte, amount_lte } = opts.input;
+    const { label_ids, amount_gte, amount_lte, date_gte, date_lte } = opts.input;
 
     const filters: ExpenseSelectFilters = [
       {
         name: 'ex.added_by_user_id',
-        type: FILTER_TYPE.Is,
+        type: FILTER_COMPARATOR.Is,
         value: user.user_id,
       },
     ];
@@ -40,7 +40,7 @@ export const expensesRouter = t.router({
     if (label_ids) {
       filters.push({
         name: 'ex_lb.label_id',
-        type: FILTER_TYPE.In,
+        type: FILTER_COMPARATOR.In,
         value: label_ids,
       });
     }
@@ -48,7 +48,7 @@ export const expensesRouter = t.router({
     if (amount_gte) {
       filters.push({
         name: 'ex.amount',
-        type: FILTER_TYPE.GreaterOrEqualThan,
+        type: FILTER_COMPARATOR.GreaterThanOrEqual,
         value: amount_gte,
       });
     }
@@ -56,12 +56,30 @@ export const expensesRouter = t.router({
     if (amount_lte) {
       filters.push({
         name: 'ex.amount',
-        type: FILTER_TYPE.LessOrEqualThan,
+        type: FILTER_COMPARATOR.LessThanOrEqual,
         value: amount_lte,
       });
     }
 
+    if (date_gte) {
+      filters.push({
+        name: 'ex.date_expended_at',
+        type: FILTER_COMPARATOR.GreaterThanOrEqual,
+        value: date_gte,
+      });
+    }
+
+    if (date_lte) {
+      filters.push({
+        name: 'ex.date_expended_at',
+        type: FILTER_COMPARATOR.LessThanOrEqual,
+        value: date_lte,
+      });
+    }
+
     const result = await selectExpensesWithLabels({ filters });
+
+    console.log('result[0]', result[0]);
 
     return result;
   }),
@@ -71,7 +89,7 @@ export const expensesRouter = t.router({
     const filters: ExpenseSelectFilters = [
       {
         name: 'ex.added_by_user_id',
-        type: FILTER_TYPE.Is,
+        type: FILTER_COMPARATOR.Is,
         value: user.user_id,
       },
     ];
@@ -95,12 +113,12 @@ export const expensesRouter = t.router({
       filters: [
         {
           name: 'ex.added_by_user_id',
-          type: FILTER_TYPE.Is,
+          type: FILTER_COMPARATOR.Is,
           value: user.user_id,
         },
         {
           name: 'ex.expense_id',
-          type: FILTER_TYPE.In,
+          type: FILTER_COMPARATOR.In,
           value: ids,
         },
       ],

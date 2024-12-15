@@ -81,7 +81,7 @@ export async function selectExpenses(filters: Filter<AllowedExpensesFilters>[]) 
   return res;
 }
 
-export type ExpenseSelectFilterNames = 'ex.added_by_user_id' | 'ex.amount' | 'ex_lb.label_id';
+export type ExpenseSelectFilterNames = 'ex.added_by_user_id' | 'ex.amount' | 'ex_lb.label_id' | 'ex.date_expended_at';
 
 export type ExpenseSelectFilters = Array<Filter<ExpenseSelectFilterNames>>;
 
@@ -139,6 +139,9 @@ export async function selectExpensesWithLabels({ filters, limit, order }: Expens
     ${orderByClause}
     ${limitClause}
     `;
+
+  console.log('query', query);
+  console.log('bindings', bindings);
 
   const res = await sqlClient.queryWithParams<ExpenseType & { labels: Omit<LabelType, 'added_by_user_id'>[] }>(
     query,

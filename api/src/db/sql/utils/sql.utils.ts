@@ -1,4 +1,4 @@
-import { FilterForBeloningToGroup, FILTER_TYPE, Filter, FilterValue } from '../../db.utils';
+import { FilterForBeloningToGroup, FILTER_COMPARATOR, Filter, FilterValue } from '../../db.utils';
 import { OrderBy } from '../types/sql.types';
 
 export function composeWhereClause(filters: Filter<string>[]) {
@@ -24,7 +24,7 @@ export function composeWhereClause(filters: Filter<string>[]) {
 }
 
 function isArrayFilter(filter: Filter<string>): filter is FilterForBeloningToGroup<string> {
-  return filter.type === FILTER_TYPE.In;
+  return filter.type === FILTER_COMPARATOR.In;
 }
 
 export function composeLimitClause(limit?: number) {

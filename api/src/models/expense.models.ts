@@ -28,6 +28,8 @@ export const expenseGetAllSchema = z.object({
   label_ids: z.array(dbIdSchema).min(1).optional(),
   amount_gte: amountSchema.optional(),
   amount_lte: amountSchema.optional(),
+  date_gte: z.string().date().optional(),
+  date_lte: z.string().date().optional(),
 });
 
 export const expenseDeleteSchema = z.array(dbIdSchema);

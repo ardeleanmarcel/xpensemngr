@@ -16,7 +16,7 @@ import {
 import { createUserActivations, selectUserActivations, updateUserActivations } from '@sql/user_activations.sql';
 
 import { createInputSchema } from './utils/router.utils';
-import { Filter, FILTER_TYPE } from '@src/db/db.utils';
+import { Filter, FILTER_COMPARATOR } from '@src/db/db.utils';
 import { notificationService } from '@src/adapters/service.notification';
 import { HTTP_ERR } from '@src/errors';
 import { throwHttpError } from '@src/errors/error.utils';
@@ -104,7 +104,7 @@ export const usersRouter = t.router({
       const filters: Filter<'user_id'>[] = [
         {
           name: 'user_id',
-          type: FILTER_TYPE.Is,
+          type: FILTER_COMPARATOR.Is,
           value: userId,
         },
       ];
@@ -152,7 +152,7 @@ export const usersRouter = t.router({
       const filters: Filter<'user_id'>[] = [
         {
           name: 'user_id',
-          type: FILTER_TYPE.Is,
+          type: FILTER_COMPARATOR.Is,
           value: userId,
         },
       ];
@@ -195,7 +195,7 @@ export const usersRouter = t.router({
       const filters: Filter<'user_id'>[] = [
         {
           name: 'user_id',
-          type: FILTER_TYPE.Is,
+          type: FILTER_COMPARATOR.Is,
           value: userId,
         },
       ];
@@ -236,7 +236,7 @@ export const usersRouter = t.router({
       const filters: Filter<'user_id'>[] = [
         {
           name: 'user_id',
-          type: FILTER_TYPE.Is,
+          type: FILTER_COMPARATOR.Is,
           value: userId,
         },
       ];

@@ -6,7 +6,7 @@ import lodash from 'lodash';
 import { t } from '@src/trpc';
 import { selectUsers } from '@src/db/sql/users.sql';
 import { HTTP_ERR } from '@src/errors';
-import { FILTER_TYPE } from '@src/db/db.utils';
+import { FILTER_COMPARATOR } from '@src/db/db.utils';
 import { throwHttpError } from '@src/errors/error.utils';
 
 const { pick } = lodash;
@@ -21,8 +21,8 @@ export const authRouter = t.router({
     const { username, password } = opts.input;
 
     const users = await selectUsers([
-      { name: 'username', type: FILTER_TYPE.In, value: [username] },
-      { name: 'user_status_id', type: FILTER_TYPE.Is, value: 10 },
+      { name: 'username', type: FILTER_COMPARATOR.In, value: [username] },
+      { name: 'user_status_id', type: FILTER_COMPARATOR.Is, value: 10 },
     ]);
 
     if (users.length === 0) {

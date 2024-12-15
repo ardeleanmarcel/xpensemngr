@@ -2,10 +2,14 @@ import { XPM_ENV } from '@src/constants/env.const';
 import { ENV_VARS } from '@src/utils/env.utils';
 import knex from 'knex';
 
-// because pg returns BIGINT as strings by default
+// because pg returns INT8 values as strings by default
 import pg from 'pg';
-pg.types.setTypeParser(20, function (val) {
+pg.types.setTypeParser(pg.types.builtins.INT8, function (val) {
   return parseInt(val, 10);
+});
+
+pg.types.setTypeParser(pg.types.builtins.DATE, function (val) {
+  return val;
 });
 
 const config: knex.Knex.Config = {
