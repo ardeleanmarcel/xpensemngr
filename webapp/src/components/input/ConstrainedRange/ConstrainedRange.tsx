@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-interface ConstrainedRangeProps {
+type ConstrainedRangeProps = React.PropsWithoutRef<{
   min: number;
   max: number;
-  onChange: (min: number, max: number) => void;
-}
+  onChange: (selectedMin: number, selectedMax: number) => void;
+}>;
 
 // TODO (Valle) -> add a validation function for min and max. should be integers and min smaller than max
 export const ConstrainedRange: React.FunctionComponent<ConstrainedRangeProps> = ({ min = 0, max = 1000, onChange }) => {

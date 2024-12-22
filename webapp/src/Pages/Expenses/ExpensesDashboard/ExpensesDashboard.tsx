@@ -44,7 +44,7 @@ const DEFAULT_FILTERS = {
   dateTo: '',
 };
 
-export const ExpensesDashboard = () => {
+export const ExpensesDashboard: React.FunctionComponent = () => {
   const classes = useStyles();
   // TODO (Valle) -> only debounce the range change? and have the rest make calls on blur?
   const debounced = useDebounced(1000);

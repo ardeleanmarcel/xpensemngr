@@ -4,6 +4,7 @@ import { useFormikContext } from 'formik';
 import { useEffect, useState } from 'react';
 
 import { client } from '../../../api/apiClient';
+import { LabelSelector } from '../../../components/specialized/LabelSelector';
 import { AuthProtected } from '../../../components/utils/AuthProtected';
 import { XpmAlert } from '../../../components/XpmAlert';
 import { XpmButton } from '../../../components/XpmButton';
@@ -13,7 +14,6 @@ import { XpmTextField } from '../../../components/XpmTextField';
 import { XpmTypography } from '../../../components/XpmTypography';
 import { withFormik } from '../../../withFormik';
 import { getAllLabels, getCurrentDate } from '../expensesUtils';
-import { LabelSelector } from '../../../components/specialized/LabelSelector';
 
 type FormValues = {
   amount: string;

@@ -8,10 +8,11 @@ import React, { createContext, useMemo, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { DesktopLayout } from './components/layout/DesktopLayout/DesktopLayout';
+import { AuthProtected } from './components/utils/AuthProtected';
 import { PATH } from './constants/paths';
 import { NotificationContextProvider } from './contexts/notification/NotificationContextProvider';
 import { UserContextProvider } from './contexts/user/UserContextProivder';
-import { ProtectedExpensesDashboard } from './Pages/Expenses/ExpensesDashboard/ExpensesDashboard';
+import { ExpensesDashboard } from './Pages/Expenses/ExpensesDashboard/ExpensesDashboard';
 import { ProtectedManageLabels } from './Pages/Expenses/ManageLabels/ManageLabels';
 import { EmailForNewPassword } from './Pages/Home/EmailForNewPassword';
 import LoginWithFormik from './Pages/Home/Home';
@@ -120,13 +121,15 @@ export default function App() {
                 <Route path="verify-email" element={<VerifyEmail />} />
                 <Route path="*" element={null} />
               </Routes>
-              <DesktopLayout>
-                <Routes>
-                  <Route path={PATH.ExpenseDashboard.Segment} element={<ProtectedExpensesDashboard />} />
-                  <Route path={PATH.ExpenseLabels.Segment} element={<ProtectedManageLabels />} />
-                  <Route path="*" element={null} />
-                </Routes>
-              </DesktopLayout>
+              <AuthProtected shouldRedirect={false}>
+                <DesktopLayout>
+                  <Routes>
+                    <Route path={PATH.ExpenseDashboard.Segment} element={<ExpensesDashboard />} />
+                    <Route path={PATH.ExpenseLabels.Segment} element={<ProtectedManageLabels />} />
+                    <Route path="*" element={null} />
+                  </Routes>
+                </DesktopLayout>
+              </AuthProtected>
             </BrowserRouter>
           </NotificationContextProvider>
         </ThemeProvider>
