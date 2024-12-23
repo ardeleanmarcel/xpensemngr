@@ -2,10 +2,7 @@ import './DesktopLayout.scss';
 
 import { MenuNavagationV2 } from './components/MenuNavagationV2';
 
-interface DesktopLayoutProps extends React.PropsWithChildren {}
-
-// TODO (Valle) -> make this the standard way of typing a function component
-export const DesktopLayout: React.FunctionComponent<DesktopLayoutProps> = ({ children }) => {
+export const DesktopLayout: React.FunctionComponent<React.PropsWithChildren> = ({ children }) => {
   return (
     <div className="DesktopLayout">
       <aside className="DesktopLayout--sidebar">

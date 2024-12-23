@@ -70,7 +70,7 @@ export default function Register() {
 
   const handleCloseModal = () => {
     setOpenModal(false);
-    registerSuccess && navigate('/');
+    if (registerSuccess) navigate('/');
   };
 
   const handleRegister = async () => {
@@ -193,10 +193,7 @@ export default function Register() {
           onClick={handleRegister}
           buttonName={REGISTER_BUTTON}
         />
-        <XpmTypography
-          sx={{ marginBottom: '20px', textAlign: 'center' }}
-          text={INFO_TEXT}
-        />
+        <XpmTypography sx={{ marginBottom: '20px', textAlign: 'center' }} text={INFO_TEXT} />
         <XpmButton
           variant="outlined"
           color="secondary"

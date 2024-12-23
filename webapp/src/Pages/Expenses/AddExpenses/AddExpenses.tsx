@@ -133,6 +133,8 @@ const handleSubmit = async (values, { setSubmitting, setStatus, resetForm }) => 
     resetForm();
     setStatus({ success: true, message: successMessage });
   } catch (error) {
+    console.error(error);
+
     setStatus({
       success: false,
       message: errorMessage,

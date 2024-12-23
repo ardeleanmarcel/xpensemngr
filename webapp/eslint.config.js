@@ -4,7 +4,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import storybook from 'eslint-plugin-storybook';
 import eslintGlobals from 'globals';
-import tseslint, { parser } from 'typescript-eslint';
+import tseslint from 'typescript-eslint';
 
 const globals = {
   React: 'readonly',
@@ -14,15 +14,24 @@ const globals = {
 delete globals['AudioWorkletGlobalScope ']; // workaround fix because this global has a trailing space
 
 export default tseslint.config(
-  { ...eslint.configs.recommended, files: ['src/**/*.{js,jsx,ts,tsx}'] },
-  tseslint.configs.recommended, // TODO -> need to stop this from linting the dist folder
+  {
+    extends: [eslint.configs.recommended, tseslint.configs.recommended],
+    files: ['src/**/*.{js,jsx,ts,tsx}', 'eslint.config.js'],
+  },
   {
     plugins: {
       'react-hooks': eslintPluginReactHooks,
     },
+    rules: {
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'off', // TODO (Valle) -> consider adding this back in
+    },
   },
-  // eslintPluginReactHooks.configs.recommended, // TODO -> does not work with eslint new config file structure
-  // storybook.configs.recommended, // TODO -> does not work with eslint new config file structure
+  {
+    plugins: {
+      storybook: storybook,
+    },
+  },
   {
     plugins: {
       'simple-import-sort': simpleImportSort,
@@ -33,60 +42,15 @@ export default tseslint.config(
     },
   },
   {
+    plugins: {
+      'react-refresh': reactRefresh,
+    },
+  },
+  {
     languageOptions: {
       ecmaVersion: 'latest',
       globals,
       parser: tseslint.parser,
     },
   }
-  // plugins: {
-  //   'react-refresh': reactRefresh,
-  // },
-
-  //
-  //   parser: '@typescript-eslint/parser',
-
-  //   rules: {
-  //     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-  //   },
-  // },
 );
-
-// export default [
-//   { ...eslint.configs.recommended, files: ['src/**/*.{js,jsx,ts,tsx}'] },
-//   // tseslint.configs.recommended,
-//   {
-//     plugins: {
-//       'react-hooks': eslintPluginReactHooks,
-//     },
-//   },
-//   // eslintPluginReactHooks.configs.recommended, // TODO -> does not work with eslint new config file structure
-//   // storybook.configs.recommended, // TODO -> does not work with eslint new config file structure
-//   {
-//     plugins: {
-//       'simple-import-sort': simpleImportSort,
-//     },
-//     rules: {
-//       'simple-import-sort/imports': 'error',
-//       'simple-import-sort/exports': 'error',
-//     },
-//   },
-//   {
-//     languageOptions: {
-//       ecmaVersion: 'latest',
-//       globals,
-//       parser: tseslint.parser,
-//     },
-//   },
-//   // plugins: {
-//   //   'react-refresh': reactRefresh,
-//   // },
-
-//   //
-//   //   parser: '@typescript-eslint/parser',
-
-//   //   rules: {
-//   //     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-//   //   },
-//   // },
-// ];

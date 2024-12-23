@@ -14,6 +14,7 @@ import { XpmPaper } from '../../../components/XpmPaper';
 import { XpmTable } from '../../../components/XpmTable';
 import { XpmTypography } from '../../../components/XpmTypography';
 import { useDebounced } from '../../../hooks/useDebounced';
+import { useRunOnce } from '../../../hooks/useRunOnce';
 import { columns, createData, Data, getAllExpenses, getAllLabels, getHighestAmountExpense } from '../expensesUtils';
 import { TITLE } from './constants';
 
@@ -86,12 +87,11 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
     setMaxAmount(max);
   };
 
-  // TODO (Valle) -> replace with useRunOnce
-  useEffect(() => {
+  useRunOnce(() => {
     fetchExpenses();
     fetchLabels();
     fetchHighestAmountExpense();
-  }, []);
+  });
 
   useEffect(() => {
     const opts = getSearchOptions();

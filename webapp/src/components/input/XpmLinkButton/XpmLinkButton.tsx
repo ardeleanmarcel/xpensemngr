@@ -31,8 +31,8 @@ export function XpmLinkButton({
   }, [to, onClick]);
 
   const handleClick: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
-    to && navigate(to);
-    onClick && onClick(e);
+    if (to) navigate(to);
+    if (onClick) onClick(e);
   };
 
   const classes = cn('XpmLinkButton', `XpmLinkButton--${size}`, { 'XpmLinkButton--underline': showUnderline });
