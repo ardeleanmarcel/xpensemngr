@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { client } from '../../../../api/apiClient';
 import { XpmButtonV2 } from '../../../input/XpmButtonV2/XpmButtonV2';
-import { XpmInputText } from '../../../XpmInputText/XpmInputText';
+import { InputText } from '../../../input/InputText/InputText';
 import { XpmText } from '../../../XpmText/XpmText';
 import { BasicDialog } from '../../BasicDialog/BasicDialog';
 import { XpmHorizontalSeparator } from '../../XpmHorizontalSeparator/XpmHorizontalSeparator';
@@ -30,9 +30,9 @@ export const AddLabelDialog: React.FunctionComponent<AddExpenseDialogProps> = ({
       <XpmVerticalSpacer size="xs" />
       <XpmHorizontalSeparator width="50px" />
       <XpmVerticalSpacer size="m" />
-      <XpmInputText name="New Label Name" onChange={(e) => setName(e.target.value)} value={name} />
+      <InputText name="New Label Name" onChange={(e) => setName(e.target.value)} value={name} />
       <XpmVerticalSpacer size="m" />
-      <XpmInputText name="description" onChange={(e) => setDescription(e.target.value)} value={description} />
+      <InputText name="description" onChange={(e) => setDescription(e.target.value)} value={description} />
       <XpmVerticalSpacer size="m" />
       <XpmButtonV2 text="Add" onClick={handleAddLabel} />
     </BasicDialog>

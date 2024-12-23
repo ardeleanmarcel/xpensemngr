@@ -4,7 +4,7 @@ import { client } from '../../../../api/apiClient';
 import { getAllLabels, getCurrentDate } from '../../../../Pages/Expenses/expensesUtils';
 import { XpmButtonV2 } from '../../../input/XpmButtonV2/XpmButtonV2';
 import { LabelSelector } from '../../../specialized/LabelSelector';
-import { XpmInputText } from '../../../XpmInputText/XpmInputText';
+import { InputText } from '../../../input/InputText/InputText';
 import { XpmText } from '../../../XpmText/XpmText';
 import { BasicDialog } from '../../BasicDialog/BasicDialog';
 import { XpmHorizontalSeparator } from '../../XpmHorizontalSeparator/XpmHorizontalSeparator';
@@ -61,9 +61,9 @@ export const AddExpenseDialog: React.FunctionComponent<AddExpenseDialogProps> = 
       <XpmVerticalSpacer size="xs" />
       <XpmHorizontalSeparator width="50px" />
       <XpmVerticalSpacer size="m" />
-      <XpmInputText name="amount" onChange={(e) => setAmount(e.target.value)} value={amount} />
+      <InputText name="amount" onChange={(e) => setAmount(e.target.value)} value={amount} />
       <XpmVerticalSpacer size="m" />
-      <XpmInputText name="description" onChange={(e) => setDescription(e.target.value)} value={description} />
+      <InputText name="description" onChange={(e) => setDescription(e.target.value)} value={description} />
       <XpmVerticalSpacer size="m" />
       <LabelSelector labels={labels} onSelectionChange={handleLabelSelection} selectedLabels={selectedLabels} />
       <XpmVerticalSpacer size="m" />
