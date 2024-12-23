@@ -8,6 +8,11 @@ $element-height: 42px;
   min-width: 200px;
   position: relative;
 
+  &--disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
   input {
     @include fonts.font-regular-xs;
     height: 100%;

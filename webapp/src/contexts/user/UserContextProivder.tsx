@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { client } from '../../api/apiClient';
@@ -68,7 +68,9 @@ export function UserContextProvider({ children }: React.PropsWithChildren) {
     return true;
   }
 
+  const contextValue = useMemo(() => ({ signIn, signOut, user }), [signIn, signOut, user]);
+
   if (isInitializing) return null;
 
-  return <userContext.Provider value={{ signIn, signOut, user }}>{children}</userContext.Provider>;
+  return <userContext.Provider value={contextValue}>{children}</userContext.Provider>;
 }

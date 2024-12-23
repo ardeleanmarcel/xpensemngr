@@ -38,3 +38,13 @@ export const Password: Story = {
     placeholder: 'Enter password...',
   },
 };
+
+export const Disabled: Story = {
+  args: {
+    type: 'password',
+    value: 'neverguessme',
+    name: 'Password',
+    placeholder: 'Enter password...',
+    disabled: true,
+  },
+};
