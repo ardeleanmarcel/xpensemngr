@@ -2,6 +2,7 @@
 export enum PAGE {
   Dashboard = 'DASHBOARD',
   Labels = 'LABELS',
+  Home = 'HOME',
 }
 
 export const PATH = {
@@ -18,5 +19,8 @@ export const PATH = {
   },
   ExpenseDashboard: {
     Segment: '/expense-dashboard',
+  },
+  HomePage: {
+    Segment: '/',
   },
 } as const;

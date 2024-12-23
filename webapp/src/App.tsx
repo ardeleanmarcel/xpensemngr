@@ -102,18 +102,18 @@ export default function App() {
   );
 
   return (
-    <UserContextProvider>
-      <ColorModeContext.Provider value={themeContext}>
-        <ThemeProvider theme={theme}>
-          <GlobalStyles
-            styles={{
-              body: {
-                backgroundColor: theme.palette.background.default,
-              },
-            }}
-          />
-          <NotificationContextProvider>
-            <BrowserRouter>
+    <BrowserRouter>
+      <UserContextProvider>
+        <ColorModeContext.Provider value={themeContext}>
+          <ThemeProvider theme={theme}>
+            <GlobalStyles
+              styles={{
+                body: {
+                  backgroundColor: theme.palette.background.default,
+                },
+              }}
+            />
+            <NotificationContextProvider>
               <Routes>
                 <Route path="/" element={<LoginWithFormik />} />
                 <Route path="register" element={<Register />} />
@@ -130,10 +130,10 @@ export default function App() {
                   </Routes>
                 </DesktopLayout>
               </AuthProtected>
-            </BrowserRouter>
-          </NotificationContextProvider>
-        </ThemeProvider>
-      </ColorModeContext.Provider>
-    </UserContextProvider>
+            </NotificationContextProvider>
+          </ThemeProvider>
+        </ColorModeContext.Provider>
+      </UserContextProvider>
+    </BrowserRouter>
   );
 }

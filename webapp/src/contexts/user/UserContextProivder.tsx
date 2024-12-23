@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { client } from '../../api/apiClient';
+import { PATH } from '../../constants/paths';
 import { useRunOnce } from '../../hooks/useRunOnce';
 import { extractAuthPayload } from '../../utils/auth.utils';
-import { userContext,UserData } from './user.context';
+import { userContext, UserData } from './user.context';
 
 const MILLISECONDS = {
   Minutes: {
@@ -13,6 +15,8 @@ const MILLISECONDS = {
 
 // TODO (valle) -> implement an interval that checks for token expiration and refresh or revoke
 export function UserContextProvider({ children }: React.PropsWithChildren) {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState<UserData | null>(null);
   const [isInitializing, setIsInitializing] = useState(true);
 
@@ -26,8 +30,7 @@ export function UserContextProvider({ children }: React.PropsWithChildren) {
     try {
       const { username, email, exp } = extractAuthPayload(token);
 
-      const isOldToken =
-        exp * 1000 < new Date().getTime() + MILLISECONDS.Minutes.Five;
+      const isOldToken = exp * 1000 < new Date().getTime() + MILLISECONDS.Minutes.Five;
 
       if (isOldToken) {
         localStorage.removeItem('authToken');
@@ -41,13 +44,7 @@ export function UserContextProvider({ children }: React.PropsWithChildren) {
     }
   });
 
-  async function signIn({
-    username,
-    password,
-  }: {
-    username: string;
-    password: string;
-  }) {
+  async function signIn({ username, password }: { username: string; password: string }) {
     try {
       const { token } = await client.auth.signIn.mutate({ username, password });
 
@@ -67,14 +64,11 @@ export function UserContextProvider({ children }: React.PropsWithChildren) {
   async function signOut() {
     localStorage.removeItem('authToken');
     setUser(null);
+    navigate(PATH.HomePage.Segment);
     return true;
   }
 
   if (isInitializing) return null;
 
-  return (
-    <userContext.Provider value={{ signIn, signOut, user }}>
-      {children}
-    </userContext.Provider>
-  );
+  return <userContext.Provider value={{ signIn, signOut, user }}>{children}</userContext.Provider>;
 }
