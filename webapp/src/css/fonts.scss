@@ -56,6 +56,13 @@ $font-default: 'Ubuntu', sans-serif;
   line-height: 28px;
 }
 
+@mixin font-bold-xxs {
+  font-family: $font-default;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+}
+
 @mixin font-bold-sm {
   font-family: $font-default;
   font-weight: 700;

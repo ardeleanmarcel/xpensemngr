@@ -19,7 +19,7 @@ export function InputText({ name, value, onChange, width, type = 'text', placeho
   const style = cleanObject({ width });
 
   return (
-    <div className="XpmInputText" style={style}>
+    <div className="InputText" style={style}>
       <input type={type} value={value} placeholder={placeholder ?? name} onChange={onChange} />
       <fieldset>
         <legend>{name}</legend>
