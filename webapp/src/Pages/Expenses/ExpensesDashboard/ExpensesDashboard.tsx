@@ -105,7 +105,7 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
     });
   }, [selectedRange, selectedLabels, filters]);
 
-  const getSearchOptions = (): ExpenseGetAllFilterType => {
+  function getSearchOptions(): ExpenseGetAllFilterType {
     const opts: ExpenseGetAllFilterType = {};
 
     if (selectedRange.max > 0) {
@@ -132,7 +132,7 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
       opts.date_lte = filters.dateTo;
     }
     return opts;
-  };
+  }
 
   const handleLabelSelection = (sl: number[]) => {
     setSelectedLabels(sl);

@@ -14,8 +14,8 @@ import { NotificationContextProvider } from './contexts/notification/Notificatio
 import { UserContextProvider } from './contexts/user/UserContextProivder';
 import { ExpensesDashboard } from './Pages/Expenses/ExpensesDashboard/ExpensesDashboard';
 import { ProtectedManageLabels } from './Pages/Expenses/ManageLabels/ManageLabels';
-import { EmailForNewPassword } from './Pages/Home/EmailForNewPassword';
-import LoginWithFormik from './Pages/Home/Home';
+import { EmailForNewPassword } from './Pages/HomePage/EmailForNewPassword';
+import LoginWithFormik from './Pages/HomePage/HomePage';
 import Register from './Pages/Register/Register';
 import { VerifyEmail } from './Pages/VerifyEmail/VerifyEmail';
 
