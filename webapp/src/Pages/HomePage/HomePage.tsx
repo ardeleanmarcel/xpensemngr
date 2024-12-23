@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { XpmLogoMain } from '../../components/icons/XpmLogoMain/XpmLogoMain';
+import { ButtonLink } from '../../components/input/ButtonLink/ButtonLink';
 import { ButtonPill } from '../../components/input/ButtonPill/ButtonPill';
 import { InputText } from '../../components/input/InputText/InputText';
-import { XpmLinkButton } from '../../components/input/XpmLinkButton/XpmLinkButton';
 import { CardV2 } from '../../components/layout/CardV2/CardV2';
 import { XpmHorizontalSeparator } from '../../components/layout/XpmHorizontalSeparator/XpmHorizontalSeparator';
 import { XpmVerticalSpacer } from '../../components/layout/XpmVerticalSpacer/XpmVerticalSpacer';
@@ -103,7 +103,7 @@ function Home() {
           />
           <XpmVerticalSpacer size="xs" />
           <div style={{ display: 'flex', justifyContent: 'flex-end', width: '450px' }}>
-            <XpmLinkButton text="Forgot Password" to="/forgot-password" size="xs" showUnderline={false} />
+            <ButtonLink text="Forgot Password" to="/forgot-password" size="xs" showUnderline={false} />
           </div>
           <XpmVerticalSpacer size="l" />
           <ButtonPill text="Login" onClick={handleSubmit} />
@@ -116,10 +116,10 @@ function Home() {
             }}
           >
             <XpmText content="Don't have an account?" />
-            <XpmLinkButton text="Register Here" to="/register" />
+            <ButtonLink text="Register Here" to="/register" />
           </div>
           <XpmVerticalSpacer size="xxl" />
-          <XpmLinkButton text="Continue without an account" onClick={() => console.log('Continue without an account')} />
+          <ButtonLink text="Continue without an account" onClick={() => console.log('Continue without an account')} />
           <XpmVerticalSpacer size="xs" />
         </CardV2>
       </div>

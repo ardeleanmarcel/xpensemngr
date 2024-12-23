@@ -1,0 +1,35 @@
+@use '../../../css/fonts.scss' as fonts;
+@use '../../../css/colors.scss' as colors;
+
+.ButtonLink {
+  cursor: pointer;
+  text-decoration: none;
+
+  &.ButtonLink--underline {
+    text-decoration: underline;
+  }
+
+  &:hover {
+    text-shadow: 0 0 15px colors.$purple-500-opacity-50;
+  }
+
+  &:focus {
+    text-shadow: 0 0 15px colors.$purple-500-opacity-90;
+  }
+}
+
+.ButtonLink--xs {
+  @include fonts.font-regular-xs;
+}
+
+.ButtonLink--s {
+  @include fonts.font-regular-s;
+}
+
+.ButtonLink--sm {
+  @include fonts.font-regular-sm;
+}
+
+.ButtonLink--m {
+  @include fonts.font-regular-m;
+}

@@ -1,4 +1,4 @@
-import './XpmLinkButton.scss';
+import './ButtonLink.scss';
 
 import cn from 'classnames';
 import { useEffect } from 'react';
@@ -11,7 +11,7 @@ export interface XpmLinkButtonProps {
   size?: 'xs' | 's' | 'sm' | 'm';
   showUnderline?: boolean;
 }
-export function XpmLinkButton({
+export function ButtonLink({
   text,
   to,
   onClick,
@@ -22,11 +22,11 @@ export function XpmLinkButton({
 
   useEffect(() => {
     if (to && onClick) {
-      console.warn('XpmLinkButton: Both "to" and "onClick" props are provided. This is allowed but not recommended.');
+      console.warn('ButtonLink: Both "to" and "onClick" props are provided. This is allowed but not recommended.');
     }
 
     if (!to && !onClick) {
-      console.error('XpmLinkButton: Either "to" or "onClick" prop is required for this component to work.');
+      console.error('ButtonLink: Either "to" or "onClick" prop is required for this component to work.');
     }
   }, [to, onClick]);
 
@@ -35,7 +35,7 @@ export function XpmLinkButton({
     if (onClick) onClick(e);
   };
 
-  const classes = cn('XpmLinkButton', `XpmLinkButton--${size}`, { 'XpmLinkButton--underline': showUnderline });
+  const classes = cn('ButtonLink', `ButtonLink--${size}`, { 'ButtonLink--underline': showUnderline });
 
   return (
     <a className={classes} href={to} onClick={handleClick}>
