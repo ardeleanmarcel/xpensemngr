@@ -1,6 +1,8 @@
 @use '../../../css/fonts.scss' as fonts;
 @use '../../../css/colors.scss' as colors;
 
+$base-shadow: 0px 4px 4px 0px colors.$black-1000-opacity-25;
+
 .ButtonPill {
   @include fonts.font-regular-xs;
 
@@ -15,9 +17,13 @@
   height: 42px;
   border-radius: 12px;
 
-  box-shadow: 0px 4px 4px 0px colors.$black-1000-opacity-25;
+  box-shadow: $base-shadow;
 
   &:hover {
     background-color: colors.$green-700;
+  }
+
+  &:focus {
+    box-shadow: $base-shadow, 0 0 10px colors.$green-500;
   }
 }
