@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 
 import { client } from '../../../../api/apiClient';
 import { getAllLabels, getCurrentDate } from '../../../../Pages/Expenses/expensesUtils';
-import { XpmButtonV2 } from '../../../input/XpmButtonV2/XpmButtonV2';
-import { LabelSelector } from '../../../specialized/LabelSelector';
+import { ButtonPill } from '../../../input/ButtonPill/ButtonPill';
 import { InputText } from '../../../input/InputText/InputText';
+import { LabelSelector } from '../../../specialized/LabelSelector';
 import { XpmText } from '../../../XpmText/XpmText';
 import { BasicDialog } from '../../BasicDialog/BasicDialog';
 import { XpmHorizontalSeparator } from '../../XpmHorizontalSeparator/XpmHorizontalSeparator';
@@ -67,7 +67,7 @@ export const AddExpenseDialog: React.FunctionComponent<AddExpenseDialogProps> = 
       <XpmVerticalSpacer size="m" />
       <LabelSelector labels={labels} onSelectionChange={handleLabelSelection} selectedLabels={selectedLabels} />
       <XpmVerticalSpacer size="m" />
-      <XpmButtonV2 text="Add" onClick={handleAddExpense} />
+      <ButtonPill text="Add" onClick={handleAddExpense} />
     </BasicDialog>
   );
 };

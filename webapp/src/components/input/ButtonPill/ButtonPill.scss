@@ -1,0 +1,23 @@
+@use '../../../css/fonts.scss' as fonts;
+@use '../../../css/colors.scss' as colors;
+
+.ButtonPill {
+  @include fonts.font-regular-xs;
+
+  background-color: colors.$green-500;
+  color: rgba(255, 255, 255, 1);
+
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+
+  width: 280px;
+  height: 42px;
+  border-radius: 12px;
+
+  box-shadow: 0px 4px 4px 0px colors.$black-1000-opacity-25;
+
+  &:hover {
+    background-color: colors.$green-700;
+  }
+}

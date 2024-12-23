@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { client } from '../../../../api/apiClient';
-import { XpmButtonV2 } from '../../../input/XpmButtonV2/XpmButtonV2';
+import { ButtonPill } from '../../../input/ButtonPill/ButtonPill';
 import { InputText } from '../../../input/InputText/InputText';
 import { XpmText } from '../../../XpmText/XpmText';
 import { BasicDialog } from '../../BasicDialog/BasicDialog';
@@ -34,7 +34,7 @@ export const AddLabelDialog: React.FunctionComponent<AddExpenseDialogProps> = ({
       <XpmVerticalSpacer size="m" />
       <InputText name="description" onChange={(e) => setDescription(e.target.value)} value={description} />
       <XpmVerticalSpacer size="m" />
-      <XpmButtonV2 text="Add" onClick={handleAddLabel} />
+      <ButtonPill text="Add" onClick={handleAddLabel} />
     </BasicDialog>
   );
 };

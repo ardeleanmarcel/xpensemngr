@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { PAGE, PATH } from '../../../../constants/paths';
 import { AccountSettings } from '../../../../Pages/Expenses/AddExpenses/AccountSettings';
 import { XpmLogoMain } from '../../../icons/XpmLogoMain/XpmLogoMain';
-import { XpmButtonV2 } from '../../../input/XpmButtonV2/XpmButtonV2';
+import { ButtonPill } from '../../../input/ButtonPill/ButtonPill';
 import { CardV2 } from '../../CardV2/CardV2';
 import { XpmHorizontalSeparator } from '../../XpmHorizontalSeparator/XpmHorizontalSeparator';
 import { XpmVerticalSpacer } from '../../XpmVerticalSpacer/XpmVerticalSpacer';
@@ -49,20 +49,20 @@ export function MenuNavagationV2() {
         <XpmHorizontalSeparator width="150px" />
         <XpmVerticalSpacer size="m" />
 
-        <XpmButtonV2 text="Add Expense" onClick={() => setIsAddExpenseDialogOpen(true)} />
+        <ButtonPill text="Add Expense" onClick={() => setIsAddExpenseDialogOpen(true)} />
         <XpmVerticalSpacer size="m" />
         {currentPage && (
           <>
-            <XpmButtonV2 text={secondaryItemText} onClick={handleSecondaryItemClick} />
+            <ButtonPill text={secondaryItemText} onClick={handleSecondaryItemClick} />
             <XpmVerticalSpacer size="m" />
           </>
         )}
         <XpmHorizontalSeparator width="150px" />
 
         <XpmVerticalSpacer size="m" />
-        <XpmButtonV2 text="Dashboard" onClick={() => navigate(PATH.ExpenseDashboard.Segment)} />
+        <ButtonPill text="Dashboard" onClick={() => navigate(PATH.ExpenseDashboard.Segment)} />
         <XpmVerticalSpacer size="m" />
-        <XpmButtonV2 text="Labels" onClick={() => navigate(PATH.ExpenseLabels.Segment)} />
+        <ButtonPill text="Labels" onClick={() => navigate(PATH.ExpenseLabels.Segment)} />
         <div style={{ flex: 1 }} />
         <XpmHorizontalSeparator width="250px" />
         <AccountSettings />

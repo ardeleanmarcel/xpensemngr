@@ -1,17 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 
-import { XpmButtonV2 } from './XpmButtonV2';
+import { ButtonPill } from './ButtonPill';
 
 const meta = {
-  title: 'Base Components/Input/Button',
-  component: XpmButtonV2,
+  title: 'Base Components/Input/ButtonPill',
+  component: ButtonPill,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
   args: { onClick: fn() },
-} satisfies Meta<typeof XpmButtonV2>;
+} satisfies Meta<typeof ButtonPill>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

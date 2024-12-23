@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { XpmLogoMain } from '../../components/icons/XpmLogoMain/XpmLogoMain';
+import { ButtonPill } from '../../components/input/ButtonPill/ButtonPill';
 import { InputText } from '../../components/input/InputText/InputText';
-import { XpmButtonV2 } from '../../components/input/XpmButtonV2/XpmButtonV2';
 import { XpmLinkButton } from '../../components/input/XpmLinkButton/XpmLinkButton';
 import { CardV2 } from '../../components/layout/CardV2/CardV2';
 import { XpmHorizontalSeparator } from '../../components/layout/XpmHorizontalSeparator/XpmHorizontalSeparator';
@@ -106,7 +106,7 @@ function Home() {
             <XpmLinkButton text="Forgot Password" to="/forgot-password" size="xs" showUnderline={false} />
           </div>
           <XpmVerticalSpacer size="l" />
-          <XpmButtonV2 text="Login" onClick={handleSubmit} />
+          <ButtonPill text="Login" onClick={handleSubmit} />
           <XpmVerticalSpacer size="xxl" />
           <div
             style={{
