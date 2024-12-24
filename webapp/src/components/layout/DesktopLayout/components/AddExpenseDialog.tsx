@@ -55,13 +55,20 @@ export const AddExpenseDialog: React.FunctionComponent<AddExpenseDialogProps> = 
     setSelectedLabels(sl);
   };
 
+  const focusFirstInput = () => {
+    console.log('bip');
+    const el = document.querySelector('[data-id="amount"]');
+    console.log('el', el);
+    if (el && el instanceof HTMLInputElement) el.focus();
+  };
+
   return (
-    <BasicDialog isOpen={isOpen} onBackdropClick={onClose} width="680px" height="420px">
+    <BasicDialog isOpen={isOpen} onBackdropClick={onClose} width="680px" height="420px" onAfterOpen={focusFirstInput}>
       <XpmText content="Add Expense" size="m" />
       <XpmVerticalSpacer size="xs" />
       <XpmHorizontalSeparator width="50px" />
       <XpmVerticalSpacer size="m" />
-      <InputText name="amount" onChange={(e) => setAmount(e.target.value)} value={amount} />
+      <InputText data-id="amount" name="amount" onChange={(e) => setAmount(e.target.value)} value={amount} />
       <XpmVerticalSpacer size="m" />
       <InputText name="description" onChange={(e) => setDescription(e.target.value)} value={description} />
       <XpmVerticalSpacer size="m" />
