@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { client } from '../../../../api/apiClient';
+import { SnackbarType, useNotification } from '../../../../contexts/notification/notification.context';
 import { getAllLabels, getCurrentDate } from '../../../../Pages/Expenses/expensesUtils';
 import { ButtonPill } from '../../../input/ButtonPill/ButtonPill';
 import { InputText } from '../../../input/InputText/InputText';
@@ -16,6 +17,8 @@ interface AddExpenseDialogProps extends React.PropsWithChildren {
 }
 
 export const AddExpenseDialog: React.FunctionComponent<AddExpenseDialogProps> = ({ isOpen, onClose }) => {
+  const { displaySnackbar } = useNotification();
+
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
   const [selectedLabels, setSelectedLabels] = useState<Array<number>>([]);
@@ -59,7 +62,9 @@ export const AddExpenseDialog: React.FunctionComponent<AddExpenseDialogProps> = 
         },
       ])
       .then(handleAddExpenseSuccess)
-      .catch(console.error)
+      .catch(() => {
+        displaySnackbar({ message: 'Failed to add expense', type: SnackbarType.Error });
+      })
       .finally(() => setIsLoading(false));
   };
 

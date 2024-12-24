@@ -1,17 +1,11 @@
 import React, { useRef, useState } from 'react';
 
-import {
-  notificationContext,
-  SnackbarConfig,
-  SnackbarType,
-} from './notification.context';
+import { notificationContext, SnackbarConfig, SnackbarType } from './notification.context';
 import { NotificationSnackbar } from './NotificationSnackbar';
 
-export function NotificationContextProvider({
-  children,
-}: React.PropsWithChildren) {
+export function NotificationContextProvider({ children }: React.PropsWithChildren) {
   const [message, setMessage] = useState('');
-  const [type, setType] = useState<SnackbarType>('success');
+  const [type, setType] = useState<SnackbarType>(SnackbarType.Success);
   const [isVisible, setIsVisible] = useState(false);
 
   const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -38,15 +32,8 @@ export function NotificationContextProvider({
   }
 
   return (
-    <notificationContext.Provider
-      value={{ displaySnackbar, isVisible, message }}
-    >
-      <NotificationSnackbar
-        isOpen={isVisible}
-        message={message}
-        type={type}
-        onClose={onClose}
-      />
+    <notificationContext.Provider value={{ displaySnackbar, isVisible, message }}>
+      <NotificationSnackbar isOpen={isVisible} message={message} type={type} onClose={onClose} />
       {children}
     </notificationContext.Provider>
   );

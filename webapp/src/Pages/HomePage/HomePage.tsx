@@ -10,7 +10,7 @@ import { XpmHorizontalSeparator } from '../../components/layout/XpmHorizontalSep
 import { XpmVerticalSpacer } from '../../components/layout/XpmVerticalSpacer/XpmVerticalSpacer';
 import { XpmText } from '../../components/XpmText/XpmText';
 import { PATH } from '../../constants/paths';
-import { useNotification } from '../../contexts/notification/notification.context';
+import { SnackbarType, useNotification } from '../../contexts/notification/notification.context';
 import { useUser } from '../../contexts/user/user.context';
 
 export const SUCCESS_MSG = 'You have successfully logged in.';
@@ -31,10 +31,10 @@ function Home() {
     const success = await signIn(form);
 
     if (success) {
-      displaySnackbar({ message: SUCCESS_MSG, type: 'success' });
+      displaySnackbar({ message: SUCCESS_MSG, type: SnackbarType.Success });
       navigate(PATH.ExpenseDashboard.Segment);
     } else {
-      displaySnackbar({ message: FAIL_MSG, type: 'error' });
+      displaySnackbar({ message: FAIL_MSG, type: SnackbarType.Error });
     }
 
     setIsSubmitting(false);
