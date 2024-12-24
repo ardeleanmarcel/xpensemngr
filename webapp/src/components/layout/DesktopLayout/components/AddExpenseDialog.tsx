@@ -39,6 +39,13 @@ export const AddExpenseDialog: React.FunctionComponent<AddExpenseDialogProps> = 
     getLabels();
   }, []);
 
+  const handleAddExpenseSuccess = () => {
+    setAmount('');
+    setDescription('');
+    setSelectedLabels([]);
+    onClose();
+  };
+
   const handleAddExpense: React.MouseEventHandler<HTMLButtonElement> = () => {
     setIsLoading(true);
 
@@ -51,7 +58,7 @@ export const AddExpenseDialog: React.FunctionComponent<AddExpenseDialogProps> = 
           label_ids: selectedLabels,
         },
       ])
-      .then(onClose)
+      .then(handleAddExpenseSuccess)
       .catch(console.error)
       .finally(() => setIsLoading(false));
   };
