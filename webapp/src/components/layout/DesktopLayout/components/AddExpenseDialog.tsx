@@ -19,6 +19,7 @@ export const AddExpenseDialog: React.FunctionComponent<AddExpenseDialogProps> = 
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
   const [selectedLabels, setSelectedLabels] = useState<Array<number>>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [labels, setLabels] = useState<
     {
@@ -38,17 +39,21 @@ export const AddExpenseDialog: React.FunctionComponent<AddExpenseDialogProps> = 
     getLabels();
   }, []);
 
-  const handleAddExpense: React.MouseEventHandler<HTMLButtonElement> = async () => {
-    console.log('attempting to add expense');
+  const handleAddExpense: React.MouseEventHandler<HTMLButtonElement> = () => {
+    setIsLoading(true);
 
-    await client.expenses.create.mutate([
-      {
-        description,
-        amount: Number(amount),
-        date_expended_at: getCurrentDate(),
-        label_ids: selectedLabels,
-      },
-    ]);
+    client.expenses.create
+      .mutate([
+        {
+          description,
+          amount: Number(amount),
+          date_expended_at: getCurrentDate(),
+          label_ids: selectedLabels,
+        },
+      ])
+      .then(onClose)
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
   };
 
   const handleLabelSelection = (sl: number[]) => {
@@ -56,25 +61,34 @@ export const AddExpenseDialog: React.FunctionComponent<AddExpenseDialogProps> = 
   };
 
   const focusFirstInput = () => {
-    console.log('bip');
     const el = document.querySelector('[data-id="amount"]');
-    console.log('el', el);
     if (el && el instanceof HTMLInputElement) el.focus();
   };
 
+  const handleDialogBackdropClick = () => {
+    if (!isLoading) onClose();
+  };
+
   return (
-    <BasicDialog isOpen={isOpen} onBackdropClick={onClose} width="680px" height="420px" onAfterOpen={focusFirstInput}>
+    <BasicDialog
+      isOpen={isOpen}
+      onBackdropClick={handleDialogBackdropClick}
+      width="680px"
+      height="420px"
+      onAfterOpen={focusFirstInput}
+      showLoading={isLoading}
+    >
       <XpmText content="Add Expense" size="m" />
       <XpmVerticalSpacer size="xs" />
       <XpmHorizontalSeparator width="50px" />
       <XpmVerticalSpacer size="m" />
-      <InputText data-id="amount" name="amount" onChange={(e) => setAmount(e.target.value)} value={amount} />
+      <InputText data-id="amount" name="amount" onChange={(e) => setAmount(e.target.value)} value={amount} disabled={isLoading} />
       <XpmVerticalSpacer size="m" />
-      <InputText name="description" onChange={(e) => setDescription(e.target.value)} value={description} />
+      <InputText name="description" onChange={(e) => setDescription(e.target.value)} value={description} disabled={isLoading} />
       <XpmVerticalSpacer size="m" />
       <LabelSelector labels={labels} onSelectionChange={handleLabelSelection} selectedLabels={selectedLabels} />
       <XpmVerticalSpacer size="m" />
-      <ButtonPill text="Add" onClick={handleAddExpense} />
+      <ButtonPill text="Add" onClick={handleAddExpense} disabled={isLoading} />
     </BasicDialog>
   );
 };

@@ -12,6 +12,7 @@ interface BasicDialogProps extends React.PropsWithChildren {
   width?: string;
   height?: string;
   onAfterOpen?: () => void;
+  showLoading?: boolean;
 }
 
 export const BasicDialog: React.FunctionComponent<BasicDialogProps> = ({
@@ -21,6 +22,7 @@ export const BasicDialog: React.FunctionComponent<BasicDialogProps> = ({
   width,
   height,
   onAfterOpen,
+  showLoading,
 }) => {
   useEffect(() => {
     if (isOpen && onAfterOpen) onAfterOpen();
@@ -29,7 +31,7 @@ export const BasicDialog: React.FunctionComponent<BasicDialogProps> = ({
   const dialog = (
     <dialog className={cn('BasicDialog', { 'BasicDialog--open': isOpen })} onClick={onBackdropClick}>
       <div onClick={(e) => e.stopPropagation()}>
-        <CardV2 width={width} height={height}>
+        <CardV2 width={width} height={height} showLoading={showLoading}>
           {children}
         </CardV2>
       </div>

@@ -26,4 +26,9 @@ $base-shadow: 0px 4px 4px 0px colors.$black-1000-opacity-25;
   &:focus {
     box-shadow: $base-shadow, 0 0 10px colors.$green-500;
   }
+
+  &--disabled {
+    pointer-events: none;
+    opacity: 0.6;
+  }
 }
