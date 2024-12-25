@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { client } from '../../../../api/apiClient';
+import { INTERNAL_EVENT, useInternalEvents } from '../../../../contexts/events/internal.events';
 import { SnackbarType, useNotification } from '../../../../contexts/notification/notification.context';
 import { getAllLabels, getCurrentDate } from '../../../../Pages/Expenses/expensesUtils';
 import { ButtonPill } from '../../../input/ButtonPill/ButtonPill';
@@ -18,6 +19,7 @@ interface AddExpenseDialogProps extends React.PropsWithChildren {
 
 export const AddExpenseDialog: React.FunctionComponent<AddExpenseDialogProps> = ({ isOpen, onClose }) => {
   const { displaySnackbar } = useNotification();
+  const { emitEvent } = useInternalEvents();
 
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
@@ -46,6 +48,7 @@ export const AddExpenseDialog: React.FunctionComponent<AddExpenseDialogProps> = 
     setAmount('');
     setDescription('');
     setSelectedLabels([]);
+    emitEvent(INTERNAL_EVENT.AddExpenseSuccess);
     onClose();
   };
 

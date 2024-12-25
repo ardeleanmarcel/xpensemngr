@@ -13,6 +13,7 @@ import { XpmCardContent } from '../../../components/XpmCardContent';
 import { XpmPaper } from '../../../components/XpmPaper';
 import { XpmTable } from '../../../components/XpmTable';
 import { XpmTypography } from '../../../components/XpmTypography';
+import { INTERNAL_EVENT, useInternalEvents } from '../../../contexts/events/internal.events';
 import { useDebounced } from '../../../hooks/useDebounced';
 import { useRunOnce } from '../../../hooks/useRunOnce';
 import { columns, createData, Data, getAllExpenses, getAllLabels, getHighestAmountExpense } from '../expensesUtils';
@@ -49,6 +50,7 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
   const classes = useStyles();
   // TODO (Valle) -> only debounce the range change? and have the rest make calls on blur?
   const debounced = useDebounced(1000);
+  const { subscribeTo } = useInternalEvents();
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -91,6 +93,7 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
     fetchExpenses();
     fetchLabels();
     fetchHighestAmountExpense();
+    subscribeTo(INTERNAL_EVENT.AddExpenseSuccess, fetchExpenses);
   });
 
   useEffect(() => {

@@ -11,7 +11,10 @@ export function createExpensesWithLabels(expenses: ExpenseCreateType, user_id: n
   return Promise.all(
     expenses.map(async (expense) => {
       const newExp = await createExpenses([expense], user_id);
-      await addLabelsToExpenses([{ expense_id: newExp[0].expense_id, label_ids: expense.label_ids }]);
+
+      if (expense.label_ids.length > 0) {
+        await addLabelsToExpenses([{ expense_id: newExp[0].expense_id, label_ids: expense.label_ids }]);
+      }
 
       return newExp[0].expense_id;
     })
