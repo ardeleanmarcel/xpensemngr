@@ -5,9 +5,16 @@
   flex-direction: column;
 }
 
-.LayoutMobile--menu {
+.LayoutMobile--top-bar {
   flex: 0 0 60px;
   background-color: #e4e4e4;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 4px 16px;
 }
 
 .LayoutMobile--content {
