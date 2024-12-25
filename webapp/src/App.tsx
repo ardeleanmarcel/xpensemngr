@@ -7,7 +7,7 @@ import { createTheme, GlobalStyles, PaletteMode, ThemeProvider } from '@mui/mate
 import React, { createContext, useMemo, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { DesktopLayout } from './components/layout/DesktopLayout/DesktopLayout';
+import { AppLayout } from './components/layout/AppLayout/AppLayout';
 import { AuthProtected } from './components/utils/AuthProtected';
 import { PATH } from './constants/paths';
 import { NotificationContextProvider } from './contexts/notification/NotificationContextProvider';
@@ -122,13 +122,13 @@ export default function App() {
                 <Route path="*" element={null} />
               </Routes>
               <AuthProtected shouldRedirect={false}>
-                <DesktopLayout>
+                <AppLayout>
                   <Routes>
                     <Route path={PATH.ExpenseDashboard.Segment} element={<ExpensesDashboard />} />
                     <Route path={PATH.ExpenseLabels.Segment} element={<ProtectedManageLabels />} />
                     <Route path="*" element={null} />
                   </Routes>
-                </DesktopLayout>
+                </AppLayout>
               </AuthProtected>
             </NotificationContextProvider>
           </ThemeProvider>
