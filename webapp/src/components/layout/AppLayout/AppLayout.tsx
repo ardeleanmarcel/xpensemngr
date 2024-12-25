@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { useDebounced } from '../../../hooks/useDebounced';
 import { DesktopLayout } from './components/DesktopLayout/DesktopLayout';
+import { LayoutMobile } from './components/LayoutMobile/LayoutMobile';
 
 const MAX_MOBILE_WIDTH = 800;
 
@@ -23,7 +24,7 @@ export const AppLayout: React.FunctionComponent<React.PropsWithChildren> = ({ ch
     return () => window.removeEventListener('resize', handleResize);
   });
 
-  if (isMobile) return <>{children}</>;
+  if (isMobile) return <LayoutMobile>{children}</LayoutMobile>;
 
   return <DesktopLayout>{children}</DesktopLayout>;
 };
