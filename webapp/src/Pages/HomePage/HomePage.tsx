@@ -12,8 +12,10 @@ import { XpmHorizontalSeparator } from '../../components/layout/XpmHorizontalSep
 import { XpmVerticalSpacer } from '../../components/layout/XpmVerticalSpacer/XpmVerticalSpacer';
 import { XpmText } from '../../components/XpmText/XpmText';
 import { PATH } from '../../constants/paths';
+import { SCREEN_SIZE } from '../../constants/screenSize';
 import { SnackbarType, useNotification } from '../../contexts/notification/notification.context';
 import { useUser } from '../../contexts/user/user.context';
+import { useScreenSize } from '../../hooks/useScreenSize';
 
 export const SUCCESS_MSG = 'You have successfully logged in.';
 export const FAIL_MSG = 'Fail! Make sure your credential are valid.';
@@ -21,6 +23,7 @@ export const FAIL_MSG = 'Fail! Make sure your credential are valid.';
 function Home() {
   const navigate = useNavigate();
   const { displaySnackbar } = useNotification();
+  const { screenSize } = useScreenSize();
 
   const { signIn } = useUser();
 
@@ -42,10 +45,12 @@ function Home() {
     setIsSubmitting(false);
   };
 
+  const cardWidth = screenSize === SCREEN_SIZE.Phone ? '100%' : '700px';
+
   return (
     <div className="HomePage--background">
       <div className="HomePage--card-container">
-        <CardV2 width="700px" showLoading={isSubmitting}>
+        <CardV2 width={cardWidth} showLoading={isSubmitting}>
           <div
             style={{
               display: 'flex',
@@ -76,6 +81,7 @@ function Home() {
             value={form.username}
             onChange={(e) => setForm((p) => ({ ...p, username: e.target.value }))}
             width="460px"
+            maxWidth="100%"
           />
           <XpmVerticalSpacer size="xxxl" />
           <XpmVerticalSpacer size="l" />
@@ -85,6 +91,7 @@ function Home() {
             value={form.password}
             onChange={(e) => setForm((p) => ({ ...p, password: e.target.value }))}
             width="460px"
+            maxWidth="100%"
           />
           <XpmVerticalSpacer size="xs" />
           <div style={{ display: 'flex', justifyContent: 'flex-end', width: '450px' }}>

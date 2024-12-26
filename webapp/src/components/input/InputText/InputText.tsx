@@ -9,6 +9,7 @@ export interface InputTextProps {
   value: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   width?: string;
+  maxWidth?: string;
   type?: 'text' | 'password';
   placeholder?: string;
   disabled?: boolean;
@@ -20,12 +21,13 @@ export function InputText({
   value,
   onChange,
   width,
+  maxWidth,
   placeholder,
   type = 'text',
   disabled = false,
   'data-id': dataId,
 }: React.PropsWithChildren<InputTextProps>) {
-  const style = cleanObject({ width });
+  const style = cleanObject({ width, maxWidth });
   const inputProps = cleanObject({ 'data-id': dataId });
 
   return (
