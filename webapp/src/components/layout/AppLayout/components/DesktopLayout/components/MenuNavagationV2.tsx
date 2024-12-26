@@ -8,7 +8,7 @@ import { ButtonPill } from '../../../../../input/ButtonPill/ButtonPill';
 import { CardV2 } from '../../../../CardV2/CardV2';
 import { XpmHorizontalSeparator } from '../../../../XpmHorizontalSeparator/XpmHorizontalSeparator';
 import { XpmVerticalSpacer } from '../../../../XpmVerticalSpacer/XpmVerticalSpacer';
-import { AddExpenseDialog } from './AddExpenseDialog';
+import { AddExpenseDialog } from '../../AddExpenseDialog';
 import { AddLabelDialog } from './AddLabelDialog';
 
 export function MenuNavagationV2() {

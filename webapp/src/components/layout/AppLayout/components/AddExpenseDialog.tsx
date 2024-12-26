@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 
-import { client } from '../../../../../../api/apiClient';
-import { INTERNAL_EVENT, useInternalEvents } from '../../../../../../contexts/events/internal.events';
-import { SnackbarType, useNotification } from '../../../../../../contexts/notification/notification.context';
-import { getAllLabels, getCurrentDate } from '../../../../../../Pages/Expenses/expensesUtils';
-import { ButtonPill } from '../../../../../input/ButtonPill/ButtonPill';
-import { InputText } from '../../../../../input/InputText/InputText';
-import { LabelSelector } from '../../../../../specialized/LabelSelector';
-import { XpmText } from '../../../../../XpmText/XpmText';
-import { BasicDialog } from '../../../../BasicDialog/BasicDialog';
-import { XpmHorizontalSeparator } from '../../../../XpmHorizontalSeparator/XpmHorizontalSeparator';
-import { XpmVerticalSpacer } from '../../../../XpmVerticalSpacer/XpmVerticalSpacer';
+import { client } from '../../../../api/apiClient';
+import { INTERNAL_EVENT, useInternalEvents } from '../../../../contexts/events/internal.events';
+import { SnackbarType, useNotification } from '../../../../contexts/notification/notification.context';
+import { getAllLabels, getCurrentDate } from '../../../../Pages/Expenses/expensesUtils';
+import { ButtonPill } from '../../../input/ButtonPill/ButtonPill';
+import { InputText } from '../../../input/InputText/InputText';
+import { LabelSelector } from '../../../specialized/LabelSelector';
+import { XpmText } from '../../../XpmText/XpmText';
+import { BasicDialog } from '../../BasicDialog/BasicDialog';
+import { XpmHorizontalSeparator } from '../../XpmHorizontalSeparator/XpmHorizontalSeparator';
+import { XpmVerticalSpacer } from '../../XpmVerticalSpacer/XpmVerticalSpacer';
 
 interface AddExpenseDialogProps extends React.PropsWithChildren {
   isOpen: boolean;
