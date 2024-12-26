@@ -79,8 +79,6 @@ export const expensesRouter = t.router({
 
     const result = await selectExpensesWithLabels({ filters });
 
-    console.log('result[0]', result[0]);
-
     return result;
   }),
   getHighestAmount: protectedProcedure.query(async (opts) => {

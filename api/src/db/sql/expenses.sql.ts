@@ -143,9 +143,6 @@ export async function selectExpensesWithLabels({ filters, limit, order }: Expens
     ${limitClause}
     `;
 
-  console.log('query', query);
-  console.log('bindings', bindings);
-
   const res = await sqlClient.queryWithParams<ExpenseType & { labels: Omit<LabelType, 'added_by_user_id'>[] }>(
     query,
     bindings

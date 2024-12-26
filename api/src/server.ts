@@ -27,8 +27,12 @@ server.register(fastifyTRPCPlugin, {
   try {
     console.log('Starting server on env: ', ENV_VARS.XPM_ENV);
 
-    const origin = Array.from(new Set(['http://localhost:5173', ENV_VARS.MYE_WEB_UI_ROOT_URL]));
-    await server.register(cors, { origin, maxAge: 36000 });
+    if (ENV_VARS.XPM_ENV === XPM_ENV.development) {
+      await server.register(cors, { origin: '*', maxAge: 36000 });
+    } else {
+      const origin = Array.from(new Set(['http://localhost:5173', ENV_VARS.MYE_WEB_UI_ROOT_URL]));
+      await server.register(cors, { origin, maxAge: 36000 });
+    }
 
     if (ENV_VARS.XPM_ENV === XPM_ENV.production) {
       // TODO (Valle) -> make it listen to 443 as well (redirect 80 to 443?)
