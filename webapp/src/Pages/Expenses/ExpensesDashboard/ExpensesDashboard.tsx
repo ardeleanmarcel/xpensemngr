@@ -1,6 +1,5 @@
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { isEqual } from 'lodash';
 import { useRef, useState } from 'react';
 
 import { ExpenseGetAllFilterType } from '../../../../../api/src/models/expense.models';
@@ -11,7 +10,6 @@ import { XpmPaper } from '../../../components/XpmPaper';
 import { XpmTable } from '../../../components/XpmTable';
 import { XpmText } from '../../../components/XpmText/XpmText';
 import { INTERNAL_EVENT, useInternalEvents } from '../../../contexts/events/internal.events';
-import { useDebounced } from '../../../hooks/useDebounced';
 import { useRunOnce } from '../../../hooks/useRunOnce';
 import { columns, createData, Data, getAllExpenses, getAllLabels, getHighestAmountExpense } from '../expensesUtils';
 import { DashboardFilters, DashboardFiltersDesktop, DEFAULT_FILTERS } from './components/DashboardFiltersDesktop';
@@ -36,8 +34,6 @@ const useStyles = makeStyles<Theme>((theme) => ({
 
 export const ExpensesDashboard: React.FunctionComponent = () => {
   const classes = useStyles();
-  // TODO (Valle) -> only debounce the range change? and have the rest make calls on blur?
-  const debounced = useDebounced(1000);
   const { subscribeTo } = useInternalEvents();
 
   const [page, setPage] = useState(0);
@@ -46,7 +42,6 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
   const [labels, setLabels] = useState<Array<LabelType>>([]);
   const [maxAmount, setMaxAmount] = useState(0);
 
-  const lastSearchOptions = useRef<ExpenseGetAllFilterType>();
   const filters = useRef<DashboardFilters>(DEFAULT_FILTERS);
 
   const fetchLabels = async () => {
@@ -57,12 +52,6 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
   const fetchExpenses = async () => {
     try {
       const opts = getSearchOptions(filters.current);
-
-      if (isEqual(lastSearchOptions.current, opts)) {
-        return;
-      }
-      lastSearchOptions.current = opts;
-
       const expenses = await getAllExpenses(opts);
       const processedData = createData(expenses);
       setRows(processedData);
@@ -89,10 +78,8 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
   const handleFilterChange = (f: DashboardFilters) => {
     filters.current = f;
 
-    debounced.run(() => {
-      fetchExpenses().then(() => {
-        setPage(0);
-      });
+    fetchExpenses().then(() => {
+      setPage(0);
     });
   };
 

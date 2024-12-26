@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { LabelType } from '../../../../../../api/src/models/label.models';
 import { ConstrainedRange } from '../../../../components/input/ConstrainedRange/ConstrainedRange';
 import { LabelSelector } from '../../../../components/specialized/LabelSelector';
+import { useDebounced } from '../../../../hooks/useDebounced';
 import { usePrevious } from '../../../../hooks/usePrevious';
 
 export interface DashboardFilters {
@@ -37,6 +38,8 @@ export const DashboardFiltersDesktop: React.FC<DashboardFiltersDesktopProps> = (
   maxAmount,
   onFilterChange,
 }) => {
+  const debounced = useDebounced(500);
+
   const [filters, setFilters] = useState<DashboardFilters>(DEFAULT_FILTERS);
   const [selectedLabels, setSelectedLabels] = useState<Array<number>>([]);
 
@@ -70,10 +73,12 @@ export const DashboardFiltersDesktop: React.FC<DashboardFiltersDesktopProps> = (
   };
 
   const handleRangeChange = (min: number, max: number) => {
-    updateFilters([
-      ['rangeMin', min],
-      ['rangeMax', max],
-    ]);
+    debounced.run(() =>
+      updateFilters([
+        ['rangeMin', min],
+        ['rangeMax', max],
+      ])
+    );
   };
 
   return (
