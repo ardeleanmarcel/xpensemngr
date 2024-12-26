@@ -6,7 +6,7 @@ import { AccountSettings } from '../../../../../Pages/Expenses/AddExpenses/Accou
 import { ThreeLines } from '../../../../icons/ThreeLines/ThreeLines';
 import { ButtonPill } from '../../../../input/ButtonPill/ButtonPill';
 
-// TODO (Valle) -> create an ButtonIcon component that takes an icon as a prop
+// TODO (Valle) -> create a ButtonIcon component that takes an icon as a prop
 export const LayoutMobile: React.FunctionComponent<React.PropsWithChildren> = ({ children }) => {
   return (
     <div className="LayoutMobile">

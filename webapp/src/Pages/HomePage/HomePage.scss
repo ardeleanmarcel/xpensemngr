@@ -1,0 +1,36 @@
+@use '../../css//screen.scss' as screen;
+
+.HomePage--background {
+  height: 100%;
+  position: relative;
+  background-image: url(images/piggyV2.jpg); // Path relative to the public folder
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  @include screen.screen-size('phone') {
+    background-position: right;
+  }
+}
+
+.HomePage--card-container {
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  transform: translate(15%, -50%);
+
+  @include screen.screen-size('tablet') {
+    transform: translate(50%, -50%);
+  }
+
+  @include screen.screen-size('phone') {
+    top: 12px;
+    left: 12px;
+
+    width: calc(100% - 24px);
+    height: calc(100% - 24px);
+
+    transform: translate(0, 0);
+  }
+}

@@ -1,0 +1,15 @@
+@mixin screen-size($breakpoint) {
+  @if $breakpoint == 'phone' {
+    @media (width <= 800px) {
+      @content;
+    }
+  } @else if $breakpoint == 'tablet' {
+    @media (width > 800px) and (width <= 1200px) {
+      @content;
+    }
+  } @else if $breakpoint == 'desktop' {
+    @media (width > 1200px) {
+      @content;
+    }
+  }
+}

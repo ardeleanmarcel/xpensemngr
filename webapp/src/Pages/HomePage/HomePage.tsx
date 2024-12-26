@@ -1,3 +1,5 @@
+import './HomePage.scss';
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -41,25 +43,8 @@ function Home() {
   };
 
   return (
-    <div
-      style={{
-        height: '100%',
-        position: 'relative',
-        backgroundImage: `url('/images/piggyV2.jpg')`, // Path relative to the public folder
-
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
-      <div
-        style={{
-          position: 'absolute',
-          right: '50%',
-          top: '50%',
-          transform: 'translate(5%, -50%)',
-        }}
-      >
+    <div className="HomePage--background">
+      <div className="HomePage--card-container">
         <CardV2 width="700px" showLoading={isSubmitting}>
           <div
             style={{
