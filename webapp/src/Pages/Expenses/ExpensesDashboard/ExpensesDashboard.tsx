@@ -1,16 +1,21 @@
+import './ExpensesDashboard.scss';
+
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useRef, useState } from 'react';
 
 import { ExpenseGetAllFilterType } from '../../../../../api/src/models/expense.models';
 import type { LabelType } from '../../../../../api/src/models/label.models';
+import { FilterFunnel } from '../../../components/icons/FilterFunnel/FilterFunnel';
 import { CardV2 } from '../../../components/layout/CardV2/CardV2';
 import { AuthProtected } from '../../../components/utils/AuthProtected';
 import { XpmPaper } from '../../../components/XpmPaper';
 import { XpmTable } from '../../../components/XpmTable';
 import { XpmText } from '../../../components/XpmText/XpmText';
+import { SCREEN_SIZE } from '../../../constants/screenSize';
 import { INTERNAL_EVENT, useInternalEvents } from '../../../contexts/events/internal.events';
 import { useRunOnce } from '../../../hooks/useRunOnce';
+import { useScreenSize } from '../../../hooks/useScreenSize';
 import { columns, createData, Data, getAllExpenses, getAllLabels, getHighestAmountExpense } from '../expensesUtils';
 import { DashboardFilters, DashboardFiltersDesktop, DEFAULT_FILTERS } from './components/DashboardFiltersDesktop';
 import { TITLE } from './constants';
@@ -18,7 +23,7 @@ import { TITLE } from './constants';
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
     display: 'grid',
-    gap: '50px',
+    gap: '20px',
   },
   title: {
     color: theme.palette.text.primary,
@@ -35,6 +40,7 @@ const useStyles = makeStyles<Theme>((theme) => ({
 export const ExpensesDashboard: React.FunctionComponent = () => {
   const classes = useStyles();
   const { subscribeTo } = useInternalEvents();
+  const { screenSize } = useScreenSize();
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -96,8 +102,13 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
   return (
     <CardV2>
       <div className={classes.container}>
-        <XpmText content={TITLE} size="m" />
-        <DashboardFiltersDesktop availableLabels={labels} maxAmount={maxAmount} onFilterChange={handleFilterChange} />
+        <div className="ExpensesDashboard--title-container">
+          <XpmText content={TITLE} size="m" />
+          {screenSize !== SCREEN_SIZE.Desktop && <FilterFunnel />}
+        </div>
+        {screenSize === SCREEN_SIZE.Desktop && (
+          <DashboardFiltersDesktop availableLabels={labels} maxAmount={maxAmount} onFilterChange={handleFilterChange} />
+        )}
         <XpmPaper sx={{ width: '100%' }}>
           <XpmTable
             columns={columns}
