@@ -1,22 +1,20 @@
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { isEqual } from 'lodash';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { ExpenseGetAllFilterType } from '../../../../../api/src/models/expense.models';
 import type { LabelType } from '../../../../../api/src/models/label.models';
-import { ConstrainedRange } from '../../../components/input/ConstrainedRange/ConstrainedRange';
-import { LabelSelector } from '../../../components/specialized/LabelSelector';
+import { CardV2 } from '../../../components/layout/CardV2/CardV2';
 import { AuthProtected } from '../../../components/utils/AuthProtected';
-import { XpmCard } from '../../../components/XpmCard';
-import { XpmCardContent } from '../../../components/XpmCardContent';
 import { XpmPaper } from '../../../components/XpmPaper';
 import { XpmTable } from '../../../components/XpmTable';
-import { XpmTypography } from '../../../components/XpmTypography';
+import { XpmText } from '../../../components/XpmText/XpmText';
 import { INTERNAL_EVENT, useInternalEvents } from '../../../contexts/events/internal.events';
 import { useDebounced } from '../../../hooks/useDebounced';
 import { useRunOnce } from '../../../hooks/useRunOnce';
 import { columns, createData, Data, getAllExpenses, getAllLabels, getHighestAmountExpense } from '../expensesUtils';
+import { DashboardFilters, DashboardFiltersDesktop, DEFAULT_FILTERS } from './components/DashboardFiltersDesktop';
 import { TITLE } from './constants';
 
 const useStyles = makeStyles<Theme>((theme) => ({
@@ -36,16 +34,6 @@ const useStyles = makeStyles<Theme>((theme) => ({
   },
 }));
 
-interface DashboardFilters {
-  dateFrom: string;
-  dateTo: string;
-}
-
-const DEFAULT_FILTERS = {
-  dateFrom: '',
-  dateTo: '',
-};
-
 export const ExpensesDashboard: React.FunctionComponent = () => {
   const classes = useStyles();
   // TODO (Valle) -> only debounce the range change? and have the rest make calls on blur?
@@ -56,12 +44,10 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState<Data[]>([]);
   const [labels, setLabels] = useState<Array<LabelType>>([]);
-  const [selectedLabels, setSelectedLabels] = useState<Array<number>>([]);
   const [maxAmount, setMaxAmount] = useState(0);
-  const [selectedRange, setSelectedRange] = useState({ min: 0, max: 1000 });
-  const [filters, setFilters] = useState<DashboardFilters>(DEFAULT_FILTERS);
 
   const lastSearchOptions = useRef<ExpenseGetAllFilterType>();
+  const filters = useRef<DashboardFilters>(DEFAULT_FILTERS);
 
   const fetchLabels = async () => {
     const lbs = await getAllLabels();
@@ -70,8 +56,11 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
 
   const fetchExpenses = async () => {
     try {
-      const opts = getSearchOptions();
+      const opts = getSearchOptions(filters.current);
 
+      if (isEqual(lastSearchOptions.current, opts)) {
+        return;
+      }
       lastSearchOptions.current = opts;
 
       const expenses = await getAllExpenses(opts);
@@ -93,60 +82,18 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
     fetchExpenses();
     fetchLabels();
     fetchHighestAmountExpense();
+    // TODO (Valle) -> need a way to also have the right options passed to the "fetchExpenses" execution
     subscribeTo(INTERNAL_EVENT.AddExpenseSuccess, fetchExpenses);
   });
 
-  useEffect(() => {
-    const opts = getSearchOptions();
-
-    if (isEqual(lastSearchOptions.current, opts)) {
-      return;
-    }
+  const handleFilterChange = (f: DashboardFilters) => {
+    filters.current = f;
 
     debounced.run(() => {
-      fetchExpenses();
+      fetchExpenses().then(() => {
+        setPage(0);
+      });
     });
-  }, [selectedRange, selectedLabels, filters]);
-
-  function getSearchOptions(): ExpenseGetAllFilterType {
-    const opts: ExpenseGetAllFilterType = {};
-
-    if (selectedRange.max > 0) {
-      opts.amount_lte = selectedRange.max;
-    }
-
-    if (selectedLabels.length > 0) {
-      opts.label_ids = selectedLabels;
-    }
-
-    if (selectedRange.min > 0) {
-      opts.amount_gte = selectedRange.min;
-    }
-
-    if (selectedLabels.length > 0) {
-      opts.label_ids = selectedLabels;
-    }
-
-    if (filters.dateFrom) {
-      opts.date_gte = filters.dateFrom;
-    }
-
-    if (filters.dateTo) {
-      opts.date_lte = filters.dateTo;
-    }
-    return opts;
-  }
-
-  const handleLabelSelection = (sl: number[]) => {
-    setSelectedLabels(sl);
-  };
-
-  const handleLableSelectionClose = () => {
-    const newOptions = getSearchOptions();
-
-    if (!isEqual(lastSearchOptions.current, newOptions)) {
-      fetchExpenses();
-    }
   };
 
   // @ts-expect-error "event: unknown"
@@ -159,57 +106,23 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
     setPage(0);
   };
 
-  const handleRangeChange = (min: number, max: number) => {
-    setSelectedRange({ min, max });
-  };
-
   return (
-    <XpmCard>
-      <XpmCardContent
-        sx={{
-          textAlign: 'left',
-          marginTop: '30px',
-        }}
-      >
-        <div className={classes.container}>
-          <XpmTypography variant="h4" component="h2" align="center" className={classes.title} text={TITLE} />
-          <div>
-            <label htmlFor="date-from">From:&nbsp;</label>
-            <input
-              id="date-from"
-              type="date"
-              value={filters.dateFrom}
-              onChange={(e) => setFilters((f) => ({ ...f, dateFrom: e.target.value }))}
-            />
-            <div style={{ width: '40px', display: 'inline-block' }} />
-            <label htmlFor="date-to">To:&nbsp;</label>
-            <input
-              id="date-to"
-              type="date"
-              value={filters.dateTo}
-              onChange={(e) => setFilters((f) => ({ ...f, dateTo: e.target.value }))}
-            />
-          </div>
-          <LabelSelector
-            labels={labels}
-            onSelectionChange={handleLabelSelection}
-            selectedLabels={selectedLabels}
-            onClose={handleLableSelectionClose}
+    <CardV2>
+      <div className={classes.container}>
+        <XpmText content={TITLE} size="m" />
+        <DashboardFiltersDesktop availableLabels={labels} maxAmount={maxAmount} onFilterChange={handleFilterChange} />
+        <XpmPaper sx={{ width: '100%' }}>
+          <XpmTable
+            columns={columns}
+            rows={rows}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            handleChangePage={handleChangePage}
+            handleChangeRowsPerPage={handleChangeRowsPerPage}
           />
-          <ConstrainedRange min={0} max={maxAmount} onChange={handleRangeChange} />
-          <XpmPaper sx={{ width: '100%' }}>
-            <XpmTable
-              columns={columns}
-              rows={rows}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              handleChangePage={handleChangePage}
-              handleChangeRowsPerPage={handleChangeRowsPerPage}
-            />
-          </XpmPaper>
-        </div>
-      </XpmCardContent>
-    </XpmCard>
+        </XpmPaper>
+      </div>
+    </CardV2>
   );
 };
 
@@ -218,3 +131,32 @@ export const ProtectedExpensesDashboard = () => (
     <ExpensesDashboard />
   </AuthProtected>
 );
+
+function getSearchOptions(f?: DashboardFilters): ExpenseGetAllFilterType {
+  const opts: ExpenseGetAllFilterType = {};
+
+  if (!f) {
+    return opts;
+  }
+
+  if (f.rangeMax > 0) {
+    opts.amount_lte = f.rangeMax;
+  }
+
+  if (f.rangeMin > 0) {
+    opts.amount_gte = f.rangeMin;
+  }
+
+  if (f.selectedLabels.length > 0) {
+    opts.label_ids = f.selectedLabels;
+  }
+
+  if (f.dateFrom) {
+    opts.date_gte = f.dateFrom;
+  }
+
+  if (f.dateTo) {
+    opts.date_lte = f.dateTo;
+  }
+  return opts;
+}

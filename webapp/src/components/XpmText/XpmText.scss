@@ -1,4 +1,5 @@
 @use '../../css/fonts.scss' as fonts;
+@use '../../css/screen.scss' as screen;
 
 .XpmText {
   color: black; // TODO -> is this the default color?
@@ -6,16 +7,32 @@
 
 .XpmText--xs {
   @include fonts.font-regular-xs;
+
+  @include screen.screen-size('phone') {
+    @include fonts.font-regular-xxs;
+  }
 }
 
 .XpmText--s {
   @include fonts.font-regular-s;
+
+  @include screen.screen-size('phone') {
+    @include fonts.font-regular-xs;
+  }
 }
 
 .XpmText--sm {
   @include fonts.font-regular-sm;
+
+  @include screen.screen-size('phone') {
+    @include fonts.font-regular-s;
+  }
 }
 
 .XpmText--m {
   @include fonts.font-regular-m;
+
+  @include screen.screen-size('phone') {
+    @include fonts.font-regular-sm;
+  }
 }
