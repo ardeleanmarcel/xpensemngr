@@ -44,7 +44,7 @@ jobs:
         run: |
           cd webapp
           npm run build
-          aws s3 sync dist s3://webapp-571600868208.s3.amazonaws.com
+          aws s3 sync dist s3://spa-prod-webapp-bucket --delete
 
       - name: Invalidate CloudFront cache
         run: aws cloudfront create-invalidation --distribution-id E1EGBWX4U3YD6L --paths "/*"
