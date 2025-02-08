@@ -27,6 +27,13 @@ Good to know for ec2 management
 ### Steps for setting up EC2 and starting server
 
 First you need to access the instance. This can be done from the AWS web console.
+<br>
+<br>
+Command for running the ec2 init script (user data): `sudo cloud-init clean && sudo cloud-init init && sudo cloud-init modules --mode=final`
+<br>
+Command for inspecting the ec2 start-up logs: `sudo cat /var/log/cloud-init-output.log`
+<br>
+To see the cloud init config use `cat /etc/cloud/cloud.cfg`
 
 <!-- TODO (Valle) -> Create a shell script that does most of this in one run -->
 <!-- TODO (Valle) -> Have the script run a node file that creates the .env required for the app -->

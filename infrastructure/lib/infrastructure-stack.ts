@@ -1,9 +1,9 @@
 import * as cdk from "aws-cdk-lib";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import { Construct } from "constructs";
+import { BackendForFrontend } from "./constructs/BackendForFrontend/BackendForFrontend";
 import { XpmVpc } from "./constructs/XpmVpc";
 import { RdsInstanceWithSecurityGroup } from "./constructs/XpmRds";
-import { Ec2WithSecurityGroup } from "./constructs/XpmEc2WithSg";
 import { XpmSinglePageWebapp } from "./constructs/XpmSinglePageWebapp";
 
 // TODO (Valle) ->  use this: constructA.node.addDependency(constructB)
@@ -19,7 +19,7 @@ export class InfrastructureStack extends cdk.Stack {
       ingressPeers: [ec2.Peer.anyIpv4()],
     });
 
-    const mainApi = new Ec2WithSecurityGroup(this, "main-api-prod", {
+    const mainApi = new BackendForFrontend(this, "main-api-prod", {
       vpc,
     });
 

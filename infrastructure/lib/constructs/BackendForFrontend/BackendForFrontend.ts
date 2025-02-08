@@ -1,17 +1,18 @@
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import { Construct } from "constructs";
+import * as fs from "fs";
+import * as path from "path";
 
-type Ec2WithSecurityGroupProps = {
+type BackendForFrontendProps = {
   vpc: ec2.IVpc;
 };
 
 // TODO (Valle)  -> configure cloudwatch
-// TODO (Valle)  -> add github ssh keypair??
 // TODO (Valle) -> find a way to persist git, node etc
-export class Ec2WithSecurityGroup extends Construct {
+export class BackendForFrontend extends Construct {
   public readonly ec2Instance: ec2.Instance;
   public readonly securityGroup: ec2.SecurityGroup;
-  constructor(scope: Construct, id: string, props: Ec2WithSecurityGroupProps) {
+  constructor(scope: Construct, id: string, props: BackendForFrontendProps) {
     const ec2Id = `xpm-ec2-${id}`;
     const sgName = `xpm-ec2-${id}--sg`;
     const sshKeyId = `xpm-ec2-${id}--ssh-key`;
@@ -41,6 +42,11 @@ export class Ec2WithSecurityGroup extends Construct {
       "Allow inbound SSH traffic"
     );
 
+    const startScript = fs.readFileSync(
+      path.join(__dirname, "start-script.sh"),
+      "utf8"
+    );
+
     // TODO -> move keypair to secrets manager
     const keyPair = new ec2.KeyPair(this, `${sshKeyId}--manual2`, {
       publicKeyMaterial:
@@ -59,6 +65,7 @@ export class Ec2WithSecurityGroup extends Construct {
       securityGroup: this.securityGroup,
       instanceName: ec2Id,
       keyPair,
+      userData: ec2.UserData.custom(startScript),
     });
   }
 }

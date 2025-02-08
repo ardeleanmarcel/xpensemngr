@@ -12,7 +12,7 @@
     "cdk": "cdk",
     "diff": "cdk diff --profile xpm-admin",
     "diff:webapp": "cdk diff InfrastructureStack --profile xpm-admin",
-    "deploy:webapp": "cdk deploy InfrastructureStack --profile xpm-admin",
+    "deploy:webapp": "cdk deploy InfrastructureStack --profile xpm-admin --require-approval never",
     "deploy:all": "cdk deploy --all --profile xpm-admin"
   },
   "devDependencies": {
