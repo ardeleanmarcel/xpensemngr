@@ -1,7 +1,10 @@
 # Infrastructure
 
 - Project was created using `npx cdk init app --language=typescript`
-- Run commands using `AWS_PROFILE=<your profile> npm run cdk <command>`
+- #### To run commands<br>
+  First you need to have an aws profile set up with the name `xpm-admin`.<br>
+  Then you can authenticate in the CLI using `npm run aws:login`. <br>
+  When running commands, they will need to have the flag `--profile xpm-admin` in order to use the correct credentials.
 
 ### Connecting to the main-api ec2 instance (using WSL)
 
