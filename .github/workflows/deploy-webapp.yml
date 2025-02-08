@@ -1,0 +1,42 @@
+name: WebApp Deployment (Continuous Delivery)
+
+on:
+  push:
+    branches: ["main"]
+    paths: ["webapp/**"]
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read # This is required for actions/checkout
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-central-1
+          role-to-assume: arn:aws:iam::571600868208:role/deploy-webapp-role
+          role-session-name: DeployWebappSession
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20.12.2
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.12.2
+
+      - name: Install Dependencies
+        working-directory: ./webapp
+        run: npm ci
+
+      - name: Build static files
+        run: |
+          cd webapp
+          npm run build
+          aws s3 sync build s3://webapp-571600868208.s3.amazonaws.com
+
+      # - name: Invalidate CloudFront cache
+      #   run: aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*"

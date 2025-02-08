@@ -6,12 +6,15 @@ import * as cfOrigins from "aws-cdk-lib/aws-cloudfront-origins";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
 import * as route53 from "aws-cdk-lib/aws-route53";
 import { Construct } from "constructs";
+import { WebappDeployment } from "./WebappDeployment";
 
 export class XpmSinglePageWebapp extends Construct {
   hostedZone: route53.IHostedZone;
   certificate: acm.ICertificate;
   distribution: cloudfront.IDistribution;
   webBucket: XpmS3BucketPublic;
+  deployment: WebappDeployment;
+
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
@@ -40,6 +43,12 @@ export class XpmSinglePageWebapp extends Construct {
         certificate: this.certificate,
       }
     );
+
+    this.deployment = new WebappDeployment(this, `${id}-webapp-deployment`, {
+      bucketName: this.webBucket.bucket.bucketName,
+      awsAccountId: cdk.Stack.of(this).account,
+      cloudfrontDistributionId: this.distribution.distributionId,
+    });
   }
 }
 
