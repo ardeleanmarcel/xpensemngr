@@ -5,8 +5,13 @@ import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
 import * as cfOrigins from "aws-cdk-lib/aws-cloudfront-origins";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
 import * as route53 from "aws-cdk-lib/aws-route53";
+import * as ec2 from "aws-cdk-lib/aws-ec2";
 import { Construct } from "constructs";
 import { WebappDeployment } from "./WebappDeployment";
+
+interface XpmSinglePageWebappProps {
+  ec2Api: ec2.IInstance;
+}
 
 export class XpmSinglePageWebapp extends Construct {
   hostedZone: route53.IHostedZone;
@@ -15,7 +20,7 @@ export class XpmSinglePageWebapp extends Construct {
   webBucket: XpmS3BucketPublic;
   deployment: WebappDeployment;
 
-  constructor(scope: Construct, id: string) {
+  constructor(scope: Construct, id: string, props: XpmSinglePageWebappProps) {
     super(scope, id);
 
     this.webBucket = new XpmS3BucketPublic(this, `${id}-webapp`);
@@ -41,6 +46,18 @@ export class XpmSinglePageWebapp extends Construct {
         priceClass: cloudfront.PriceClass.PRICE_CLASS_100,
         domainNames: ["www.xpensemngr.com", "xpensemngr.com"],
         certificate: this.certificate,
+        additionalBehaviors: {
+          // Add the behavior to route `/trpc/*` to the EC2 instance
+          "/trpc/*": {
+            origin: new cfOrigins.HttpOrigin(
+              props.ec2Api.instancePublicDnsName
+            ),
+            viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.ALLOW_ALL,
+            cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
+            originRequestPolicy: cloudfront.OriginRequestPolicy.ALL_VIEWER,
+            allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,
+          },
+        },
       }
     );
 

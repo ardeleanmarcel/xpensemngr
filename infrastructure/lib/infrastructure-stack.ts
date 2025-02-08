@@ -27,6 +27,6 @@ export class InfrastructureStack extends cdk.Stack {
       mainApi.securityGroup
     );
 
-    new XpmSinglePageWebapp(this, "spa-prod");
+    new XpmSinglePageWebapp(this, "spa-prod", { ec2Api: mainApi.ec2Instance });
   }
 }
