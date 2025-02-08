@@ -29,6 +29,13 @@ jobs:
         with:
           node-version: 20.12.2
 
+        # The api needs to be built because the frontend's trpc types are derived from it
+      - name: Build API
+        working-directory: ./api
+        run: |
+          npm ci
+          npm run build
+
       - name: Install Dependencies
         working-directory: ./webapp
         run: npm ci
@@ -40,4 +47,4 @@ jobs:
           aws s3 sync build s3://webapp-571600868208.s3.amazonaws.com
 
       # - name: Invalidate CloudFront cache
-      #   run: aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*"
+      #   run: aws cloudfront create-invalidation --distribution-id E1EGBWX4U3YD6L --paths "/*"
