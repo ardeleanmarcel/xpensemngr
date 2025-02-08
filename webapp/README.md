@@ -5,4 +5,4 @@
 1. copy the dist folder contents inside the S3 bucket
 1. invalidate sources in cloudfront
 
-<!-- testing CI/CD -->
+<!-- testing CI/CD v2 -->
