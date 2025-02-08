@@ -17,8 +17,9 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: eu-central-1
-          role-to-assume: arn:aws:iam::571600868208:role/deploy-webapp-role
-          role-session-name: DeployWebappSession
+          # role-to-assume: arn:aws:iam::571600868208:role/deploy-webapp-role
+          role-to-assume: arn:aws:iam::571600868208:role/InfrastructureStack-spaprodspaprodwebappdeploymentd-vqhGGfAeganR
+          role-session-name: GithubActionDeployWebappSession
 
       - name: Checkout
         uses: actions/checkout@v4
