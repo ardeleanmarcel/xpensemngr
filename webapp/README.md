@@ -4,3 +4,5 @@
 1. `npm run build`
 1. copy the dist folder contents inside the S3 bucket
 1. invalidate sources in cloudfront
+
+<!-- testing CI/CD -->
