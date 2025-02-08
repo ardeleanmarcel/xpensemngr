@@ -1,7 +1,5 @@
 #!/bin/bash
 
-sudo bash
-
 # this changes the cloud.cfg file so that the script gets run on every reboot
 cp /etc/cloud/cloud.cfg /etc/cloud/cloud.cfg.bak
 sudo sed -i 's/ - scripts-user/ - scripts-user\n - [scripts-user, always]/' /etc/cloud/cloud.cfg
@@ -10,6 +8,9 @@ sudo sed -i 's/ - scripts-user/ - scripts-user\n - [scripts-user, always]/' /etc
 
 echo "[XPM] Installing git..."
 dnf install git -y
+
+echo "[XPM] Installing jq..."
+dnf install -y jq
 
 echo "[XPM] Installing nvm and NodeJS..."
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
@@ -29,7 +30,40 @@ echo "[XPM] Installing dependencies..."
 cd ~/xpensemngr/api
 npm install
 
-cp .env.example .env
+echo "[XPM] Setting up environment variables..."
+# // Fetch the secret and parse the environment variables
+AUTH_JWT_SECRET=$(aws secretsmanager get-secret-value --secret-id xpm-backend-for-frontend-env-var-prod --query SecretString --output text | jq -r .AUTH_JWT_SECRET)
+XPM_ENV=$(aws secretsmanager get-secret-value --secret-id xpm-backend-for-frontend-env-var-prod --query SecretString --output text | jq -r .XPM_ENV)
+MYE_WEB_UI_ROOT_URL=$(aws secretsmanager get-secret-value --secret-id xpm-backend-for-frontend-env-var-prod --query SecretString --output text | jq -r .MYE_WEB_UI_ROOT_URL)
+SENDGRID_API_KEY=$(aws secretsmanager get-secret-value --secret-id xpm-backend-for-frontend-env-var-prod --query SecretString --output text | jq -r .SENDGRID_API_KEY)
+NOTIFICATION_EMAIL_SOURCE=$(aws secretsmanager get-secret-value --secret-id xpm-backend-for-frontend-env-var-prod --query SecretString --output text | jq -r .NOTIFICATION_EMAIL_SOURCE)
+DB_HOST=$(aws secretsmanager get-secret-value --secret-id xpm-rds-main-prod --query SecretString --output text | jq -r .host)
+DB_PORT=$(aws secretsmanager get-secret-value --secret-id xpm-rds-main-prod --query SecretString --output text | jq -r .port)
+DB_NAME=$(aws secretsmanager get-secret-value --secret-id xpm-rds-main-prod --query SecretString --output text | jq -r .dbname)
+DB_USER=$(aws secretsmanager get-secret-value --secret-id xpm-rds-main-prod --query SecretString --output text | jq -r .username)
+DB_PASS=$(aws secretsmanager get-secret-value --secret-id xpm-rds-main-prod --query SecretString --output text | jq -r .password)
+# // Export the environment variables
+export AUTH_JWT_SECRET
+export XPM_ENV
+export MYE_WEB_UI_ROOT_URL
+export SENDGRID_API_KEY
+export NOTIFICATION_EMAIL_SOURCE
+export DB_HOST
+export DB_PORT
+export DB_NAME
+export DB_USER
+export DB_PASS
+# // Save the environment variables to /etc/environment so they persist across reboots
+echo "AUTH_JWT_SECRET=$AUTH_JWT_SECRET" >>/etc/environment
+echo "XPM_ENV=$XPM_ENV" >>/etc/environment
+echo "MYE_WEB_UI_ROOT_URL=$MYE_WEB_UI_ROOT_URL" >>/etc/environment
+echo "SENDGRID_API_KEY=$SENDGRID_API_KEY" >>/etc/environment
+echo "NOTIFICATION_EMAIL_SOURCE=$NOTIFICATION_EMAIL_SOURCE" >>/etc/environment
+echo "DB_HOST=$DB_HOST" >>/etc/environment
+echo "DB_PORT=$DB_PORT" >>/etc/environment
+echo "DB_NAME=$DB_NAME" >>/etc/environment
+echo "DB_USER=$DB_USER" >>/etc/environment
+echo "DB_PASS=$DB_PASS" >>/etc/environment
 
 mkdir -p /etc/logrotate.d && cat >/etc/logrotate.d/nohup <<EOF
 /root/xpensemngr/api/nohup.out {

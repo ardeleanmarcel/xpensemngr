@@ -1,4 +1,5 @@
 import * as ec2 from "aws-cdk-lib/aws-ec2";
+import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
 import { Construct } from "constructs";
 import * as fs from "fs";
 import * as path from "path";
@@ -67,5 +68,22 @@ export class BackendForFrontend extends Construct {
       keyPair,
       userData: ec2.UserData.custom(startScript),
     });
+
+    // these are loaded using the user data start script
+    const instanceEnvConfigSecret = secretsmanager.Secret.fromSecretNameV2(
+      this,
+      "backend-for-frontend-env-config",
+      "xpm-backend-for-frontend-env-var-prod"
+    );
+
+    instanceEnvConfigSecret.grantRead(this.ec2Instance);
+
+    const databaseSecret = secretsmanager.Secret.fromSecretNameV2(
+      this,
+      "backend-for-frontend-database-config",
+      "xpm-rds-main-prod"
+    );
+
+    databaseSecret.grantRead(this.ec2Instance);
   }
 }
