@@ -2,7 +2,10 @@
 
 # this changes the cloud.cfg file so that the script gets run on every reboot
 cp /etc/cloud/cloud.cfg /etc/cloud/cloud.cfg.bak
-sudo sed -i 's/ - scripts-user/ - scripts-user\n - [scripts-user, always]/' /etc/cloud/cloud.cfg
+if ! grep -q ' - \[scripts-user, always\]' /etc/cloud/cloud.cfg; then
+    # Add the line if it doesn't exist
+    sudo sed -i 's/ - scripts-user/ - scripts-user\n - [scripts-user, always]/' /etc/cloud/cloud.cfg
+fi
 
 [ -f ~/.bashrc ] || touch ~/.bashrc
 
@@ -76,6 +79,41 @@ mkdir -p /etc/logrotate.d && cat >/etc/logrotate.d/nohup <<EOF
     copytruncate
 }
 EOF
+
+echo "[XPM] Setting up server autostart on reboot..."
+echo "[Unit]
+Description=Run xpensemanager API
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/npm run start --prefix /root/xpensemanager/api
+WorkingDirectory=/root/xpensemanager/api
+Restart=always
+User=root
+StandardOutput=append:/var/log/xpensemanager.log
+StandardError=append:/var/log/xpensemanager.log
+
+[Install]
+WantedBy=multi-user.target" >/etc/systemd/system/xpensemanager.service
+
+systemctl enable xpensemanager.service
+systemctl start xpensemanager.service
+
+echo "[XPM] Enabling log rotation..."
+dnf install -y logrotate
+
+echo "/var/log/xpensemanager.log {
+    daily
+    missingok
+    rotate 7
+    compress
+    delaycompress
+    notifempty
+    create 0640 root root
+}" >/etc/logrotate.d/xpensemanager
+
+echo "[XPM] Testing log rotation..."
+logrotate /etc/logrotate.d/xpensemanager --debug
 
 echo "[XPM] Starting server..."
 cd /root/xpensemngr/api
