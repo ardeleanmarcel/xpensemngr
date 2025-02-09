@@ -9,11 +9,20 @@ import { XPM_ENV } from './constants/env.const';
 
 const server = fastify({
   maxParamLength: 5000,
+  logger: true,
+});
+
+server.addHook('onRequest', async (request, reply) => {
+  console.log(`[tRPC Request] ${request.method} ${request.url}`);
 });
 
 server.register(fastifyTRPCPlugin, {
   prefix: '/trpc',
   trpcOptions: {
+    responseMeta: () => {
+      console.log('valle');
+      return {};
+    },
     router: appRouter,
     createContext,
     onError({ path, error }) {
