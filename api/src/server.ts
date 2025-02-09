@@ -12,7 +12,7 @@ const server = fastify({
   logger: true,
 });
 
-server.addHook('onRequest', async (request, reply) => {
+server.addHook('onRequest', async (request) => {
   console.log(`[tRPC Request] ${request.method} ${request.url}`);
 });
 
