@@ -41,7 +41,9 @@ export class XpmSinglePageWebapp extends Construct {
       {
         comment: `${id}-cf_distribution`,
         defaultBehavior: {
-          origin: new cfOrigins.S3StaticWebsiteOrigin(this.webBucket.bucket),
+          origin: new cfOrigins.S3StaticWebsiteOrigin(this.webBucket.bucket, {
+            originId: `${id}-cf_distribution-s3`,
+          }),
         },
         priceClass: cloudfront.PriceClass.PRICE_CLASS_100,
         domainNames: ["www.xpensemngr.com", "xpensemngr.com"],
@@ -50,7 +52,11 @@ export class XpmSinglePageWebapp extends Construct {
           // Add the behavior to route `/trpc/*` to the EC2 instance
           "/trpc/*": {
             origin: new cfOrigins.HttpOrigin(
-              props.ec2Api.instancePublicDnsName
+              props.ec2Api.instancePublicDnsName,
+              {
+                originId: `${id}-cf_distribution-trpc`,
+                protocolPolicy: cloudfront.OriginProtocolPolicy.HTTP_ONLY,
+              }
             ),
             viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.ALLOW_ALL,
             cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,

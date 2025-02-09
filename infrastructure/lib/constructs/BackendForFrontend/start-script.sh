@@ -65,6 +65,7 @@ echo "DB_NAME=$DB_NAME" >>/etc/environment
 echo "DB_USER=$DB_USER" >>/etc/environment
 echo "DB_PASS=$DB_PASS" >>/etc/environment
 
+echo "[XPM] Setting up log rotation..."
 mkdir -p /etc/logrotate.d && cat >/etc/logrotate.d/nohup <<EOF
 /root/xpensemngr/api/nohup.out {
     size 10M
@@ -75,3 +76,7 @@ mkdir -p /etc/logrotate.d && cat >/etc/logrotate.d/nohup <<EOF
     copytruncate
 }
 EOF
+
+echo "[XPM] Starting server..."
+cd /root/xpensemngr/api
+nohup npm run start &
