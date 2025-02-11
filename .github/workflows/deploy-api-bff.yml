@@ -1,0 +1,29 @@
+name: WebApp Deployment (Continuous Delivery)
+
+on:
+  push:
+    branches: ["main"]
+    paths: ["api/**"]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-central-1
+          role-to-assume: arn:aws:iam::571600868208:role/InfrastructureStack-spaprodspaprodwebappdeploymentd-vqhGGfAeganR
+          role-session-name: GithubActionDeployWebappSession
+
+      - name: Deploy and Restart App
+        run: |
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets "[{\"Key\":\"InstanceIds\",\"Values\":[\"i-03a0a00bc0c5b21da\"]}]" \
+            --parameters "commands=['bash && cd ~/xpensemngr/api && git pull && npm ci && && npm run build:prod && pm2 restart xpm-api-bff']" \
+            --region eu-central-1
