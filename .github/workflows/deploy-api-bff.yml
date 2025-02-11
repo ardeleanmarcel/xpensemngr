@@ -1,4 +1,4 @@
-name: WebApp Deployment (Continuous Delivery)
+name: CI/CD API BFF
 
 on:
   push:

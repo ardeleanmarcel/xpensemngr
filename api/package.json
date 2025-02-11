@@ -15,7 +15,7 @@
     "start": "tsx ./src/server.ts",
     "dev": "nodemon",
     "build": "tsc",
-    "build:prod": "NODE_OPTIONS='--max-old-space-size=512' tsc --project tsconfig.prod.json",
+    "build:prod": "NODE_OPTIONS='--max-old-space-size=4096' tsc --project tsconfig.prod.json",
     "lint": "eslint -c eslint.config.js --report-unused-disable-directives --max-warnings 0"
   },
   "keywords": [],
