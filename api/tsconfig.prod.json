@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "declaration": false,
+    "outDir": "build/",
+    "emitDeclarationOnly": false,
+    "esModuleInterop": true,
+    "lib": ["es7", "dom"],
+    "paths": {
+      "@src/*": ["./src/*"],
+      "@routers": ["./src/routers/index.ts"],
+      "@routers/*": ["./src/routers/*"],
+      "@sql/*": ["./src/db/sql/*"],
+      "@constants/*": ["./src/constants/*"],
+      "@models/*": ["./src/models/*"]
+    }
+  },
+  "include": ["src", "eslint.config.js"]
+}

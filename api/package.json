@@ -15,6 +15,7 @@
     "start": "tsx ./src/server.ts",
     "dev": "nodemon",
     "build": "tsc",
+    "build:prod": "tsc --project tsconfig.prod.json",
     "lint": "eslint -c eslint.config.js --report-unused-disable-directives --max-warnings 0"
   },
   "keywords": [],
