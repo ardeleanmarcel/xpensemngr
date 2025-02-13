@@ -47,4 +47,4 @@ jobs:
           aws s3 sync dist s3://spa-prod-webapp-bucket --delete
 
       - name: Invalidate CloudFront cache
-        run: aws cloudfront create-invalidation --distribution-id E1EGBWX4U3YD6L --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id EJY901E7NL6UT --paths "/*"
