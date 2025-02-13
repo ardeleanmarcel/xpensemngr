@@ -17,7 +17,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: eu-central-1
-          role-to-assume: arn:aws:iam::571600868208:role/InfrastructureStack-spaprodspaprodwebappdeploymentd-vqhGGfAeganR
+          role-to-assume: arn:aws:iam::571600868208:role/InfrastructureStack-spaprodspaprodwebappdeploymentd-lIAmGiNZma2n
           role-session-name: GithubActionDeployWebappSession
 
       - name: Deploy and Restart App

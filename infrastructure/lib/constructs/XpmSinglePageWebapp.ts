@@ -71,6 +71,7 @@ export class XpmSinglePageWebapp extends Construct {
       bucketName: this.webBucket.bucket.bucketName,
       awsAccountId: cdk.Stack.of(this).account,
       cloudfrontDistributionId: this.distribution.distributionId,
+      ec2Api: props.ec2Api,
     });
   }
 }

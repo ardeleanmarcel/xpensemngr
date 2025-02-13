@@ -1,11 +1,14 @@
 #!/bin/bash
 
-# this changes the cloud.cfg file so that the script gets run on every reboot
-cp /etc/cloud/cloud.cfg /etc/cloud/cloud.cfg.bak
-if ! grep -q ' - \[scripts-user, always\]' /etc/cloud/cloud.cfg; then
-    # Add the line if it doesn't exist
-    sudo sed -i 's/ - scripts-user/ - scripts-user\n - [scripts-user, always]/' /etc/cloud/cloud.cfg
-fi
+echo "[XPM] Setting up swap..."
+dd if=/dev/zero of=/swapfile bs=1M count=4096
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+echo "/swapfile swap swap defaults 0 0" | sudo tee -a /etc/fstab
+
+echo "[XPM] Switching to ec2-user..."
+su - ec2-user
 
 [ -f ~/.bashrc ] || touch ~/.bashrc
 
@@ -25,6 +28,9 @@ nvm install 20.12.2
 echo "[XPM] Checking node version..."
 node -v
 
+echo "[XPM] Installing pm2..."
+npm install pm2 -g
+
 echo "[XPM] Cloning xpensemngr repository..."
 cd ~
 git clone https://github.com/ardeleanmarcel/xpensemngr.git
@@ -33,6 +39,7 @@ echo "[XPM] Installing dependencies..."
 cd ~/xpensemngr/api
 npm install
 
+# TODO (Valle) -> these can be dynamically obtained when the app is running, using the aws sdk
 echo "[XPM] Setting up environment variables..."
 # // Fetch the secret and parse the environment variables
 AUTH_JWT_SECRET=$(aws secretsmanager get-secret-value --secret-id xpm-backend-for-frontend-env-var-prod --query SecretString --output text | jq -r .AUTH_JWT_SECRET)
@@ -68,36 +75,36 @@ echo "DB_NAME=$DB_NAME" >>/etc/environment
 echo "DB_USER=$DB_USER" >>/etc/environment
 echo "DB_PASS=$DB_PASS" >>/etc/environment
 
-echo "[XPM] Setting up log rotation..."
-mkdir -p /etc/logrotate.d && cat >/etc/logrotate.d/nohup <<EOF
-/root/xpensemngr/api/nohup.out {
-    size 10M
-    rotate 5
-    compress
-    missingok
-    notifempty
-    copytruncate
-}
-EOF
+# echo "[XPM] Setting up log rotation..."
+# mkdir -p /etc/logrotate.d && cat >/etc/logrotate.d/nohup <<EOF
+# /root/xpensemngr/api/nohup.out {
+#     size 10M
+#     rotate 5
+#     compress
+#     missingok
+#     notifempty
+#     copytruncate
+# }
+# EOF
 
-echo "[XPM] Setting up server autostart on reboot..."
-echo "[Unit]
-Description=Run xpensemanager API
-After=network.target
+# echo "[XPM] Setting up server autostart on reboot..."
+# echo "[Unit]
+# Description=Run xpensemanager API
+# After=network.target
 
-[Service]
-ExecStart=/usr/bin/npm run start --prefix /root/xpensemanager/api
-WorkingDirectory=/root/xpensemanager/api
-Restart=always
-User=root
-StandardOutput=append:/var/log/xpensemanager.log
-StandardError=append:/var/log/xpensemanager.log
+# [Service]
+# ExecStart=/usr/bin/npm run start --prefix /root/xpensemanager/api
+# WorkingDirectory=/root/xpensemanager/api
+# Restart=always
+# User=root
+# StandardOutput=append:/var/log/xpensemanager.log
+# StandardError=append:/var/log/xpensemanager.log
 
-[Install]
-WantedBy=multi-user.target" >/etc/systemd/system/xpensemanager.service
+# [Install]
+# WantedBy=multi-user.target" >/etc/systemd/system/xpensemanager.service
 
-systemctl enable xpensemanager.service
-systemctl start xpensemanager.service
+# systemctl enable xpensemanager.service
+# systemctl start xpensemanager.service
 
 echo "[XPM] Enabling log rotation..."
 dnf install -y logrotate
@@ -115,6 +122,9 @@ echo "/var/log/xpensemanager.log {
 echo "[XPM] Testing log rotation..."
 logrotate /etc/logrotate.d/xpensemanager --debug
 
-echo "[XPM] Starting server..."
-cd /root/xpensemngr/api
-nohup npm run start &
+echo "[XPM] Bulding and starting server..."
+cd ~/xpensemngr/api
+npm run build:prod
+pm2 startup
+pm2 start build/index.js --name xpm-api-bff --log /var/log/xpensemanager.log
+pm2 save # will save the current process config so that it autostarts on reboot

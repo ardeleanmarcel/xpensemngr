@@ -1,4 +1,6 @@
+import * as cdk from "aws-cdk-lib";
 import * as iam from "aws-cdk-lib/aws-iam";
+import * as ec2 from "aws-cdk-lib/aws-ec2";
 import { Construct } from "constructs";
 import { GithubOidcProvider } from "./GithubOidcProvider";
 
@@ -6,11 +8,15 @@ interface WebappDeploymentProps {
   bucketName: string;
   awsAccountId: string;
   cloudfrontDistributionId: string;
+  ec2Api: ec2.IInstance;
 }
 
 export class WebappDeployment extends Construct {
   constructor(scope: Construct, id: string, props: WebappDeploymentProps) {
     super(scope, id);
+
+    const account = cdk.Stack.of(this).account;
+    const region = cdk.Stack.of(this).region;
 
     const githubOidc = new GithubOidcProvider(this, "GithubOidcProvider");
 
@@ -39,6 +45,14 @@ export class WebappDeployment extends Construct {
           actions: ["cloudfront:CreateInvalidation"],
           resources: [
             `arn:aws:cloudfront::${props.awsAccountId}:distribution/${props.cloudfrontDistributionId}`,
+          ],
+        }),
+        new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          actions: ["ssm:SendCommand", "ssm:GetCommandInvocation"],
+          resources: [
+            `arn:aws:ssm:${region}:${account}:document/AWS-RunShellScript`, // Allow sending SSM commands
+            `arn:aws:ec2:${region}:${account}:instance/${props.ec2Api.instanceId}`, // EC2 instance ARN dynamically referenced
           ],
         }),
       ],

@@ -18,7 +18,7 @@ jobs:
         with:
           aws-region: eu-central-1
           # role-to-assume: arn:aws:iam::571600868208:role/deploy-webapp-role
-          role-to-assume: arn:aws:iam::571600868208:role/InfrastructureStack-spaprodspaprodwebappdeploymentd-vqhGGfAeganR
+          role-to-assume: arn:aws:iam::571600868208:role/InfrastructureStack-spaprodspaprodwebappdeploymentd-lIAmGiNZma2n
           role-session-name: GithubActionDeployWebappSession
 
       - name: Checkout
