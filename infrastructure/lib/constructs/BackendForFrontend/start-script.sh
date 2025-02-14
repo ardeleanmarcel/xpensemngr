@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# TODO (Valle) -> This script is not idempotent
+# TODO (Valle) -> Add a part to create a 4gb swap file
+
 echo "[XPM] Setting up swap..."
 dd if=/dev/zero of=/swapfile bs=1M count=4096
 chmod 600 /swapfile
@@ -19,6 +22,7 @@ echo "[XPM] Installing jq..."
 dnf install -y jq
 
 echo "[XPM] Installing nvm and NodeJS..."
+touch ~/.bashrc
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -37,7 +41,7 @@ git clone https://github.com/ardeleanmarcel/xpensemngr.git
 
 echo "[XPM] Installing dependencies..."
 cd ~/xpensemngr/api
-npm install
+npm ci
 
 # TODO (Valle) -> these can be dynamically obtained when the app is running, using the aws sdk
 echo "[XPM] Setting up environment variables..."
@@ -74,37 +78,6 @@ echo "DB_PORT=$DB_PORT" >>/etc/environment
 echo "DB_NAME=$DB_NAME" >>/etc/environment
 echo "DB_USER=$DB_USER" >>/etc/environment
 echo "DB_PASS=$DB_PASS" >>/etc/environment
-
-# echo "[XPM] Setting up log rotation..."
-# mkdir -p /etc/logrotate.d && cat >/etc/logrotate.d/nohup <<EOF
-# /root/xpensemngr/api/nohup.out {
-#     size 10M
-#     rotate 5
-#     compress
-#     missingok
-#     notifempty
-#     copytruncate
-# }
-# EOF
-
-# echo "[XPM] Setting up server autostart on reboot..."
-# echo "[Unit]
-# Description=Run xpensemanager API
-# After=network.target
-
-# [Service]
-# ExecStart=/usr/bin/npm run start --prefix /root/xpensemanager/api
-# WorkingDirectory=/root/xpensemanager/api
-# Restart=always
-# User=root
-# StandardOutput=append:/var/log/xpensemanager.log
-# StandardError=append:/var/log/xpensemanager.log
-
-# [Install]
-# WantedBy=multi-user.target" >/etc/systemd/system/xpensemanager.service
-
-# systemctl enable xpensemanager.service
-# systemctl start xpensemanager.service
 
 echo "[XPM] Enabling log rotation..."
 dnf install -y logrotate
