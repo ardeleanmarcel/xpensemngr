@@ -24,6 +24,6 @@ jobs:
         run: |
           aws ssm send-command \
             --document-name "AWS-RunShellScript" \
-            --targets "[{\"Key\":\"InstanceIds\",\"Values\":[\"i-04fa76b8d435c011d\"]}]" \
+            --targets "[{\"Key\":\"InstanceIds\",\"Values\":[\"i-0e2a2fed9b970db6c\"]}]" \
             --parameters "commands=['sudo cd ~/xpensemngr/api && sudo git pull && sudo npm ci && sudo pm2 restart the-app-2']" \
             --region eu-central-1
