@@ -20,6 +20,9 @@ jobs:
           role-to-assume: arn:aws:iam::571600868208:role/InfrastructureStack-spaprodspaprodwebappdeploymentd-lIAmGiNZma2n
           role-session-name: GithubActionDeployWebappSession
 
+      - name: Verify AWS Account
+        run: aws sts get-caller-identity
+
       - name: Deploy and Restart App
         run: |
           aws ssm send-command \
@@ -27,3 +30,4 @@ jobs:
             --targets "[{\"Key\":\"InstanceIds\",\"Values\":[\"i-0e2a2fed9b970db6c\"]}]" \
             --parameters "commands=['sudo cd ~/xpensemngr/api && sudo git pull && sudo npm ci && sudo pm2 restart the-app-2']" \
             --region eu-central-1
+            --debug
