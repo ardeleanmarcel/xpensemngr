@@ -37,7 +37,7 @@ export const usersRouter = t.router({
   }),
 
   test: t.procedure.query(async () => {
-    return 'test 1';
+    return 'test 2';
   }),
 
   create: t.procedure.input(userCreateSchema).mutation(async (opts) => {
