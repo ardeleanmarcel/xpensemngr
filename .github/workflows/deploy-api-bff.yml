@@ -36,7 +36,7 @@ jobs:
 
       - name: Deploy and Restart App
         run: |
-          AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)" &&
+          AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)" && \
           aws ssm send-command \
             --document-name "AWS-RunShellScript" \
             --targets "[{\"Key\":\"InstanceIds\",\"Values\":[\"i-0e2a2fed9b970db6c\"]}]" \
