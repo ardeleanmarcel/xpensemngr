@@ -24,6 +24,13 @@ jobs:
       - name: Verify AWS Account
         run: aws sts get-caller-identity
 
+      - name: check environment
+        run: env | sort
+
+      - name: add aws account id to env
+        run: |
+          echo "AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)" >> $GITHUB_ENV
+
       - name: Deploy and Restart App
         run: |
           aws ssm send-command \
