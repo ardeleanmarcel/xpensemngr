@@ -27,20 +27,21 @@ jobs:
       - name: check environment
         run: env | sort
 
-      - name: add aws account id to env
-        run: |
-          echo "AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)" >> $GITHUB_ENV
-
+      # - name: add aws account id to env
+      #   run: |
+      #     echo "AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)" >> $GITHUB_ENV
       - name: check environment again
         run: env | sort
 
         # TODO (Valle) -> might be able to remove accound ID part AND the region part
       - name: Deploy and Restart App
+        env:
+          EC2_INSTANCE_NAME: xpm-ec2-main-api-prod
+          NODE_PATH: /root/.nvm/versions/node/v20.12.2/bin
+          HOME_DIR: /root
         run: |
-          AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text) && \
-            aws ssm send-command \
-            --document-name "AWS-RunShellScript" \
-            --targets "[{\"Key\":\"tag:Name\",\"Values\":[\"xpm-ec2-main-api-prod\"]}]" \
-            --parameters "commands=['sudo cd ~/xpensemngr/api && sudo git pull && sudo npm ci && sudo pm2 restart xpm-api-bff']" \
-            --region eu-central-1 \
-            --timeout-seconds 300
+          aws ssm send-command \
+          --document-name "AWS-RunShellScript" \
+          --targets "[{\"Key\":\"tag:Name\",\"Values\":[\"$EC2_INSTANCE_NAME\"]}]" \
+          --parameters "export HOME=$HOME && export PATH=$NODE_PATH:$PATH && cd /root/xpensemngr/api && git pull && npm ci && pm2 list && pm2 restart xpm-api-bff" \
+          --timeout-seconds 300
