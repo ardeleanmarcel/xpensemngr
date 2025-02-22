@@ -1,0 +1,11 @@
+meta {
+  name: Test
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{main-api-host}}/trpc/users.test
+  body: json
+  auth: inherit
+}
