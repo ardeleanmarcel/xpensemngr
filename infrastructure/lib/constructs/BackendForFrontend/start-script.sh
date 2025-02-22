@@ -3,6 +3,12 @@
 # TODO (Valle) -> This script is not idempotent
 # TODO (Valle) -> Add a part to create a 4gb swap file
 
+# beacuse the HOME variable as well as other things are NOT set when running this script
+# seems that it is run in a different context...
+export HOME=/root
+echo "export PATH=$PATH:/usr/local/bin" >>/etc/profile
+echo "export PATH=$PATH:/usr/local/bin" >>/home/ec2-user/.bashrc
+
 echo "[XPM] Setting up swap..."
 dd if=/dev/zero of=/swapfile bs=1M count=4096
 chmod 600 /swapfile

@@ -34,7 +34,7 @@ jobs:
       - name: check environment again
         run: env | sort
 
-        # TODO (Valle) -> might be able to remove accound ID part
+        # TODO (Valle) -> might be able to remove accound ID part AND the region part
       - name: Deploy and Restart App
         run: |
           AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text) && \
@@ -42,5 +42,6 @@ jobs:
             --document-name "AWS-RunShellScript" \
             --targets "[{\"Key\":\"tag:Name\",\"Values\":[\"xpm-ec2-main-api-prod\"]}]" \
             --parameters "commands=['sudo cd ~/xpensemngr/api && sudo git pull && sudo npm ci && sudo pm2 restart the-app-2']" \
-            --region eu-central-1
+            --region eu-central-1 \
+            --timeout-seconds 300 \
             --debug
