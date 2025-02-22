@@ -41,7 +41,6 @@ jobs:
             aws ssm send-command \
             --document-name "AWS-RunShellScript" \
             --targets "[{\"Key\":\"tag:Name\",\"Values\":[\"xpm-ec2-main-api-prod\"]}]" \
-            --parameters "commands=['sudo cd ~/xpensemngr/api && sudo git pull && sudo npm ci && sudo pm2 restart the-app-2']" \
+            --parameters "commands=['sudo cd ~/xpensemngr/api && sudo git pull && sudo npm ci && sudo pm2 restart xpm-api-bff']" \
             --region eu-central-1 \
-            --timeout-seconds 300 \
-            --debug
+            --timeout-seconds 300

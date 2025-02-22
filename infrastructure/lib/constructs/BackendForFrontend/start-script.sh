@@ -85,9 +85,14 @@ echo "DB_NAME=$DB_NAME" >>/etc/environment
 echo "DB_USER=$DB_USER" >>/etc/environment
 echo "DB_PASS=$DB_PASS" >>/etc/environment
 
-echo "[XPM] Enabling log rotation..."
+echo "[XPM] Preparing logs..."
 dnf install -y logrotate
 
+echo "[XPM] Setup log file..."
+touch /var/log/xpensemanager.log
+sudo chown ec2-user:ec2-user /var/log/xpensemanager.log
+
+echo "[XPM] Setting up log rotation..."
 echo "/var/log/xpensemanager.log {
     daily
     missingok
@@ -103,7 +108,6 @@ logrotate /etc/logrotate.d/xpensemanager --debug
 
 echo "[XPM] Bulding and starting server..."
 cd ~/xpensemngr/api
-npm run build:prod
 pm2 startup
-pm2 start build/index.js --name xpm-api-bff --log /var/log/xpensemanager.log
+pm2 start npm --name xpm-api-bff --log /var/log/xpensemanager.log -- run start
 pm2 save # will save the current process config so that it autostarts on reboot
