@@ -11,6 +11,8 @@ interface WebappDeploymentProps {
   ec2Api: ec2.IInstance;
 }
 
+// TODO (Valle) -> this should NOT be part of XpmSinglePageWebapp. It should be an independent construct
+// TODO (Valle) -> could have some IF statements for (if ec2 ...) (if cloudronft & bucket)
 export class WebappDeployment extends Construct {
   constructor(scope: Construct, id: string, props: WebappDeploymentProps) {
     super(scope, id);
@@ -51,8 +53,8 @@ export class WebappDeployment extends Construct {
           effect: iam.Effect.ALLOW,
           actions: ["ssm:SendCommand", "ssm:GetCommandInvocation"],
           resources: [
-            `arn:aws:ssm:${region}:${account}:document/AWS-RunShellScript`, // Allow sending SSM commands
-            `arn:aws:ec2:${region}:${account}:instance/${props.ec2Api.instanceId}`, // EC2 instance ARN dynamically referenced
+            `arn:aws:ssm:${region}::document/AWS-RunShellScript`,
+            `arn:aws:ec2:${region}:${account}:instance/${props.ec2Api.instanceId}`,
           ],
         }),
       ],
