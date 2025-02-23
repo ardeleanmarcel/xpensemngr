@@ -31,12 +31,12 @@ If you want to work on the entire project, refer to the [PROJECT LEVEL README](.
 
 ## Creating Migrations
 
-- Use command `npm run make:migration <your_snake_case_name>`
+- Use command `npm run create:migration <your_snake_case_name>`
 
 ## Running Migrations
 
 If making changes to an AWS hosted environment (i.e. production), you will need to first configure the CLI
 by running `npm run aws:login`. Make sure the `xpm-admin` profile is set up by following the project-level readme.
 
-- Use command `npm run migrate:all` to run all migrations.
-- Use command `npm run migrate:down` to reverse last migration.
+- Use command `npm run migrate:local:all` to run all migrations.
+- Use command `npm run migrate:local:down` to reverse last migration.

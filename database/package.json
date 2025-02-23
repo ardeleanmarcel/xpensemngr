@@ -5,11 +5,13 @@
   },
   "scripts": {
     "aws:login": "aws sso login --profile xpm-admin",
-    "compile": "tsc",
-    "bootstrap": "tsx bootstrap.ts",
-    "migrate:all": "tsx migrate.ts",
-    "migrate:down": "tsx migrate_down.ts",
-    "make:migration": "tsx create_migration.ts"
+    "bootstrap:local": "cross-env XPM_ENV=local tsx bootstrap.ts",
+    "bootstrap:prod": "cross-env XPM_ENV=production tsx bootstrap.ts",
+    "create:migration": "cross-env XPM_ENV=local tsx create_migration.ts",
+    "migrate:local:all": "cross-env XPM_ENV=local tsx migrate.ts",
+    "migrate:local:down": "cross-env XPM_ENV=local tsx migrate_down.ts",
+    "migrate:prod:all": "cross-env XPM_ENV=production tsx migrate.ts",
+    "migrate:prod:down": "cross-env XPM_ENV=production tsx migrate_down.ts"
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.750.0",
@@ -20,6 +22,7 @@
   },
   "devDependencies": {
     "@types/pg": "^8.11.4",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "eslint": "^9.2.0",
     "tsx": "^4.7.2"
