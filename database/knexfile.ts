@@ -1,15 +1,32 @@
 import { Knex } from 'knex';
-import { ENV_NAME, EnvName } from './constants.ts';
+import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
 
-// example of async password retrieval
-const getPassword = async () => {
-  // TODO (Valle) -> retrieve password from AWS secrets manager
-  return process.env.PROD_DB_PASS;
+import { AWS_PROFILE, ENV_NAME, EnvName, PROD_DB_CREDENTIALS_SECRET_NAME } from './constants.ts';
+import { dbCredentialsSchema } from './utils.ts';
+
+const secretsManagerClient = new SecretsManagerClient({
+  profile: AWS_PROFILE,
+});
+
+const fetchProductionDbCredentials = async () => {
+  try {
+    const command = new GetSecretValueCommand({ SecretId: PROD_DB_CREDENTIALS_SECRET_NAME });
+
+    const { SecretString } = await secretsManagerClient.send(command);
+    if (!SecretString) return;
+
+    const secret = JSON.parse(SecretString);
+    const credentials = dbCredentialsSchema.parse(secret);
+
+    return credentials;
+  } catch (e) {
+    console.error(e);
+    throw new Error('Error when fetching DB credentials');
+  }
 };
 
 const stubFile = 'migration.stub';
 
-// TODO (Valle) -> string key should be a valid env name
 export const postgresConfig: { [key in EnvName]: Knex.Config } = {
   [ENV_NAME.development]: {
     client: 'pg',
@@ -29,14 +46,15 @@ export const postgresConfig: { [key in EnvName]: Knex.Config } = {
   [ENV_NAME.production]: {
     client: 'pg',
     connection: async () => {
-      const password = await getPassword();
+      const credentials = await fetchProductionDbCredentials();
+      if (!credentials) throw new Error('Failed to fetch production DB credentials');
 
       return {
-        host: process.env.PROD_DB_HOST,
-        port: parseInt(process.env.PROD_DB_PORT ?? '5432'),
-        database: process.env.PROD_DB_NAME,
-        user: process.env.PROD_DB_USER,
-        password,
+        host: credentials.host,
+        port: credentials.port,
+        database: credentials.dbname,
+        user: credentials.username,
+        password: credentials.password,
         ssl: {
           rejectUnauthorized: false,
         },

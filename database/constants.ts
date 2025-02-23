@@ -1,3 +1,4 @@
+// TODO (Valle) -> replace with enum
 export const ENV_NAME = {
   development: 'development',
   production: 'production',
@@ -19,3 +20,7 @@ export const getCurrEnvName = (): EnvName => {
 
   return envName;
 };
+
+export const AWS_PROFILE = 'xpm-admin';
+
+export const PROD_DB_CREDENTIALS_SECRET_NAME = 'xpm-rds-main-prod';

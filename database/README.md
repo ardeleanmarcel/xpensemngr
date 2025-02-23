@@ -35,5 +35,8 @@ If you want to work on the entire project, refer to the [PROJECT LEVEL README](.
 
 ## Running Migrations
 
+If making changes to an AWS hosted environment (i.e. production), you will need to first configure the CLI
+by running `npm run aws:login`. Make sure the `xpm-admin` profile is set up by following the project-level readme.
+
 - Use command `npm run migrate:all` to run all migrations.
 - Use command `npm run migrate:down` to reverse last migration.
