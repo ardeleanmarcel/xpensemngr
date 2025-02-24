@@ -15,7 +15,7 @@ if (!isYes(answer)) {
 log.info('Migrating down...');
 const res = await knexClient.migrate.down();
 
-log.info(`The following migration wes rolled back:\n --> ${res[1][0]}`);
+log.info(`The following DDL migration script was rolled back:\n --> ${res[1][0]}`);
 
 log.success('Migration down successful!');
 process.exit();

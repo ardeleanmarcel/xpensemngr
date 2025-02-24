@@ -28,7 +28,7 @@ const fetchProductionDbCredentials = async () => {
 const stubFile = 'migration.stub';
 
 export const postgresConfig: { [key in EnvName]: Knex.Config } = {
-  [ENV_NAME.local]: {
+  [ENV_NAME.Local]: {
     client: 'pg',
     connection: {
       host: process.env.LOCAL_DB_HOST,
@@ -39,11 +39,11 @@ export const postgresConfig: { [key in EnvName]: Knex.Config } = {
     },
     migrations: {
       stub: stubFile,
-      schemaName: ENV_NAME.local,
+      schemaName: ENV_NAME.Local,
       extension: 'ts',
     },
   },
-  [ENV_NAME.production]: {
+  [ENV_NAME.Production]: {
     client: 'pg',
     connection: async () => {
       const credentials = await fetchProductionDbCredentials();
@@ -62,7 +62,7 @@ export const postgresConfig: { [key in EnvName]: Knex.Config } = {
     },
     migrations: {
       stub: stubFile,
-      schemaName: ENV_NAME.production,
+      schemaName: ENV_NAME.Production,
       extension: 'ts',
     },
   },

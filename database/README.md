@@ -2,7 +2,6 @@
 
 ## TODO
 
-- add confirmation message before migrating down
 - add user seed
 
 ## Local Environment

@@ -1,8 +1,7 @@
-// TODO (Valle) -> replace with enum
-export const ENV_NAME = {
-  local: 'local',
-  production: 'production',
-} as const;
+export enum ENV_NAME {
+  Local = 'local',
+  Production = 'production',
+}
 
 export const ENV_NAMES = Object.values(ENV_NAME);
 
@@ -14,7 +13,7 @@ export const getCurrEnvName = (): EnvName => {
 
   if (!process.env.XPM_ENV) throw new Error('XPM_ENV environment variable is missing!');
 
-  if (envName !== ENV_NAME.local && envName !== ENV_NAME.production) {
+  if (envName !== ENV_NAME.Local && envName !== ENV_NAME.Production) {
     throw new Error(`Invalid XPM_ENV ${envName}`);
   }
 
