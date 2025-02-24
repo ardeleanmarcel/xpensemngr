@@ -38,3 +38,7 @@ export const log = {
 export function isYes(answer: string) {
   return answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes';
 }
+
+export function isSnakeCase(str: string) {
+  return /^[a-z_]+$/.test(str);
+}
