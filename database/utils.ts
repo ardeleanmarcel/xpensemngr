@@ -28,7 +28,7 @@ export const log = {
     console.log(chalk.bold(message));
   },
   error: (message: string) => {
-    console.log(chalk.bold.red(message));
+    console.log(chalk.bold.red('[ERROR] ' + message));
   },
   success: (message: string) => {
     console.log(chalk.bold.green(message));

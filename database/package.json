@@ -7,11 +7,11 @@
     "aws:login": "aws sso login --profile xpm-admin",
     "bootstrap:local": "cross-env XPM_ENV=local tsx bootstrap.ts",
     "bootstrap:prod": "cross-env XPM_ENV=production tsx bootstrap.ts",
-    "create:migration": "cross-env XPM_ENV=local tsx create_migration.ts",
-    "migrate:local:all": "cross-env XPM_ENV=local tsx migrate.ts",
-    "migrate:local:down": "cross-env XPM_ENV=local tsx migrate_down.ts",
-    "migrate:prod:all": "cross-env XPM_ENV=production tsx migrate.ts",
-    "migrate:prod:down": "cross-env XPM_ENV=production tsx migrate_down.ts"
+    "create:migration": "cross-env XPM_ENV=local tsx perform_db_operation.ts create_migration",
+    "migrate:local:all": "cross-env XPM_ENV=local tsx perform_db_operation.ts migrate_all",
+    "migrate:local:down": "cross-env XPM_ENV=local tsx perform_db_operation.ts migrate_down",
+    "migrate:prod:all": "cross-env XPM_ENV=production tsx perform_db_operation.ts migrate_all",
+    "migrate:prod:down": "cross-env XPM_ENV=production tsx perform_db_operation.ts migrate_down"
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.750.0",
