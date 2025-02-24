@@ -31,6 +31,8 @@ If you want to work on the entire project, refer to the [PROJECT LEVEL README](.
 
 ## Creating Migrations
 
+Warning! A local database connection must be available to be able to create migrations!
+
 - Use command `npm run create:migration <your_snake_case_name>`
 
 ## Running Migrations
