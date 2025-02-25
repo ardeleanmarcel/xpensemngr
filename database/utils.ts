@@ -64,3 +64,15 @@ export function isYes(answer: string) {
 export function isSnakeCase(str: string) {
   return /^[a-z_]+$/.test(str);
 }
+
+export function validateOperationName(mName: string) {
+  let err = '';
+
+  if (!mName) err = 'Name is missing!';
+  if (!isSnakeCase(mName)) err = 'Names must be snake_cased!';
+
+  if (err) {
+    log.error(err);
+    throw new Error(err);
+  }
+}

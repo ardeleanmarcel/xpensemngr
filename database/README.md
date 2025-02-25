@@ -1,9 +1,5 @@
 # database
 
-## TODO
-
-- add user seed
-
 ## Local Environment
 
 <span style="color: orange;">**WARNING!**</span>
@@ -28,16 +24,24 @@ If you want to work on the entire project, refer to the [PROJECT LEVEL README](.
 - When a new env is made, if using Postgres, the schema must be created using `npm run bootstrap`.
   Make sure the correct values are set in your `.env` file and also that `knexfile.ts` is configured correctly.
 
-## Creating Migrations
+## Databse Operations
 
-Warning! A local database connection must be available to be able to create migrations!
+Warning! A local database connection must be available to be able to perform!
+
+### Creating Migrations
 
 - Use command `npm run create:migration <your_snake_case_name>`
 
-## Running Migrations
+### Running DDL Migrations
 
 If making changes to an AWS hosted environment (i.e. production), you will need to first configure the CLI
 by running `npm run aws:login`. Make sure the `xpm-admin` profile is set up by following the project-level readme.
 
 - Use command `npm run migrate:local:all` to run all migrations.
 - Use command `npm run migrate:local:down` to reverse last migration.
+
+### Creating & Running Seeds
+
+- Use command `npm run create:seed <your_snake_case_name>` to create a new seed. It needs to be manually added to
+  the file running the seeds as well, in order for it to get run. See `perform_seed_operations.ts`.
+- Use command `npm run seed:local:all` to seed your local DB.

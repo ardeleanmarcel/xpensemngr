@@ -23,3 +23,5 @@ export const getCurrEnvName = (): EnvName => {
 export const AWS_PROFILE = 'xpm-admin';
 
 export const PROD_DB_CREDENTIALS_SECRET_NAME = 'xpm-rds-main-prod';
+
+export const TEST_USER_ID = (1_000_000_000_001).toString();
