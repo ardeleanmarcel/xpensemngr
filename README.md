@@ -40,6 +40,6 @@ you appropriate permissions by adding your user to a group (i.e. Administrators)
 For accessing the web console, go to `https://d-996764b2bf.awsapps.com/start` and sign in
 using the credentials you have been provided.
 
-<!-- TODO
-- add a "common constants" package, which can include things such as XPM_ENV
- -->
+<!-- TODO add a "common constants" package, which can include things such as XPM_ENV -->
+
+<!-- TODO add folder/file structure lint -->
