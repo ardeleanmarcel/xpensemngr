@@ -55,7 +55,7 @@ async function seedAll() {
   const usersRes = await knexClient.seed.run({ specific: 'users.ts' });
   const parsedUsersRes = seedRunResultSchema.parse(usersRes);
   seedScripts.push(parsedUsersRes[0][0]);
-  log.info('Seeding users successful!');
+  log.info('Finished seeding users!');
 
   const seedList = seedScripts.map((s) => '--> ' + s).join('\n');
   log.info(`The following seed scripts have been run:\n${seedList}`);

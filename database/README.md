@@ -26,7 +26,7 @@ If you want to work on the entire project, refer to the [PROJECT LEVEL README](.
 
 ## Databse Operations
 
-Warning! A local database connection must be available to be able to perform!
+Warning! A local database connection must be available to be able to perform operations such as creating migrations or seeds!
 
 ### Creating Migrations
 

@@ -1,19 +1,36 @@
 import { Knex } from 'knex';
-import { TEST_USER_ID } from '../constants.ts';
+import { hash } from 'bcrypt';
 
-// TODO (Valle) -> generate passwords as they would be in the actual app
-// TODO (Valle) -> the id is generated always. to use specific ids "Use OVERRIDING SYSTEM VALUE to override."
+import { TEST_USER_ID } from '../constants.ts';
+import { log } from '../utils.ts';
+
 export async function seed(knex: Knex): Promise<void> {
-  // Inserts seed entries
-  // await knex('users')
-  //   .insert([{ username: 'test_user_1', email: 'test_user_1@test_email.com', password: 'encrypt-me' }])
-  //   .returning('user_id');
-  await knex.raw(`
-    INSERT INTO users
-      (user_id, username, email, password)
-    OVERRIDING SYSTEM VALUE
-    VALUES
-      (${TEST_USER_ID}, 'test_user_1', 'test_user_1@test_email.com', 'encrypt-me')
-    RETURNING
-      user_id;`);
+  try {
+    const pass = 'T3stP@ssw0rd!';
+    const hashedPass = await hash(pass, 5);
+
+    await knex.raw(
+      `
+      INSERT INTO users
+        (user_id, password, username, email, user_status_id)
+      OVERRIDING SYSTEM VALUE
+      VALUES
+        (
+          ? , ? ,
+          'test_user_1',
+          'test_user_1@test_email.com',
+          10                                  -- Value for "Active"
+        )
+      RETURNING
+        user_id;`,
+      [TEST_USER_ID, hashedPass]
+    );
+  } catch (error: any) {
+    if (typeof error.message === 'string' && error.message.includes('duplicate key value violates unique constraint')) {
+      log.warn('Users table already seeded!');
+    } else {
+      log.error('Error seeding users');
+      throw error;
+    }
+  }
 }

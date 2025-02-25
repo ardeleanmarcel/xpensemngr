@@ -1,4 +1,4 @@
 export const XPM_ENV = {
-  development: 'development',
+  local: 'local',
   production: 'production',
 } as const;

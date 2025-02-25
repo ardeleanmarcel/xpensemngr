@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.750.0",
+    "bcrypt": "^5.1.1",
     "chalk": "^5.4.1",
     "knex": "^3.1.0",
     "pg": "^8.11.5",
@@ -24,6 +25,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/pg": "^8.11.4",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",

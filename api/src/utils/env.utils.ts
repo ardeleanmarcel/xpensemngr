@@ -5,7 +5,7 @@ import { XPM_ENV } from '@src/constants/env.const';
 
 const envConfigSchema = z
   .object({
-    XPM_ENV: z.enum([XPM_ENV.development, XPM_ENV.production]),
+    XPM_ENV: z.enum([XPM_ENV.local, XPM_ENV.production]),
     DB_HOST: z.string(),
     DB_PORT: z.number().gte(1).lte(65535),
     DB_NAME: z.string(),

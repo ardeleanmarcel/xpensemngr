@@ -36,7 +36,7 @@ server.register(fastifyTRPCPlugin, {
   try {
     console.log('Starting server on env: ', ENV_VARS.XPM_ENV);
 
-    if (ENV_VARS.XPM_ENV === XPM_ENV.development) {
+    if (ENV_VARS.XPM_ENV === XPM_ENV.local) {
       await server.register(cors, { origin: '*', maxAge: 36000 });
     } else {
       const origin = Array.from(new Set(['http://localhost:5173', ENV_VARS.MYE_WEB_UI_ROOT_URL]));
@@ -49,7 +49,7 @@ server.register(fastifyTRPCPlugin, {
       console.log('Listening on port 80');
     }
 
-    if (ENV_VARS.XPM_ENV === XPM_ENV.development) {
+    if (ENV_VARS.XPM_ENV === XPM_ENV.local) {
       await server.listen({ port: 3000, host: '0.0.0.0' });
       console.log('Listening on port 3000');
     }
