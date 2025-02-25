@@ -49,7 +49,7 @@ async function migrateAll() {
 }
 
 async function migrateDown() {
-  log.error('Warning! This can lead to deleting data in the database!');
+  log.warn('This can lead to deleting data in the database!');
 
   const answer = await rl.question('Are you sure you want to continue? (yes/no) ');
 
