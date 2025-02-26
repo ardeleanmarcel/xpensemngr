@@ -1,4 +1,4 @@
-export const XPM_ENV = {
-  local: 'local',
-  production: 'production',
-} as const;
+export enum XPM_ENV {
+  Local = 'local',
+  Production = 'production',
+}

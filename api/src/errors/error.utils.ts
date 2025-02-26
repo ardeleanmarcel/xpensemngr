@@ -34,3 +34,5 @@ export function throwHttpError(cfg: HttpErrorArgs): never {
     cause: new HttpError(cfg),
   });
 }
+
+// TODO (Valle) -> create a "format zod error" function and use it in env.utils.ts (maybe also at trpc response formatter)

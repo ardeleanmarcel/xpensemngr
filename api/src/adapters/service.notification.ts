@@ -2,6 +2,7 @@ import sendGrid from '@sendgrid/mail';
 
 import { HTTP_ERR } from '../errors';
 import { throwHttpError } from '@src/errors/error.utils';
+import { ENV_VARS } from '@src/utils/env.utils';
 
 enum SENDGRID_TEMPLATE {
   ConfirmNewUserEmail = 'd-58015a3de1ae41388cb70421f6e10224',
@@ -18,8 +19,7 @@ class NotificationService {
   public async sendAccountConfirmationEmail(cfg: { email: string; username: string; confirmationUrl: string }) {
     const sendgridConfig = {
       to: cfg.email,
-      // TODO (Valle) -> export all env variables from a single file that will throw if anything is missing
-      from: process.env.NOTIFICATION_EMAIL_SOURCE ?? '',
+      from: ENV_VARS.NOTIFICATION_EMAIL_SOURCE,
       subject: 'Confirm MYE account',
       templateId: SENDGRID_TEMPLATE.ConfirmNewUserEmail,
       dynamicTemplateData: {

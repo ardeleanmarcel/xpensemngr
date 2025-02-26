@@ -36,20 +36,20 @@ server.register(fastifyTRPCPlugin, {
   try {
     console.log('Starting server on env: ', ENV_VARS.XPM_ENV);
 
-    if (ENV_VARS.XPM_ENV === XPM_ENV.local) {
+    if (ENV_VARS.XPM_ENV === XPM_ENV.Local) {
       await server.register(cors, { origin: '*', maxAge: 36000 });
     } else {
       const origin = Array.from(new Set(['http://localhost:5173', ENV_VARS.MYE_WEB_UI_ROOT_URL]));
       await server.register(cors, { origin, maxAge: 36000 });
     }
 
-    if (ENV_VARS.XPM_ENV === XPM_ENV.production) {
+    if (ENV_VARS.XPM_ENV === XPM_ENV.Production) {
       // TODO (Valle) -> make it listen to 443 as well (redirect 80 to 443?)
       await server.listen({ port: 80, host: '0.0.0.0' });
       console.log('Listening on port 80');
     }
 
-    if (ENV_VARS.XPM_ENV === XPM_ENV.local) {
+    if (ENV_VARS.XPM_ENV === XPM_ENV.Local) {
       await server.listen({ port: 3000, host: '0.0.0.0' });
       console.log('Listening on port 3000');
     }
