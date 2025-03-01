@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "allowImportingTsExtensions": true,
     "allowJs": true,
     "composite": true,
@@ -17,6 +17,7 @@
     "lib": ["es7", "dom"],
     "paths": {
       "@src/*": ["./src/*"],
+      "@errors": ["./src/errors/index.ts"],
       "@routers": ["./src/routers/index.ts"],
       "@routers/*": ["./src/routers/*"],
       "@sql/*": ["./src/db/sql/*"],

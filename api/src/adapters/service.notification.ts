@@ -1,8 +1,8 @@
 import sendGrid from '@sendgrid/mail';
 
-import { HTTP_ERR } from '../errors';
-import { throwHttpError } from '@src/errors/error.utils';
-import { ENV_VARS } from '@src/utils/env.utils';
+import { HTTP_ERR } from '@errors';
+import { throwHttpError } from '@src/errors/error.utils.ts';
+import { ENV_VARS } from '@src/utils/env.utils.ts';
 
 enum SENDGRID_TEMPLATE {
   ConfirmNewUserEmail = 'd-58015a3de1ae41388cb70421f6e10224',

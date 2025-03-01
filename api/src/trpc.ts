@@ -5,10 +5,10 @@ import { fromError } from 'zod-validation-error';
 
 import jwt from 'jsonwebtoken';
 
-import { Context } from './trpcFastifyContext';
+import { Context } from './trpcFastifyContext.ts';
 
-import { HTTP_ERR, HttpError } from './errors';
-import { throwHttpError } from './errors/error.utils';
+import { HTTP_ERR, HttpError } from './errors/index.ts';
+import { throwHttpError } from './errors/error.utils.ts';
 
 export const t = initTRPC.context<Context>().create({
   errorFormatter: (opts) => {

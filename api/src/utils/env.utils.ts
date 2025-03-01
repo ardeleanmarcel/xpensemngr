@@ -1,7 +1,8 @@
 import 'dotenv/config';
 import { z } from 'zod';
+import { log } from '@xpm/logging';
 
-import { XPM_ENV } from '@src/constants/env.const';
+import { XPM_ENV } from '@src/constants/env.const.ts';
 
 const envConfigSchema = z
   .object({
@@ -38,7 +39,7 @@ function getEnvVars() {
     return vars;
   } catch (e) {
     // TODO (Valle) -> import the logger from the database folder and use it
-    console.warn('MISSING OR INCORRECT ENVIRONMENT VARIABLE(S)');
+    log('MISSING OR INCORRECT ENVIRONMENT VARIABLE(S)');
     throw e;
   }
 }

@@ -2,15 +2,18 @@ import { fastifyTRPCPlugin, FastifyTRPCPluginOptions } from '@trpc/server/adapte
 import fastify from 'fastify';
 import cors from '@fastify/cors';
 
-import { createContext } from './trpcFastifyContext';
-import { appRouter, AppRouter } from './trpcAppRouter';
-import { ENV_VARS } from './utils/env.utils';
-import { XPM_ENV } from './constants/env.const';
+import { createContext } from './trpcFastifyContext.ts';
+import { appRouter, AppRouter } from './trpcAppRouter.ts';
+import { ENV_VARS } from './utils/env.utils.ts';
+import { XPM_ENV } from './constants/env.const.ts';
+import { log } from '@xpm/logging';
 
 const server = fastify({
   maxParamLength: 5000,
   logger: true,
 });
+
+log('MEEEEEEEEEEEEYAAAAAAAAAU');
 
 server.addHook('onRequest', async (request) => {
   console.log(`[tRPC Request] ${request.method} ${request.url}`);

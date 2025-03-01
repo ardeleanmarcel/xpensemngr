@@ -1,9 +1,9 @@
-import { sqlClient } from '@src/adapters/sqlClient';
-import { throwHttpError } from '@src/errors/error.utils';
-import { HTTP_ERR } from '@src/errors';
-import { Filter } from '../db.utils';
-import { composeWhereClause } from './utils/sql.utils';
-import { UserCreateType, UserType } from '../../models/user.models';
+import { sqlClient } from '@src/adapters/sqlClient.ts';
+import { throwHttpError } from '@src/errors/error.utils.ts';
+import { HTTP_ERR } from '@errors';
+import { Filter } from '../db.utils.ts';
+import { composeWhereClause } from './utils/sql.utils.ts';
+import { UserCreateType, UserType } from '../../models/user.models.ts';
 
 export async function createUsers(users: UserCreateType[]) {
   // TODO (Valle) -> wrap DB requests in a try-catch and throw an HttpError if the query fails

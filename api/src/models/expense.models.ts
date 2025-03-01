@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { amountSchema, dbIdSchema } from './utils';
+import { amountSchema, dbIdSchema } from './utils.ts';
 
 export const expenseSchema = z
   .object({

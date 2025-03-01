@@ -1,2 +1,2 @@
-export * from './HttpError.class';
-export * from './http.errors';
+export * from './HttpError.class.ts';
+export * from './http.errors.ts';

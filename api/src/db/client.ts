@@ -1,5 +1,5 @@
-import { XPM_ENV } from '@src/constants/env.const';
-import { ENV_VARS } from '@src/utils/env.utils';
+import { XPM_ENV } from '@src/constants/env.const.ts';
+import { ENV_VARS } from '@src/utils/env.utils.ts';
 import knex from 'knex';
 
 // because pg returns INT8 values as strings by default

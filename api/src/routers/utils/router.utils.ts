@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { FILTER_COMPARATOR } from '@src/db/db.utils';
+import { FILTER_COMPARATOR } from '@src/db/db.utils.ts';
 
 const queryInputSchema = z.array(
   z

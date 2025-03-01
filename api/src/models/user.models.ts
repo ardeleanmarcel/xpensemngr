@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { email, password } from './common.models';
+import { email, password } from './common.models.ts';
 
 export const userSchema = z.object({
   user_id: z.number().int().positive(),

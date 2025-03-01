@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
-import { sqlClient } from '@src/adapters/sqlClient';
-import { UserActivationDbData } from '../../models/user_activation.models';
+import { sqlClient } from '@src/adapters/sqlClient.ts';
+import { UserActivationDbData } from '../../models/user_activation.models.ts';
 
 export function createUserActivations(userIds: number[]) {
   const values = new Array(userIds.length)

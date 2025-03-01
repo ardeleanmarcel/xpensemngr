@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import { HttpError, HttpErrorArgs } from './HttpError.class';
+import { HttpError, HttpErrorArgs } from './HttpError.class.ts';
 
 export const TRPC_ERR_CODE = {
   BAD_REQUEST: 'BAD_REQUEST',

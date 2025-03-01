@@ -1,9 +1,9 @@
-import { sqlClient } from '@src/adapters/sqlClient';
-import { LabelCreateType, LabelType } from '@src/models/label.models';
-import { Filter } from '../db.utils';
-import { composeWhereClause } from './utils/sql.utils';
-import { throwHttpError } from '@src/errors/error.utils';
-import { HTTP_ERR } from '@src/errors';
+import { sqlClient } from '@src/adapters/sqlClient.ts';
+import { LabelCreateType, LabelType } from '@src/models/label.models.ts';
+import { Filter } from '../db.utils.ts';
+import { composeWhereClause } from './utils/sql.utils.ts';
+import { throwHttpError } from '@src/errors/error.utils.ts';
+import { HTTP_ERR } from '@errors';
 
 export async function createLabels(labels: LabelCreateType, user_id: number) {
   const queryValues = new Array(labels.length)

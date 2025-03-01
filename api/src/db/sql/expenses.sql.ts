@@ -1,9 +1,9 @@
-import { sqlClient } from '@src/adapters/sqlClient';
-import { ExpenseCreateType, ExpenseType } from '@src/models/expense.models';
-import { Filter } from '../db.utils';
-import { composeLimitClause, composeOrderByClause, composeWhereClause } from './utils/sql.utils';
-import { LabelType } from '@src/models/label.models';
-import { OrderBy } from './types/sql.types';
+import { sqlClient } from '@src/adapters/sqlClient.ts';
+import { ExpenseCreateType, ExpenseType } from '@src/models/expense.models.ts';
+import { Filter } from '../db.utils.ts';
+import { composeLimitClause, composeOrderByClause, composeWhereClause } from './utils/sql.utils.ts';
+import { LabelType } from '@src/models/label.models.ts';
+import { OrderBy } from './types/sql.types.ts';
 
 // TODO (Valle) -> this is highly inefficient, because we are doing a lot of write operations
 //  should be a fun challenge to improve

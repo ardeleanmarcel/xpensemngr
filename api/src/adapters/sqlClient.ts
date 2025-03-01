@@ -1,5 +1,5 @@
 import { Knex } from 'knex';
-import { knexClient } from '@src/db/client';
+import { knexClient } from '@src/db/client.ts';
 
 class SqlClient {
   private client: Knex;

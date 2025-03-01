@@ -1,14 +1,14 @@
-import { protectedProcedure, t } from '@src/trpc';
-import { expenseCreateSchema, expenseDeleteSchema, expenseGetAllSchema } from '@src/models/expense.models';
+import { protectedProcedure, t } from '@src/trpc.ts';
+import { expenseCreateSchema, expenseDeleteSchema, expenseGetAllSchema } from '@src/models/expense.models.ts';
 import {
   ExpenseSelectFilters,
   ExpenseSelectOrder,
   createExpensesWithLabels,
   deleteExpenses,
   selectExpensesWithLabels,
-} from '@src/db/sql/expenses.sql';
-import { FILTER_COMPARATOR } from '@src/db/db.utils';
-import { checkLabelsBelongToUser } from '@src/db/sql/labels.sql';
+} from '@src/db/sql/expenses.sql.ts';
+import { FILTER_COMPARATOR } from '@src/db/db.utils.ts';
+import { checkLabelsBelongToUser } from '@src/db/sql/labels.sql.ts';
 
 export const expensesRouter = t.router({
   create: protectedProcedure.input(expenseCreateSchema).mutation(async (opts) => {

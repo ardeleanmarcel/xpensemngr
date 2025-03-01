@@ -1,5 +1,5 @@
-import { FilterForBeloningToGroup, FILTER_COMPARATOR, Filter, FilterValue } from '../../db.utils';
-import { OrderBy } from '../types/sql.types';
+import { FilterForBeloningToGroup, FILTER_COMPARATOR, Filter, FilterValue } from '../../db.utils.ts';
+import { OrderBy } from '../types/sql.types.ts';
 
 export function composeWhereClause(filters: Filter<string>[]) {
   if (filters.length === 0) return { whereClauses: '', bindings: [] };

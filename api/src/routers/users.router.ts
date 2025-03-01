@@ -2,9 +2,9 @@ import { z } from 'zod';
 import { hash, compare } from 'bcrypt';
 import lodash from 'lodash';
 
-import { protectedProcedure, t } from '@src/trpc';
-import { DEFAULT_SALT_ROUNDS } from '@constants/auth.const';
-import { userCreateSchema } from '@models/user.models';
+import { protectedProcedure, t } from '@src/trpc.ts';
+import { DEFAULT_SALT_ROUNDS } from '@constants/auth.const.ts';
+import { userCreateSchema } from '@models/user.models.ts';
 import {
   createUsers,
   hardDeleteAccount,
@@ -12,15 +12,15 @@ import {
   softDeleteAccount,
   updateUserEmail,
   updateUserPassword,
-} from '@sql/users.sql';
-import { createUserActivations, selectUserActivations, updateUserActivations } from '@sql/user_activations.sql';
+} from '@sql/users.sql.ts';
+import { createUserActivations, selectUserActivations, updateUserActivations } from '@sql/user_activations.sql.ts';
 
-import { createInputSchema } from './utils/router.utils';
-import { Filter, FILTER_COMPARATOR } from '@src/db/db.utils';
-import { notificationService } from '@src/adapters/service.notification';
-import { HTTP_ERR } from '@src/errors';
-import { throwHttpError } from '@src/errors/error.utils';
-import { email, password } from '@src/models/common.models';
+import { createInputSchema } from './utils/router.utils.ts';
+import { Filter, FILTER_COMPARATOR } from '@src/db/db.utils.ts';
+import { notificationService } from '@src/adapters/service.notification.ts';
+import { HTTP_ERR } from '@errors';
+import { throwHttpError } from '@src/errors/error.utils.ts';
+import { email, password } from '@src/models/common.models.ts';
 
 const { pick } = lodash;
 

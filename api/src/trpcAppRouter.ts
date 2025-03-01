@@ -1,4 +1,4 @@
-import { t } from '@src/trpc';
+import { t } from '@src/trpc.ts';
 import { authRouter, expensesRouter, labelsRouter, usersRouter } from '@routers';
 
 export const appRouter = t.router({

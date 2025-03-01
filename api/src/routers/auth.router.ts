@@ -3,11 +3,11 @@ import { compare } from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import lodash from 'lodash';
 
-import { t } from '@src/trpc';
-import { selectUsers } from '@src/db/sql/users.sql';
-import { HTTP_ERR } from '@src/errors';
-import { FILTER_COMPARATOR } from '@src/db/db.utils';
-import { throwHttpError } from '@src/errors/error.utils';
+import { t } from '@src/trpc.ts';
+import { selectUsers } from '@src/db/sql/users.sql.ts';
+import { HTTP_ERR } from '@errors';
+import { FILTER_COMPARATOR } from '@src/db/db.utils.ts';
+import { throwHttpError } from '@src/errors/error.utils.ts';
 
 const { pick } = lodash;
 
