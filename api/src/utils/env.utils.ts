@@ -38,8 +38,7 @@ function getEnvVars() {
 
     return vars;
   } catch (e) {
-    // TODO (Valle) -> import the logger from the database folder and use it
-    log('MISSING OR INCORRECT ENVIRONMENT VARIABLE(S)');
+    log.error('MISSING OR INCORRECT ENVIRONMENT VARIABLE(S)');
     throw e;
   }
 }

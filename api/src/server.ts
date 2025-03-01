@@ -13,17 +13,15 @@ const server = fastify({
   logger: true,
 });
 
-log('MEEEEEEEEEEEEYAAAAAAAAAU');
-
 server.addHook('onRequest', async (request) => {
-  console.log(`[tRPC Request] ${request.method} ${request.url}`);
+  log.info(`[tRPC Request] ${request.method} ${request.url}`);
 });
 
 server.register(fastifyTRPCPlugin, {
   prefix: '/trpc',
   trpcOptions: {
     responseMeta: () => {
-      console.log('valle');
+      log.info('valle');
       return {};
     },
     router: appRouter,
@@ -37,7 +35,7 @@ server.register(fastifyTRPCPlugin, {
 
 (async () => {
   try {
-    console.log('Starting server on env: ', ENV_VARS.XPM_ENV);
+    log.info(`Starting server on env: ${ENV_VARS.XPM_ENV}`);
 
     if (ENV_VARS.XPM_ENV === XPM_ENV.Local) {
       await server.register(cors, { origin: '*', maxAge: 36000 });
@@ -49,12 +47,12 @@ server.register(fastifyTRPCPlugin, {
     if (ENV_VARS.XPM_ENV === XPM_ENV.Production) {
       // TODO (Valle) -> make it listen to 443 as well (redirect 80 to 443?)
       await server.listen({ port: 80, host: '0.0.0.0' });
-      console.log('Listening on port 80');
+      log.info('Listening on port 80');
     }
 
     if (ENV_VARS.XPM_ENV === XPM_ENV.Local) {
       await server.listen({ port: 3000, host: '0.0.0.0' });
-      console.log('Listening on port 3000');
+      log.info('Listening on port 3000');
     }
   } catch (err) {
     server.log.error(err);

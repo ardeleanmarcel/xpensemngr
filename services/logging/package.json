@@ -1,12 +1,14 @@
 {
   "name": "logging",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "tsc",
+    "publish": "npx jsr publish --allow-slow-types --allow-dirty"
   },
   "dependencies": {
+    "chalk": "^5.4.1",
     "typescript": "^5.4.5"
   },
   "keywords": [],
