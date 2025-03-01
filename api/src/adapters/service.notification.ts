@@ -3,6 +3,7 @@ import sendGrid from '@sendgrid/mail';
 import { HTTP_ERR } from '@errors';
 import { throwHttpError } from '@src/errors/error.utils.ts';
 import { ENV_VARS } from '@src/utils/env.utils.ts';
+import { log } from '@xpm/logging';
 
 enum SENDGRID_TEMPLATE {
   ConfirmNewUserEmail = 'd-58015a3de1ae41388cb70421f6e10224',
@@ -29,8 +30,7 @@ class NotificationService {
     };
 
     const res = await this.emailClient.send(sendgridConfig).catch((err) => {
-      // TODO (Valle) -> improve error logging
-      console.error(err);
+      log.error(err);
       throwHttpError(HTTP_ERR.e500.Unavailable);
     });
 
