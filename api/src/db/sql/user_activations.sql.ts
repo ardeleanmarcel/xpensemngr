@@ -18,7 +18,7 @@ export function createUserActivations(userIds: number[]) {
     RETURNING *
   `;
 
-  return sqlClient.queryWithParams<UserActivationDbData>(query, bindings);
+  return sqlClient.query<UserActivationDbData>(query, bindings);
 }
 
 export function selectUserActivations(activationCodes: string[]) {
@@ -27,7 +27,7 @@ export function selectUserActivations(activationCodes: string[]) {
     WHERE ua.activation_code IN ( ${activationCodes.map(() => '?').join(',  ')} )
   `;
 
-  return sqlClient.queryWithParams<UserActivationDbData>(query, activationCodes);
+  return sqlClient.query<UserActivationDbData>(query, activationCodes);
 }
 
 export function updateUserActivations(activationCodes: string[]) {
@@ -43,5 +43,5 @@ export function updateUserActivations(activationCodes: string[]) {
     WHERE user_id IN ( select user_id from activations);
   `;
 
-  return sqlClient.queryWithParams<UserActivationDbData>(query, activationCodes);
+  return sqlClient.query<UserActivationDbData>(query, activationCodes);
 }

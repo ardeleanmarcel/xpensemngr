@@ -29,7 +29,7 @@ export async function createUsers(users: UserCreateType[]) {
     return [...bindings, username, password, email];
   }, []);
 
-  return await sqlClient.queryWithParams<UserType>(query, bindings);
+  return await sqlClient.query<UserType>(query, bindings);
 }
 
 // TODO (Valle) -> add "created_at" column to users table
@@ -41,7 +41,7 @@ export async function selectUsers(filters: Filter<AllowedUserFilters>[]) {
 
   const query = `SELECT * FROM users ${whereClauses}`;
 
-  const res = await sqlClient.queryWithParams<UserType>(query, bindings);
+  const res = await sqlClient.query<UserType>(query, bindings);
 
   return res;
 }
@@ -62,7 +62,7 @@ export async function updateUserPassword(userId: number, hashedPassword: string)
   const bindings = [hashedPassword, userId];
 
   try {
-    const result = await sqlClient.queryWithParams<UserType>(query, bindings);
+    const result = await sqlClient.query<UserType>(query, bindings);
     if (result.length === 0) {
       throwHttpError(HTTP_ERR.e404.NotFound('User', userId.toString()));
     }
@@ -89,7 +89,7 @@ export async function updateUserEmail(userId: number, email: string) {
   const bindings = [email, userId];
 
   try {
-    const result = await sqlClient.queryWithParams<UserType>(query, bindings);
+    const result = await sqlClient.query<UserType>(query, bindings);
     if (result.length === 0) {
       throwHttpError(HTTP_ERR.e404.NotFound('user', userId.toString()));
     }
@@ -112,7 +112,7 @@ export async function softDeleteAccount(userId: number) {
   const bindings = [userId];
 
   try {
-    const result = await sqlClient.queryWithParams<UserType>(query, bindings);
+    const result = await sqlClient.query<UserType>(query, bindings);
     console.log('🚀 ~ softDeleteAccount ~ result:', result);
     if (result.length === 0) {
       throwHttpError(HTTP_ERR.e404.NotFound('User', userId.toString()));
@@ -132,9 +132,9 @@ export async function hardDeleteAccount(userId: number) {
   const bindings = [userId];
 
   try {
-    const result1 = await sqlClient.queryWithParams<UserType>(deleteExpensesQuery, bindings);
-    const result2 = await sqlClient.queryWithParams<UserType>(deleteUserActivationsQuery, bindings);
-    const result3 = await sqlClient.queryWithParams<UserType>(deleteUsersQuery, bindings);
+    const result1 = await sqlClient.query<UserType>(deleteExpensesQuery, bindings);
+    const result2 = await sqlClient.query<UserType>(deleteUserActivationsQuery, bindings);
+    const result3 = await sqlClient.query<UserType>(deleteUsersQuery, bindings);
     if (result1.length === 0 || result2.length === 0 || result3.length === 0) {
       throwHttpError(HTTP_ERR.e404.NotFound('User', userId.toString()));
     }

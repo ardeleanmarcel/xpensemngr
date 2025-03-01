@@ -45,7 +45,7 @@ export async function createExpenses(expenses: ExpenseCreateType, user_id: numbe
     return [...bindings, description, amount, date_expended_at, user_id];
   }, []);
 
-  return await sqlClient.queryWithParams<ExpenseType>(query, bindings);
+  return await sqlClient.query<ExpenseType>(query, bindings);
 }
 
 export async function addLabelsToExpenses(relations: { expense_id: number; label_ids: number[] }[]) {
@@ -70,7 +70,7 @@ export async function addLabelsToExpenses(relations: { expense_id: number; label
     return [...bindings, ...label_ids.reduce((acc, label_id) => [...acc, expense_id, label_id], [])];
   }, []);
 
-  return await sqlClient.queryWithParams<{ expense_id: number; label_id: number }>(query, bindings);
+  return await sqlClient.query<{ expense_id: number; label_id: number }>(query, bindings);
 }
 
 export type AllowedExpensesFilters = 'added_by_user_id';
@@ -79,7 +79,7 @@ export async function selectExpenses(filters: Filter<AllowedExpensesFilters>[]) 
 
   const query = `SELECT * FROM expenses ${whereClauses}`;
 
-  const res = await sqlClient.queryWithParams<ExpenseType>(query, bindings);
+  const res = await sqlClient.query<ExpenseType>(query, bindings);
 
   return res;
 }
@@ -143,10 +143,7 @@ export async function selectExpensesWithLabels({ filters, limit, order }: Expens
     ${limitClause}
     `;
 
-  const res = await sqlClient.queryWithParams<ExpenseType & { labels: Omit<LabelType, 'added_by_user_id'>[] }>(
-    query,
-    bindings
-  );
+  const res = await sqlClient.query<ExpenseType & { labels: Omit<LabelType, 'added_by_user_id'>[] }>(query, bindings);
 
   return res;
 }
@@ -166,7 +163,7 @@ export async function deleteExpenses({ filters }: ExpenseDeleteSqlOptions) {
   ${whereClauses}
   RETURNING *`;
 
-  const res = await sqlClient.queryWithParams<ExpenseType>(query, bindings);
+  const res = await sqlClient.query<ExpenseType>(query, bindings);
 
   return res;
 }

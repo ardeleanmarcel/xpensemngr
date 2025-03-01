@@ -43,3 +43,5 @@ using the credentials you have been provided.
 <!-- TODO add a "common constants" package, which can include things such as XPM_ENV -->
 
 <!-- TODO add folder/file structure lint -->
+
+<!-- TODO add mechanism for identifying the deployed version for webapp or api -->

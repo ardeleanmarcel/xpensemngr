@@ -29,7 +29,7 @@ export async function createLabels(labels: LabelCreateType, user_id: number) {
 
   // TODO (Valle) -> replace passing a type to the function with a parse operation
   // Should I createa a helper function that gets query name and parser function?
-  return await sqlClient.queryWithParams<LabelType>(query, bindings);
+  return await sqlClient.query<LabelType>(query, bindings);
 }
 
 export type AllowedLabelsFilters = 'added_by_user_id';
@@ -38,7 +38,7 @@ export async function selectLabels(filters: Filter<AllowedLabelsFilters>[]) {
 
   const query = `SELECT * FROM labels ${whereClauses}`;
 
-  const res = await sqlClient.queryWithParams<LabelType>(query, bindings);
+  const res = await sqlClient.query<LabelType>(query, bindings);
 
   return res;
 }
@@ -54,7 +54,7 @@ export async function checkLabelsBelongToUser(label_ids: number[], user_id: numb
     AND added_by_user_id = ?
   `;
 
-  const foundLabels = (await sqlClient.queryWithParams<{ label_id: number }>(query, [...label_ids, user_id])).map(
+  const foundLabels = (await sqlClient.query<{ label_id: number }>(query, [...label_ids, user_id])).map(
     ({ label_id }) => label_id
   );
 
