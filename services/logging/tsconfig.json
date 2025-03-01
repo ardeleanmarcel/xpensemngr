@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "composite": true,
+    "strict": true,
+    "noImplicitReturns": true
+  },
+  "include": ["src"]
+}
