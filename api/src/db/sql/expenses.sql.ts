@@ -1,7 +1,12 @@
 import { sqlClient, SqlTransaction } from '@src/adapters/sqlClient.ts';
 import { ExpenseCreateType, ExpenseType } from '@src/models/expense.models.ts';
 import { Filter } from '../db.utils.ts';
-import { composeLimitClause, composeOrderByClause, composeWhereClause } from './utils/sql.utils.ts';
+import {
+  composeLimitClause,
+  composeOrderByClause,
+  composeWhereClause,
+  getSqlQueryBindings,
+} from './utils/sql.utils.ts';
 import { LabelType } from '@src/models/label.models.ts';
 import { OrderBy } from './types/sql.types.ts';
 import { throwHttpError } from '@src/errors/error.utils.ts';
@@ -51,11 +56,11 @@ export function createExpenses(
         date_expended_at
   `;
 
-  // TODO (Valle) -> this is not very DRY. can it be made so?
-  const bindings = expenses.reduce((bindings, expense) => {
-    const { description, amount, date_expended_at } = expense;
-    return [...bindings, description, amount, date_expended_at, user_id];
-  }, []);
+  const bindings = getSqlQueryBindings({
+    objects: expenses,
+    keys: ['description', 'amount', 'date_expended_at'],
+    insertAfterEachSet: [user_id],
+  });
 
   return (transaction || sqlClient).query<ExpenseType>(query, bindings);
 }

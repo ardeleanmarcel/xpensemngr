@@ -3,11 +3,10 @@ import { knexClient } from '@src/db/client.ts';
 import { log } from '@xpm/logging';
 import { HTTP_ERR } from '@src/errors/http.errors.ts';
 import { throwHttpError } from '@src/errors/error.utils.ts';
-
-type QueryParams = Array<string | number | null | Array<string | number>>;
+import { SqlQueryBindings } from '@src/db/sql/types/sql.types.ts';
 
 export interface SqlTransaction {
-  query: <T>(statement: string, params: QueryParams) => Promise<Array<T>>;
+  query: <T>(statement: string, params: SqlQueryBindings) => Promise<Array<T>>;
   commit: () => Promise<unknown>;
   rollback: () => Promise<unknown>;
 }
@@ -23,7 +22,7 @@ class SqlClient {
     const trx = await this.client.transaction();
 
     return {
-      query: async <T>(statement: string, params: QueryParams) => {
+      query: async <T>(statement: string, params: SqlQueryBindings) => {
         const res = await trx.raw(statement, params);
 
         return res.rows as T[];
@@ -33,7 +32,7 @@ class SqlClient {
     };
   }
 
-  public async query<T>(statement: string, params: QueryParams = []) {
+  public async query<T>(statement: string, params: SqlQueryBindings = []) {
     try {
       const res = await this.client.raw(statement, params);
 

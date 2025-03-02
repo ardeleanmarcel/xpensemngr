@@ -1,11 +1,11 @@
-import { FilterForBeloningToGroup, FILTER_COMPARATOR, Filter, FilterValue } from '../../db.utils.ts';
-import { OrderBy } from '../types/sql.types.ts';
+import { FilterForBeloningToGroup, FILTER_COMPARATOR, Filter } from '../../db.utils.ts';
+import { OrderBy, SqlBindingData, SqlQueryBindings } from '../types/sql.types.ts';
 
 export function composeWhereClause(filters: Filter<string>[]) {
   if (filters.length === 0) return { whereClauses: '', bindings: [] };
 
   const clauses: string[] = [];
-  let bindings: FilterValue[] = [];
+  let bindings: SqlQueryBindings = [];
 
   filters.forEach((f) => {
     if (isArrayFilter(f)) {
@@ -33,4 +33,27 @@ export function composeLimitClause(limit?: number) {
 
 export function composeOrderByClause(orderBy: Array<OrderBy<Array<string>>> = []) {
   return 'ORDER BY\n' + orderBy.map(({ column, direction }) => `  ${column} ${direction}`).join(',\n');
+}
+
+interface GetSqlQueryBindingsArgs<Obj> {
+  objects: Array<Obj>;
+  keys: Array<keyof Obj>;
+  insertBeforeEachSet?: Array<SqlBindingData>;
+  insertAfterEachSet?: Array<SqlBindingData>;
+}
+interface SqlQueryBindingsRecord {
+  [key: string]: SqlBindingData;
+}
+export function getSqlQueryBindings<Obj extends SqlQueryBindingsRecord>(args: GetSqlQueryBindingsArgs<Obj>) {
+  const { objects, keys, insertBeforeEachSet, insertAfterEachSet } = args;
+
+  const bindings = objects.reduce<SqlQueryBindings>((binds, obj) => {
+    if (insertBeforeEachSet) binds.push(...insertBeforeEachSet);
+    keys.forEach((key) => binds.push(obj[key]));
+    if (insertAfterEachSet) binds.push(...insertAfterEachSet);
+
+    return binds;
+  }, []);
+
+  return bindings;
 }

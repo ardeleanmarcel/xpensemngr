@@ -15,8 +15,6 @@ type FilterTypeComparison =
 
 export type FilterType = (typeof FILTER_COMPARATOR)[keyof typeof FILTER_COMPARATOR];
 
-export type FilterValue = string | number | (string | number)[];
-
 export type FilterForEquality<T extends string> = {
   name: T;
   type: typeof FILTER_COMPARATOR.Is;
