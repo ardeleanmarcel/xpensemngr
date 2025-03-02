@@ -45,3 +45,9 @@ using the credentials you have been provided.
 <!-- TODO add folder/file structure lint -->
 
 <!-- TODO add mechanism for identifying the deployed version for webapp or api -->
+
+<!-- TODO check all sql queries that they use the getSqlQueryBindings function -->
+
+<!-- TODO check that the "console" object is not used to log anything, and add a lint rule to prevent it -->
+
+<!-- TODO make a PR github action that makes sure all projects compile and all lint rules are respected -->
