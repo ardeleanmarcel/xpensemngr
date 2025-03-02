@@ -1,5 +1,8 @@
 import z from 'zod';
 
+// TODO (Valle) -> add a unique elements array schema (so that you can't send ids 1, 2 and 1 again)
+// TODO (Valle) -> add maximum lengths to arrays on endpoint schemas
+
 export const amountSchema = z
   .number()
   .positive()

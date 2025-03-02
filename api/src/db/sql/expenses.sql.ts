@@ -1,27 +1,39 @@
-import { sqlClient } from '@src/adapters/sqlClient.ts';
+import { sqlClient, SqlTransaction } from '@src/adapters/sqlClient.ts';
 import { ExpenseCreateType, ExpenseType } from '@src/models/expense.models.ts';
 import { Filter } from '../db.utils.ts';
 import { composeLimitClause, composeOrderByClause, composeWhereClause } from './utils/sql.utils.ts';
 import { LabelType } from '@src/models/label.models.ts';
 import { OrderBy } from './types/sql.types.ts';
+import { throwHttpError } from '@src/errors/error.utils.ts';
+import { HTTP_ERR } from '@src/errors/http.errors.ts';
+import { log } from '@xpm/logging';
 
-// TODO (Valle) -> this is highly inefficient, because we are doing a lot of write operations
-//  should be a fun challenge to improve
-export function createExpensesWithLabels(expenses: ExpenseCreateType, user_id: number) {
-  return Promise.all(
-    expenses.map(async (expense) => {
-      const newExp = await createExpenses([expense], user_id);
+export async function createExpensesWithLabels(expenses: ExpenseCreateType, user_id: number) {
+  const transaction = await sqlClient.getTransaction();
+  try {
+    const insertedExpenses = await createExpenses(expenses, user_id, transaction);
 
-      if (expense.label_ids.length > 0) {
-        await addLabelsToExpenses([{ expense_id: newExp[0].expense_id, label_ids: expense.label_ids }]);
-      }
+    // because Postgres guarantees the order of the returning IDs, we can rely on it to map the labels
+    await addLabelsToExpenses(
+      insertedExpenses.map((exp, idx) => ({ expense_id: exp.expense_id, label_ids: expenses[idx].label_ids })),
+      transaction
+    );
 
-      return newExp[0].expense_id;
-    })
-  );
+    await transaction.commit();
+
+    return insertedExpenses.map((exp) => exp.expense_id);
+  } catch (error) {
+    await transaction.rollback();
+    log.error(`Could not create expenses with labels. Reason:\n${JSON.stringify(error) || 'unknown'}`);
+    throw throwHttpError(HTTP_ERR.e500.Unavailable);
+  }
 }
 
-export async function createExpenses(expenses: ExpenseCreateType, user_id: number) {
+export function createExpenses(
+  expenses: ExpenseCreateType,
+  user_id: number,
+  transaction?: SqlTransaction
+): Promise<ExpenseType[]> {
   const queryValues = new Array(expenses.length)
     .fill(null)
     .map(() => `( ?, ?, ?, ? )`)
@@ -45,10 +57,13 @@ export async function createExpenses(expenses: ExpenseCreateType, user_id: numbe
     return [...bindings, description, amount, date_expended_at, user_id];
   }, []);
 
-  return await sqlClient.query<ExpenseType>(query, bindings);
+  return (transaction || sqlClient).query<ExpenseType>(query, bindings);
 }
 
-export async function addLabelsToExpenses(relations: { expense_id: number; label_ids: number[] }[]) {
+export async function addLabelsToExpenses(
+  relations: { expense_id: number; label_ids: number[] }[],
+  transaction?: SqlTransaction
+) {
   const numOfAdditions = relations.reduce((acc, { label_ids }) => acc + label_ids.length, 0);
 
   const queryValues = new Array(numOfAdditions)
@@ -70,7 +85,7 @@ export async function addLabelsToExpenses(relations: { expense_id: number; label
     return [...bindings, ...label_ids.reduce((acc, label_id) => [...acc, expense_id, label_id], [])];
   }, []);
 
-  return await sqlClient.query<{ expense_id: number; label_id: number }>(query, bindings);
+  return await (transaction || sqlClient).query<{ expense_id: number; label_id: number }>(query, bindings);
 }
 
 export type AllowedExpensesFilters = 'added_by_user_id';

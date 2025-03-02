@@ -6,10 +6,31 @@ import { throwHttpError } from '@src/errors/error.utils.ts';
 
 type QueryParams = Array<string | number | null | Array<string | number>>;
 
+export interface SqlTransaction {
+  query: <T>(statement: string, params: QueryParams) => Promise<Array<T>>;
+  commit: () => Promise<unknown>;
+  rollback: () => Promise<unknown>;
+}
+
 class SqlClient {
   private readonly client: Knex;
   constructor() {
     this.client = knexClient;
+  }
+
+  private async createTransaction(): Promise<SqlTransaction> {
+    // TODO (Valle) -> add a way to close the transaction if nothing happens for 2 seconds
+    const trx = await this.client.transaction();
+
+    return {
+      query: async <T>(statement: string, params: QueryParams) => {
+        const res = await trx.raw(statement, params);
+
+        return res.rows as T[];
+      },
+      commit: () => trx.commit(),
+      rollback: () => trx.rollback(),
+    };
   }
 
   public async query<T>(statement: string, params: QueryParams = []) {
@@ -22,6 +43,10 @@ class SqlClient {
       if (error instanceof Error) log.error(`Reason: ${error.message || 'unknown'}`);
       throwHttpError(HTTP_ERR.e500.Unavailable);
     }
+  }
+
+  public getTransaction() {
+    return this.createTransaction();
   }
 }
 

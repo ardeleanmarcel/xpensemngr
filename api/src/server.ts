@@ -21,7 +21,6 @@ server.register(fastifyTRPCPlugin, {
   prefix: '/trpc',
   trpcOptions: {
     responseMeta: () => {
-      log.info('valle');
       return {};
     },
     router: appRouter,
