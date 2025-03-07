@@ -22,6 +22,7 @@ class SqlClient {
     const trx = await this.client.transaction();
 
     return {
+      // TODO (Valle) -> remove type generic and casting
       query: async <T>(statement: string, params: SqlQueryBindings) => {
         const res = await trx.raw(statement, params);
 
@@ -32,12 +33,11 @@ class SqlClient {
     };
   }
 
-  // TODO (Valle) -> remove type generic and casting
-  public async query<T>(statement: string, params: SqlQueryBindings = []) {
+  public async query(statement: string, params: SqlQueryBindings = []) {
     try {
       const res = await this.client.raw(statement, params);
 
-      return res.rows as T[];
+      return res.rows as unknown[];
     } catch (error) {
       log.error(`Could not execute query:\n${statement}`);
       if (error instanceof Error) log.error(`Reason: ${error.message || 'unknown'}`);

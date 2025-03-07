@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { sqlClient } from '@src/adapters/sqlClient.ts';
 import { LabelCreateType, labelSchema } from '@src/models/label.models.ts';
 import { Filter } from '../db.utils.ts';
@@ -55,12 +56,13 @@ export async function checkLabelsBelongToUser(label_ids: number[], user_id: numb
     AND added_by_user_id = ?
   `;
 
-  const foundLabels = (await sqlClient.query<{ label_id: number }>(query, [...label_ids, user_id])).map(
-    ({ label_id }) => label_id
-  );
+  const rawResult = await sqlClient.query(query, [...label_ids, user_id]);
+  const result = z.array(labelSchema.pick({ label_id: true })).parse(rawResult);
+
+  const userLabelsIds = result.map((label) => label.label_id);
 
   for (const label_id of label_ids) {
-    if (!foundLabels.includes(label_id)) {
+    if (!userLabelsIds.includes(label_id)) {
       throwHttpError(HTTP_ERR.e400.BadRequest(`Label ${label_id} does not belong to user ${user_id}`));
     }
   }
