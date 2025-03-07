@@ -1,5 +1,6 @@
+import { z } from 'zod';
 import { sqlClient, SqlTransaction } from '@src/adapters/sqlClient.ts';
-import { ExpenseCreateType, ExpenseType } from '@src/models/expense.models.ts';
+import { ExpenseCreateType, expenseSchema } from '@src/models/expense.models.ts';
 import { Filter } from '../db.utils.ts';
 import {
   composeLimitClause,
@@ -7,7 +8,7 @@ import {
   composeWhereClause,
   getSqlQueryBindings,
 } from './utils/sql.utils.ts';
-import { LabelType } from '@src/models/label.models.ts';
+import { labelSchema } from '@src/models/label.models.ts';
 import { OrderBy } from './types/sql.types.ts';
 import { throwHttpError } from '@src/errors/error.utils.ts';
 import { HTTP_ERR } from '@src/errors/http.errors.ts';
@@ -34,11 +35,7 @@ export async function createExpensesWithLabels(expenses: ExpenseCreateType, user
   }
 }
 
-export function createExpenses(
-  expenses: ExpenseCreateType,
-  user_id: number,
-  transaction?: SqlTransaction
-): Promise<ExpenseType[]> {
+export async function createExpenses(expenses: ExpenseCreateType, user_id: number, transaction?: SqlTransaction) {
   const queryValues = new Array(expenses.length)
     .fill(null)
     .map(() => `( ?, ?, ?, ? )`)
@@ -50,6 +47,7 @@ export function createExpenses(
       VALUES
         ${queryValues}
       RETURNING
+        added_by_user_id,
         expense_id,
         description,
         amount,
@@ -62,7 +60,9 @@ export function createExpenses(
     insertAfterEachSet: [user_id],
   });
 
-  return (transaction || sqlClient).query<ExpenseType>(query, bindings);
+  const result = await (transaction || sqlClient).query(query, bindings);
+
+  return expenseSchema.array().parse(result);
 }
 
 export async function addLabelsToExpenses(
@@ -99,9 +99,9 @@ export async function selectExpenses(filters: Filter<AllowedExpensesFilters>[]) 
 
   const query = `SELECT * FROM expenses ${whereClauses}`;
 
-  const res = await sqlClient.query<ExpenseType>(query, bindings);
+  const res = await sqlClient.query(query, bindings);
 
-  return res;
+  return expenseSchema.array().parse(res);
 }
 
 export type ExpenseSelectFilterNames = 'ex.added_by_user_id' | 'ex.amount' | 'ex_lb.label_id' | 'ex.date_expended_at';
@@ -136,6 +136,7 @@ export async function selectExpensesWithLabels({ filters, limit, order }: Expens
   const query = `SELECT
       ex.expense_id,
       ex.description,
+      ex.added_by_user_id,
       amount,
       date_expended_at,
       COALESCE(
@@ -143,7 +144,8 @@ export async function selectExpensesWithLabels({ filters, limit, order }: Expens
           json_build_object(
             'label_id', lb.label_id,
             'name', lb.name,
-            'description', lb.description
+            'description', lb.description,
+            'added_by_user_id', lb.added_by_user_id
           ) ORDER BY lb.label_id
         ) FILTER (WHERE lb.label_id IS NOT NULL),
         '[]'::json
@@ -157,15 +159,16 @@ export async function selectExpensesWithLabels({ filters, limit, order }: Expens
     GROUP BY
       ex.expense_id,
       ex.description,
+      ex.added_by_user_id,
       amount,
       date_expended_at
     ${orderByClause}
     ${limitClause}
     `;
 
-  const res = await sqlClient.query<ExpenseType & { labels: Omit<LabelType, 'added_by_user_id'>[] }>(query, bindings);
+  const res = await sqlClient.query(query, bindings);
 
-  return res;
+  return z.array(expenseSchema.extend({ labels: z.array(labelSchema) })).parse(res);
 }
 
 export type ExpenseDeleteFilterNames = 'ex.added_by_user_id' | 'ex.expense_id';
@@ -183,7 +186,7 @@ export async function deleteExpenses({ filters }: ExpenseDeleteSqlOptions) {
   ${whereClauses}
   RETURNING *`;
 
-  const res = await sqlClient.query<ExpenseType>(query, bindings);
+  const res = await sqlClient.query(query, bindings);
 
-  return res;
+  return expenseSchema.array().parse(res);
 }

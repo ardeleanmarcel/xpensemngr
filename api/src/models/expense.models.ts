@@ -4,7 +4,7 @@ import { amountSchema, dbIdSchema } from './utils.ts';
 export const expenseSchema = z
   .object({
     added_by_user_id: dbIdSchema,
-    expense_id: z.number().int().positive(),
+    expense_id: dbIdSchema,
     description: z.string().min(3).max(50),
     amount: amountSchema,
     date_expended_at: z.string().date(),
