@@ -33,3 +33,5 @@ If you want to work on the entire project, refer to the [PROJECT LEVEL README](.
 - run `kill <PID>` to kill the process if needed.
 
 <!-- Commited this row to test deplyment 2 -->
+
+<!-- TODO: Remove all '*' from SELECT and RETURNING statements -->

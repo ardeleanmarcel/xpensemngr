@@ -1,36 +1,51 @@
+import { z } from 'zod';
 import { randomUUID } from 'crypto';
 import { sqlClient } from '@src/adapters/sqlClient.ts';
-import { UserActivationDbData } from '../../models/user_activation.models.ts';
+import { userActivationSchema } from '../../models/user_activation.models.ts';
 
-export function createUserActivations(userIds: number[]) {
+export async function createUserActivations(userIds: number[]) {
   const values = new Array(userIds.length)
     .fill(null)
     .map(() => `( ?, ? )`)
     .join(',\n');
 
-  const bindings = userIds.map((u) => [u, randomUUID()]).reduce((b, u) => [...b, ...u]);
+  const bindings = userIds.map((u) => [u, randomUUID()]).reduce((b, u) => [...b, ...u], []);
 
   const query = `
     INSERT INTO user_activations
       (user_id, activation_code)
     VALUES
       ${values}
-    RETURNING *
-  `;
+    RETURNING
+      user_id,
+      activation_code,
+      expires_at,
+      is_used
+    `;
 
-  return sqlClient.query<UserActivationDbData>(query, bindings);
+  const result = await sqlClient.query(query, bindings);
+
+  return z.array(userActivationSchema.extend({ expires_at: z.date() })).parse(result);
 }
 
-export function selectUserActivations(activationCodes: string[]) {
+export async function selectUserActivations(activationCodes: string[]) {
   const query = `
-    SELECT * FROM user_activations ua
+    SELECT
+      user_id,
+      activation_code,
+      expires_at,
+      is_used
+    FROM user_activations ua
     WHERE ua.activation_code IN ( ${activationCodes.map(() => '?').join(',  ')} )
   `;
 
-  return sqlClient.query<UserActivationDbData>(query, activationCodes);
+  const result = await sqlClient.query(query, activationCodes);
+
+  return z.array(userActivationSchema.extend({ expires_at: z.date() })).parse(result);
 }
 
-export function updateUserActivations(activationCodes: string[]) {
+export async function updateUserActivations(activationCodes: string[]) {
+  // TODO (Valle) -> add RETURNING in statement
   const query = `
     WITH activations AS (
       UPDATE user_activations
@@ -43,5 +58,5 @@ export function updateUserActivations(activationCodes: string[]) {
     WHERE user_id IN ( select user_id from activations);
   `;
 
-  return sqlClient.query<UserActivationDbData>(query, activationCodes);
+  await sqlClient.query(query, activationCodes);
 }
