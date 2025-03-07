@@ -32,6 +32,7 @@ class SqlClient {
     };
   }
 
+  // TODO (Valle) -> remove type generic and casting
   public async query<T>(statement: string, params: SqlQueryBindings = []) {
     try {
       const res = await this.client.raw(statement, params);
