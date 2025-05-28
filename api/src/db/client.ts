@@ -8,6 +8,10 @@ pg.types.setTypeParser(pg.types.builtins.INT8, function (val) {
   return parseInt(val, 10);
 });
 
+pg.types.setTypeParser(pg.types.builtins.NUMERIC, function (val) {
+  return parseFloat(val);
+});
+
 pg.types.setTypeParser(pg.types.builtins.DATE, function (val) {
   return val;
 });

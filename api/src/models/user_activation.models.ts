@@ -1,8 +1,9 @@
 import { z } from 'zod';
+import { dbIdSchema } from './utils.ts';
 
 export const userActivationSchema = z
   .object({
-    user_id: z.string(),
+    user_id: dbIdSchema,
     activation_code: z.string().uuid(),
     expires_at: z.string().datetime(),
     is_used: z.boolean(),

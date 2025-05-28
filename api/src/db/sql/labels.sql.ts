@@ -1,5 +1,6 @@
+import { z } from 'zod';
 import { sqlClient } from '@src/adapters/sqlClient.ts';
-import { LabelCreateType, LabelType } from '@src/models/label.models.ts';
+import { LabelCreateType, labelSchema } from '@src/models/label.models.ts';
 import { Filter } from '../db.utils.ts';
 import { composeWhereClause } from './utils/sql.utils.ts';
 import { throwHttpError } from '@src/errors/error.utils.ts';
@@ -19,7 +20,8 @@ export async function createLabels(labels: LabelCreateType, user_id: number) {
       RETURNING
         label_id,
         name,
-        description
+        description,
+        added_by_user_id
   `;
 
   const bindings = labels.reduce((bindings, label) => {
@@ -27,20 +29,20 @@ export async function createLabels(labels: LabelCreateType, user_id: number) {
     return [...bindings, name, description ?? null, user_id];
   }, []);
 
-  // TODO (Valle) -> replace passing a type to the function with a parse operation
-  // Should I createa a helper function that gets query name and parser function?
-  return await sqlClient.query<LabelType>(query, bindings);
+  const dbQueryResult = await sqlClient.query(query, bindings);
+
+  return labelSchema.array().parse(dbQueryResult);
 }
 
 export type AllowedLabelsFilters = 'added_by_user_id';
 export async function selectLabels(filters: Filter<AllowedLabelsFilters>[]) {
   const { whereClauses, bindings } = composeWhereClause(filters);
 
-  const query = `SELECT * FROM labels ${whereClauses}`;
+  const query = `SELECT label_id, name, description, added_by_user_id FROM labels ${whereClauses}`;
 
-  const res = await sqlClient.query<LabelType>(query, bindings);
+  const res = await sqlClient.query(query, bindings);
 
-  return res;
+  return labelSchema.array().parse(res);
 }
 
 export async function checkLabelsBelongToUser(label_ids: number[], user_id: number) {
@@ -54,12 +56,13 @@ export async function checkLabelsBelongToUser(label_ids: number[], user_id: numb
     AND added_by_user_id = ?
   `;
 
-  const foundLabels = (await sqlClient.query<{ label_id: number }>(query, [...label_ids, user_id])).map(
-    ({ label_id }) => label_id
-  );
+  const rawResult = await sqlClient.query(query, [...label_ids, user_id]);
+  const result = z.array(labelSchema.pick({ label_id: true })).parse(rawResult);
+
+  const userLabelsIds = result.map((label) => label.label_id);
 
   for (const label_id of label_ids) {
-    if (!foundLabels.includes(label_id)) {
+    if (!userLabelsIds.includes(label_id)) {
       throwHttpError(HTTP_ERR.e400.BadRequest(`Label ${label_id} does not belong to user ${user_id}`));
     }
   }

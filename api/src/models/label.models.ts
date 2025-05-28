@@ -1,11 +1,12 @@
 import { z } from 'zod';
+import { dbIdSchema } from './utils.ts';
 
 export const labelSchema = z
   .object({
-    label_id: z.number().int().positive(),
+    label_id: dbIdSchema,
     name: z.string().min(3).max(20),
     description: z.string().min(3).max(50).optional(),
-    added_by_user_id: z.string().date(),
+    added_by_user_id: dbIdSchema,
   })
   .strict();
 

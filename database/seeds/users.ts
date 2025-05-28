@@ -18,7 +18,7 @@ export async function seed(knex: Knex): Promise<void> {
         (
           ? , ? ,
           'test_user_1',
-          'test_user_1@test_email.com',
+          'test_user_1@testemail.com',
           10                                  -- Value for "Active"
         )
       RETURNING
