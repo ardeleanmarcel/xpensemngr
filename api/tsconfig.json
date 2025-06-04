@@ -25,5 +25,5 @@
       "@models/*": ["./src/models/*"]
     }
   },
-  "include": ["src", "eslint.config.js"]
+  "include": ["src", "test/**/*", "eslint.config.js", "jest.config.js"]
 }
