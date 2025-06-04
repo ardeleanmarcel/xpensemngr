@@ -1,10 +1,14 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
+// TODO (Valle) -> add check for test folder to mirror the structure of src
+
 interface Folder {
   name: string;
   subfolders?: Array<Folder>;
 }
+
+const ignoredFolders: Array<string> = ['node_modules', 'build', 'test'];
 
 const config: Array<Folder> = [
   {
@@ -14,12 +18,10 @@ const config: Array<Folder> = [
         name: 'domains',
         subfolders: [{ name: 'users' }, { name: 'expenses' }],
       },
+      { name: 'services' },
     ],
   },
-  { name: 'build' },
-  { name: 'node_modules' },
   { name: 'scripts' },
-  { name: 'test' },
 ];
 
 const errors: Array<string> = [];
@@ -43,6 +45,10 @@ function checkFolderStructure(basePath: string, allowedFolders: Array<Folder>) {
 function checkForExtraFolders(basePath: string, allowedFolders: Array<Folder>) {
   const existingFolders = fs.readdirSync(basePath);
   for (const existingFolder of existingFolders) {
+    if (ignoredFolders.includes(existingFolder)) {
+      continue;
+    }
+
     if (!fs.lstatSync(path.join(basePath, existingFolder)).isDirectory()) {
       continue;
     }
