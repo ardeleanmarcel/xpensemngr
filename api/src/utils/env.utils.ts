@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { z } from 'zod';
 import { log } from '@xpm/logging';
 
-import { XPM_ENV } from '@src/constants/env.const.ts';
+import { XPM_ENV } from '../constants/env.const.ts';
 
 const envConfigSchema = z
   .object({

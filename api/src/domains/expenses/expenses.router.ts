@@ -1,16 +1,20 @@
-import { protectedProcedure, t } from '@src/trpc.ts';
-import { expenseCreateSchema, expenseDeleteSchema, expenseGetAllSchema } from '@src/domains/expenses/expense.models.ts';
+import { protectedProcedure, t } from '../../trpc.ts';
+import {
+  expenseCreateSchema,
+  expenseDeleteSchema,
+  expenseGetAllSchema,
+} from '../../domains/expenses/expense.models.ts';
 import {
   ExpenseSelectFilters,
   ExpenseSelectOrder,
   createExpensesWithLabels,
   deleteExpenses,
   selectExpensesWithLabels,
-} from '@src/domains/expenses/expenses.sql.ts';
-import { FILTER_COMPARATOR } from '@src/services/database/database.utils.ts';
-import { checkLabelsBelongToUser } from '@src/domains/labels/labels.sql.ts';
-import { throwHttpError } from '@src/services/error/error.utils.ts';
-import { HTTP_ERR } from '@src/services/error/http.errors.ts';
+} from '../../domains/expenses/expenses.sql.ts';
+import { FILTER_COMPARATOR } from '../../services/database/database.utils.ts';
+import { checkLabelsBelongToUser } from '../../domains/labels/labels.sql.ts';
+import { throwHttpError } from '../../services/error/error.utils.ts';
+import { HTTP_ERR } from '../../services/error/http.errors.ts';
 
 export const expensesRouter = t.router({
   create: protectedProcedure.input(expenseCreateSchema).mutation(async (opts) => {

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { dbIdSchema } from '@src/utils/common.models.ts';
+import { dbIdSchema } from '../../utils/common.models.ts';
 
 export const labelSchema = z
   .object({

@@ -1,8 +1,8 @@
 import sendGrid from '@sendgrid/mail';
 
-import { HTTP_ERR } from '@src/services/error/http.errors.ts';
-import { throwHttpError } from '@src/services/error/error.utils.ts';
-import { ENV_VARS } from '@src/utils/env.utils.ts';
+import { HTTP_ERR } from '../services/error/http.errors.ts';
+import { throwHttpError } from '../services/error/error.utils.ts';
+import { ENV_VARS } from '../utils/env.utils.ts';
 import { log } from '@xpm/logging';
 
 enum SENDGRID_TEMPLATE {
