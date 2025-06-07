@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { dbIdSchema } from '../../utils/common.models.ts';
+import { dbIdSchema } from '../utils/common.models.ts';
 
 export const labelSchema = z
   .object({
@@ -10,14 +10,4 @@ export const labelSchema = z
   })
   .strict();
 
-export const labelCreateSchema = z.array(
-  labelSchema
-    .pick({
-      name: true,
-      description: true,
-    })
-    .strict()
-);
-
 export type LabelType = z.infer<typeof labelSchema>;
-export type LabelCreateType = z.infer<typeof labelCreateSchema>;

@@ -1,5 +1,5 @@
 import { protectedProcedure, t } from '../../trpc.ts';
-import { labelCreateSchema } from './label.models.ts';
+import { labelCreateSchema } from './labels.models.ts';
 import { AllowedLabelsFilters, createLabels, selectLabels } from '../../domains/labels/labels.sql.ts';
 import { Filter, FILTER_COMPARATOR } from '../../services/database/database.utils.ts';
 

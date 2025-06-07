@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { sqlClient } from '../../services/database/client.sql.ts';
-import { LabelCreateType, labelSchema } from '../../domains/labels/label.models.ts';
+import { labelSchema } from '../../models/business.models.ts';
+import { LabelCreateType } from './labels.models.ts';
 import { Filter } from '../../services/database/database.utils.ts';
 import { composeWhereClause } from '../../services/database/sql.utils.ts';
 import { log } from '@xpm/logging';

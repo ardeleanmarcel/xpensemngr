@@ -6,12 +6,8 @@ import { createUserActivations } from './user_activations.sql.ts';
 
 const bus = getInterDomainEventBus();
 
-console.log('registering auth domain event listeners');
-
 bus.on(DomainEventNames.UserCreated, async (event) => {
   const { userId, username, email } = event.payload;
-  // Handle user created event, e.g., log it or trigger other actions
-  console.log(`[YEAH!!!] User created with ID: ${userId} and email: ${email}`);
 
   const activation = (await createUserActivations([userId]))[0];
 

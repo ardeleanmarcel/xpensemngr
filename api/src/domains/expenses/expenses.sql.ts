@@ -8,7 +8,7 @@ import {
   composeWhereClause,
   getSqlQueryBindings,
 } from '../../services/database/sql.utils.ts';
-import { labelSchema } from '../../domains/labels/label.models.ts';
+import { labelSchema } from '../../models/business.models.ts';
 import { OrderBy } from '../../services/database/sql.types.ts';
 import { throwHttpError } from '../../services/error/error.utils.ts';
 import { HTTP_ERR } from '../../services/error/http.errors.ts';
