@@ -20,7 +20,7 @@ module.exports = {
         'add an exception for it in your dependency-cruiser configuration. By default ' +
         'this rule does not scrutinize dot-files (e.g. .eslintrc.js), TypeScript declaration ' +
         'files (.d.ts), tsconfig.json and some of the babel and webpack configs.',
-      severity: 'warn',
+      severity: 'error',
       from: {
         orphan: true,
         pathNot: [
@@ -105,7 +105,7 @@ module.exports = {
       to: {
         couldNotResolve: true,
         pathNot: [
-          // Add exception for JSR registry packages
+          // Add exception for JSR registry packages (if this is the issue...)
           '^@xpm/logging$',
         ],
       },
@@ -200,6 +200,47 @@ module.exports = {
       to: {
         dependencyTypes: ['npm-peer'],
       },
+    },
+
+    // RULES ADDED BY VALLE
+    {
+      name: 'domain-not-to-domain',
+      comment: 'This module depends on a domain module, which is not allowed. Domains should not depend on each other.',
+      severity: 'error',
+      from: {
+        path: '^domains/',
+      },
+      to: {
+        path: '^domains/',
+      },
+    },
+    {
+      name: 'auth-domain-isolated',
+      comment: 'users domain should not depend on other domains',
+      severity: 'error',
+      from: { path: '^src/domains/users/' },
+      to: { path: '^src/domains/(expenses|labels|users)/' },
+    },
+    {
+      name: 'expenses-domain-isolated',
+      comment: 'users domain should not depend on other domains',
+      severity: 'error',
+      from: { path: '^src/domains/expenses/' },
+      to: { path: '^src/domains/(auth|labels|users)/' },
+    },
+    {
+      name: 'labels-domain-isolated',
+      comment: 'users domain should not depend on other domains',
+      severity: 'error',
+      from: { path: '^src/domains/labels/' },
+      to: { path: '^src/domains/(auth|expenses|users)/' },
+    },
+    {
+      name: 'users-domain-isolated',
+      comment: 'users domain should not depend on other domains',
+      severity: 'error',
+      from: { path: '^src/domains/users/' },
+      to: { path: '^src/domains/(auth|expenses|labels)/' },
     },
   ],
   options: {

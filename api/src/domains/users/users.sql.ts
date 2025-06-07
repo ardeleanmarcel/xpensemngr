@@ -4,7 +4,7 @@ import { throwHttpError } from '../../services/error/error.utils.ts';
 import { HTTP_ERR } from '../../services/error/http.errors.ts';
 import { Filter } from '../../services/database/database.utils.ts';
 import { composeWhereClause } from '../../services/database/sql.utils.ts';
-import { UserCreateType, userSchema } from './user.models.ts';
+import { UserCreateType, userSchema } from './users.models.ts';
 
 export async function createUsers(users: UserCreateType[]) {
   const queryValues = new Array(users.length)

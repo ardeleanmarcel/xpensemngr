@@ -3,8 +3,8 @@ import { hash, compare } from 'bcrypt';
 import lodash from 'lodash';
 
 import { protectedProcedure, t } from '../../trpc.ts';
-import { DEFAULT_SALT_ROUNDS } from '../../domains/auth/auth.const.ts';
-import { userCreateSchema } from '../../domains/users/user.models.ts';
+import { DEFAULT_SALT_ROUNDS } from '../../services/auth/auth.const.ts';
+import { userCreateSchema } from './users.models.ts';
 import { createInputSchema } from '../../utils/router.utils.ts';
 
 import { notificationService } from '../../services/service.notification.ts';
