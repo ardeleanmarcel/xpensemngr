@@ -9,9 +9,7 @@ export const AddLabel = ({ onAddEnd }: { onAddEnd?: () => void }) => {
   const [description, setDescription] = useState('');
 
   const handleAdd = async () => {
-    await client.labels.create.mutate([
-      { name, description: description || undefined },
-    ]);
+    await client.expenses.labels.create.mutate([{ name, description: description || undefined }]);
 
     setName('');
     setDescription('');
@@ -21,18 +19,8 @@ export const AddLabel = ({ onAddEnd }: { onAddEnd?: () => void }) => {
 
   return (
     <>
-      <XpmTextField
-        name="New Label Name"
-        label="New Label Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <XpmTextField
-        name="Description"
-        label="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
+      <XpmTextField name="New Label Name" label="New Label Name" value={name} onChange={(e) => setName(e.target.value)} />
+      <XpmTextField name="Description" label="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
       <XpmButton onClick={handleAdd} buttonName="ADD" />
     </>
   );

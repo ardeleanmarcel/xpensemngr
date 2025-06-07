@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { labelSchema } from '../../models/business.models.ts';
+import { labelSchema } from '../../../models/business.models.ts';
 
 export const labelCreateSchema = z.array(
   labelSchema

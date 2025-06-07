@@ -12,11 +12,13 @@ import {
   selectExpensesWithLabels,
 } from '../../domains/expenses/expenses.sql.ts';
 import { FILTER_COMPARATOR } from '../../services/database/database.utils.ts';
-import { checkLabelsBelongToUser } from '../../domains/labels/labels.sql.ts';
+import { checkLabelsBelongToUser } from './labels/labels.sql.ts';
 import { throwHttpError } from '../../services/error/error.utils.ts';
 import { HTTP_ERR } from '../../services/error/http.errors.ts';
+import { labelsRouter } from './labels/labels.router.ts';
 
 export const expensesRouter = t.router({
+  labels: labelsRouter,
   create: protectedProcedure.input(expenseCreateSchema).mutation(async (opts) => {
     const { user } = opts.ctx;
     const newExpenses = opts.input;

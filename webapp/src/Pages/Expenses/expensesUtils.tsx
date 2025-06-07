@@ -1,4 +1,4 @@
-import type { ExpenseGetAllFilterType } from '../../../../api/src/models/expense.models';
+import type { ExpenseGetAllFilterType } from '../../../../api/src/domains/expenses/expense.models';
 import { client } from '../../api/apiClient';
 
 export interface Column {
@@ -73,7 +73,7 @@ export const getAllExpenses = async (opts: ExpenseGetAllFilterType) => {
 
 export const getAllLabels = async () => {
   try {
-    const data = await client.labels.getAll.query();
+    const data = await client.expenses.labels.getAll.query();
     return data;
   } catch (error) {
     console.error(error);
