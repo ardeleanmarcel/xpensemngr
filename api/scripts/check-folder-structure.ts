@@ -10,6 +10,7 @@ interface Folder {
 
 const ignoredFolders: Array<string> = ['node_modules', 'build', 'test'];
 
+// TODO (Valle) -> make sure it checks that no subfolders exist if no subfolders are defined in the config
 const config: Array<Folder> = [
   {
     name: 'src',
@@ -17,12 +18,20 @@ const config: Array<Folder> = [
       { name: 'constants' },
       {
         name: 'domains',
-        subfolders: [{ name: 'auth' }, { name: 'expenses' }, { name: 'labels' }, { name: 'users' }],
+        subfolders: [{ name: 'auth' }, { name: 'expenses' }, { name: 'users' }],
       },
+      { name: 'models' },
       {
         name: 'services',
-        subfolders: [{ name: 'error' }, { name: 'database' }, { name: 'notification' }],
+        subfolders: [
+          { name: 'auth' },
+          { name: 'event.bus' },
+          { name: 'error' },
+          { name: 'database' },
+          { name: 'notification' },
+        ],
       },
+      { name: 'types' },
       { name: 'utils' },
     ],
   },
