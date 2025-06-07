@@ -19,6 +19,7 @@ const config: Array<Folder> = [
         subfolders: [{ name: 'users' }, { name: 'expenses' }],
       },
       { name: 'services' },
+      { name: 'clients' },
     ],
   },
   { name: 'scripts' },

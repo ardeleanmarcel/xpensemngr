@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { sqlClient } from '@src/adapters/sqlClient.ts';
+import { sqlClient } from '@src/clients/client.sql.ts';
 import { throwHttpError } from '@src/errors/error.utils.ts';
 import { HTTP_ERR } from '@errors';
 import { Filter } from '../db.utils.ts';

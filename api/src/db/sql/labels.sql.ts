@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { sqlClient } from '@src/adapters/sqlClient.ts';
+import { sqlClient } from '@src/clients/client.sql.ts';
 import { LabelCreateType, labelSchema } from '@src/models/label.models.ts';
 import { Filter } from '../db.utils.ts';
 import { composeWhereClause } from './utils/sql.utils.ts';

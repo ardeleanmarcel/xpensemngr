@@ -17,7 +17,7 @@ import { createUserActivations, selectUserActivations, updateUserActivations } f
 
 import { createInputSchema } from './utils/router.utils.ts';
 import { Filter, FILTER_COMPARATOR } from '@src/db/db.utils.ts';
-import { notificationService } from '@src/adapters/service.notification.ts';
+import { notificationService } from '@src/services/service.notification.ts';
 import { HTTP_ERR } from '@errors';
 import { throwHttpError } from '@src/errors/error.utils.ts';
 import { email, password } from '@src/models/common.models.ts';

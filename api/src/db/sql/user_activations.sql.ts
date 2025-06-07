@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { randomUUID } from 'crypto';
-import { sqlClient } from '@src/adapters/sqlClient.ts';
+import { sqlClient } from '@src/clients/client.sql.ts';
 import { userActivationSchema } from '../../models/user_activation.models.ts';
 
 export async function createUserActivations(userIds: number[]) {
