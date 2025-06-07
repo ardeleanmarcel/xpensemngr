@@ -4,7 +4,8 @@ import { throwHttpError } from '../../services/error/error.utils.ts';
 import { HTTP_ERR } from '../../services/error/http.errors.ts';
 import { Filter } from '../../services/database/database.utils.ts';
 import { composeWhereClause } from '../../services/database/sql.utils.ts';
-import { UserCreateType, userSchema } from './users.models.ts';
+import { UserCreateType } from './users.models.ts';
+import { userSchema } from '../../models/business.models.ts';
 import { log } from '@xpm/logging';
 
 export async function createUsers(users: UserCreateType[]) {

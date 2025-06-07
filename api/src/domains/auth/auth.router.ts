@@ -4,11 +4,10 @@ import jwt from 'jsonwebtoken';
 import lodash from 'lodash';
 
 import { t } from '../../trpc.ts';
-import { selectUsers } from '../../domains/users/users.sql.ts';
 import { HTTP_ERR } from '../../services/error/http.errors.ts';
-import { FILTER_COMPARATOR } from '../../services/database/database.utils.ts';
 import { throwHttpError } from '../../services/error/error.utils.ts';
 import { selectUserActivations, updateUserActivations } from './user_activations.sql.ts';
+import { selectActiveUserByUsername } from './auth.sql.ts';
 
 const { pick } = lodash;
 
@@ -21,16 +20,11 @@ export const authRouter = t.router({
   signIn: t.procedure.input(signInSchema).mutation(async (opts) => {
     const { username, password } = opts.input;
 
-    const users = await selectUsers([
-      { name: 'username', type: FILTER_COMPARATOR.In, value: [username] },
-      { name: 'user_status_id', type: FILTER_COMPARATOR.Is, value: 10 },
-    ]);
+    const user = await selectActiveUserByUsername(username);
 
-    if (users.length === 0) {
+    if (!user) {
       throwHttpError(HTTP_ERR.e400.BadCredentials);
     }
-
-    const user = users[0];
 
     const isAllowed = await compare(password, user.password);
 

@@ -218,7 +218,7 @@ module.exports = {
       name: 'auth-domain-isolated',
       comment: 'users domain should not depend on other domains',
       severity: 'error',
-      from: { path: '^src/domains/users/' },
+      from: { path: '^src/domains/auth/' },
       to: { path: '^src/domains/(expenses|labels|users)/' },
     },
     {
