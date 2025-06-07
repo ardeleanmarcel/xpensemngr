@@ -7,7 +7,7 @@ import { t } from '@src/trpc.ts';
 import { selectUsers } from '@src/db/sql/users.sql.ts';
 import { HTTP_ERR } from '@errors';
 import { FILTER_COMPARATOR } from '@src/db/db.utils.ts';
-import { throwHttpError } from '@src/errors/error.utils.ts';
+import { throwHttpError } from '@src/services/error/error.utils.ts';
 
 const { pick } = lodash;
 

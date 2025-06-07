@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { sqlClient } from '@src/services/database/client.sql.ts';
-import { throwHttpError } from '@src/errors/error.utils.ts';
+import { throwHttpError } from '@src/services/error/error.utils.ts';
 import { HTTP_ERR } from '@errors';
 import { Filter } from '../database.utils.ts';
 import { composeWhereClause } from './utils/sql.utils.ts';

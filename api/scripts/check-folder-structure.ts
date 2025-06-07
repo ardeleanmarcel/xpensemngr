@@ -20,7 +20,6 @@ const config: Array<Folder> = [
         subfolders: [{ name: 'auth' }, { name: 'expenses' }, { name: 'users' }],
       },
       { name: 'errors' },
-      { name: 'models' },
       {
         name: 'services',
         subfolders: [

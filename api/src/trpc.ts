@@ -8,7 +8,7 @@ import jwt from 'jsonwebtoken';
 import { Context } from './trpcFastifyContext.ts';
 
 import { HTTP_ERR, HttpError } from './errors/index.ts';
-import { throwHttpError } from './errors/error.utils.ts';
+import { throwHttpError } from './services/error/error.utils.ts';
 
 export const t = initTRPC.context<Context>().create({
   errorFormatter: (opts) => {

@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import { sqlClient } from '@src/services/database/client.sql.ts';
 import { LabelCreateType, labelSchema } from '@src/models/label.models.ts';
-import { Filter } from '../database.utils.ts';
-import { composeWhereClause } from './utils/sql.utils.ts';
-import { throwHttpError } from '@src/errors/error.utils.ts';
+import { Filter } from '../../services/database/database.utils.ts';
+import { composeWhereClause } from '../../services/database/sql.utils.ts';
+import { throwHttpError } from '@src/services/error/error.utils.ts';
 import { HTTP_ERR } from '@errors';
 
 export async function createLabels(labels: LabelCreateType, user_id: number) {

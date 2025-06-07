@@ -1,17 +1,17 @@
 import { z } from 'zod';
 import { sqlClient, SqlTransaction } from '@src/services/database/client.sql.ts';
 import { ExpenseCreateType, expenseSchema } from '@src/domains/expenses/expense.models.ts';
-import { Filter } from '../database.utils.ts';
+import { Filter } from '../../services/database/database.utils.ts';
 import {
   composeLimitClause,
   composeOrderByClause,
   composeWhereClause,
   getSqlQueryBindings,
-} from './utils/sql.utils.ts';
+} from '../../services/database/sql.utils.ts';
 import { labelSchema } from '@src/models/label.models.ts';
-import { OrderBy } from './types/sql.types.ts';
-import { throwHttpError } from '@src/errors/error.utils.ts';
-import { HTTP_ERR } from '@src/errors/http.errors.ts';
+import { OrderBy } from '../../services/database/sql.types.ts';
+import { throwHttpError } from '@src/services/error/error.utils.ts';
+import { HTTP_ERR } from '@src/services/error/http.errors.ts';
 import { log } from '@xpm/logging';
 
 export async function createExpensesWithLabels(expenses: ExpenseCreateType, user_id: number) {

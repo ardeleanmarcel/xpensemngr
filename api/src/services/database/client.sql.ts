@@ -1,8 +1,8 @@
 import { Knex } from 'knex';
 import { knexClient } from '@src/db/client.ts';
 import { log } from '@xpm/logging';
-import { HTTP_ERR } from '@src/errors/http.errors.ts';
-import { throwHttpError } from '@src/errors/error.utils.ts';
+import { HTTP_ERR } from '@src/services/error/http.errors.ts';
+import { throwHttpError } from '@src/services/error/error.utils.ts';
 import { SqlQueryBindings } from '@src/db/sql/types/sql.types.ts';
 
 export interface SqlTransaction {

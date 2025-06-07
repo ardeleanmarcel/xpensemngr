@@ -1,6 +1,6 @@
 import { protectedProcedure, t } from '@src/trpc.ts';
 import { labelCreateSchema } from './label.models.ts';
-import { AllowedLabelsFilters, createLabels, selectLabels } from '@src/services/database/sql/labels.sql.ts';
+import { AllowedLabelsFilters, createLabels, selectLabels } from '@src/domains/labels/labels.sql.ts';
 import { Filter, FILTER_COMPARATOR } from '@src/services/database/database.utils.ts';
 
 export const labelsRouter = t.router({

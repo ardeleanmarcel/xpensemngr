@@ -3,7 +3,7 @@ import { hash, compare } from 'bcrypt';
 import lodash from 'lodash';
 
 import { protectedProcedure, t } from '@src/trpc.ts';
-import { DEFAULT_SALT_ROUNDS } from '@constants/auth.const.ts';
+import { DEFAULT_SALT_ROUNDS } from '@src/domains/auth/auth.const.ts';
 import { userCreateSchema } from '@src/domains/users/user.models.ts';
 import {
   createUsers,
@@ -19,7 +19,7 @@ import { createInputSchema } from '../../utils/router.utils.ts';
 import { Filter, FILTER_COMPARATOR } from '@src/db/db.utils.ts';
 import { notificationService } from '@src/services/service.notification.ts';
 import { HTTP_ERR } from '@errors';
-import { throwHttpError } from '@src/errors/error.utils.ts';
+import { throwHttpError } from '@src/services/error/error.utils.ts';
 import { email, password } from '@src/utils/common.models.ts';
 
 const { pick } = lodash;
