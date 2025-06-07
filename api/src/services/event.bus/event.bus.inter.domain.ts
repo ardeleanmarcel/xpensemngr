@@ -12,14 +12,6 @@ class InterDomainEventBus {
     [DomainEventNames.UserDeleted]: [],
   };
 
-  init() {
-    // Initialize any necessary resources or configurations here
-    console.log('InterDomainEventBus initialized');
-    // load modules
-    // This is where you can load domain event listeners or other initializations
-    import('../../domains/auth/auth.event.listeners.ts');
-  }
-
   on<T extends DomainEventNames>(name: T, handler: (event: DomainEventTypeMap[T]) => void | Promise<void>) {
     this.handlers[name].push(handler as DomainEventHandler);
   }

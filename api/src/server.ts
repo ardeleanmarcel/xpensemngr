@@ -7,7 +7,7 @@ import { appRouter, AppRouter } from './trpcAppRouter.ts';
 import { ENV_VARS } from './utils/env.utils.ts';
 import { XPM_ENV } from './constants/env.const.ts';
 import { log } from '@xpm/logging';
-import { getInterDomainEventBus } from './services/event.bus/event.bus.inter.domain.ts';
+import { initEventListeners } from './services/event.bus/event.bus.inter.domain.init.ts';
 
 const server = fastify({
   maxParamLength: 5000,
@@ -37,7 +37,7 @@ server.register(fastifyTRPCPlugin, {
   try {
     log.info(`Starting server on env: ${ENV_VARS.XPM_ENV}`);
 
-    getInterDomainEventBus().init();
+    initEventListeners();
 
     if (ENV_VARS.XPM_ENV === XPM_ENV.Local) {
       await server.register(cors, { origin: '*', maxAge: 36000 });
