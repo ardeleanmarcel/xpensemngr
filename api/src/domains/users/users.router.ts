@@ -7,8 +7,6 @@ import { DEFAULT_SALT_ROUNDS } from '../../services/auth/auth.const.ts';
 import { userCreateSchema } from './users.models.ts';
 import { createInputSchema } from '../../utils/router.utils.ts';
 
-import { notificationService } from '../../services/service.notification.ts';
-
 import { throwHttpError } from '../../services/error/error.utils.ts';
 import { email, password } from '../../utils/common.models.ts';
 import {
@@ -21,7 +19,8 @@ import {
 } from './users.sql.ts';
 import { HTTP_ERR } from '../../services/error/http.errors.ts';
 import { Filter, FILTER_COMPARATOR } from '../../services/database/database.utils.ts';
-import { createUserActivations, selectUserActivations, updateUserActivations } from '../auth/user_activations.sql.ts';
+import { getInterDomainEventBus } from '../../services/event.bus/event.bus.inter.domain.ts';
+import { DomainEventNames } from '../../services/event.bus/event.bus.types.ts';
 
 const { pick } = lodash;
 
@@ -49,42 +48,18 @@ export const usersRouter = t.router({
     const hashedPassword = await hash(password, DEFAULT_SALT_ROUNDS);
     const user = (await createUsers([{ username, password: hashedPassword, email }]))[0];
 
-    const activation = (await createUserActivations([user.user_id]))[0];
-
-    const confirmationUrl = `${process.env.MYE_WEB_UI_ROOT_URL}/verify-email?activationCode=${activation.activation_code}`;
-
-    await notificationService.sendAccountConfirmationEmail({
-      email,
-      confirmationUrl,
-      username,
+    const bus = getInterDomainEventBus();
+    bus.emit({
+      name: DomainEventNames.UserCreated,
+      payload: {
+        userId: user.user_id,
+        username: user.username,
+        email: user.email,
+      },
     });
 
     const data = pick(user, ['user_id', 'username', 'email']);
     return data;
-  }),
-
-  activate: t.procedure.input(z.string().uuid()).query(async (opts) => {
-    const uuid = opts.input;
-
-    const userActivations = await selectUserActivations([uuid]);
-
-    if (userActivations.length === 0) {
-      throwHttpError(HTTP_ERR.e404.NotFound('Activation code', uuid));
-    }
-
-    const userActivation = userActivations[0];
-
-    if (userActivation.is_used) {
-      throwHttpError(HTTP_ERR.e400.ResourceConsumed('Activation code', uuid));
-    }
-
-    if (userActivation.expires_at < new Date()) {
-      throwHttpError(HTTP_ERR.e400.ResourceExpired('Activation code', uuid));
-    }
-
-    await updateUserActivations([userActivation.activation_code]);
-
-    return { success: true };
   }),
 
   changePassword: protectedProcedure

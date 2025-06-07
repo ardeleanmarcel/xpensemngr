@@ -8,6 +8,7 @@ import { selectUsers } from '../../domains/users/users.sql.ts';
 import { HTTP_ERR } from '../../services/error/http.errors.ts';
 import { FILTER_COMPARATOR } from '../../services/database/database.utils.ts';
 import { throwHttpError } from '../../services/error/error.utils.ts';
+import { selectUserActivations, updateUserActivations } from './user_activations.sql.ts';
 
 const { pick } = lodash;
 
@@ -46,5 +47,29 @@ export const authRouter = t.router({
     const token = jwt.sign(payload, secret, { algorithm: 'HS256', expiresIn: '12h' });
 
     return { token };
+  }),
+
+  activate: t.procedure.input(z.string().uuid()).query(async (opts) => {
+    const uuid = opts.input;
+
+    const userActivations = await selectUserActivations([uuid]);
+
+    if (userActivations.length === 0) {
+      throwHttpError(HTTP_ERR.e404.NotFound('Activation code', uuid));
+    }
+
+    const userActivation = userActivations[0];
+
+    if (userActivation.is_used) {
+      throwHttpError(HTTP_ERR.e400.ResourceConsumed('Activation code', uuid));
+    }
+
+    if (userActivation.expires_at < new Date()) {
+      throwHttpError(HTTP_ERR.e400.ResourceExpired('Activation code', uuid));
+    }
+
+    await updateUserActivations([userActivation.activation_code]);
+
+    return { success: true };
   }),
 });

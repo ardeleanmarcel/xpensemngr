@@ -5,6 +5,7 @@ import { HTTP_ERR } from '../../services/error/http.errors.ts';
 import { Filter } from '../../services/database/database.utils.ts';
 import { composeWhereClause } from '../../services/database/sql.utils.ts';
 import { UserCreateType, userSchema } from './users.models.ts';
+import { log } from '@xpm/logging';
 
 export async function createUsers(users: UserCreateType[]) {
   const queryValues = new Array(users.length)
@@ -20,7 +21,6 @@ export async function createUsers(users: UserCreateType[]) {
       RETURNING
         user_id,
         username,
-        password,
         email,
         user_status_id
   `;
@@ -33,7 +33,9 @@ export async function createUsers(users: UserCreateType[]) {
 
   const result = await sqlClient.query(query, bindings);
 
-  return userSchema.array().parse(result);
+  log.info(JSON.stringify(result));
+
+  return userSchema.omit({ password: true }).array().parse(result);
 }
 
 // TODO (Valle) -> add "created_at" column to users table
