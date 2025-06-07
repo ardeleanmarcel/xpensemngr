@@ -3,8 +3,7 @@ import { sqlClient } from '@src/services/database/client.sql.ts';
 import { LabelCreateType, labelSchema } from '@src/domains/labels/label.models.ts';
 import { Filter } from '../../services/database/database.utils.ts';
 import { composeWhereClause } from '../../services/database/sql.utils.ts';
-import { throwHttpError } from '@src/services/error/error.utils.ts';
-import { HTTP_ERR } from '@src/services/error/http.errors.ts';
+import { log } from '@xpm/logging';
 
 export async function createLabels(labels: LabelCreateType, user_id: number) {
   const queryValues = new Array(labels.length)
@@ -63,7 +62,8 @@ export async function checkLabelsBelongToUser(label_ids: number[], user_id: numb
 
   for (const label_id of label_ids) {
     if (!userLabelsIds.includes(label_id)) {
-      throwHttpError(HTTP_ERR.e400.BadRequest(`Label ${label_id} does not belong to user ${user_id}`));
+      log.error(`Label ${label_id} does not belong to user ${user_id}`);
+      return false;
     }
   }
 

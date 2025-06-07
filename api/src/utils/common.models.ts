@@ -1,4 +1,3 @@
-import z from 'zod';
 import { z } from 'zod';
 
 export const password = z.string().min(8).max(20);

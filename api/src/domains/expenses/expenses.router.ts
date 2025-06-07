@@ -9,6 +9,8 @@ import {
 } from '@src/domains/expenses/expenses.sql.ts';
 import { FILTER_COMPARATOR } from '@src/services/database/database.utils.ts';
 import { checkLabelsBelongToUser } from '@src/domains/labels/labels.sql.ts';
+import { throwHttpError } from '@src/services/error/error.utils.ts';
+import { HTTP_ERR } from '@src/services/error/http.errors.ts';
 
 export const expensesRouter = t.router({
   create: protectedProcedure.input(expenseCreateSchema).mutation(async (opts) => {
@@ -19,7 +21,10 @@ export const expensesRouter = t.router({
       return [...acc, ...expense.label_ids];
     }, []);
 
-    await checkLabelsBelongToUser(requestedLabels, user.user_id);
+    const labelsBelongToUser = await checkLabelsBelongToUser(requestedLabels, user.user_id);
+    if (!labelsBelongToUser) {
+      throwHttpError(HTTP_ERR.e400.BadRequest(`User does not have access to requested label(s).`));
+    }
 
     const newExpIds = await createExpensesWithLabels(newExpenses, user.user_id);
 
