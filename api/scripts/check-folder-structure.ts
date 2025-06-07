@@ -17,19 +17,11 @@ const config: Array<Folder> = [
       { name: 'constants' },
       {
         name: 'domains',
-        subfolders: [{ name: 'auth' }, { name: 'expenses' }, { name: 'users' }],
+        subfolders: [{ name: 'auth' }, { name: 'expenses' }, { name: 'labels' }, { name: 'users' }],
       },
-      { name: 'errors' },
       {
         name: 'services',
-        subfolders: [
-          { name: 'error' },
-          {
-            name: 'database',
-            subfolders: [{ name: 'sql' }, { name: 'types' }],
-          },
-          { name: 'notification' },
-        ],
+        subfolders: [{ name: 'error' }, { name: 'database' }, { name: 'notification' }],
       },
       { name: 'utils' },
     ],

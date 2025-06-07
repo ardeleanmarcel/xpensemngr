@@ -5,6 +5,12 @@ import lodash from 'lodash';
 import { protectedProcedure, t } from '@src/trpc.ts';
 import { DEFAULT_SALT_ROUNDS } from '@src/domains/auth/auth.const.ts';
 import { userCreateSchema } from '@src/domains/users/user.models.ts';
+import { createInputSchema } from '../../utils/router.utils.ts';
+
+import { notificationService } from '@src/services/service.notification.ts';
+
+import { throwHttpError } from '@src/services/error/error.utils.ts';
+import { email, password } from '@src/utils/common.models.ts';
 import {
   createUsers,
   hardDeleteAccount,
@@ -12,15 +18,10 @@ import {
   softDeleteAccount,
   updateUserEmail,
   updateUserPassword,
-} from '@sql/users.sql.ts';
-import { createUserActivations, selectUserActivations, updateUserActivations } from '@sql/user_activations.sql.ts';
-
-import { createInputSchema } from '../../utils/router.utils.ts';
-import { Filter, FILTER_COMPARATOR } from '@src/db/db.utils.ts';
-import { notificationService } from '@src/services/service.notification.ts';
-import { HTTP_ERR } from '@errors';
-import { throwHttpError } from '@src/services/error/error.utils.ts';
-import { email, password } from '@src/utils/common.models.ts';
+} from './users.sql.ts';
+import { HTTP_ERR } from '@src/services/error/http.errors.ts';
+import { Filter, FILTER_COMPARATOR } from '@src/services/database/database.utils.ts';
+import { createUserActivations, selectUserActivations, updateUserActivations } from '../auth/user_activations.sql.ts';
 
 const { pick } = lodash;
 
@@ -218,7 +219,6 @@ export const usersRouter = t.router({
 
       return { success: true };
     }),
-
   hardDelete: protectedProcedure
     .input(
       z.object({

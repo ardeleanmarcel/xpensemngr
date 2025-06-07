@@ -6,9 +6,9 @@ import {
   createExpensesWithLabels,
   deleteExpenses,
   selectExpensesWithLabels,
-} from '@src/db/sql/expenses.sql.ts';
-import { FILTER_COMPARATOR } from '@src/db/db.utils.ts';
-import { checkLabelsBelongToUser } from '@src/db/sql/labels.sql.ts';
+} from '@src/domains/expenses/expenses.sql.ts';
+import { FILTER_COMPARATOR } from '@src/services/database/database.utils.ts';
+import { checkLabelsBelongToUser } from '@src/domains/labels/labels.sql.ts';
 
 export const expensesRouter = t.router({
   create: protectedProcedure.input(expenseCreateSchema).mutation(async (opts) => {

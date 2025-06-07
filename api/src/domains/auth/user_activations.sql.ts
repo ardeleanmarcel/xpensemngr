@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { randomUUID } from 'crypto';
 import { sqlClient } from '@src/services/database/client.sql.ts';
-import { userActivationSchema } from '../../models/user_activation.models.ts';
+import { userActivationSchema } from './user_activation.models.ts';
 
 export async function createUserActivations(userIds: number[]) {
   const values = new Array(userIds.length)

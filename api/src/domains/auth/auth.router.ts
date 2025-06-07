@@ -4,9 +4,9 @@ import jwt from 'jsonwebtoken';
 import lodash from 'lodash';
 
 import { t } from '@src/trpc.ts';
-import { selectUsers } from '@src/db/sql/users.sql.ts';
-import { HTTP_ERR } from '@errors';
-import { FILTER_COMPARATOR } from '@src/db/db.utils.ts';
+import { selectUsers } from '@src/domains/users/users.sql.ts';
+import { HTTP_ERR } from '@src/services/error/http.errors.ts';
+import { FILTER_COMPARATOR } from '@src/services/database/database.utils.ts';
 import { throwHttpError } from '@src/services/error/error.utils.ts';
 
 const { pick } = lodash;

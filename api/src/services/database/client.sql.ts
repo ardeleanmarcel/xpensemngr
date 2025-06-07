@@ -1,9 +1,9 @@
 import { Knex } from 'knex';
-import { knexClient } from '@src/db/client.ts';
+import { knexClient } from '@src/services/database/client.knex.ts';
 import { log } from '@xpm/logging';
 import { HTTP_ERR } from '@src/services/error/http.errors.ts';
 import { throwHttpError } from '@src/services/error/error.utils.ts';
-import { SqlQueryBindings } from '@src/db/sql/types/sql.types.ts';
+import { SqlQueryBindings } from '@src/services/database/sql.types.ts';
 
 export interface SqlTransaction {
   query: <T>(statement: string, params: SqlQueryBindings) => Promise<Array<T>>;

@@ -1,10 +1,10 @@
 import { z } from 'zod';
 import { sqlClient } from '@src/services/database/client.sql.ts';
 import { throwHttpError } from '@src/services/error/error.utils.ts';
-import { HTTP_ERR } from '@errors';
-import { Filter } from '../database.utils.ts';
-import { composeWhereClause } from './utils/sql.utils.ts';
-import { UserCreateType, userSchema } from '../../models/user.models.ts';
+import { HTTP_ERR } from '@src/services/error/http.errors.ts';
+import { Filter } from '@src/services/database/database.utils.ts';
+import { composeWhereClause } from '@src/services/database/sql.utils.ts';
+import { UserCreateType, userSchema } from './user.models.ts';
 
 export async function createUsers(users: UserCreateType[]) {
   const queryValues = new Array(users.length)
