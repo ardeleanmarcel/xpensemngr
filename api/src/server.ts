@@ -62,12 +62,8 @@ server.register(fastifyTRPCPlugin, {
 
 process.on('uncaughtException', (err) => {
   console.error('Uncaught Exception:', err);
-  // You can also exit the process here if you want
-  // process.exit(1);
 });
 
 process.on('unhandledRejection', (reason) => {
   console.error('Unhandled Rejection:', reason);
-  // You can also exit the process here if you want
-  // process.exit(1);
 });

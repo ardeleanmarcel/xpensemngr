@@ -1,5 +1,5 @@
 import { protectedProcedure, t } from '@src/trpc.ts';
-import { expenseCreateSchema, expenseDeleteSchema, expenseGetAllSchema } from '@src/models/expense.models.ts';
+import { expenseCreateSchema, expenseDeleteSchema, expenseGetAllSchema } from '@src/domains/expenses/expense.models.ts';
 import {
   ExpenseSelectFilters,
   ExpenseSelectOrder,

@@ -4,7 +4,7 @@ import lodash from 'lodash';
 
 import { protectedProcedure, t } from '@src/trpc.ts';
 import { DEFAULT_SALT_ROUNDS } from '@constants/auth.const.ts';
-import { userCreateSchema } from '@models/user.models.ts';
+import { userCreateSchema } from '@src/domains/users/user.models.ts';
 import {
   createUsers,
   hardDeleteAccount,
@@ -15,12 +15,12 @@ import {
 } from '@sql/users.sql.ts';
 import { createUserActivations, selectUserActivations, updateUserActivations } from '@sql/user_activations.sql.ts';
 
-import { createInputSchema } from './utils/router.utils.ts';
+import { createInputSchema } from '../../utils/router.utils.ts';
 import { Filter, FILTER_COMPARATOR } from '@src/db/db.utils.ts';
 import { notificationService } from '@src/services/service.notification.ts';
 import { HTTP_ERR } from '@errors';
 import { throwHttpError } from '@src/errors/error.utils.ts';
-import { email, password } from '@src/models/common.models.ts';
+import { email, password } from '@src/utils/common.models.ts';
 
 const { pick } = lodash;
 

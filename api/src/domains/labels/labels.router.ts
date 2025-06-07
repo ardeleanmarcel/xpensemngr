@@ -1,7 +1,7 @@
 import { protectedProcedure, t } from '@src/trpc.ts';
-import { labelCreateSchema } from '@src/models/label.models.ts';
-import { AllowedLabelsFilters, createLabels, selectLabels } from '@src/db/sql/labels.sql.ts';
-import { Filter, FILTER_COMPARATOR } from '@src/db/db.utils.ts';
+import { labelCreateSchema } from './label.models.ts';
+import { AllowedLabelsFilters, createLabels, selectLabels } from '@src/services/database/sql/labels.sql.ts';
+import { Filter, FILTER_COMPARATOR } from '@src/services/database/database.utils.ts';
 
 export const labelsRouter = t.router({
   create: protectedProcedure.input(labelCreateSchema).mutation(async (opts) => {
