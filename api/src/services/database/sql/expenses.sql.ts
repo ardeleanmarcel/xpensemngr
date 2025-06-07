@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { sqlClient, SqlTransaction } from '@src/clients/client.sql.ts';
+import { sqlClient, SqlTransaction } from '@src/services/database/client.sql.ts';
 import { ExpenseCreateType, expenseSchema } from '@src/models/expense.models.ts';
-import { Filter } from '../db.utils.ts';
+import { Filter } from '../database.utils.ts';
 import {
   composeLimitClause,
   composeOrderByClause,

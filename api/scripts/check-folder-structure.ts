@@ -14,12 +14,25 @@ const config: Array<Folder> = [
   {
     name: 'src',
     subfolders: [
+      { name: 'constants' },
       {
         name: 'domains',
-        subfolders: [{ name: 'users' }, { name: 'expenses' }],
+        subfolders: [{ name: 'auth' }, { name: 'expenses' }, { name: 'users' }],
       },
-      { name: 'services' },
-      { name: 'clients' },
+      { name: 'errors' },
+      { name: 'models' },
+      {
+        name: 'services',
+        subfolders: [
+          { name: 'error' },
+          {
+            name: 'database',
+            subfolders: [{ name: 'sql' }, { name: 'types' }],
+          },
+          { name: 'notification' },
+        ],
+      },
+      { name: 'utils' },
     ],
   },
   { name: 'scripts' },

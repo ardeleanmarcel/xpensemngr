@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { sqlClient } from '@src/clients/client.sql.ts';
+import { sqlClient } from '@src/services/database/client.sql.ts';
 import { throwHttpError } from '@src/errors/error.utils.ts';
 import { HTTP_ERR } from '@errors';
-import { Filter } from '../db.utils.ts';
+import { Filter } from '../database.utils.ts';
 import { composeWhereClause } from './utils/sql.utils.ts';
 import { UserCreateType, userSchema } from '../../models/user.models.ts';
 
