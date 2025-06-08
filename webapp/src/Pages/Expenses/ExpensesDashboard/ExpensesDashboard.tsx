@@ -7,6 +7,7 @@ import { useRef, useState } from 'react';
 import { ExpenseGetAllFilterType } from '../../../../../api/src/domains/expenses/expense.models';
 import type { LabelType } from '../../../../../api/src/models/business.models';
 import { FilterFunnel } from '../../../components/icons/FilterFunnel/FilterFunnel';
+import { XpmLoadingSpinner } from '../../../components/info/XpmLoadingSpinner/XpmLoadingSpinner';
 import { CardV2 } from '../../../components/layout/CardV2/CardV2';
 import { AuthProtected } from '../../../components/utils/AuthProtected';
 import { XpmPaper } from '../../../components/XpmPaper';
@@ -47,12 +48,21 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
   const [rows, setRows] = useState<Data[]>([]);
   const [labels, setLabels] = useState<Array<LabelType>>([]);
   const [maxAmount, setMaxAmount] = useState(0);
+  const [loading, setLoading] = useState({ expenses: true, labels: true, maxAmount: true });
 
   const filters = useRef<DashboardFilters>(DEFAULT_FILTERS);
+
+  const updateLoading = (type: 'expenses' | 'labels' | 'maxAmount', value: boolean) => {
+    setLoading((prev) => ({
+      ...prev,
+      [type]: value,
+    }));
+  };
 
   const fetchLabels = async () => {
     const lbs = await getAllLabels();
     setLabels(lbs);
+    updateLoading('labels', false);
   };
 
   const fetchExpenses = async () => {
@@ -61,6 +71,7 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
       const expenses = await getAllExpenses(opts);
       const processedData = createData(expenses);
       setRows(processedData);
+      updateLoading('expenses', false);
     } catch (error) {
       console.error('Error fetching expenses:', error);
     }
@@ -71,6 +82,7 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
 
     const max = expense && expense.length > 0 ? expense[0].amount : 1000;
     setMaxAmount(max);
+    updateLoading('maxAmount', false);
   };
 
   useRunOnce(() => {
@@ -101,6 +113,7 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
 
   return (
     <CardV2>
+      <XpmLoadingSpinner isVisible={loading.expenses || loading.labels || loading.maxAmount} fullscreen />
       <div className={classes.container}>
         <div className="ExpensesDashboard--title-container">
           <XpmText content={TITLE} size="m" />
