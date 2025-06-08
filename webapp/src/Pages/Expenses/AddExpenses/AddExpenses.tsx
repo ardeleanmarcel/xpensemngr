@@ -59,7 +59,7 @@ export const AddExpenses = () => {
     {
       name: string;
       label_id: number;
-      added_by_user_id: string;
+      added_by_user_id: number;
       description?: string;
     }[]
   >([]);

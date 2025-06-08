@@ -15,6 +15,7 @@
     "start": "tsx ./src/server.ts",
     "check:arch": "dependency-cruise src",
     "check:folders": "tsx ./scripts/check-folder-structure.ts",
+    "check:types": "tsc --noEmit --skipLibCheck",
     "dev": "nodemon",
     "build": "tsc",
     "build:prod": "NODE_OPTIONS='--max-old-space-size=4096' tsc --project tsconfig.prod.json",
