@@ -14,16 +14,15 @@
     "outDir": "build/",
     "emitDeclarationOnly": true,
     "esModuleInterop": true,
-    "lib": ["es7", "dom"],
-    "paths": {
-      "@src/*": ["./src/*"],
-      "@errors": ["./src/errors/index.ts"],
-      "@routers": ["./src/routers/index.ts"],
-      "@routers/*": ["./src/routers/*"],
-      "@sql/*": ["./src/db/sql/*"],
-      "@constants/*": ["./src/constants/*"],
-      "@models/*": ["./src/models/*"]
-    }
+    "lib": ["es7", "dom"]
   },
-  "include": ["src", "eslint.config.js"]
+  "include": [
+    "src",
+    "test/**/*",
+    "scripts/**/*",
+    "eslint.config.js",
+    "jest.config.js",
+    ".dependency-cruiser.cjs",
+    "tsconfig.json"
+  ]
 }

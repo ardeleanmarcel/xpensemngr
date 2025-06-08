@@ -4,16 +4,19 @@ import tseslint from 'typescript-eslint';
 
 const config = [
   {
+    ignores: ['**/node_modules/**', '**/dist/**', '**/build/**', '.dependency-cruiser.cjs', 'eslint.config.js'],
+  },
+  {
     rules: {
       'no-undef': 'error',
       '@typescript-eslint/no-unnecessary-condition': 'error',
+      '@typescript-eslint/no-unused-vars': ['error'],
     },
     files: ['src/**/*.{js,mjs,cjs,ts}'],
   },
   {
     languageOptions: {
       globals: globals.browser,
-
       parserOptions: {
         project: './tsconfig.json',
       },

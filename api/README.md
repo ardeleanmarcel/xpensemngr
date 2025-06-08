@@ -32,8 +32,8 @@ If you want to work on the entire project, refer to the [PROJECT LEVEL README](.
 - run `netstat -ntlp` to identify to process id (PID).
 - run `kill <PID>` to kill the process if needed.
 
-<!-- Commited this row to test deplyment 2 -->
+### TODO:
 
-<!-- TODO: Remove all '*' from SELECT and RETURNING statements -->
-
-<!-- TODO: check for unused types in the model files -->
+- [ ] Fix eslint script
+- [ ] check for unused types in the model files
+- [ ] remove all '*' from SELECT and RETURNING statements

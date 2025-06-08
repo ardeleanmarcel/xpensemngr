@@ -35,7 +35,7 @@ export const VerifyEmail = () => {
 
   const handleActivate = async () => {
     try {
-      const response = await client.users.activate.query(activationCode);
+      const response = await client.auth.activate.query(activationCode);
       setRegistrationStatus(response.success); // Activation successful
     } catch (error) {
       const code = getXpmErrCode(error);
@@ -62,29 +62,17 @@ export const VerifyEmail = () => {
           {!registrationStatus ? (
             <>
               <div>
-                Hello! Click on the button below in order to activate your
-                account. The link is available maximum 24 hours!
+                Hello! Click on the button below in order to activate your account. The link is available maximum 24 hours!
               </div>
-              <XpmButton
-                variant="contained"
-                color="secondary"
-                onClick={handleActivate}
-                buttonName="Complete Registration"
-              />
+              <XpmButton variant="contained" color="secondary" onClick={handleActivate} buttonName="Complete Registration" />
             </>
           ) : (
             <>
               <div>
-                Your registration is complete! We activated your account! Click
-                on the button bellow and you will be redirected to login page!
-                Enjoy!
+                Your registration is complete! We activated your account! Click on the button bellow and you will be redirected to
+                login page! Enjoy!
               </div>
-              <XpmButton
-                variant="contained"
-                color="secondary"
-                onClick={redirectToLoginPage}
-                buttonName="Login"
-              />
+              <XpmButton variant="contained" color="secondary" onClick={redirectToLoginPage} buttonName="Login" />
             </>
           )}
         </div>

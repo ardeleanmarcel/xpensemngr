@@ -7,6 +7,7 @@ import { appRouter, AppRouter } from './trpcAppRouter.ts';
 import { ENV_VARS } from './utils/env.utils.ts';
 import { XPM_ENV } from './constants/env.const.ts';
 import { log } from '@xpm/logging';
+import { initEventListeners } from './services/event.bus/event.bus.inter.domain.init.ts';
 
 const server = fastify({
   maxParamLength: 5000,
@@ -36,6 +37,8 @@ server.register(fastifyTRPCPlugin, {
   try {
     log.info(`Starting server on env: ${ENV_VARS.XPM_ENV}`);
 
+    initEventListeners();
+
     if (ENV_VARS.XPM_ENV === XPM_ENV.Local) {
       await server.register(cors, { origin: '*', maxAge: 36000 });
     } else {
@@ -62,12 +65,8 @@ server.register(fastifyTRPCPlugin, {
 
 process.on('uncaughtException', (err) => {
   console.error('Uncaught Exception:', err);
-  // You can also exit the process here if you want
-  // process.exit(1);
 });
 
 process.on('unhandledRejection', (reason) => {
   console.error('Unhandled Rejection:', reason);
-  // You can also exit the process here if you want
-  // process.exit(1);
 });
