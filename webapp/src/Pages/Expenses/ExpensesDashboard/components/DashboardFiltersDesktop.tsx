@@ -1,7 +1,7 @@
 import { isEqual } from 'lodash';
 import React, { useEffect, useState } from 'react';
 
-import { LabelType } from '../../../../../../api/src/models/label.models';
+import { LabelType } from '../../../../../../api/src/models/business.models';
 import { ConstrainedRange } from '../../../../components/input/ConstrainedRange/ConstrainedRange';
 import { LabelSelector } from '../../../../components/specialized/LabelSelector';
 import { useDebounced } from '../../../../hooks/useDebounced';

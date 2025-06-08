@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "vite --host",
     "build": "rm -rf dist && tsc && vite build",
+    "check:ts": "tsc --noEmit --skipLibCheck",
     "lint": "eslint --fix -c eslint.config.js",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",

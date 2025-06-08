@@ -4,8 +4,8 @@ import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useRef, useState } from 'react';
 
-import { ExpenseGetAllFilterType } from '../../../../../api/src/models/expense.models';
-import type { LabelType } from '../../../../../api/src/models/label.models';
+import { ExpenseGetAllFilterType } from '../../../../../api/src/domains/expenses/expense.models';
+import type { LabelType } from '../../../../../api/src/models/business.models';
 import { FilterFunnel } from '../../../components/icons/FilterFunnel/FilterFunnel';
 import { CardV2 } from '../../../components/layout/CardV2/CardV2';
 import { AuthProtected } from '../../../components/utils/AuthProtected';
