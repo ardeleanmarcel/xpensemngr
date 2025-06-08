@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { client } from '../../../../api/apiClient';
 import { INTERNAL_EVENT, useInternalEvents } from '../../../../contexts/events/internal.events';
@@ -75,10 +75,10 @@ export const AddExpenseDialog: React.FunctionComponent<AddExpenseDialogProps> = 
     setSelectedLabels(sl);
   };
 
-  const focusFirstInput = () => {
+  const focusFirstInput = useCallback(() => {
     const el = document.querySelector('[data-id="amount"]');
     if (el && el instanceof HTMLInputElement) el.focus();
-  };
+  }, []);
 
   const handleDialogBackdropClick = () => {
     if (!isLoading) onClose();
@@ -99,7 +99,13 @@ export const AddExpenseDialog: React.FunctionComponent<AddExpenseDialogProps> = 
       <XpmVerticalSpacer size="m" />
       <InputText data-id="amount" name="amount" onChange={(e) => setAmount(e.target.value)} value={amount} disabled={isLoading} />
       <XpmVerticalSpacer size="m" />
-      <InputText name="description" onChange={(e) => setDescription(e.target.value)} value={description} disabled={isLoading} />
+      <InputText
+        data-id="description"
+        name="description"
+        onChange={(e) => setDescription(e.target.value)}
+        value={description}
+        disabled={isLoading}
+      />
       <XpmVerticalSpacer size="m" />
       <LabelSelector labels={labels} onSelectionChange={handleLabelSelection} selectedLabels={selectedLabels} />
       <XpmVerticalSpacer size="m" />

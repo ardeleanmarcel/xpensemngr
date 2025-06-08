@@ -18,10 +18,10 @@ interface BasicDialogProps extends React.PropsWithChildren {
 export const BasicDialog: React.FunctionComponent<BasicDialogProps> = ({
   isOpen,
   children,
-  onBackdropClick,
+  onBackdropClick, // warning! make sure this is a stable reference!
   width,
   height,
-  onAfterOpen,
+  onAfterOpen, // warning! make sure this is a stable reference!
   showLoading,
 }) => {
   useEffect(() => {
