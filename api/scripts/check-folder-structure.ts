@@ -3,8 +3,6 @@ import * as path from 'path';
 
 // TODO (Valle) -> add check for test folder to mirror the structure of src
 
-const x = 1; // This is just to avoid the "no unused variables" error in the linter
-
 interface Folder {
   name: string;
   subfolders?: Array<Folder>;
