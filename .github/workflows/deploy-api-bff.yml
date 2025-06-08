@@ -23,17 +23,6 @@ jobs:
 
       - name: Verify AWS Account
         run: aws sts get-caller-identity
-
-      - name: check environment
-        run: env | sort
-
-      # - name: add aws account id to env
-      #   run: |
-      #     echo "AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)" >> $GITHUB_ENV
-      - name: check environment again
-        run: env | sort
-
-        # TODO (Valle) -> might be able to remove accound ID part AND the region part
       - name: Deploy and Restart App
         env:
           EC2_INSTANCE_NAME: xpm-ec2-main-api-prod

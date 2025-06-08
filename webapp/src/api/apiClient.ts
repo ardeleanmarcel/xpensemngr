@@ -6,7 +6,8 @@ export const client = createTRPCClient<AppRouter>({
   links: [
     httpBatchLink({
       url: `${import.meta.env.VITE_MAIN_API_URL ?? ''}/trpc`,
-      async headers() {
+      // note: the `headers` can also be async
+      headers() {
         return {
           authorization: getAuthToken(),
         };

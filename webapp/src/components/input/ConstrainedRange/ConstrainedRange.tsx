@@ -15,7 +15,7 @@ export const ConstrainedRange: React.FunctionComponent<ConstrainedRangeProps> = 
 
   useEffect(() => {
     onChange(getVal(valueRange, minPercent), getVal(valueRange, maxPercent));
-  }, [minPercent, maxPercent]);
+  }, [minPercent, maxPercent, onChange, valueRange]);
 
   const handleMinPercentChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = parseInt(event.target.value, 10);

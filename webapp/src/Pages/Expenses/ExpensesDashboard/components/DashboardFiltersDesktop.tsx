@@ -49,7 +49,7 @@ export const DashboardFiltersDesktop: React.FC<DashboardFiltersDesktopProps> = (
     if (!isEqual(previousFilters, filters)) {
       onFilterChange(filters);
     }
-  }, [filters]);
+  }, [filters, onFilterChange, previousFilters]);
 
   const updateFilters = (updates: Array<FilterUpdate>) => {
     setFilters((f) => {

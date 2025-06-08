@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # TODO (Valle) -> This script is not idempotent
-# TODO (Valle) -> Add a part to create a 4gb swap file
 
 # beacuse the HOME variable as well as other things are NOT set when running this script
 # seems that it is run in a different context...

@@ -26,7 +26,7 @@ export const BasicDialog: React.FunctionComponent<BasicDialogProps> = ({
 }) => {
   useEffect(() => {
     if (isOpen && onAfterOpen) onAfterOpen();
-  }, [isOpen]);
+  }, [isOpen, onAfterOpen]);
 
   const dialog = (
     <dialog className={cn('BasicDialog', { 'BasicDialog--open': isOpen })} onClick={onBackdropClick}>
