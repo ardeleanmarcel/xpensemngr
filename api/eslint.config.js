@@ -10,6 +10,7 @@ const config = [
     rules: {
       'no-undef': 'error',
       '@typescript-eslint/no-unnecessary-condition': 'error',
+      '@typescript-eslint/no-unused-vars': ['error'],
     },
     files: ['src/**/*.{js,mjs,cjs,ts}'],
   },
