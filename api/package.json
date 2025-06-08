@@ -19,7 +19,8 @@
     "build": "tsc",
     "build:prod": "NODE_OPTIONS='--max-old-space-size=4096' tsc --project tsconfig.prod.json",
     "lint": "eslint -c eslint.config.js --report-unused-disable-directives --max-warnings 0",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
@@ -53,6 +54,7 @@
     "dependency-cruiser": "^16.10.2",
     "eslint": "^9.27.0",
     "globals": "^15.9.0",
+    "husky": "^9.1.7",
     "jest": "^29.7.0",
     "nodemon": "^3.1.0",
     "ts-jest": "^29.3.4",
