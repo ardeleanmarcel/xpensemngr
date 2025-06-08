@@ -6,4 +6,5 @@ npm run check:types
 cd ..
 
 cd webapp
+npm run lint
 npm run check:ts

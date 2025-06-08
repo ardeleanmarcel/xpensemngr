@@ -2,9 +2,7 @@
   "name": "xpensemngr",
   "version": "1.0.0",
   "description": "This is a monorepo that contains all layers of the application.",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky"
   },
   "author": "",

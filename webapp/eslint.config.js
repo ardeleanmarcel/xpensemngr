@@ -15,8 +15,14 @@ delete globals['AudioWorkletGlobalScope ']; // workaround fix because this globa
 
 export default tseslint.config(
   {
+    ignores: ['node_modules/**', 'dist/**'],
+  },
+  {
     extends: [eslint.configs.recommended, tseslint.configs.recommended],
     files: ['src/**/*.{js,jsx,ts,tsx}', 'eslint.config.js'],
+    rules: {
+      'require-await': 'error',
+    },
   },
   {
     plugins: {
@@ -24,7 +30,7 @@ export default tseslint.config(
     },
     rules: {
       'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'off', // TODO (Valle) -> consider adding this back in
+      'react-hooks/exhaustive-deps': 'error',
     },
   },
   {

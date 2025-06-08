@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { client } from '../../api/apiClient';
@@ -14,7 +14,7 @@ const MILLISECONDS = {
 };
 
 // TODO (valle) -> implement an interval that checks for token expiration and refresh or revoke
-export function UserContextProvider({ children }: React.PropsWithChildren) {
+export function UserContextProvider({ children }: Readonly<React.PropsWithChildren>) {
   const navigate = useNavigate();
 
   const [user, setUser] = useState<UserData | null>(null);
@@ -44,7 +44,7 @@ export function UserContextProvider({ children }: React.PropsWithChildren) {
     }
   });
 
-  async function signIn({ username, password }: { username: string; password: string }) {
+  const signIn = useCallback(async ({ username, password }: { username: string; password: string }) => {
     try {
       const { token } = await client.auth.signIn.mutate({ username, password });
 
@@ -59,14 +59,14 @@ export function UserContextProvider({ children }: React.PropsWithChildren) {
       console.log('caught the error');
       return false;
     }
-  }
+  }, []);
 
-  async function signOut() {
+  const signOut = useCallback(() => {
     localStorage.removeItem('authToken');
     setUser(null);
     navigate(PATH.HomePage.Segment);
     return true;
-  }
+  }, [navigate]);
 
   const contextValue = useMemo(() => ({ signIn, signOut, user }), [signIn, signOut, user]);
 
