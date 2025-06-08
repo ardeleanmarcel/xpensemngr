@@ -1,4 +1,4 @@
 cd api
+npm run lint
 npm run check:folders
 npm run check:arch
-npm run lint
