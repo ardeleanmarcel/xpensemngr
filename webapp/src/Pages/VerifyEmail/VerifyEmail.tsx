@@ -8,7 +8,7 @@ import { client } from '../../api/apiClient';
 import { XpmButton } from '../../components/XpmButton';
 import { XpmCard } from '../../components/XpmCard';
 import { XpmCardContent } from '../../components/XpmCardContent';
-import { VerifyEmailErrorMessages } from './VerifyEmailErrorMessages';
+import { VerifyEmailErrorMessages } from './components/VerifyEmailErrorMessages';
 
 const useStyles = makeStyles<Theme>(() => ({
   container: {

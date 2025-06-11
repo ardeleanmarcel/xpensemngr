@@ -13,7 +13,7 @@ import { PATH } from './constants/paths';
 import { NotificationContextProvider } from './contexts/notification/NotificationContextProvider';
 import { UserContextProvider } from './contexts/user/UserContextProivder';
 import { ExpensesDashboard } from './Pages/Expenses/ExpensesDashboard/ExpensesDashboard';
-import { ProtectedManageLabels } from './Pages/Expenses/ManageLabels/ManageLabels';
+import { ProtectedManageLabels } from './Pages/LabelManagement/LabelManagement';
 import LoginWithFormik from './Pages/LandingPage/LandingPage';
 import { EmailForNewPassword } from './Pages/ResetPassword/ResetPassword';
 import Register from './Pages/UserRegistration/UserRegistration';

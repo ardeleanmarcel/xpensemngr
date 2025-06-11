@@ -2,13 +2,13 @@ import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useEffect, useState } from 'react';
 
-import { AuthProtected } from '../../../components/utils/AuthProtected';
-import { XpmCard } from '../../../components/XpmCard';
-import { XpmCardContent } from '../../../components/XpmCardContent';
-import { XpmPaper } from '../../../components/XpmPaper';
-import { ColumnTableV2, XpmTableV2 } from '../../../components/XpmTableV2';
-import { XpmTypography } from '../../../components/XpmTypography';
-import { getAllLabels } from '../expensesUtils';
+import { AuthProtected } from '../../components/utils/AuthProtected';
+import { XpmCard } from '../../components/XpmCard';
+import { XpmCardContent } from '../../components/XpmCardContent';
+import { XpmPaper } from '../../components/XpmPaper';
+import { ColumnTableV2, XpmTableV2 } from '../../components/XpmTableV2';
+import { XpmTypography } from '../../components/XpmTypography';
+import { getAllLabels } from '../Expenses/expensesUtils';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
