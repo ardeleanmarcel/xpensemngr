@@ -15,8 +15,8 @@ import { UserContextProvider } from './contexts/user/UserContextProivder';
 import { ExpensesDashboard } from './Pages/Expenses/ExpensesDashboard/ExpensesDashboard';
 import { ProtectedManageLabels } from './Pages/Expenses/ManageLabels/ManageLabels';
 import LoginWithFormik from './Pages/LandingPage/LandingPage';
-import Register from './Pages/Register/Register';
 import { EmailForNewPassword } from './Pages/ResetPassword/ResetPassword';
+import Register from './Pages/UserRegistration/UserRegistration';
 import { VerifyEmail } from './Pages/VerifyEmail/VerifyEmail';
 
 const getDesignTokens = (mode: PaletteMode) => ({
@@ -116,7 +116,7 @@ export default function App() {
             <NotificationContextProvider>
               <Routes>
                 <Route path="/" element={<LoginWithFormik />} />
-                <Route path="register" element={<Register />} />
+                <Route path={PATH.UserRegistration.Segment} element={<Register />} />
                 <Route path={PATH.ResetPassword.Segment} element={<EmailForNewPassword />} />
                 <Route path="verify-email" element={<VerifyEmail />} />
                 <Route path="*" element={null} />

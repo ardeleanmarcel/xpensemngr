@@ -28,4 +28,7 @@ export const PATH = {
   ResetPassword: {
     Segment: '/reset-password',
   },
+  UserRegistration: {
+    Segment: '/user-registration',
+  },
 } as const;

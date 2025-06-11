@@ -108,7 +108,7 @@ function Home() {
             }}
           >
             <XpmText content="Don't have an account?" />
-            <ButtonLink text="Register Here" to="/register" />
+            <ButtonLink text="Register Here" to={PATH.UserRegistration.Segment} />
           </div>
           <XpmVerticalSpacer size="xxl" />
           <ButtonLink text="Continue without an account" onClick={() => console.log('Continue without an account')} />
