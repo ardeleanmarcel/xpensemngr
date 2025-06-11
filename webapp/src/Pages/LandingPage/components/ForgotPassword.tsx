@@ -1,6 +1,6 @@
 import Link from '@mui/material/Link';
 
-import { XpmTypography } from '../../components/XpmTypography';
+import { XpmTypography } from '../../../components/XpmTypography';
 
 export function ForgotPassword() {
   return (

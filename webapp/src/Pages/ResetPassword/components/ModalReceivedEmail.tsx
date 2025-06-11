@@ -1,7 +1,7 @@
-import { XpmBox } from '../../components/XpmBox';
-import { XpmButton } from '../../components/XpmButton';
-import { XpmModal } from '../../components/XpmModal';
-import { XpmTypography } from '../../components/XpmTypography';
+import { XpmBox } from '../../../components/XpmBox';
+import { XpmButton } from '../../../components/XpmButton';
+import { XpmModal } from '../../../components/XpmModal';
+import { XpmTypography } from '../../../components/XpmTypography';
 
 const TITLE = 'Password reset request accepted.';
 const INFO = 'For further instructions please check your email!';
@@ -23,26 +23,11 @@ const style = {
 export function ModalReceivedEmail({ handleCloseModal, openModal }) {
   return (
     <div>
-      <XpmModal
-        open={openModal}
-        onClose={handleCloseModal}
-        ariaLabelledBy="modal-title"
-        ariaDescribedBy="modal-description"
-      >
+      <XpmModal open={openModal} onClose={handleCloseModal} ariaLabelledBy="modal-title" ariaDescribedBy="modal-description">
         <XpmBox sx={style}>
-          <XpmTypography
-            id="modal-title"
-            variant="h6"
-            component="h2"
-            text={TITLE}
-          />
+          <XpmTypography id="modal-title" variant="h6" component="h2" text={TITLE} />
 
-          <XpmTypography
-            id="modal-description"
-            sx={{ mt: 2 }}
-            text={INFO}
-            variant="body1"
-          />
+          <XpmTypography id="modal-description" sx={{ mt: 2 }} text={INFO} variant="body1" />
           <XpmButton
             variant="outlined"
             sx={{

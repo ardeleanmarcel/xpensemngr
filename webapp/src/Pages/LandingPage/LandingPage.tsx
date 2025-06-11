@@ -95,7 +95,7 @@ function Home() {
           />
           <XpmVerticalSpacer size="xs" />
           <div style={{ display: 'flex', justifyContent: 'flex-end', width: '450px' }}>
-            <ButtonLink text="Forgot Password" to="/forgot-password" size="xs" showUnderline={false} />
+            <ButtonLink text="Forgot Password" to={PATH.ResetPassword.Segment} size="xs" showUnderline={false} />
           </div>
           <XpmVerticalSpacer size="l" />
           <ButtonPill text="Login" onClick={handleSubmit} />

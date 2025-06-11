@@ -6,3 +6,9 @@
 1. invalidate sources in cloudfront
 
 <!-- testing CI/CD v3 -->
+
+### TODO
+
+- [ ] Add architecture test to make sure pages do not import from each other
+- [ ] Update husky hook to only run checks in a project folder IF there are changes in that folder
+- [ ] Split pages into public and private

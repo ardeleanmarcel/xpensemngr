@@ -5,6 +5,8 @@ export enum PAGE {
   Home = 'HOME',
 }
 
+// TODO (Valle) -> this could be a tree structure and nodes could implement "getPath" method
+// which would traverse the tree and return the full path as a string.
 export const PATH = {
   ExpenseLabels: {
     Segment: '/expense-labels',
@@ -22,5 +24,8 @@ export const PATH = {
   },
   LandingPage: {
     Segment: '/',
+  },
+  ResetPassword: {
+    Segment: '/reset-password',
   },
 } as const;
