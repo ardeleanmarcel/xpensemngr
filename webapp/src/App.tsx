@@ -125,7 +125,7 @@ export default function App() {
                 <AppLayout>
                   <Routes>
                     <Route path={PATH.ExpenseDashboard.Segment} element={<ExpensesDashboard />} />
-                    <Route path={PATH.ExpenseLabels.Segment} element={<ProtectedManageLabels />} />
+                    <Route path={PATH.LabelManagement.Segment} element={<ProtectedManageLabels />} />
                     <Route path="*" element={null} />
                   </Routes>
                 </AppLayout>

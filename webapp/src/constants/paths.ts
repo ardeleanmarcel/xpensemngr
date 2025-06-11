@@ -8,13 +8,13 @@ export enum PAGE {
 // TODO (Valle) -> this could be a tree structure and nodes could implement "getPath" method
 // which would traverse the tree and return the full path as a string.
 export const PATH = {
-  ExpenseLabels: {
-    Segment: '/expense-labels',
+  LabelManagement: {
+    Segment: '/label-management',
     // Example of how nesting could look like
     // SubPaths: {
     //   Id: {
     //     Segment: '/:id',
-    //     FromRoot: '/expense-labels/:id', // could this be a function?
+    //     FromRoot: '/label-management/:id', // could this be a function?
     //     SubPaths: {},
     //   },
     // },
@@ -22,6 +22,9 @@ export const PATH = {
   ExpenseDashboard: {
     Segment: '/expense-dashboard',
   },
+  // LabelManagement: {
+  //   Segment: '/label-management',
+  // },
   LandingPage: {
     Segment: '/',
   },
