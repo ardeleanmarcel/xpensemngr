@@ -1,4 +1,4 @@
-import './HomePage.scss';
+import './LandingPage.scss';
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -48,8 +48,8 @@ function Home() {
   const cardWidth = screenSize === SCREEN_SIZE.Phone ? '100%' : '700px';
 
   return (
-    <div className="HomePage--background">
-      <div className="HomePage--card-container">
+    <div className="LandingPage--background">
+      <div className="LandingPage--card-container">
         <CardV2 width={cardWidth} showLoading={isSubmitting}>
           <div
             style={{

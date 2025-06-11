@@ -20,7 +20,7 @@ export const PATH = {
   ExpenseDashboard: {
     Segment: '/expense-dashboard',
   },
-  HomePage: {
+  LandingPage: {
     Segment: '/',
   },
 } as const;
