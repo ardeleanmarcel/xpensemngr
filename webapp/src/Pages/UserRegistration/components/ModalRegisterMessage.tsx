@@ -1,7 +1,7 @@
-import { XpmBox } from '../../components/XpmBox';
-import { XpmButton } from '../../components/XpmButton';
-import { XpmModal } from '../../components/XpmModal';
-import { XpmTypography } from '../../components/XpmTypography';
+import { XpmBox } from '../../../components/XpmBox';
+import { XpmButton } from '../../../components/XpmButton';
+import { XpmModal } from '../../../components/XpmModal';
+import { XpmTypography } from '../../../components/XpmTypography';
 
 const style = {
   position: 'absolute',
@@ -16,27 +16,11 @@ const style = {
   p: 4,
 };
 
-export function ModalRegisterMessage({
-  handleCloseModal,
-  openModal,
-  title,
-  text,
-  modalBtnText,
-}) {
+export function ModalRegisterMessage({ handleCloseModal, openModal, title, text, modalBtnText }) {
   return (
-    <XpmModal
-      open={openModal}
-      onClose={handleCloseModal}
-      ariaLabelledBy="modal-title"
-      ariaDescribedBy="modal-modal-description"
-    >
+    <XpmModal open={openModal} onClose={handleCloseModal} ariaLabelledBy="modal-title" ariaDescribedBy="modal-modal-description">
       <XpmBox sx={style}>
-        <XpmTypography
-          id="modal-title"
-          variant="h6"
-          component="h2"
-          text={title}
-        />
+        <XpmTypography id="modal-title" variant="h6" component="h2" text={title} />
         <XpmTypography id="modal-description" sx={{ mt: 2 }} text={text} />
         <XpmButton
           variant="outlined"

@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import { getAllLabels } from '../../../../api/api.endpoints';
 import { client } from '../../../../api/apiClient';
 import { INTERNAL_EVENT, useInternalEvents } from '../../../../contexts/events/internal.events';
 import { SnackbarType, useNotification } from '../../../../contexts/notification/notification.context';
-import { getAllLabels, getCurrentDate } from '../../../../Pages/Expenses/expensesUtils';
+import { getCurrentDate } from '../../../../Pages/MainDashboard/utils';
 import { ButtonPill } from '../../../input/ButtonPill/ButtonPill';
 import { InputText } from '../../../input/InputText/InputText';
 import { LabelSelector } from '../../../specialized/LabelSelector';

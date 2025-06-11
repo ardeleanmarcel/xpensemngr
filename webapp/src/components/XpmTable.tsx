@@ -1,16 +1,7 @@
-import {
-  Chip,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-} from '@mui/material';
+import { Chip, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
 import React, { ReactNode } from 'react';
 
-import { Column, Data } from '../Pages/Expenses/expensesUtils';
+import { Column, Data } from '../Pages/MainDashboard/utils';
 
 type XpmTableProps = {
   columns: Column[];
@@ -21,14 +12,7 @@ type XpmTableProps = {
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export const XpmTable = ({
-  columns,
-  rows,
-  rowsPerPage,
-  page,
-  handleChangePage,
-  handleChangeRowsPerPage,
-}: XpmTableProps) => {
+export const XpmTable = ({ columns, rows, rowsPerPage, page, handleChangePage, handleChangeRowsPerPage }: XpmTableProps) => {
   return (
     <>
       <TableContainer>
@@ -36,45 +20,37 @@ export const XpmTable = ({
           <TableHead>
             <TableRow>
               {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
+                <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth }}>
                   {column.label}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                const rowKey = row['expense_id'] as string | number;
+            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+              const rowKey = row['expense_id'] as string | number;
 
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={rowKey}>
-                    {columns.map((column) => {
-                      let content: unknown = row[column.id];
+              return (
+                <TableRow hover role="checkbox" tabIndex={-1} key={rowKey}>
+                  {columns.map((column) => {
+                    let content: unknown = row[column.id];
 
-                      if (column.id === 'labels') {
-                        content =
-                          row[column.id].length === 0
-                            ? '-'
-                            : row[column.id].map((label) => (
-                                <Chip key={label.label_id} label={label.name} />
-                              ));
-                      }
+                    if (column.id === 'labels') {
+                      content =
+                        row[column.id].length === 0
+                          ? '-'
+                          : row[column.id].map((label) => <Chip key={label.label_id} label={label.name} />);
+                    }
 
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {content as ReactNode}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+                    return (
+                      <TableCell key={column.id} align={column.align}>
+                        {content as ReactNode}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>

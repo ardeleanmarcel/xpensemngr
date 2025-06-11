@@ -1,11 +1,11 @@
 import { isEqual } from 'lodash';
 import React, { useEffect, useState } from 'react';
 
-import { LabelType } from '../../../../../../api/src/models/business.models';
-import { ConstrainedRange } from '../../../../components/input/ConstrainedRange/ConstrainedRange';
-import { LabelSelector } from '../../../../components/specialized/LabelSelector';
-import { useDebounced } from '../../../../hooks/useDebounced';
-import { usePrevious } from '../../../../hooks/usePrevious';
+import { LabelType } from '../../../../../api/src/models/business.models';
+import { ConstrainedRange } from '../../../components/input/ConstrainedRange/ConstrainedRange';
+import { LabelSelector } from '../../../components/specialized/LabelSelector';
+import { useDebounced } from '../../../hooks/useDebounced';
+import { usePrevious } from '../../../hooks/usePrevious';
 
 export interface DashboardFilters {
   rangeMin: number;

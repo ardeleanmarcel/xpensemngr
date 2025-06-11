@@ -2,13 +2,13 @@ import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useEffect, useState } from 'react';
 
-import { AuthProtected } from '../../../components/utils/AuthProtected';
-import { XpmCard } from '../../../components/XpmCard';
-import { XpmCardContent } from '../../../components/XpmCardContent';
-import { XpmPaper } from '../../../components/XpmPaper';
-import { ColumnTableV2, XpmTableV2 } from '../../../components/XpmTableV2';
-import { XpmTypography } from '../../../components/XpmTypography';
-import { getAllLabels } from '../expensesUtils';
+import { getAllLabels } from '../../api/api.endpoints';
+import { AuthProtected } from '../../components/utils/AuthProtected';
+import { XpmCard } from '../../components/XpmCard';
+import { XpmCardContent } from '../../components/XpmCardContent';
+import { XpmPaper } from '../../components/XpmPaper';
+import { ColumnTableV2, XpmTableV2 } from '../../components/XpmTableV2';
+import { XpmTypography } from '../../components/XpmTypography';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -50,7 +50,7 @@ const columns: ColumnTableV2[] = [
   },
 ] as const;
 
-export const ManageLabels = () => {
+export const LabelManagement = () => {
   const classes = useStyles();
 
   const [page, setPage] = useState(0);
@@ -109,6 +109,6 @@ export const ManageLabels = () => {
 
 export const ProtectedManageLabels = () => (
   <AuthProtected>
-    <ManageLabels />
+    <LabelManagement />
   </AuthProtected>
 );

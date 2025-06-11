@@ -60,9 +60,9 @@ export function MenuNavagationV2() {
         <XpmHorizontalSeparator width="150px" />
 
         <XpmVerticalSpacer size="m" />
-        <ButtonPill text="Dashboard" onClick={() => navigate(PATH.ExpenseDashboard.Segment)} />
+        <ButtonPill text="Dashboard" onClick={() => navigate(PATH.MainDashboard.Segment)} />
         <XpmVerticalSpacer size="m" />
-        <ButtonPill text="Labels" onClick={() => navigate(PATH.ExpenseLabels.Segment)} />
+        <ButtonPill text="Labels" onClick={() => navigate(PATH.LabelManagement.Segment)} />
         <div style={{ flex: 1 }} />
         <XpmHorizontalSeparator width="250px" />
         <AccountSettings />
@@ -74,11 +74,11 @@ export function MenuNavagationV2() {
 }
 
 function getCurrentPage(path: string): PAGE | undefined {
-  if (path === PATH.ExpenseLabels.Segment) {
+  if (path === PATH.LabelManagement.Segment) {
     return PAGE.Labels;
   }
 
-  if (path === PATH.ExpenseDashboard.Segment) {
+  if (path === PATH.MainDashboard.Segment) {
     return PAGE.Dashboard;
   }
 }

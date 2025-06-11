@@ -12,11 +12,11 @@ import { AuthProtected } from './components/utils/AuthProtected';
 import { PATH } from './constants/paths';
 import { NotificationContextProvider } from './contexts/notification/NotificationContextProvider';
 import { UserContextProvider } from './contexts/user/UserContextProivder';
-import { ExpensesDashboard } from './Pages/Expenses/ExpensesDashboard/ExpensesDashboard';
-import { ProtectedManageLabels } from './Pages/Expenses/ManageLabels/ManageLabels';
-import { EmailForNewPassword } from './Pages/HomePage/EmailForNewPassword';
-import LoginWithFormik from './Pages/HomePage/HomePage';
-import Register from './Pages/Register/Register';
+import { ProtectedManageLabels } from './Pages/LabelManagement/LabelManagement';
+import LoginWithFormik from './Pages/LandingPage/LandingPage';
+import { MainDashboard } from './Pages/MainDashboard/MainDashboard';
+import { EmailForNewPassword } from './Pages/ResetPassword/ResetPassword';
+import Register from './Pages/UserRegistration/UserRegistration';
 import { VerifyEmail } from './Pages/VerifyEmail/VerifyEmail';
 
 const getDesignTokens = (mode: PaletteMode) => ({
@@ -116,16 +116,16 @@ export default function App() {
             <NotificationContextProvider>
               <Routes>
                 <Route path="/" element={<LoginWithFormik />} />
-                <Route path="register" element={<Register />} />
-                <Route path="reset-email" element={<EmailForNewPassword />} />
+                <Route path={PATH.UserRegistration.Segment} element={<Register />} />
+                <Route path={PATH.ResetPassword.Segment} element={<EmailForNewPassword />} />
                 <Route path="verify-email" element={<VerifyEmail />} />
                 <Route path="*" element={null} />
               </Routes>
               <AuthProtected shouldRedirect={false}>
                 <AppLayout>
                   <Routes>
-                    <Route path={PATH.ExpenseDashboard.Segment} element={<ExpensesDashboard />} />
-                    <Route path={PATH.ExpenseLabels.Segment} element={<ProtectedManageLabels />} />
+                    <Route path={PATH.MainDashboard.Segment} element={<MainDashboard />} />
+                    <Route path={PATH.LabelManagement.Segment} element={<ProtectedManageLabels />} />
                     <Route path="*" element={null} />
                   </Routes>
                 </AppLayout>

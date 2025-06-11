@@ -6,7 +6,7 @@ import { XpmCardContent } from '../../components/XpmCardContent';
 import { XpmStack } from '../../components/XpmStack';
 import { XpmTextField } from '../../components/XpmTextField';
 import { XpmTypography } from '../../components/XpmTypography';
-import { ModalReceivedEmail } from './ModalReceivedEmail';
+import { ModalReceivedEmail } from './components/ModalReceivedEmail';
 
 const INFO_TEXT = "Email contains '@' character";
 
@@ -14,6 +14,8 @@ export function EmailForNewPassword() {
   const [userInput, setUserInput] = useState({ email: '' });
   const [isActive, setIsActive] = useState(true);
   const [openModal, setOpenModal] = useState(false);
+
+  console.log('!!! IN EMAIL FOR NEW PASS');
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -41,12 +43,7 @@ export function EmailForNewPassword() {
     <XpmCard sx={{ width: '380px' }}>
       <XpmCardContent sx={{ marginTop: '30vh' }}>
         <XpmStack>
-          <XpmTextField
-            label="your email"
-            name="email"
-            value={userInput.email}
-            onChange={(e) => handleInput(e)}
-          />
+          <XpmTextField label="your email" name="email" value={userInput.email} onChange={(e) => handleInput(e)} />
           <XpmTypography variant="caption" text={INFO_TEXT} />
           <XpmButton
             variant="contained"
@@ -60,12 +57,7 @@ export function EmailForNewPassword() {
             onClick={handleOpenModal}
             buttonName="Submit"
           />
-          {openModal && (
-            <ModalReceivedEmail
-              handleCloseModal={handleCloseModal}
-              openModal={openModal}
-            />
-          )}
+          {openModal && <ModalReceivedEmail handleCloseModal={handleCloseModal} openModal={openModal} />}
         </XpmStack>
       </XpmCardContent>
     </XpmCard>

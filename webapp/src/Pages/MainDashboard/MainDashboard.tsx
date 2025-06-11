@@ -1,25 +1,26 @@
-import './ExpensesDashboard.scss';
+import './MainDashboard.scss';
 
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useRef, useState } from 'react';
 
-import { ExpenseGetAllFilterType } from '../../../../../api/src/domains/expenses/expense.models';
-import type { LabelType } from '../../../../../api/src/models/business.models';
-import { FilterFunnel } from '../../../components/icons/FilterFunnel/FilterFunnel';
-import { XpmLoadingSpinner } from '../../../components/info/XpmLoadingSpinner/XpmLoadingSpinner';
-import { CardV2 } from '../../../components/layout/CardV2/CardV2';
-import { AuthProtected } from '../../../components/utils/AuthProtected';
-import { XpmPaper } from '../../../components/XpmPaper';
-import { XpmTable } from '../../../components/XpmTable';
-import { XpmText } from '../../../components/XpmText/XpmText';
-import { SCREEN_SIZE } from '../../../constants/screenSize';
-import { INTERNAL_EVENT, useInternalEvents } from '../../../contexts/events/internal.events';
-import { useRunOnce } from '../../../hooks/useRunOnce';
-import { useScreenSize } from '../../../hooks/useScreenSize';
-import { columns, createData, Data, getAllExpenses, getAllLabels, getHighestAmountExpense } from '../expensesUtils';
+import { ExpenseGetAllFilterType } from '../../../../api/src/domains/expenses/expense.models';
+import type { LabelType } from '../../../../api/src/models/business.models';
+import { getAllLabels } from '../../api/api.endpoints';
+import { FilterFunnel } from '../../components/icons/FilterFunnel/FilterFunnel';
+import { XpmLoadingSpinner } from '../../components/info/XpmLoadingSpinner/XpmLoadingSpinner';
+import { CardV2 } from '../../components/layout/CardV2/CardV2';
+import { AuthProtected } from '../../components/utils/AuthProtected';
+import { XpmPaper } from '../../components/XpmPaper';
+import { XpmTable } from '../../components/XpmTable';
+import { XpmText } from '../../components/XpmText/XpmText';
+import { SCREEN_SIZE } from '../../constants/screenSize';
+import { INTERNAL_EVENT, useInternalEvents } from '../../contexts/events/internal.events';
+import { useRunOnce } from '../../hooks/useRunOnce';
+import { useScreenSize } from '../../hooks/useScreenSize';
 import { DashboardFilters, DashboardFiltersDesktop, DEFAULT_FILTERS } from './components/DashboardFiltersDesktop';
 import { TITLE } from './constants';
+import { columns, createData, Data, getAllExpenses, getHighestAmountExpense } from './utils';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles<Theme>((theme) => ({
   },
 }));
 
-export const ExpensesDashboard: React.FunctionComponent = () => {
+export const MainDashboard: React.FunctionComponent = () => {
   const classes = useStyles();
   const { subscribeTo } = useInternalEvents();
   const { screenSize } = useScreenSize();
@@ -115,7 +116,7 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
     <CardV2>
       <XpmLoadingSpinner isVisible={loading.expenses || loading.labels || loading.maxAmount} fullscreen />
       <div className={classes.container}>
-        <div className="ExpensesDashboard--title-container">
+        <div className="MainDashboard--title-container">
           <XpmText content={TITLE} size="m" />
           {screenSize !== SCREEN_SIZE.Desktop && <FilterFunnel />}
         </div>
@@ -139,7 +140,7 @@ export const ExpensesDashboard: React.FunctionComponent = () => {
 
 export const ProtectedExpensesDashboard = () => (
   <AuthProtected>
-    <ExpensesDashboard />
+    <MainDashboard />
   </AuthProtected>
 );
 

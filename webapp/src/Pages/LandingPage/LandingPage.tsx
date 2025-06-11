@@ -1,4 +1,4 @@
-import './HomePage.scss';
+import './LandingPage.scss';
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -37,7 +37,7 @@ function Home() {
 
     if (success) {
       displaySnackbar({ message: SUCCESS_MSG, type: SnackbarType.Success });
-      navigate(PATH.ExpenseDashboard.Segment);
+      navigate(PATH.MainDashboard.Segment);
     } else {
       displaySnackbar({ message: FAIL_MSG, type: SnackbarType.Error });
     }
@@ -48,8 +48,8 @@ function Home() {
   const cardWidth = screenSize === SCREEN_SIZE.Phone ? '100%' : '700px';
 
   return (
-    <div className="HomePage--background">
-      <div className="HomePage--card-container">
+    <div className="LandingPage--background">
+      <div className="LandingPage--card-container">
         <CardV2 width={cardWidth} showLoading={isSubmitting}>
           <div
             style={{
@@ -95,7 +95,7 @@ function Home() {
           />
           <XpmVerticalSpacer size="xs" />
           <div style={{ display: 'flex', justifyContent: 'flex-end', width: '450px' }}>
-            <ButtonLink text="Forgot Password" to="/forgot-password" size="xs" showUnderline={false} />
+            <ButtonLink text="Forgot Password" to={PATH.ResetPassword.Segment} size="xs" showUnderline={false} />
           </div>
           <XpmVerticalSpacer size="l" />
           <ButtonPill text="Login" onClick={handleSubmit} />
@@ -108,7 +108,7 @@ function Home() {
             }}
           >
             <XpmText content="Don't have an account?" />
-            <ButtonLink text="Register Here" to="/register" />
+            <ButtonLink text="Register Here" to={PATH.UserRegistration.Segment} />
           </div>
           <XpmVerticalSpacer size="xxl" />
           <ButtonLink text="Continue without an account" onClick={() => console.log('Continue without an account')} />

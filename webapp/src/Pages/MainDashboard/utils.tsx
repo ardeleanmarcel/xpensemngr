@@ -71,16 +71,6 @@ export const getAllExpenses = async (opts: ExpenseGetAllFilterType) => {
   }
 };
 
-export const getAllLabels = async () => {
-  try {
-    const data = await client.expenses.labels.getAll.query();
-    return data;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-};
-
 export const getHighestAmountExpense = async () => {
   try {
     const data = await client.expenses.getHighestAmount.query();

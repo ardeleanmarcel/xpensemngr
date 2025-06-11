@@ -64,7 +64,7 @@ export function UserContextProvider({ children }: Readonly<React.PropsWithChildr
   const signOut = useCallback(() => {
     localStorage.removeItem('authToken');
     setUser(null);
-    navigate(PATH.HomePage.Segment);
+    navigate(PATH.LandingPage.Segment);
     return true;
   }, [navigate]);
 

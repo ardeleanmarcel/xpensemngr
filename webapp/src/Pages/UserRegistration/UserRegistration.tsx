@@ -8,7 +8,7 @@ import { XpmCard } from '../../components/XpmCard';
 import { XpmCardContent } from '../../components/XpmCardContent';
 import { XpmTextField } from '../../components/XpmTextField';
 import { XpmTypography } from '../../components/XpmTypography';
-import { ModalRegisterMessage } from './ModalRegisterMessage';
+import { ModalRegisterMessage } from './components/ModalRegisterMessage';
 
 const inputsStyle = {
   marginBottom: '21px',

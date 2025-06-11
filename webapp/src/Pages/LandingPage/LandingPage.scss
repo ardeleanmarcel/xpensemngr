@@ -1,6 +1,6 @@
 @use '../../css//screen.scss' as screen;
 
-.HomePage--background {
+.LandingPage--background {
   height: 100%;
   position: relative;
   background-image: url(images/piggyV2.jpg); // Path relative to the public folder
@@ -14,7 +14,7 @@
   }
 }
 
-.HomePage--card-container {
+.LandingPage--card-container {
   position: absolute;
   right: 50%;
   top: 50%;
