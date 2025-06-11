@@ -3,6 +3,7 @@ import { makeStyles } from '@mui/styles';
 import { useFormikContext } from 'formik';
 import { useEffect, useState } from 'react';
 
+import { getAllLabels } from '../../../api/api.endpoints';
 import { client } from '../../../api/apiClient';
 import { LabelSelector } from '../../../components/specialized/LabelSelector';
 import { AuthProtected } from '../../../components/utils/AuthProtected';
@@ -13,7 +14,7 @@ import { XpmCardContent } from '../../../components/XpmCardContent';
 import { XpmTextField } from '../../../components/XpmTextField';
 import { XpmTypography } from '../../../components/XpmTypography';
 import { withFormik } from '../../../withFormik';
-import { getAllLabels, getCurrentDate } from '../expensesUtils';
+import { getCurrentDate } from '../../MainDashboard/utils';
 
 type FormValues = {
   amount: string;

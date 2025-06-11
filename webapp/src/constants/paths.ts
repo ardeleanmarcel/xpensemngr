@@ -19,8 +19,8 @@ export const PATH = {
     //   },
     // },
   },
-  ExpenseDashboard: {
-    Segment: '/expense-dashboard',
+  MainDashboard: {
+    Segment: '/main-dashboard',
   },
   // LabelManagement: {
   //   Segment: '/label-management',

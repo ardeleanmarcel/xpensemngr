@@ -12,9 +12,9 @@ import { AuthProtected } from './components/utils/AuthProtected';
 import { PATH } from './constants/paths';
 import { NotificationContextProvider } from './contexts/notification/NotificationContextProvider';
 import { UserContextProvider } from './contexts/user/UserContextProivder';
-import { ExpensesDashboard } from './Pages/Expenses/ExpensesDashboard/ExpensesDashboard';
 import { ProtectedManageLabels } from './Pages/LabelManagement/LabelManagement';
 import LoginWithFormik from './Pages/LandingPage/LandingPage';
+import { MainDashboard } from './Pages/MainDashboard/MainDashboard';
 import { EmailForNewPassword } from './Pages/ResetPassword/ResetPassword';
 import Register from './Pages/UserRegistration/UserRegistration';
 import { VerifyEmail } from './Pages/VerifyEmail/VerifyEmail';
@@ -124,7 +124,7 @@ export default function App() {
               <AuthProtected shouldRedirect={false}>
                 <AppLayout>
                   <Routes>
-                    <Route path={PATH.ExpenseDashboard.Segment} element={<ExpensesDashboard />} />
+                    <Route path={PATH.MainDashboard.Segment} element={<MainDashboard />} />
                     <Route path={PATH.LabelManagement.Segment} element={<ProtectedManageLabels />} />
                     <Route path="*" element={null} />
                   </Routes>
