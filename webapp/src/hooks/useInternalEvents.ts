@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 
 export enum INTERNAL_EVENT {
   AddExpenseSuccess = 'ADD_EXPENSE_SUCCESS',
+  AddLabelSuccess = 'ADD_LABEL_SUCCESS',
 }
 
 type EventCallback = () => void;
@@ -12,6 +13,7 @@ type EventSubscriptions = {
 class InternalEventCoordonator {
   subscriptions: EventSubscriptions = {
     [INTERNAL_EVENT.AddExpenseSuccess]: [],
+    [INTERNAL_EVENT.AddLabelSuccess]: [],
   };
 
   subscribeTo(event: INTERNAL_EVENT, callback: EventCallback) {
@@ -43,6 +45,7 @@ export function useInternalEvents() {
     eventCoordonator.subscribeTo(event, callback);
   }
 
+  // TODO (Valle) -> if we want to add a payload, see how intra-domain events are handled in the API
   function emitEvent(event: INTERNAL_EVENT) {
     eventCoordonator.emitEvent(event);
   }
