@@ -2,7 +2,7 @@ import './LayoutMobile.scss';
 
 import { FunctionComponent, PropsWithChildren, useState } from 'react';
 
-import { AccountSettings } from '../../../../../Pages/Expenses/AddExpenses/AccountSettings';
+import { SettingsPopoverMenu } from '../DesktopLayout/components/SettingsPopoverMenu';
 import { ThreeLines } from '../../../../icons/ThreeLines/ThreeLines';
 import { ButtonPill } from '../../../../input/ButtonPill/ButtonPill';
 import { AddExpenseDialog } from '../AddExpenseDialog';
@@ -28,7 +28,7 @@ export const LayoutMobile: FunctionComponent<PropsWithChildren> = ({ children })
               setIsAddExpenseDialogOpen(true);
             }}
           />
-          <AccountSettings />
+          <SettingsPopoverMenu />
         </div>
         <div className="LayoutMobile--content">{children}</div>
       </div>

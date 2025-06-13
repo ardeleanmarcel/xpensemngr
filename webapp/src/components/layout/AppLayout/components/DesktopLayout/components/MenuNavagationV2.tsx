@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { PAGE, PATH } from '../../../../../../constants/paths';
-import { AccountSettings } from '../../../../../../Pages/Expenses/AddExpenses/AccountSettings';
 import { XpmLogoMain } from '../../../../../icons/XpmLogoMain/XpmLogoMain';
 import { ButtonPill } from '../../../../../input/ButtonPill/ButtonPill';
 import { CardV2 } from '../../../../CardV2/CardV2';
@@ -10,6 +9,7 @@ import { XpmHorizontalSeparator } from '../../../../XpmHorizontalSeparator/XpmHo
 import { XpmVerticalSpacer } from '../../../../XpmVerticalSpacer/XpmVerticalSpacer';
 import { AddExpenseDialog } from '../../AddExpenseDialog';
 import { AddLabelDialog } from './AddLabelDialog';
+import { SettingsPopoverMenu } from './SettingsPopoverMenu';
 
 export function MenuNavagationV2() {
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ export function MenuNavagationV2() {
         <ButtonPill text="Labels" onClick={() => navigate(PATH.LabelManagement.Segment)} />
         <div style={{ flex: 1 }} />
         <XpmHorizontalSeparator width="250px" />
-        <AccountSettings />
+        <SettingsPopoverMenu />
       </CardV2>
       <AddExpenseDialog isOpen={isAddExpenseDialogOpen} onClose={() => setIsAddExpenseDialogOpen(false)} />
       <AddLabelDialog isOpen={isAddLabelDialogOpen} onClose={() => setIsAddLabelDialogOpen(false)} />

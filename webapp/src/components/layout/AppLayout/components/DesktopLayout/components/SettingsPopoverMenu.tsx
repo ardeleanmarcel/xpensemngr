@@ -8,11 +8,11 @@ import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import { useContext, useState } from 'react';
 
-import { ColorModeContext } from '../../../App';
-import { XpmBox } from '../../../components/XpmBox';
-import { useUser } from '../../../contexts/user/user.context';
+import { ColorModeContext } from '../../../../../../App';
+import { useUser } from '../../../../../../contexts/user/user.context';
+import { XpmBox } from '../../../../../XpmBox';
 
-export function AccountSettings() {
+export function SettingsPopoverMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const { toggleColorMode } = useContext(ColorModeContext);
