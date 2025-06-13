@@ -4,7 +4,7 @@ import './css/colors.scss';
 import './css/fonts.scss';
 
 import { createTheme, GlobalStyles, PaletteMode, ThemeProvider } from '@mui/material';
-import React, { createContext, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { AppLayout } from './components/layout/AppLayout/AppLayout';
@@ -12,6 +12,7 @@ import { AuthProtected } from './components/utils/AuthProtected';
 import { PATH } from './constants/paths';
 import { ModalContextProvider } from './contexts/modal/ModalContextProvider';
 import { NotificationContextProvider } from './contexts/notification/NotificationContextProvider';
+import { ColorThemeProvider } from './contexts/theme/theme.context';
 import { UserContextProvider } from './contexts/user/UserContextProivder';
 import { ProtectedManageLabels } from './Pages/LabelManagement/LabelManagement';
 import LoginWithFormik from './Pages/LandingPage/LandingPage';
@@ -76,14 +77,6 @@ const getDesignTokens = (mode: PaletteMode) => ({
   },
 });
 
-export const ColorModeContext = createContext<{
-  mode: PaletteMode;
-  toggleColorMode: () => void;
-}>({
-  mode: 'dark',
-  toggleColorMode: () => {},
-});
-
 export default function App() {
   const [mode, setMode] = useState<PaletteMode>('light');
 
@@ -105,7 +98,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <UserContextProvider>
-        <ColorModeContext.Provider value={themeContext}>
+        <ColorThemeProvider value={themeContext}>
           <ThemeProvider theme={theme}>
             <GlobalStyles
               styles={{
@@ -135,7 +128,7 @@ export default function App() {
               </ModalContextProvider>
             </NotificationContextProvider>
           </ThemeProvider>
-        </ColorModeContext.Provider>
+        </ColorThemeProvider>
       </UserContextProvider>
     </BrowserRouter>
   );

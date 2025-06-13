@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "vite --host",
     "build": "rm -rf dist && tsc && vite build",
+    "check:arch": "dependency-cruise src",
     "check:ts": "tsc --noEmit --skipLibCheck",
     "lint": "eslint --fix -c eslint.config.js",
     "preview": "vite preview",
@@ -46,6 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^8.18.0",
     "@typescript-eslint/parser": "^8.18.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "dependency-cruiser": "^16.10.2",
     "eslint": "^9.17.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.5",

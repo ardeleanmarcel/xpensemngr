@@ -1,13 +1,13 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { client } from '../../api/apiClient';
-import { ColorModeContext } from '../../App';
 import { XpmButton } from '../../components/XpmButton';
 import { XpmCard } from '../../components/XpmCard';
 import { XpmCardContent } from '../../components/XpmCardContent';
 import { XpmTextField } from '../../components/XpmTextField';
 import { XpmTypography } from '../../components/XpmTypography';
+import { useColorTheme } from '../../contexts/theme/theme.context';
 import { ModalRegisterMessage } from './components/ModalRegisterMessage';
 
 const inputsStyle = {
@@ -36,7 +36,7 @@ const INFO_TEXT = 'You already have an account? Login below';
 
 export default function Register() {
   const navigate = useNavigate();
-  const { mode } = useContext(ColorModeContext);
+  const { mode } = useColorTheme();
 
   const [userInput, setUserInput] = useState({
     firstName: '',
