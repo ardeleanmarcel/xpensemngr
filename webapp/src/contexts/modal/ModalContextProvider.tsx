@@ -1,9 +1,10 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { AddExpenseDialog } from '../../components/modals/AddExpense/AddExpenseDialog';
+import { AddLabelDialog } from '../../components/modals/AddLabel/AddLabelDialog';
 import { Modal, modalContext, ShowModalOptions } from './modal.context';
 
-export function ModalContextProvider({ children }: React.PropsWithChildren) {
+export function ModalContextProvider({ children }: Readonly<React.PropsWithChildren>) {
   const [isVisible, setIsVisible] = useState(false);
   const [modal, setModal] = useState<Modal | null>(null);
   const [modalProps, setModalProps] = useState<Record<string, unknown>>({});
@@ -32,7 +33,7 @@ export function ModalContextProvider({ children }: React.PropsWithChildren) {
         return <AddExpenseDialog isOpen={isVisible} onClose={resetState} {...modalProps} />;
       case Modal.AddLabel:
         // Replace with actual AddLabelDialog when implemented
-        return <AddExpenseDialog isOpen={isVisible} onClose={resetState} {...modalProps} />;
+        return <AddLabelDialog isOpen={isVisible} onClose={resetState} {...modalProps} />;
       default:
         return null;
     }

@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
-import { client } from '../../../../../../api/apiClient';
-import { ButtonPill } from '../../../../../input/ButtonPill/ButtonPill';
-import { InputText } from '../../../../../input/InputText/InputText';
-import { XpmText } from '../../../../../XpmText/XpmText';
-import { BasicDialog } from '../../../../BasicDialog/BasicDialog';
-import { XpmHorizontalSeparator } from '../../../../XpmHorizontalSeparator/XpmHorizontalSeparator';
-import { XpmVerticalSpacer } from '../../../../XpmVerticalSpacer/XpmVerticalSpacer';
+import { client } from '../../../api/apiClient';
+import { ButtonPill } from '../../input/ButtonPill/ButtonPill';
+import { InputText } from '../../input/InputText/InputText';
+import { BasicDialog } from '../../layout/BasicDialog/BasicDialog';
+import { XpmHorizontalSeparator } from '../../layout/XpmHorizontalSeparator/XpmHorizontalSeparator';
+import { XpmVerticalSpacer } from '../../layout/XpmVerticalSpacer/XpmVerticalSpacer';
+import { XpmText } from '../../XpmText/XpmText';
 
 interface AddExpenseDialogProps extends React.PropsWithChildren {
   isOpen: boolean;
