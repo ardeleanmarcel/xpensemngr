@@ -15,5 +15,5 @@ export const InternalEventNotifier = () => {
     });
   });
 
-  return <div>InternalEventNotifier</div>;
+  return null;
 };

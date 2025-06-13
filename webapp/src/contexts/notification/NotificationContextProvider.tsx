@@ -1,17 +1,19 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import { InternalEventNotifier } from './InternalEventNotifier';
 import { notificationContext, SnackbarConfig, SnackbarType } from './notification.context';
 import { NotificationSnackbar } from './NotificationSnackbar';
 
-export function NotificationContextProvider({ children }: React.PropsWithChildren) {
+export function NotificationContextProvider({ children }: Readonly<React.PropsWithChildren>) {
   const [message, setMessage] = useState('');
   const [type, setType] = useState<SnackbarType>(SnackbarType.Success);
+  // TODO (Valle) -> setting visibility in the context provider will trigger a re-render
+  // of all components that use the notification context, which is not ideal.
   const [isVisible, setIsVisible] = useState(false);
 
   const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  function displaySnackbar({ message, type }: SnackbarConfig) {
+  const displaySnackbar = useCallback(({ message, type }: SnackbarConfig) => {
     setMessage(message);
     setIsVisible(true);
     setType(type);
@@ -20,7 +22,7 @@ export function NotificationContextProvider({ children }: React.PropsWithChildre
       setMessage('');
       setIsVisible(false);
     }, 5_000);
-  }
+  }, []);
 
   function onClose() {
     if (timeout.current) {
@@ -32,8 +34,17 @@ export function NotificationContextProvider({ children }: React.PropsWithChildre
     setIsVisible(false);
   }
 
+  const contextValue = useMemo(
+    () => ({
+      displaySnackbar,
+      isVisible,
+      message,
+    }),
+    [displaySnackbar, isVisible, message]
+  );
+
   return (
-    <notificationContext.Provider value={{ displaySnackbar, isVisible, message }}>
+    <notificationContext.Provider value={contextValue}>
       <InternalEventNotifier />
       <NotificationSnackbar isOpen={isVisible} message={message} type={type} onClose={onClose} />
       {children}

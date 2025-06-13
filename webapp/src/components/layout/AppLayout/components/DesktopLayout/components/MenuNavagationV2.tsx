@@ -55,9 +55,9 @@ export function MenuNavagationV2() {
       <XpmHorizontalSeparator width="150px" />
 
       <XpmVerticalSpacer size="m" />
-      <ButtonPill text="Dashboard" onClick={() => navigate(PATH.MainDashboard.Segment)} />
+      <ButtonPill text="Dashboard" onClick={() => navigate(PATH.MainDashboard.Segment)} variant="secondary" />
       <XpmVerticalSpacer size="m" />
-      <ButtonPill text="Labels" onClick={() => navigate(PATH.LabelManagement.Segment)} />
+      <ButtonPill text="Labels" onClick={() => navigate(PATH.LabelManagement.Segment)} variant="secondary" />
       <div style={{ flex: 1 }} />
       <XpmHorizontalSeparator width="250px" />
       <SettingsPopoverMenu />
