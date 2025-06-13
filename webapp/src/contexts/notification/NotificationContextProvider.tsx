@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 
+import { InternalEventNotifier } from './InternalEventNotifier';
 import { notificationContext, SnackbarConfig, SnackbarType } from './notification.context';
 import { NotificationSnackbar } from './NotificationSnackbar';
 
@@ -33,6 +34,7 @@ export function NotificationContextProvider({ children }: React.PropsWithChildre
 
   return (
     <notificationContext.Provider value={{ displaySnackbar, isVisible, message }}>
+      <InternalEventNotifier />
       <NotificationSnackbar isOpen={isVisible} message={message} type={type} onClose={onClose} />
       {children}
     </notificationContext.Provider>
