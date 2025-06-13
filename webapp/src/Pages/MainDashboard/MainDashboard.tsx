@@ -15,7 +15,7 @@ import { XpmPaper } from '../../components/XpmPaper';
 import { XpmTable } from '../../components/XpmTable';
 import { XpmText } from '../../components/XpmText/XpmText';
 import { SCREEN_SIZE } from '../../constants/screenSize';
-import { INTERNAL_EVENT, useInternalEvents } from '../../contexts/events/internal.events';
+import { INTERNAL_EVENT, useInternalEvents } from '../../hooks/useInternalEvents';
 import { useRunOnce } from '../../hooks/useRunOnce';
 import { useScreenSize } from '../../hooks/useScreenSize';
 import { DashboardFilters, DashboardFiltersDesktop, DEFAULT_FILTERS } from './components/DashboardFiltersDesktop';

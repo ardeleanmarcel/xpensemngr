@@ -10,6 +10,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppLayout } from './components/layout/AppLayout/AppLayout';
 import { AuthProtected } from './components/utils/AuthProtected';
 import { PATH } from './constants/paths';
+import { ModalContextProvider } from './contexts/modal/ModalContextProvider';
 import { NotificationContextProvider } from './contexts/notification/NotificationContextProvider';
 import { UserContextProvider } from './contexts/user/UserContextProivder';
 import { ProtectedManageLabels } from './Pages/LabelManagement/LabelManagement';
@@ -114,22 +115,24 @@ export default function App() {
               }}
             />
             <NotificationContextProvider>
-              <Routes>
-                <Route path="/" element={<LoginWithFormik />} />
-                <Route path={PATH.UserRegistration.Segment} element={<Register />} />
-                <Route path={PATH.ResetPassword.Segment} element={<EmailForNewPassword />} />
-                <Route path="verify-email" element={<VerifyEmail />} />
-                <Route path="*" element={null} />
-              </Routes>
-              <AuthProtected shouldRedirect={false}>
-                <AppLayout>
-                  <Routes>
-                    <Route path={PATH.MainDashboard.Segment} element={<MainDashboard />} />
-                    <Route path={PATH.LabelManagement.Segment} element={<ProtectedManageLabels />} />
-                    <Route path="*" element={null} />
-                  </Routes>
-                </AppLayout>
-              </AuthProtected>
+              <ModalContextProvider>
+                <Routes>
+                  <Route path="/" element={<LoginWithFormik />} />
+                  <Route path={PATH.UserRegistration.Segment} element={<Register />} />
+                  <Route path={PATH.ResetPassword.Segment} element={<EmailForNewPassword />} />
+                  <Route path="verify-email" element={<VerifyEmail />} />
+                  <Route path="*" element={null} />
+                </Routes>
+                <AuthProtected shouldRedirect={false}>
+                  <AppLayout>
+                    <Routes>
+                      <Route path={PATH.MainDashboard.Segment} element={<MainDashboard />} />
+                      <Route path={PATH.LabelManagement.Segment} element={<ProtectedManageLabels />} />
+                      <Route path="*" element={null} />
+                    </Routes>
+                  </AppLayout>
+                </AuthProtected>
+              </ModalContextProvider>
             </NotificationContextProvider>
           </ThemeProvider>
         </ColorModeContext.Provider>
