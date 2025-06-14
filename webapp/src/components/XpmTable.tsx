@@ -1,7 +1,7 @@
 import { Chip, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
 import React, { ReactNode } from 'react';
 
-import { Column, Data } from '../Pages/MainDashboard/mainDashboard.utils';
+import { Data } from '../Pages/MainDashboard/mainDashboard.utils';
 
 const tableRowStyle = {
   '& .MuiTableRow-root': {
@@ -15,9 +15,17 @@ const tableRowStyle = {
   },
 };
 
+export interface Column {
+  id: 'description' | 'amount' | 'date_expended_at' | 'labels';
+  label: string;
+  minWidth?: number;
+  width?: `${number}%`;
+  align?: 'center';
+}
+
 type XpmTableProps = {
   columns: Column[];
-  rows: Data[];
+  rows: Data[]; // TODO (Valle) -> Data is specific to MainDashboard, consider making it more generic or passing a type parameter
   rowsPerPage: number;
   page: number;
   handleChangePage: (event: unknown, newPage: number) => void;
@@ -71,7 +79,7 @@ export const XpmTable = ({ columns, rows, rowsPerPage, page, handleChangePage, h
           <TableHead>
             <TableRow>
               {columns.map((column) => (
-                <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth }}>
+                <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth, width: column.width }}>
                   {column.label}
                 </TableCell>
               ))}
