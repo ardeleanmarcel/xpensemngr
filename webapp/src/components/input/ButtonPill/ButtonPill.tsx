@@ -2,7 +2,7 @@ import './ButtonPill.scss';
 
 import cn from 'classnames';
 
-import { IconComponent } from '../../icons/MoneyBills/MoneyBills';
+import type { IconComponent } from '../../icons/icon.types';
 
 export type ButtonPillVariant = 'primary' | 'secondary';
 
@@ -43,8 +43,11 @@ const getIconStyle = (Icon: IconComponent): React.CSSProperties => {
   };
 
   if (Icon.name === 'MoneyBills') {
-    stl.height = '18px';
     stl.paddingTop = '2px';
+  }
+
+  if (Icon.name === 'TableList') {
+    stl.paddingLeft = '3px';
   }
 
   return stl;

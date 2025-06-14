@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { PAGE, PATH } from '../../../../../../constants/paths';
 import { Modal, useModal } from '../../../../../../contexts/modal/modal.context';
 import { MoneyBills } from '../../../../../icons/MoneyBills/MoneyBills';
+import { TableList } from '../../../../../icons/TableList/TableList';
 import { XpmLogoMain } from '../../../../../icons/XpmLogoMain/XpmLogoMain';
 import { ButtonPill } from '../../../../../input/ButtonPill/ButtonPill';
 import { CardV2 } from '../../../../CardV2/CardV2';
@@ -56,7 +57,13 @@ export function MenuNavagationV2() {
       <XpmHorizontalSeparator width="150px" />
 
       <XpmVerticalSpacer size="m" />
-      <ButtonPill text="Dashboard" onClick={() => navigate(PATH.MainDashboard.Segment)} variant="secondary" />
+      <ButtonPill
+        text="Dashboard"
+        Icon={TableList}
+        contentAlignment="left"
+        onClick={() => navigate(PATH.MainDashboard.Segment)}
+        variant="secondary"
+      />
       <XpmVerticalSpacer size="m" />
       <ButtonPill text="Labels" onClick={() => navigate(PATH.LabelManagement.Segment)} variant="secondary" />
       <div style={{ flex: 1 }} />

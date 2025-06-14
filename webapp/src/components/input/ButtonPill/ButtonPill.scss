@@ -43,6 +43,7 @@ $base-shadow: 0px 4px 4px 0px colors.$black-1000-opacity-25;
   &--secondary {
     background-color: colors.$green-500-opacity-25;
     color: colors.$black-1000;
+    @include fonts.font-semibold-xs;
 
     &:hover {
       background-color: colors.$green-500-opacity-50;
