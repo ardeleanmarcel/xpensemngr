@@ -19,6 +19,10 @@ $base-shadow: 0px 4px 4px 0px colors.$black-1000-opacity-25;
 
   box-shadow: $base-shadow;
 
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
   &:hover {
     background-color: colors.$green-700;
   }
@@ -46,6 +50,27 @@ $base-shadow: 0px 4px 4px 0px colors.$black-1000-opacity-25;
 
     &:focus {
       box-shadow: $base-shadow, 0 0 10px colors.$green-500-opacity-50;
+    }
+  }
+
+  &--content-alignment--left {
+    justify-content: flex-start;
+  }
+
+  &--content-alignment--center {
+    justify-content: center;
+  }
+
+  &--with-icon {
+    gap: 8px;
+
+    padding-left: 16px;
+    padding-right: 16px;
+
+    .ButtonPill--icon {
+      width: 4px;
+      height: 4px;
+      fill: currentColor; // Ensures icon color matches text color
     }
   }
 }

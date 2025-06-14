@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { PAGE, PATH } from '../../../../../../constants/paths';
 import { Modal, useModal } from '../../../../../../contexts/modal/modal.context';
+import { MoneyBills } from '../../../../../icons/MoneyBills/MoneyBills';
 import { XpmLogoMain } from '../../../../../icons/XpmLogoMain/XpmLogoMain';
 import { ButtonPill } from '../../../../../input/ButtonPill/ButtonPill';
 import { CardV2 } from '../../../../CardV2/CardV2';
@@ -44,7 +45,7 @@ export function MenuNavagationV2() {
       <XpmHorizontalSeparator width="150px" />
       <XpmVerticalSpacer size="m" />
 
-      <ButtonPill text="Add Expense" onClick={() => show({ type: Modal.AddExpense })} />
+      <ButtonPill text="Add Expense" Icon={MoneyBills} contentAlignment="left" onClick={() => show({ type: Modal.AddExpense })} />
       <XpmVerticalSpacer size="m" />
       {currentPage && (
         <>
