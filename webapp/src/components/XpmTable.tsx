@@ -1,7 +1,19 @@
 import { Chip, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
 import React, { ReactNode } from 'react';
 
-import { Column, Data } from '../Pages/MainDashboard/utils';
+import { Column, Data } from '../Pages/MainDashboard/mainDashboard.utils';
+
+const tableRowStyle = {
+  '& .MuiTableRow-root': {
+    height: '52px',
+    maxHeight: '52px',
+  },
+  '& .MuiTableCell-root': {
+    padding: '4px 16px',
+    height: '52px',
+    maxHeight: '52px',
+  },
+};
 
 type XpmTableProps = {
   columns: Column[];
@@ -13,10 +25,49 @@ type XpmTableProps = {
 };
 
 export const XpmTable = ({ columns, rows, rowsPerPage, page, handleChangePage, handleChangeRowsPerPage }: XpmTableProps) => {
+  const computedRows = rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+    const rowKey = row['expense_id'] as string | number;
+
+    return (
+      <TableRow hover role="checkbox" tabIndex={-1} key={rowKey}>
+        {columns.map((column) => {
+          let content: unknown = row[column.id];
+
+          if (column.id === 'labels') {
+            content =
+              row[column.id].length === 0
+                ? '-'
+                : row[column.id].map((label) => <Chip key={label.label_id} label={label.name} style={{ marginLeft: '4px' }} />);
+          }
+
+          return (
+            <TableCell key={column.id} align={column.align}>
+              {content as ReactNode}
+            </TableCell>
+          );
+        })}
+      </TableRow>
+    );
+  });
+
+  if (computedRows.length < 10) {
+    // Fill empty rows if there are less than 10 rows to maintain table structure
+    const emptyRows = 10 - computedRows.length;
+    for (let i = 0; i < emptyRows; i++) {
+      computedRows.push(
+        <TableRow key={`empty-row-${i}`} style={{ maxHeight: 24, height: 24 }}>
+          <TableCell colSpan={columns.length} />
+        </TableRow>
+      );
+    }
+  }
+
+  console.log('computedRows', computedRows);
+
   return (
     <>
       <TableContainer>
-        <Table stickyHeader aria-label="sticky table">
+        <Table stickyHeader aria-label="sticky table" sx={tableRowStyle}>
           <TableHead>
             <TableRow>
               {columns.map((column) => (
@@ -26,32 +77,7 @@ export const XpmTable = ({ columns, rows, rowsPerPage, page, handleChangePage, h
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-              const rowKey = row['expense_id'] as string | number;
-
-              return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={rowKey}>
-                  {columns.map((column) => {
-                    let content: unknown = row[column.id];
-
-                    if (column.id === 'labels') {
-                      content =
-                        row[column.id].length === 0
-                          ? '-'
-                          : row[column.id].map((label) => <Chip key={label.label_id} label={label.name} />);
-                    }
-
-                    return (
-                      <TableCell key={column.id} align={column.align}>
-                        {content as ReactNode}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
-          </TableBody>
+          <TableBody>{computedRows}</TableBody>
         </Table>
       </TableContainer>
       <TablePagination

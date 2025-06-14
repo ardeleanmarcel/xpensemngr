@@ -1,1 +1,1 @@
-export const TITLE = 'Expenses Dashboard';
+export const TITLE = 'Main Dashboard';

@@ -20,10 +20,12 @@ import { useRunOnce } from '../../hooks/useRunOnce';
 import { useScreenSize } from '../../hooks/useScreenSize';
 import { DashboardFilters, DashboardFiltersDesktop, DEFAULT_FILTERS } from './components/DashboardFiltersDesktop';
 import { TITLE } from './constants';
-import { columns, createData, Data, getAllExpenses, getHighestAmountExpense } from './utils';
+import { columns, createData, Data, getAllExpenses, getHighestAmountExpense } from './mainDashboard.utils';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
+    width: '100%',
+    maxWidth: '1200px',
     display: 'grid',
     gap: '20px',
   },
@@ -114,7 +116,7 @@ export const MainDashboard: React.FunctionComponent = () => {
 
   return (
     <CardV2>
-      <XpmLoadingSpinner isVisible={loading.expenses || loading.labels || loading.maxAmount} fullscreen />
+      <XpmLoadingSpinner isVisible={loading.expenses || loading.labels || loading.maxAmount} />
       <div className={classes.container}>
         <div className="MainDashboard--title-container">
           <XpmText content={TITLE} size="m" />

@@ -13,3 +13,4 @@
 - [ ] Update husky hook to only run checks in a project folder IF there are changes in that folder
 - [ ] Split pages into public and private
 - [ ] !! BUG !! Navigating causes the entire webapp to reload. react router misconfiguration? migrate to v7?
+- [ ] Add dependency cruiser rule to prevent modules in "components" from importing from "pages"
