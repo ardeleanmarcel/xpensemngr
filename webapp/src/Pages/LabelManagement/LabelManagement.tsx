@@ -4,19 +4,20 @@ import { useState } from 'react';
 
 import { getAllLabels } from '../../api/api.endpoints';
 import { XpmLoadingSpinner } from '../../components/info/XpmLoadingSpinner/XpmLoadingSpinner';
+import { CardV2 } from '../../components/layout/CardV2/CardV2';
 import { AuthProtected } from '../../components/utils/AuthProtected';
-import { XpmCard } from '../../components/XpmCard';
-import { XpmCardContent } from '../../components/XpmCardContent';
 import { XpmPaper } from '../../components/XpmPaper';
 import { ColumnTableV2, XpmTableV2 } from '../../components/XpmTableV2';
-import { XpmTypography } from '../../components/XpmTypography';
+import { XpmText } from '../../components/XpmText/XpmText';
 import { INTERNAL_EVENT, useInternalEvents } from '../../hooks/useInternalEvents';
 import { useRunOnce } from '../../hooks/useRunOnce';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
     display: 'grid',
-    gap: '50px',
+    gap: '20px',
+    width: '100%',
+    maxWidth: '1200px',
   },
   title: {
     color: theme.palette.text.primary,
@@ -91,31 +92,24 @@ export const LabelManagement = () => {
   });
 
   return (
-    <XpmCard>
-      <XpmCardContent
-        sx={{
-          textAlign: 'left',
-          marginTop: '30px',
-        }}
-      >
-        <XpmLoadingSpinner isVisible={loading} />
-
-        <div className={classes.container}>
-          <XpmTypography variant="h4" component="h2" align="center" className={classes.title} text="LABELURI" />
-
-          <XpmPaper sx={{ width: '100%' }}>
-            <XpmTableV2
-              columns={columns}
-              rows={labels.map((l) => ({ ...l, key: l.label_id }))}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              handleChangePage={handleChangePage}
-              handleChangeRowsPerPage={handleChangeRowsPerPage}
-            />
-          </XpmPaper>
+    <CardV2>
+      <XpmLoadingSpinner isVisible={loading} />
+      <div className={classes.container}>
+        <div style={{ height: '200px' }}>
+          <XpmText content="Labels" size="m" />
         </div>
-      </XpmCardContent>
-    </XpmCard>
+        <XpmPaper sx={{ width: '100%' }}>
+          <XpmTableV2
+            columns={columns}
+            rows={labels.map((l) => ({ ...l, key: l.label_id }))}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            handleChangePage={handleChangePage}
+            handleChangeRowsPerPage={handleChangeRowsPerPage}
+          />
+        </XpmPaper>
+      </div>
+    </CardV2>
   );
 };
 

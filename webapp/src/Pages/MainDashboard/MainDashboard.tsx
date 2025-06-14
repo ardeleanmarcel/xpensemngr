@@ -118,13 +118,15 @@ export const MainDashboard: React.FunctionComponent = () => {
     <CardV2>
       <XpmLoadingSpinner isVisible={loading.expenses || loading.labels || loading.maxAmount} />
       <div className={classes.container}>
-        <div className="MainDashboard--title-container">
-          <XpmText content={TITLE} size="m" />
-          {screenSize !== SCREEN_SIZE.Desktop && <FilterFunnel />}
+        <div data-testid="page-header" style={{ height: '200px' }}>
+          <div className="MainDashboard--title-container">
+            <XpmText content={TITLE} size="m" />
+            {screenSize !== SCREEN_SIZE.Desktop && <FilterFunnel />}
+          </div>
+          {screenSize === SCREEN_SIZE.Desktop && (
+            <DashboardFiltersDesktop availableLabels={labels} maxAmount={maxAmount} onFilterChange={handleFilterChange} />
+          )}
         </div>
-        {screenSize === SCREEN_SIZE.Desktop && (
-          <DashboardFiltersDesktop availableLabels={labels} maxAmount={maxAmount} onFilterChange={handleFilterChange} />
-        )}
         <XpmPaper sx={{ width: '100%' }}>
           <XpmTable
             columns={columns}
