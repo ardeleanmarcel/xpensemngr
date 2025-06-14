@@ -10,7 +10,8 @@ interface XpmCardProps {
   height?: string;
   minHeight?: string;
   showLoading?: boolean;
-  padding?: 'm' | 'l';
+  padding?: 's' | 'm' | 'l';
+  shadow?: 'regular' | 'reduced';
 }
 
 export function CardV2({
@@ -18,19 +19,14 @@ export function CardV2({
   height,
   minHeight,
   padding = 'm',
+  shadow = 'regular',
   showLoading = false,
   children,
 }: React.PropsWithChildren<XpmCardProps>) {
   const style = cleanObject({ width, height, minHeight });
 
   return (
-    <div
-      className={cn('XpmCard', {
-        'XpmCard--padding-m': padding === 'm',
-        'XpmCard--padding-l': padding === 'l',
-      })}
-      style={style}
-    >
+    <div className={cn('XpmCard', `XpmCard--shadow-${shadow}`, `XpmCard--padding-${padding}`)} style={style}>
       {children}
       <XpmLoadingSpinner isVisible={showLoading} />
     </div>
