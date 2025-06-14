@@ -7,7 +7,7 @@ import { XpmLoadingSpinner } from '../../components/info/XpmLoadingSpinner/XpmLo
 import { CardV2 } from '../../components/layout/CardV2/CardV2';
 import { AuthProtected } from '../../components/utils/AuthProtected';
 import { XpmPaper } from '../../components/XpmPaper';
-import { ColumnTableV2, XpmTableV2 } from '../../components/XpmTableV2';
+import { TableV2Column, XpmTableV2 } from '../../components/XpmTableV2';
 import { XpmText } from '../../components/XpmText/XpmText';
 import { INTERNAL_EVENT, useInternalEvents } from '../../hooks/useInternalEvents';
 import { useRunOnce } from '../../hooks/useRunOnce';
@@ -38,18 +38,20 @@ interface LabelData {
   description?: string;
 }
 
-const columns: ColumnTableV2[] = [
-  { id: 'label_id', label: 'ID', minWidth: 170, align: 'center' },
+const columns: TableV2Column[] = [
+  { id: 'label_id', label: 'ID', minWidth: 170, align: 'center', width: '10%' },
   {
     id: 'name',
     label: 'NAME',
     minWidth: 170,
+    width: '30%',
     align: 'center',
   },
   {
     id: 'description',
     label: 'DESCRIPTION',
     minWidth: 170,
+    width: '60%',
     align: 'center',
   },
 ] as const;

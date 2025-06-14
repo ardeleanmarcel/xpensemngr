@@ -1,9 +1,10 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
 
-export interface ColumnTableV2 {
+export interface TableV2Column {
   id: string;
   label: string;
   minWidth?: number;
+  width?: `${number}%`;
   align?: 'left' | 'center' | 'right';
 }
 
@@ -13,7 +14,7 @@ interface Row {
 }
 
 type XpmTableProps = {
-  columns: ColumnTableV2[];
+  columns: TableV2Column[];
   rows: Row[];
   rowsPerPage: number;
   page: number;
@@ -68,7 +69,7 @@ export const XpmTableV2 = ({ columns, rows, rowsPerPage, page, handleChangePage,
           <TableHead>
             <TableRow style={{ height: 24 }}>
               {columns.map((column) => (
-                <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth }}>
+                <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth, width: column.width }}>
                   {column.label}
                 </TableCell>
               ))}
