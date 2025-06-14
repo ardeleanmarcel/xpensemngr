@@ -52,7 +52,13 @@ export function MenuNavagationV2() {
       <XpmVerticalSpacer size="m" />
       {currentPage && (
         <>
-          <ButtonPill text={secondaryItemText} Icon={SquarePlus} contentAlignment="left" onClick={handleSecondaryItemClick} />
+          <ButtonPill
+            text={secondaryItemText}
+            Icon={SquarePlus}
+            contentAlignment="left"
+            onClick={handleSecondaryItemClick}
+            disabled={currentPage === PAGE.Dashboard}
+          />
           <XpmVerticalSpacer size="m" />
         </>
       )}
@@ -63,6 +69,7 @@ export function MenuNavagationV2() {
         text="Dashboard"
         Icon={TableList}
         contentAlignment="left"
+        disabled={currentPage === PAGE.Dashboard}
         onClick={() => navigate(PATH.MainDashboard.Segment)}
         variant="secondary"
       />
@@ -71,6 +78,7 @@ export function MenuNavagationV2() {
         text="Labels"
         Icon={BagTags}
         contentAlignment="left"
+        disabled={currentPage === PAGE.Labels}
         onClick={() => navigate(PATH.LabelManagement.Segment)}
         variant="secondary"
       />
