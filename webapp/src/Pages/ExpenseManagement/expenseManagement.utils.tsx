@@ -1,12 +1,6 @@
 import type { ExpenseGetAllFilterType } from '../../../../api/src/domains/expenses/expense.models';
 import { client } from '../../api/apiClient';
-
-export interface Column {
-  id: 'description' | 'amount' | 'date_expended_at' | 'labels';
-  label: string;
-  minWidth?: number;
-  align?: 'center';
-}
+import { Column } from '../../components/XpmTable';
 
 export interface Data {
   description: string;
@@ -21,23 +15,26 @@ export interface Data {
 }
 
 export const columns: Column[] = [
-  { id: 'description', label: 'Description', minWidth: 170, align: 'center' },
+  { id: 'description', label: 'Description', minWidth: 170, width: '30%', align: 'center' },
   {
     id: 'amount',
     label: 'Amount',
     minWidth: 170,
+    width: '10%',
     align: 'center',
   },
   {
     id: 'date_expended_at',
     label: 'Date',
     minWidth: 170,
+    width: '10%',
     align: 'center',
   },
   {
     id: 'labels',
     label: 'Labels',
     minWidth: 170,
+    width: '50%',
     align: 'center',
   },
 ];

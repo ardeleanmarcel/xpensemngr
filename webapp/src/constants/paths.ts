@@ -1,6 +1,7 @@
 // TODO (Valle) -> find a "recursive" obect structure for this. maybe a tree? maybe create a class?
 export enum PAGE {
-  Dashboard = 'DASHBOARD',
+  FinancialDashboard = 'FINANCIAL_DASHBOARD',
+  ExpenseManagement = 'EXPENSE_MANAGEMENT',
   Labels = 'LABELS',
   Home = 'HOME',
 }
@@ -19,8 +20,11 @@ export const PATH = {
     //   },
     // },
   },
-  MainDashboard: {
-    Segment: '/main-dashboard',
+  FinancialDashboard: {
+    Segment: '/financial-dashboard',
+  },
+  ExpenseManagement: {
+    Segment: '/expense-management',
   },
   // LabelManagement: {
   //   Segment: '/label-management',

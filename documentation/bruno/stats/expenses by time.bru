@@ -1,0 +1,11 @@
+meta {
+  name: expenses by time
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:3000/trpc/stats.expensesByTime
+  body: none
+  auth: inherit
+}

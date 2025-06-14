@@ -4,7 +4,7 @@ import { getAllLabels } from '../../../api/api.endpoints';
 import { client } from '../../../api/apiClient';
 import { SnackbarType, useNotification } from '../../../contexts/notification/notification.context';
 import { INTERNAL_EVENT, useInternalEvents } from '../../../hooks/useInternalEvents';
-import { getCurrentDate } from '../../../Pages/MainDashboard/utils';
+import { getCurrentDate } from '../../../Pages/ExpenseManagement/expenseManagement.utils';
 import { ButtonPill } from '../../input/ButtonPill/ButtonPill';
 import { InputText } from '../../input/InputText/InputText';
 import { BasicDialog } from '../../layout/BasicDialog/BasicDialog';

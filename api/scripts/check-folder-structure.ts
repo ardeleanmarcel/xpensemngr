@@ -18,7 +18,7 @@ const config: Array<Folder> = [
       { name: 'constants' },
       {
         name: 'domains',
-        subfolders: [{ name: 'auth' }, { name: 'expenses' }, { name: 'users' }],
+        subfolders: [{ name: 'auth' }, { name: 'expenses' }, { name: 'stats' }, { name: 'users' }],
       },
       { name: 'models' },
       {

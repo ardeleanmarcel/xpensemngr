@@ -9,3 +9,13 @@ export const getAllLabels = async () => {
     return [];
   }
 };
+
+export const getExpensesByTime = async () => {
+  try {
+    const data = await client.stats.expensesByTime.query();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};

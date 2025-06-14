@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { sqlClient, SqlTransaction } from '../../services/database/client.sql.ts';
-import { ExpenseCreateType, expenseSchema } from '../../domains/expenses/expense.models.ts';
+import { ExpenseCreateType } from '../../domains/expenses/expense.models.ts';
+import { expenseSchema, labelSchema } from '../../models/business.models.ts';
 import { Filter } from '../../services/database/database.utils.ts';
 import {
   composeLimitClause,
@@ -8,7 +9,6 @@ import {
   composeWhereClause,
   getSqlQueryBindings,
 } from '../../services/database/sql.utils.ts';
-import { labelSchema } from '../../models/business.models.ts';
 import { OrderBy } from '../../services/database/sql.types.ts';
 import { throwHttpError } from '../../services/error/error.utils.ts';
 import { HTTP_ERR } from '../../services/error/http.errors.ts';

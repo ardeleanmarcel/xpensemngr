@@ -1,15 +1,6 @@
 import { z } from 'zod';
 import { amountSchema, dbIdSchema } from '../../utils/common.models.ts';
-
-export const expenseSchema = z
-  .object({
-    added_by_user_id: dbIdSchema,
-    expense_id: dbIdSchema,
-    description: z.string().min(3).max(50),
-    amount: amountSchema,
-    date_expended_at: z.string().date(),
-  })
-  .strict();
+import { expenseSchema } from '../../models/business.models.ts';
 
 export const expenseCreateSchema = z.array(
   expenseSchema

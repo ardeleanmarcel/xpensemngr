@@ -17,9 +17,7 @@
     flex: 1;
 
     overflow-y: auto;
-
-    & > .DesktopLayout--content-area {
-      padding: measures.$pixels-xxl;
-    }
+    min-height: 100%;
+    padding: measures.$pixels-xxl;
   }
 }

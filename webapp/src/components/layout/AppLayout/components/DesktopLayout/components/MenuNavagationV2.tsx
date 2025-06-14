@@ -2,6 +2,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { PAGE, PATH } from '../../../../../../constants/paths';
 import { Modal, useModal } from '../../../../../../contexts/modal/modal.context';
+import { BagTags } from '../../../../../icons/BagTags/BagTags';
+import { IconComponent } from '../../../../../icons/icon.types';
+import { MoneyBills } from '../../../../../icons/MoneyBills/MoneyBills';
+import { OpenEndWrench } from '../../../../../icons/OpenEndWrench/OpenEndWrench';
+import { SquarePlus } from '../../../../../icons/SquarePlus/SquarePlus';
+import { TableList } from '../../../../../icons/TableList/TableList';
 import { XpmLogoMain } from '../../../../../icons/XpmLogoMain/XpmLogoMain';
 import { ButtonPill } from '../../../../../input/ButtonPill/ButtonPill';
 import { CardV2 } from '../../../../CardV2/CardV2';
@@ -20,8 +26,8 @@ export function MenuNavagationV2() {
   const handleSecondaryItemClick = () => {
     if (currentPage === PAGE.Labels) {
       show({ type: Modal.AddLabel });
-    } else if (currentPage === PAGE.Dashboard) {
-      console.log('will add dashboard');
+    } else if (currentPage === PAGE.ExpenseManagement) {
+      console.log('will add table');
     }
   };
 
@@ -44,20 +50,49 @@ export function MenuNavagationV2() {
       <XpmHorizontalSeparator width="150px" />
       <XpmVerticalSpacer size="m" />
 
-      <ButtonPill text="Add Expense" onClick={() => show({ type: Modal.AddExpense })} />
+      <ButtonPill text="Add Expense" Icon={MoneyBills} contentAlignment="left" onClick={() => show({ type: Modal.AddExpense })} />
       <XpmVerticalSpacer size="m" />
       {currentPage && (
         <>
-          <ButtonPill text={secondaryItemText} onClick={handleSecondaryItemClick} />
+          <ButtonPill
+            text={secondaryItemText}
+            Icon={getSecondaryActionIcon(currentPage)}
+            contentAlignment="left"
+            onClick={handleSecondaryItemClick}
+            disabled={currentPage === PAGE.ExpenseManagement}
+          />
           <XpmVerticalSpacer size="m" />
         </>
       )}
       <XpmHorizontalSeparator width="150px" />
 
       <XpmVerticalSpacer size="m" />
-      <ButtonPill text="Dashboard" onClick={() => navigate(PATH.MainDashboard.Segment)} variant="secondary" />
-      <XpmVerticalSpacer size="m" />
-      <ButtonPill text="Labels" onClick={() => navigate(PATH.LabelManagement.Segment)} variant="secondary" />
+      <ButtonPill
+        text="Dashboard"
+        Icon={() => <div>X</div>}
+        contentAlignment="left"
+        disabled={currentPage === PAGE.FinancialDashboard}
+        onClick={() => navigate(PATH.FinancialDashboard.Segment)}
+        variant="secondary"
+      />
+      <XpmVerticalSpacer size="s" />
+      <ButtonPill
+        text="Expenses"
+        Icon={TableList}
+        contentAlignment="left"
+        disabled={currentPage === PAGE.ExpenseManagement}
+        onClick={() => navigate(PATH.ExpenseManagement.Segment)}
+        variant="secondary"
+      />
+      <XpmVerticalSpacer size="s" />
+      <ButtonPill
+        text="Labels"
+        Icon={BagTags}
+        contentAlignment="left"
+        disabled={currentPage === PAGE.Labels}
+        onClick={() => navigate(PATH.LabelManagement.Segment)}
+        variant="secondary"
+      />
       <div style={{ flex: 1 }} />
       <XpmHorizontalSeparator width="250px" />
       <SettingsPopoverMenu />
@@ -70,8 +105,12 @@ function getCurrentPage(path: string): PAGE | undefined {
     return PAGE.Labels;
   }
 
-  if (path === PATH.MainDashboard.Segment) {
-    return PAGE.Dashboard;
+  if (path === PATH.ExpenseManagement.Segment) {
+    return PAGE.ExpenseManagement;
+  }
+
+  if (path === PATH.FinancialDashboard.Segment) {
+    return PAGE.FinancialDashboard;
   }
 }
 
@@ -80,9 +119,29 @@ function getAddItemButtonText(page?: PAGE): string {
     return 'Add Label';
   }
 
-  if (page === PAGE.Dashboard) {
-    return 'Add Dashboard';
+  if (page === PAGE.ExpenseManagement) {
+    return 'Configure Expense Tables';
+  }
+
+  if (page === PAGE.FinancialDashboard) {
+    return 'Configure Dashboard';
   }
 
   return '';
+}
+
+function getSecondaryActionIcon(page?: PAGE): IconComponent {
+  if (page === PAGE.Labels) {
+    return SquarePlus;
+  }
+
+  if (page === PAGE.ExpenseManagement) {
+    return OpenEndWrench;
+  }
+
+  if (page === PAGE.FinancialDashboard) {
+    return OpenEndWrench;
+  }
+
+  return SquarePlus;
 }

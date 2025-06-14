@@ -14,9 +14,10 @@ import { ModalContextProvider } from './contexts/modal/ModalContextProvider';
 import { NotificationContextProvider } from './contexts/notification/NotificationContextProvider';
 import { ColorThemeProvider } from './contexts/theme/theme.context';
 import { UserContextProvider } from './contexts/user/UserContextProivder';
+import { ExpenseManagement } from './Pages/ExpenseManagement/ExpenseManagement';
+import { ProtectedFinancialDashboard } from './Pages/FinancialDashboard/FinancialDashboard';
 import { ProtectedManageLabels } from './Pages/LabelManagement/LabelManagement';
 import LoginWithFormik from './Pages/LandingPage/LandingPage';
-import { MainDashboard } from './Pages/MainDashboard/MainDashboard';
 import { EmailForNewPassword } from './Pages/ResetPassword/ResetPassword';
 import Register from './Pages/UserRegistration/UserRegistration';
 import { VerifyEmail } from './Pages/VerifyEmail/VerifyEmail';
@@ -119,7 +120,8 @@ export default function App() {
                 <AuthProtected shouldRedirect={false}>
                   <AppLayout>
                     <Routes>
-                      <Route path={PATH.MainDashboard.Segment} element={<MainDashboard />} />
+                      <Route path={PATH.FinancialDashboard.Segment} element={<ProtectedFinancialDashboard />} />
+                      <Route path={PATH.ExpenseManagement.Segment} element={<ExpenseManagement />} />
                       <Route path={PATH.LabelManagement.Segment} element={<ProtectedManageLabels />} />
                       <Route path="*" element={null} />
                     </Routes>

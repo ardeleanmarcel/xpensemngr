@@ -1,48 +1,23 @@
-import './MainDashboard.scss';
+import './ExpenseManagement.scss';
 
-import { Theme } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import { useRef, useState } from 'react';
 
 import { ExpenseGetAllFilterType } from '../../../../api/src/domains/expenses/expense.models';
 import type { LabelType } from '../../../../api/src/models/business.models';
 import { getAllLabels } from '../../api/api.endpoints';
-import { FilterFunnel } from '../../components/icons/FilterFunnel/FilterFunnel';
-import { XpmLoadingSpinner } from '../../components/info/XpmLoadingSpinner/XpmLoadingSpinner';
 import { CardV2 } from '../../components/layout/CardV2/CardV2';
+import { PageHeader } from '../../components/layout/PageHeader/PageHeader';
 import { AuthProtected } from '../../components/utils/AuthProtected';
 import { XpmPaper } from '../../components/XpmPaper';
 import { XpmTable } from '../../components/XpmTable';
-import { XpmText } from '../../components/XpmText/XpmText';
-import { SCREEN_SIZE } from '../../constants/screenSize';
 import { INTERNAL_EVENT, useInternalEvents } from '../../hooks/useInternalEvents';
 import { useRunOnce } from '../../hooks/useRunOnce';
-import { useScreenSize } from '../../hooks/useScreenSize';
-import { DashboardFilters, DashboardFiltersDesktop, DEFAULT_FILTERS } from './components/DashboardFiltersDesktop';
+import { DEFAULT_FILTERS, ExpenseFilters, ExpenseManagementFiltersDesktop } from './components/ExpenseFiltersDesktop';
 import { TITLE } from './constants';
-import { columns, createData, Data, getAllExpenses, getHighestAmountExpense } from './utils';
+import { columns, createData, Data, getAllExpenses, getHighestAmountExpense } from './expenseManagement.utils';
 
-const useStyles = makeStyles<Theme>((theme) => ({
-  container: {
-    display: 'grid',
-    gap: '20px',
-  },
-  title: {
-    color: theme.palette.text.primary,
-    marginTop: '40px !important',
-    //TODO -> remove '!important'
-  },
-  actionText: {
-    display: 'flex',
-    justifyContent: 'center',
-    color: theme.palette.text.primary,
-  },
-}));
-
-export const MainDashboard: React.FunctionComponent = () => {
-  const classes = useStyles();
+export const ExpenseManagement: React.FunctionComponent = () => {
   const { subscribeTo } = useInternalEvents();
-  const { screenSize } = useScreenSize();
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -51,7 +26,7 @@ export const MainDashboard: React.FunctionComponent = () => {
   const [maxAmount, setMaxAmount] = useState(0);
   const [loading, setLoading] = useState({ expenses: true, labels: true, maxAmount: true });
 
-  const filters = useRef<DashboardFilters>(DEFAULT_FILTERS);
+  const filters = useRef<ExpenseFilters>(DEFAULT_FILTERS);
 
   const updateLoading = (type: 'expenses' | 'labels' | 'maxAmount', value: boolean) => {
     setLoading((prev) => ({
@@ -94,7 +69,7 @@ export const MainDashboard: React.FunctionComponent = () => {
     subscribeTo(INTERNAL_EVENT.AddExpenseSuccess, fetchExpenses);
   });
 
-  const handleFilterChange = (f: DashboardFilters) => {
+  const handleFilterChange = (f: ExpenseFilters) => {
     filters.current = f;
 
     fetchExpenses().then(() => {
@@ -113,38 +88,34 @@ export const MainDashboard: React.FunctionComponent = () => {
   };
 
   return (
-    <CardV2>
-      <XpmLoadingSpinner isVisible={loading.expenses || loading.labels || loading.maxAmount} fullscreen />
-      <div className={classes.container}>
-        <div className="MainDashboard--title-container">
-          <XpmText content={TITLE} size="m" />
-          {screenSize !== SCREEN_SIZE.Desktop && <FilterFunnel />}
-        </div>
-        {screenSize === SCREEN_SIZE.Desktop && (
-          <DashboardFiltersDesktop availableLabels={labels} maxAmount={maxAmount} onFilterChange={handleFilterChange} />
-        )}
-        <XpmPaper sx={{ width: '100%' }}>
-          <XpmTable
-            columns={columns}
-            rows={rows}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            handleChangePage={handleChangePage}
-            handleChangeRowsPerPage={handleChangeRowsPerPage}
-          />
-        </XpmPaper>
-      </div>
+    <CardV2 padding="l" minHeight="100%" showLoading={loading.expenses || loading.labels || loading.maxAmount}>
+      <PageHeader
+        title={TITLE}
+        filters={
+          <ExpenseManagementFiltersDesktop availableLabels={labels} maxAmount={maxAmount} onFilterChange={handleFilterChange} />
+        }
+      />
+      <XpmPaper sx={{ width: '100%' }}>
+        <XpmTable
+          columns={columns}
+          rows={rows}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+      </XpmPaper>
     </CardV2>
   );
 };
 
-export const ProtectedExpensesDashboard = () => (
+export const ProtectedExpenseManagement = () => (
   <AuthProtected>
-    <MainDashboard />
+    <ExpenseManagement />
   </AuthProtected>
 );
 
-function getSearchOptions(f?: DashboardFilters): ExpenseGetAllFilterType {
+function getSearchOptions(f?: ExpenseFilters): ExpenseGetAllFilterType {
   const opts: ExpenseGetAllFilterType = {};
 
   if (!f) {
