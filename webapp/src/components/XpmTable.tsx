@@ -59,7 +59,6 @@ export const XpmTable = ({ columns, rows, rowsPerPage, page, handleChangePage, h
   });
 
   if (computedRows.length < 10) {
-    // Fill empty rows if there are less than 10 rows to maintain table structure
     const emptyRows = 10 - computedRows.length;
     for (let i = 0; i < emptyRows; i++) {
       computedRows.push(
@@ -69,8 +68,6 @@ export const XpmTable = ({ columns, rows, rowsPerPage, page, handleChangePage, h
       );
     }
   }
-
-  console.log('computedRows', computedRows);
 
   return (
     <>
