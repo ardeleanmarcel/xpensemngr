@@ -3,7 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { PAGE, PATH } from '../../../../../../constants/paths';
 import { Modal, useModal } from '../../../../../../contexts/modal/modal.context';
 import { BagTags } from '../../../../../icons/BagTags/BagTags';
+import { IconComponent } from '../../../../../icons/icon.types';
 import { MoneyBills } from '../../../../../icons/MoneyBills/MoneyBills';
+import { OpenEndWrench } from '../../../../../icons/OpenEndWrench/OpenEndWrench';
 import { SquarePlus } from '../../../../../icons/SquarePlus/SquarePlus';
 import { TableList } from '../../../../../icons/TableList/TableList';
 import { XpmLogoMain } from '../../../../../icons/XpmLogoMain/XpmLogoMain';
@@ -24,8 +26,8 @@ export function MenuNavagationV2() {
   const handleSecondaryItemClick = () => {
     if (currentPage === PAGE.Labels) {
       show({ type: Modal.AddLabel });
-    } else if (currentPage === PAGE.Dashboard) {
-      console.log('will add dashboard');
+    } else if (currentPage === PAGE.ExpenseManagement) {
+      console.log('will add table');
     }
   };
 
@@ -54,10 +56,10 @@ export function MenuNavagationV2() {
         <>
           <ButtonPill
             text={secondaryItemText}
-            Icon={SquarePlus}
+            Icon={getSecondaryActionIcon(currentPage)}
             contentAlignment="left"
             onClick={handleSecondaryItemClick}
-            disabled={currentPage === PAGE.Dashboard}
+            disabled={currentPage === PAGE.ExpenseManagement}
           />
           <XpmVerticalSpacer size="m" />
         </>
@@ -66,11 +68,11 @@ export function MenuNavagationV2() {
 
       <XpmVerticalSpacer size="m" />
       <ButtonPill
-        text="Dashboard"
+        text="Expenses"
         Icon={TableList}
         contentAlignment="left"
-        disabled={currentPage === PAGE.Dashboard}
-        onClick={() => navigate(PATH.MainDashboard.Segment)}
+        disabled={currentPage === PAGE.ExpenseManagement}
+        onClick={() => navigate(PATH.ExpenseManagement.Segment)}
         variant="secondary"
       />
       <XpmVerticalSpacer size="m" />
@@ -94,8 +96,8 @@ function getCurrentPage(path: string): PAGE | undefined {
     return PAGE.Labels;
   }
 
-  if (path === PATH.MainDashboard.Segment) {
-    return PAGE.Dashboard;
+  if (path === PATH.ExpenseManagement.Segment) {
+    return PAGE.ExpenseManagement;
   }
 }
 
@@ -104,9 +106,21 @@ function getAddItemButtonText(page?: PAGE): string {
     return 'Add Label';
   }
 
-  if (page === PAGE.Dashboard) {
-    return 'Add Dashboard';
+  if (page === PAGE.ExpenseManagement) {
+    return 'Configure Expense Tables';
   }
 
   return '';
+}
+
+function getSecondaryActionIcon(page?: PAGE): IconComponent {
+  if (page === PAGE.Labels) {
+    return SquarePlus;
+  }
+
+  if (page === PAGE.ExpenseManagement) {
+    return OpenEndWrench;
+  }
+
+  throw new Error(`You broke the app! No secondary action icon for page: ${page}`);
 }

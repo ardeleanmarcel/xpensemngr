@@ -7,7 +7,7 @@ import { LabelSelector } from '../../../components/specialized/LabelSelector';
 import { useDebounced } from '../../../hooks/useDebounced';
 import { usePrevious } from '../../../hooks/usePrevious';
 
-export interface DashboardFilters {
+export interface ExpenseFilters {
   rangeMin: number;
   rangeMax: number;
   dateFrom: string;
@@ -16,11 +16,11 @@ export interface DashboardFilters {
 }
 
 type FilterUpdate = {
-  [K in keyof DashboardFilters]: [K, DashboardFilters[K]];
-}[keyof DashboardFilters];
+  [K in keyof ExpenseFilters]: [K, ExpenseFilters[K]];
+}[keyof ExpenseFilters];
 
-interface DashboardFiltersDesktopProps {
-  onFilterChange: (f: DashboardFilters) => void;
+interface ExpenseFiltersDesktopProps {
+  onFilterChange: (f: ExpenseFilters) => void;
   availableLabels: Array<LabelType>;
   maxAmount: number;
 }
@@ -33,14 +33,14 @@ export const DEFAULT_FILTERS = {
   selectedLabels: [],
 };
 
-export const DashboardFiltersDesktop: React.FC<DashboardFiltersDesktopProps> = ({
+export const ExpenseManagementFiltersDesktop: React.FC<ExpenseFiltersDesktopProps> = ({
   availableLabels,
   maxAmount,
   onFilterChange,
 }) => {
   const debounced = useDebounced(500);
 
-  const [filters, setFilters] = useState<DashboardFilters>(DEFAULT_FILTERS);
+  const [filters, setFilters] = useState<ExpenseFilters>(DEFAULT_FILTERS);
   const [selectedLabels, setSelectedLabels] = useState<Array<number>>([]);
 
   const previousFilters = usePrevious(filters);
@@ -53,7 +53,7 @@ export const DashboardFiltersDesktop: React.FC<DashboardFiltersDesktopProps> = (
 
   const updateFilters = (updates: Array<FilterUpdate>) => {
     setFilters((f) => {
-      const newFilters: DashboardFilters = { ...f };
+      const newFilters: ExpenseFilters = { ...f };
 
       updates.forEach(([filter, value]) => {
         // TODO (Valle) -> i don't like using "as never" here. Find an improved solution

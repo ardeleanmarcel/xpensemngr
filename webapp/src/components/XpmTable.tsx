@@ -1,7 +1,7 @@
 import { Chip, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
 import React, { ReactNode } from 'react';
 
-import { Data } from '../Pages/MainDashboard/mainDashboard.utils';
+import { Data } from '../Pages/ExpenseManagement/expenseManagement.utils';
 
 const tableRowStyle = {
   '& .MuiTableRow-root': {
@@ -25,7 +25,7 @@ export interface Column {
 
 type XpmTableProps = {
   columns: Column[];
-  rows: Data[]; // TODO (Valle) -> Data is specific to MainDashboard, consider making it more generic or passing a type parameter
+  rows: Data[]; // TODO (Valle) -> Data is specific to ExpenseManagement, consider making it more generic or passing a type parameter
   rowsPerPage: number;
   page: number;
   handleChangePage: (event: unknown, newPage: number) => void;

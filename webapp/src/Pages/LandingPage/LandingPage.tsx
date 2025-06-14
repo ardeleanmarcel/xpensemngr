@@ -37,7 +37,7 @@ function Home() {
 
     if (success) {
       displaySnackbar({ message: SUCCESS_MSG, type: SnackbarType.Success });
-      navigate(PATH.MainDashboard.Segment);
+      navigate(PATH.ExpenseManagement.Segment);
     } else {
       displaySnackbar({ message: FAIL_MSG, type: SnackbarType.Error });
     }

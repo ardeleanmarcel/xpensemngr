@@ -1,4 +1,4 @@
-import './MainDashboard.scss';
+import './ExpenseManagement.scss';
 
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -18,9 +18,9 @@ import { SCREEN_SIZE } from '../../constants/screenSize';
 import { INTERNAL_EVENT, useInternalEvents } from '../../hooks/useInternalEvents';
 import { useRunOnce } from '../../hooks/useRunOnce';
 import { useScreenSize } from '../../hooks/useScreenSize';
-import { DashboardFilters, DashboardFiltersDesktop, DEFAULT_FILTERS } from './components/DashboardFiltersDesktop';
+import { DEFAULT_FILTERS, ExpenseFilters, ExpenseManagementFiltersDesktop } from './components/ExpenseFiltersDesktop';
 import { TITLE } from './constants';
-import { columns, createData, Data, getAllExpenses, getHighestAmountExpense } from './mainDashboard.utils';
+import { columns, createData, Data, getAllExpenses, getHighestAmountExpense } from './expenseManagement.utils';
 
 const useStyles = makeStyles<Theme>((theme) => ({
   container: {
@@ -41,7 +41,7 @@ const useStyles = makeStyles<Theme>((theme) => ({
   },
 }));
 
-export const MainDashboard: React.FunctionComponent = () => {
+export const ExpenseManagement: React.FunctionComponent = () => {
   const classes = useStyles();
   const { subscribeTo } = useInternalEvents();
   const { screenSize } = useScreenSize();
@@ -53,7 +53,7 @@ export const MainDashboard: React.FunctionComponent = () => {
   const [maxAmount, setMaxAmount] = useState(0);
   const [loading, setLoading] = useState({ expenses: true, labels: true, maxAmount: true });
 
-  const filters = useRef<DashboardFilters>(DEFAULT_FILTERS);
+  const filters = useRef<ExpenseFilters>(DEFAULT_FILTERS);
 
   const updateLoading = (type: 'expenses' | 'labels' | 'maxAmount', value: boolean) => {
     setLoading((prev) => ({
@@ -96,7 +96,7 @@ export const MainDashboard: React.FunctionComponent = () => {
     subscribeTo(INTERNAL_EVENT.AddExpenseSuccess, fetchExpenses);
   });
 
-  const handleFilterChange = (f: DashboardFilters) => {
+  const handleFilterChange = (f: ExpenseFilters) => {
     filters.current = f;
 
     fetchExpenses().then(() => {
@@ -119,12 +119,12 @@ export const MainDashboard: React.FunctionComponent = () => {
       <XpmLoadingSpinner isVisible={loading.expenses || loading.labels || loading.maxAmount} />
       <div className={classes.container}>
         <div data-testid="page-header" style={{ height: '200px' }}>
-          <div className="MainDashboard--title-container">
+          <div className="ExpenseManagement--title-container">
             <XpmText content={TITLE} size="m" />
             {screenSize !== SCREEN_SIZE.Desktop && <FilterFunnel />}
           </div>
           {screenSize === SCREEN_SIZE.Desktop && (
-            <DashboardFiltersDesktop availableLabels={labels} maxAmount={maxAmount} onFilterChange={handleFilterChange} />
+            <ExpenseManagementFiltersDesktop availableLabels={labels} maxAmount={maxAmount} onFilterChange={handleFilterChange} />
           )}
         </div>
         <XpmPaper sx={{ width: '100%' }}>
@@ -142,13 +142,13 @@ export const MainDashboard: React.FunctionComponent = () => {
   );
 };
 
-export const ProtectedExpensesDashboard = () => (
+export const ProtectedExpenseManagement = () => (
   <AuthProtected>
-    <MainDashboard />
+    <ExpenseManagement />
   </AuthProtected>
 );
 
-function getSearchOptions(f?: DashboardFilters): ExpenseGetAllFilterType {
+function getSearchOptions(f?: ExpenseFilters): ExpenseGetAllFilterType {
   const opts: ExpenseGetAllFilterType = {};
 
   if (!f) {

@@ -45,6 +45,7 @@ const getIconStyle = (Icon: IconComponent): React.CSSProperties => {
   // customizing paddings to help visually align icons
   switch (Icon.name) {
     case 'MoneyBills':
+    case 'OpenEndWrench':
       stl.paddingTop = '2px';
       break;
     case 'TableList':
