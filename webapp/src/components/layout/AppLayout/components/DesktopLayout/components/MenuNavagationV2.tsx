@@ -2,7 +2,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { PAGE, PATH } from '../../../../../../constants/paths';
 import { Modal, useModal } from '../../../../../../contexts/modal/modal.context';
+import { BagTags } from '../../../../../icons/BagTags/BagTags';
 import { MoneyBills } from '../../../../../icons/MoneyBills/MoneyBills';
+import { SquarePlus } from '../../../../../icons/SquarePlus/SquarePlus';
 import { TableList } from '../../../../../icons/TableList/TableList';
 import { XpmLogoMain } from '../../../../../icons/XpmLogoMain/XpmLogoMain';
 import { ButtonPill } from '../../../../../input/ButtonPill/ButtonPill';
@@ -50,7 +52,7 @@ export function MenuNavagationV2() {
       <XpmVerticalSpacer size="m" />
       {currentPage && (
         <>
-          <ButtonPill text={secondaryItemText} onClick={handleSecondaryItemClick} />
+          <ButtonPill text={secondaryItemText} Icon={SquarePlus} contentAlignment="left" onClick={handleSecondaryItemClick} />
           <XpmVerticalSpacer size="m" />
         </>
       )}
@@ -65,7 +67,13 @@ export function MenuNavagationV2() {
         variant="secondary"
       />
       <XpmVerticalSpacer size="m" />
-      <ButtonPill text="Labels" onClick={() => navigate(PATH.LabelManagement.Segment)} variant="secondary" />
+      <ButtonPill
+        text="Labels"
+        Icon={BagTags}
+        contentAlignment="left"
+        onClick={() => navigate(PATH.LabelManagement.Segment)}
+        variant="secondary"
+      />
       <div style={{ flex: 1 }} />
       <XpmHorizontalSeparator width="250px" />
       <SettingsPopoverMenu />

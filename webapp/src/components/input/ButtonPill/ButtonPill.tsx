@@ -42,12 +42,18 @@ const getIconStyle = (Icon: IconComponent): React.CSSProperties => {
     height: '20px',
   };
 
-  if (Icon.name === 'MoneyBills') {
-    stl.paddingTop = '2px';
-  }
-
-  if (Icon.name === 'TableList') {
-    stl.paddingLeft = '3px';
+  // customizing paddings to help visually align icons
+  switch (Icon.name) {
+    case 'MoneyBills':
+      stl.paddingTop = '2px';
+      break;
+    case 'TableList':
+    case 'SquarePlus':
+    case 'BagTags':
+      stl.padding = '1px';
+      break;
+    default:
+      break;
   }
 
   return stl;
