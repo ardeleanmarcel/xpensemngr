@@ -1,49 +1,23 @@
 import './ExpenseManagement.scss';
 
-import { Theme } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import { useRef, useState } from 'react';
 
 import { ExpenseGetAllFilterType } from '../../../../api/src/domains/expenses/expense.models';
 import type { LabelType } from '../../../../api/src/models/business.models';
 import { getAllLabels } from '../../api/api.endpoints';
-import { FilterFunnel } from '../../components/icons/FilterFunnel/FilterFunnel';
 import { CardV2 } from '../../components/layout/CardV2/CardV2';
+import { PageHeader } from '../../components/layout/PageHeader/PageHeader';
 import { AuthProtected } from '../../components/utils/AuthProtected';
 import { XpmPaper } from '../../components/XpmPaper';
 import { XpmTable } from '../../components/XpmTable';
-import { XpmText } from '../../components/XpmText/XpmText';
-import { SCREEN_SIZE } from '../../constants/screenSize';
 import { INTERNAL_EVENT, useInternalEvents } from '../../hooks/useInternalEvents';
 import { useRunOnce } from '../../hooks/useRunOnce';
-import { useScreenSize } from '../../hooks/useScreenSize';
 import { DEFAULT_FILTERS, ExpenseFilters, ExpenseManagementFiltersDesktop } from './components/ExpenseFiltersDesktop';
 import { TITLE } from './constants';
 import { columns, createData, Data, getAllExpenses, getHighestAmountExpense } from './expenseManagement.utils';
 
-const useStyles = makeStyles<Theme>((theme) => ({
-  container: {
-    width: '100%',
-    maxWidth: '1200px',
-    display: 'grid',
-    gap: '20px',
-  },
-  title: {
-    color: theme.palette.text.primary,
-    marginTop: '40px !important',
-    //TODO -> remove '!important'
-  },
-  actionText: {
-    display: 'flex',
-    justifyContent: 'center',
-    color: theme.palette.text.primary,
-  },
-}));
-
 export const ExpenseManagement: React.FunctionComponent = () => {
-  const classes = useStyles();
   const { subscribeTo } = useInternalEvents();
-  const { screenSize } = useScreenSize();
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -114,28 +88,23 @@ export const ExpenseManagement: React.FunctionComponent = () => {
   };
 
   return (
-    <CardV2 showLoading={loading.expenses || loading.labels || loading.maxAmount} minHeight="100%">
-      <div className={classes.container}>
-        <div data-testid="page-header" style={{ height: '200px' }}>
-          <div className="ExpenseManagement--title-container">
-            <XpmText content={TITLE} size="m" />
-            {screenSize !== SCREEN_SIZE.Desktop && <FilterFunnel />}
-          </div>
-          {screenSize === SCREEN_SIZE.Desktop && (
-            <ExpenseManagementFiltersDesktop availableLabels={labels} maxAmount={maxAmount} onFilterChange={handleFilterChange} />
-          )}
-        </div>
-        <XpmPaper sx={{ width: '100%' }}>
-          <XpmTable
-            columns={columns}
-            rows={rows}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            handleChangePage={handleChangePage}
-            handleChangeRowsPerPage={handleChangeRowsPerPage}
-          />
-        </XpmPaper>
-      </div>
+    <CardV2 padding="l" minHeight="100%" showLoading={loading.expenses || loading.labels || loading.maxAmount}>
+      <PageHeader
+        title={TITLE}
+        filters={
+          <ExpenseManagementFiltersDesktop availableLabels={labels} maxAmount={maxAmount} onFilterChange={handleFilterChange} />
+        }
+      />
+      <XpmPaper sx={{ width: '100%' }}>
+        <XpmTable
+          columns={columns}
+          rows={rows}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+      </XpmPaper>
     </CardV2>
   );
 };

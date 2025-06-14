@@ -1,34 +1,13 @@
-import { Theme } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import { useState } from 'react';
 
 import { getAllLabels } from '../../api/api.endpoints';
 import { CardV2 } from '../../components/layout/CardV2/CardV2';
+import { PageHeader } from '../../components/layout/PageHeader/PageHeader';
 import { AuthProtected } from '../../components/utils/AuthProtected';
 import { XpmPaper } from '../../components/XpmPaper';
 import { TableV2Column, XpmTableV2 } from '../../components/XpmTableV2';
-import { XpmText } from '../../components/XpmText/XpmText';
 import { INTERNAL_EVENT, useInternalEvents } from '../../hooks/useInternalEvents';
 import { useRunOnce } from '../../hooks/useRunOnce';
-
-const useStyles = makeStyles<Theme>((theme) => ({
-  container: {
-    display: 'grid',
-    gap: '20px',
-    width: '100%',
-    maxWidth: '1200px',
-  },
-  title: {
-    color: theme.palette.text.primary,
-    marginTop: '40px !important',
-    //TODO -> remove '!important'
-  },
-  actionText: {
-    display: 'flex',
-    justifyContent: 'center',
-    color: theme.palette.text.primary,
-  },
-}));
 
 interface LabelData {
   name: string;
@@ -56,7 +35,6 @@ const columns: TableV2Column[] = [
 ] as const;
 
 export const LabelManagement = () => {
-  const classes = useStyles();
   const { subscribeTo } = useInternalEvents();
 
   const [page, setPage] = useState(0);
@@ -93,22 +71,18 @@ export const LabelManagement = () => {
   });
 
   return (
-    <CardV2 showLoading={loading} minHeight="100%">
-      <div className={classes.container}>
-        <div style={{ height: '200px' }}>
-          <XpmText content="Labels" size="m" />
-        </div>
-        <XpmPaper sx={{ width: '100%' }}>
-          <XpmTableV2
-            columns={columns}
-            rows={labels.map((l) => ({ ...l, key: l.label_id }))}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            handleChangePage={handleChangePage}
-            handleChangeRowsPerPage={handleChangeRowsPerPage}
-          />
-        </XpmPaper>
-      </div>
+    <CardV2 minHeight="100%" padding="l" showLoading={loading}>
+      <PageHeader title="Label Management" />
+      <XpmPaper sx={{ width: '100%' }}>
+        <XpmTableV2
+          columns={columns}
+          rows={labels.map((l) => ({ ...l, key: l.label_id }))}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+      </XpmPaper>
     </CardV2>
   );
 };

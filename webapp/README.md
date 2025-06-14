@@ -14,3 +14,4 @@
 - [ ] Split pages into public and private
 - [ ] !! BUG !! Navigating causes the entire webapp to reload. react router misconfiguration? migrate to v7?
 - [ ] Add dependency cruiser rule to prevent modules in "components" from importing from "pages"
+- [ ] Add lint rule to require return types (some function components are not typed at all)
