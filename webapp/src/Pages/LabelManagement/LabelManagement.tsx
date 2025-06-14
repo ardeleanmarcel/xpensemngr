@@ -3,7 +3,6 @@ import { makeStyles } from '@mui/styles';
 import { useState } from 'react';
 
 import { getAllLabels } from '../../api/api.endpoints';
-import { XpmLoadingSpinner } from '../../components/info/XpmLoadingSpinner/XpmLoadingSpinner';
 import { CardV2 } from '../../components/layout/CardV2/CardV2';
 import { AuthProtected } from '../../components/utils/AuthProtected';
 import { XpmPaper } from '../../components/XpmPaper';
@@ -94,8 +93,7 @@ export const LabelManagement = () => {
   });
 
   return (
-    <CardV2>
-      <XpmLoadingSpinner isVisible={loading} />
+    <CardV2 showLoading={loading} minHeight="100%">
       <div className={classes.container}>
         <div style={{ height: '200px' }}>
           <XpmText content="Labels" size="m" />

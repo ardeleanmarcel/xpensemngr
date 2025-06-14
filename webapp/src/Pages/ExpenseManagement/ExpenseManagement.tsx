@@ -8,7 +8,6 @@ import { ExpenseGetAllFilterType } from '../../../../api/src/domains/expenses/ex
 import type { LabelType } from '../../../../api/src/models/business.models';
 import { getAllLabels } from '../../api/api.endpoints';
 import { FilterFunnel } from '../../components/icons/FilterFunnel/FilterFunnel';
-import { XpmLoadingSpinner } from '../../components/info/XpmLoadingSpinner/XpmLoadingSpinner';
 import { CardV2 } from '../../components/layout/CardV2/CardV2';
 import { AuthProtected } from '../../components/utils/AuthProtected';
 import { XpmPaper } from '../../components/XpmPaper';
@@ -115,8 +114,7 @@ export const ExpenseManagement: React.FunctionComponent = () => {
   };
 
   return (
-    <CardV2>
-      <XpmLoadingSpinner isVisible={loading.expenses || loading.labels || loading.maxAmount} />
+    <CardV2 showLoading={loading.expenses || loading.labels || loading.maxAmount} minHeight="100%">
       <div className={classes.container}>
         <div data-testid="page-header" style={{ height: '200px' }}>
           <div className="ExpenseManagement--title-container">

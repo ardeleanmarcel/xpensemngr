@@ -6,11 +6,12 @@ import { XpmLoadingSpinner } from '../../info/XpmLoadingSpinner/XpmLoadingSpinne
 interface XpmCardProps {
   width?: string;
   height?: string;
+  minHeight?: string;
   showLoading?: boolean;
 }
 
-export function CardV2({ width, height, showLoading = false, children }: React.PropsWithChildren<XpmCardProps>) {
-  const style = cleanObject({ width, height });
+export function CardV2({ width, height, minHeight, showLoading = false, children }: React.PropsWithChildren<XpmCardProps>) {
+  const style = cleanObject({ width, height, minHeight });
 
   return (
     <div className="XpmCard" style={style}>

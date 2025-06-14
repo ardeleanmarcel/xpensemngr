@@ -68,6 +68,15 @@ export function MenuNavagationV2() {
 
       <XpmVerticalSpacer size="m" />
       <ButtonPill
+        text="Dashboard"
+        Icon={() => <div>X</div>}
+        contentAlignment="left"
+        disabled={currentPage === PAGE.FinancialDashboard}
+        onClick={() => navigate(PATH.FinancialDashboard.Segment)}
+        variant="secondary"
+      />
+      <XpmVerticalSpacer size="s" />
+      <ButtonPill
         text="Expenses"
         Icon={TableList}
         contentAlignment="left"
@@ -75,7 +84,7 @@ export function MenuNavagationV2() {
         onClick={() => navigate(PATH.ExpenseManagement.Segment)}
         variant="secondary"
       />
-      <XpmVerticalSpacer size="m" />
+      <XpmVerticalSpacer size="s" />
       <ButtonPill
         text="Labels"
         Icon={BagTags}
@@ -99,6 +108,10 @@ function getCurrentPage(path: string): PAGE | undefined {
   if (path === PATH.ExpenseManagement.Segment) {
     return PAGE.ExpenseManagement;
   }
+
+  if (path === PATH.FinancialDashboard.Segment) {
+    return PAGE.FinancialDashboard;
+  }
 }
 
 function getAddItemButtonText(page?: PAGE): string {
@@ -108,6 +121,10 @@ function getAddItemButtonText(page?: PAGE): string {
 
   if (page === PAGE.ExpenseManagement) {
     return 'Configure Expense Tables';
+  }
+
+  if (page === PAGE.FinancialDashboard) {
+    return 'Configure Dashboard';
   }
 
   return '';
@@ -122,5 +139,9 @@ function getSecondaryActionIcon(page?: PAGE): IconComponent {
     return OpenEndWrench;
   }
 
-  throw new Error(`You broke the app! No secondary action icon for page: ${page}`);
+  if (page === PAGE.FinancialDashboard) {
+    return OpenEndWrench;
+  }
+
+  return SquarePlus;
 }

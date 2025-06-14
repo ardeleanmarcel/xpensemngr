@@ -15,6 +15,7 @@ import { NotificationContextProvider } from './contexts/notification/Notificatio
 import { ColorThemeProvider } from './contexts/theme/theme.context';
 import { UserContextProvider } from './contexts/user/UserContextProivder';
 import { ExpenseManagement } from './Pages/ExpenseManagement/ExpenseManagement';
+import { ProtectedFinancialDashboard } from './Pages/FinancialDashboard/FinancialDashboard';
 import { ProtectedManageLabels } from './Pages/LabelManagement/LabelManagement';
 import LoginWithFormik from './Pages/LandingPage/LandingPage';
 import { EmailForNewPassword } from './Pages/ResetPassword/ResetPassword';
@@ -119,6 +120,7 @@ export default function App() {
                 <AuthProtected shouldRedirect={false}>
                   <AppLayout>
                     <Routes>
+                      <Route path={PATH.FinancialDashboard.Segment} element={<ProtectedFinancialDashboard />} />
                       <Route path={PATH.ExpenseManagement.Segment} element={<ExpenseManagement />} />
                       <Route path={PATH.LabelManagement.Segment} element={<ProtectedManageLabels />} />
                       <Route path="*" element={null} />

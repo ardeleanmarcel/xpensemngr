@@ -8,9 +8,7 @@ export const DesktopLayout: React.FunctionComponent<React.PropsWithChildren> = (
       <aside className="DesktopLayout--sidebar">
         <MenuNavagationV2 />
       </aside>
-      <div className="DesktopLayout--scrollable-window">
-        <div className="DesktopLayout--content-area">{children}</div>
-      </div>
+      <div className="DesktopLayout--scrollable-window">{children}</div>
     </div>
   );
 };
