@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { dbIdSchema, email, password } from '../utils/common.models.ts';
+import { amountSchema, dbIdSchema, email, password } from '../utils/common.models.ts';
 
 // TODO (Valle) -> business models should be moved outside the "api" folder
 // so that they can be used across all apps (FE, BE, etc.)
@@ -13,6 +13,7 @@ export const labelSchema = z
   .strict();
 
 export type LabelType = z.infer<typeof labelSchema>;
+
 export const userSchema = z.object({
   user_id: z.number().int().positive(),
   username: z.string().min(3).max(20),
@@ -22,3 +23,13 @@ export const userSchema = z.object({
 });
 
 export type UserType = z.infer<typeof userSchema>;
+
+export const expenseSchema = z
+  .object({
+    added_by_user_id: dbIdSchema,
+    expense_id: dbIdSchema,
+    description: z.string().min(3).max(50),
+    amount: amountSchema,
+    date_expended_at: z.string().date(),
+  })
+  .strict();
