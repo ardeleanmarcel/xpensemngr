@@ -2,20 +2,23 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { PAGE, PATH } from '../../../../../../constants/paths';
 import { Modal, useModal } from '../../../../../../contexts/modal/modal.context';
-import { BagTags } from '../../../../../icons/BagTags/BagTags';
-import { IconComponent } from '../../../../../icons/icon.types';
-import { MoneyBills } from '../../../../../icons/MoneyBills/MoneyBills';
-import { OpenEndWrench } from '../../../../../icons/OpenEndWrench/OpenEndWrench';
-import { SquarePlus } from '../../../../../icons/SquarePlus/SquarePlus';
-import { TableList } from '../../../../../icons/TableList/TableList';
-import { XpmLogoMain } from '../../../../../icons/XpmLogoMain/XpmLogoMain';
+import {
+  BagTags,
+  ChartPie,
+  IconComponent,
+  MoneyBills,
+  OpenEndWrench,
+  SquarePlus,
+  TableList,
+  XpmLogoMain,
+} from '../../../../../icons/icons';
 import { ButtonPill } from '../../../../../input/ButtonPill/ButtonPill';
 import { CardV2 } from '../../../../CardV2/CardV2';
 import { XpmHorizontalSeparator } from '../../../../XpmHorizontalSeparator/XpmHorizontalSeparator';
 import { XpmVerticalSpacer } from '../../../../XpmVerticalSpacer/XpmVerticalSpacer';
 import { SettingsPopoverMenu } from './SettingsPopoverMenu';
 
-export function MenuNavagationV2() {
+export function MenuNavigationV2() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { show } = useModal();
@@ -69,7 +72,7 @@ export function MenuNavagationV2() {
       <XpmVerticalSpacer size="m" />
       <ButtonPill
         text="Dashboard"
-        Icon={() => <div>X</div>}
+        Icon={ChartPie}
         contentAlignment="left"
         disabled={currentPage === PAGE.FinancialDashboard}
         onClick={() => navigate(PATH.FinancialDashboard.Segment)}
