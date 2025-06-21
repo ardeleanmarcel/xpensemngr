@@ -25,7 +25,7 @@ export const AddLabelDialog: React.FunctionComponent<AddExpenseDialogProps> = ({
   const handleAddLabel = async () => {
     try {
       setIsSaving(true);
-      await client.expenses.labels.create.mutate([{ name, description: description || undefined }]);
+      await client.expenses.labels.create.mutate([{ name, description: description || null }]);
 
       setName('');
       setDescription('');

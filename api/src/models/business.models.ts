@@ -7,7 +7,7 @@ export const labelSchema = z
   .object({
     label_id: dbIdSchema,
     name: z.string().min(3).max(20),
-    description: z.string().min(3).max(50).optional(),
+    description: z.string().min(3).max(50).nullable(),
     added_by_user_id: dbIdSchema,
   })
   .strict();

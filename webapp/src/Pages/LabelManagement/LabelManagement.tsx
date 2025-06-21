@@ -13,7 +13,7 @@ interface LabelData {
   name: string;
   label_id: number;
   added_by_user_id: number;
-  description?: string;
+  description: string | null;
 }
 
 const columns: TableV2Column[] = [

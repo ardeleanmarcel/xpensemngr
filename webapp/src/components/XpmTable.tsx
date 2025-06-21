@@ -29,7 +29,7 @@ export interface Data {
   labels: {
     label_id: number;
     name: string;
-    description?: string;
+    description: string | null;
   }[];
 }
 

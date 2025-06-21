@@ -36,7 +36,7 @@ export function createData(
     labels: {
       label_id: number;
       name: string;
-      description?: string;
+      description: string | null;
     }[];
   }[]
 ): Data[] {

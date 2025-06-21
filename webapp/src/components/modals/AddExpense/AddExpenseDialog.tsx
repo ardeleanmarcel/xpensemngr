@@ -32,7 +32,7 @@ export const AddExpenseDialog: React.FunctionComponent<AddExpenseDialogProps> = 
       name: string;
       label_id: number;
       added_by_user_id: number;
-      description?: string;
+      description: string | null;
     }[]
   >([]);
 
