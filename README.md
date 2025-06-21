@@ -49,3 +49,7 @@ using the credentials you have been provided.
 <!-- TODO check that the "console" object is not used to log anything, and add a lint rule to prevent it -->
 
 <!-- TODO make a PR github action that makes sure all projects compile and all lint rules are respected -->
+
+### TODO
+
+1. Disallow having multiple labels with the same name
