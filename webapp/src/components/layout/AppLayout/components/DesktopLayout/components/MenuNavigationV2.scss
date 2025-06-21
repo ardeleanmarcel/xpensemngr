@@ -1,0 +1,18 @@
+@use '../../../../../../css/colors.scss' as colors;
+
+.MenuNavigationV2__NavMenuButton--isCurrentPage {
+  position: relative;
+}
+
+.MenuNavigationV2__NavMenuButton--isCurrentPage::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid colors.$green-500;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}

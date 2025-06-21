@@ -1,8 +1,6 @@
 import { Chip, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
 import React, { ReactNode } from 'react';
 
-import { Data } from '../Pages/ExpenseManagement/expenseManagement.utils';
-
 const tableRowStyle = {
   '& .MuiTableRow-root': {
     height: '52px',
@@ -21,6 +19,18 @@ export interface Column {
   minWidth?: number;
   width?: `${number}%`;
   align?: 'center';
+}
+
+export interface Data {
+  description: string;
+  amount: number;
+  date_expended_at: string;
+  expense_id: number;
+  labels: {
+    label_id: number;
+    name: string;
+    description: string | null;
+  }[];
 }
 
 type XpmTableProps = {

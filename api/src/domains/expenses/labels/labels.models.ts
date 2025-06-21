@@ -10,4 +10,13 @@ export const labelCreateSchema = z.array(
     .strict()
 );
 
+export const labelUpdateSchema = z.array(
+  labelSchema.pick({
+    label_id: true,
+    name: true,
+    description: true,
+  })
+);
+
 export type LabelCreateType = z.infer<typeof labelCreateSchema>;
+export type LabelUpdateType = z.infer<typeof labelUpdateSchema>;

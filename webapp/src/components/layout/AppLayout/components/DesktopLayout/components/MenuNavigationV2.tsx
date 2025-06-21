@@ -1,21 +1,27 @@
+import './MenuNavigationV2.scss';
+
+import cn from 'classnames';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { PAGE, PATH } from '../../../../../../constants/paths';
 import { Modal, useModal } from '../../../../../../contexts/modal/modal.context';
-import { BagTags } from '../../../../../icons/BagTags/BagTags';
-import { IconComponent } from '../../../../../icons/icon.types';
-import { MoneyBills } from '../../../../../icons/MoneyBills/MoneyBills';
-import { OpenEndWrench } from '../../../../../icons/OpenEndWrench/OpenEndWrench';
-import { SquarePlus } from '../../../../../icons/SquarePlus/SquarePlus';
-import { TableList } from '../../../../../icons/TableList/TableList';
-import { XpmLogoMain } from '../../../../../icons/XpmLogoMain/XpmLogoMain';
+import {
+  BagTags,
+  ChartPie,
+  IconComponent,
+  MoneyBills,
+  OpenEndWrench,
+  SquarePlus,
+  TableList,
+  XpmLogoMain,
+} from '../../../../../icons/icons';
 import { ButtonPill } from '../../../../../input/ButtonPill/ButtonPill';
 import { CardV2 } from '../../../../CardV2/CardV2';
 import { XpmHorizontalSeparator } from '../../../../XpmHorizontalSeparator/XpmHorizontalSeparator';
 import { XpmVerticalSpacer } from '../../../../XpmVerticalSpacer/XpmVerticalSpacer';
 import { SettingsPopoverMenu } from './SettingsPopoverMenu';
 
-export function MenuNavagationV2() {
+export function MenuNavigationV2() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { show } = useModal();
@@ -67,36 +73,56 @@ export function MenuNavagationV2() {
       <XpmHorizontalSeparator width="150px" />
 
       <XpmVerticalSpacer size="m" />
-      <ButtonPill
+      <NavMenuButton
         text="Dashboard"
-        Icon={() => <div>X</div>}
-        contentAlignment="left"
-        disabled={currentPage === PAGE.FinancialDashboard}
+        Icon={ChartPie}
+        isCurrentPage={currentPage === PAGE.FinancialDashboard}
         onClick={() => navigate(PATH.FinancialDashboard.Segment)}
-        variant="secondary"
       />
       <XpmVerticalSpacer size="s" />
-      <ButtonPill
+      <NavMenuButton
         text="Expenses"
         Icon={TableList}
-        contentAlignment="left"
-        disabled={currentPage === PAGE.ExpenseManagement}
+        isCurrentPage={currentPage === PAGE.ExpenseManagement}
         onClick={() => navigate(PATH.ExpenseManagement.Segment)}
-        variant="secondary"
       />
       <XpmVerticalSpacer size="s" />
-      <ButtonPill
+      <NavMenuButton
         text="Labels"
         Icon={BagTags}
-        contentAlignment="left"
-        disabled={currentPage === PAGE.Labels}
+        isCurrentPage={currentPage === PAGE.Labels}
         onClick={() => navigate(PATH.LabelManagement.Segment)}
-        variant="secondary"
       />
       <div style={{ flex: 1 }} />
       <XpmHorizontalSeparator width="250px" />
       <SettingsPopoverMenu />
     </CardV2>
+  );
+}
+
+function NavMenuButton({
+  text,
+  Icon,
+  onClick,
+  isCurrentPage = false,
+}: {
+  text: string;
+  Icon: IconComponent;
+  onClick: () => void;
+  isCurrentPage: boolean;
+}) {
+  return (
+    <div className={cn({ 'MenuNavigationV2__NavMenuButton--isCurrentPage': isCurrentPage })}>
+      <ButtonPill
+        text={text}
+        Icon={Icon}
+        contentAlignment="left"
+        onClick={onClick}
+        // disabled={isCurrentPage}
+        isActive={isCurrentPage}
+        variant="secondary"
+      />
+    </div>
   );
 }
 

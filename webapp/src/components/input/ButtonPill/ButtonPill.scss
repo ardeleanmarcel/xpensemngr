@@ -46,11 +46,19 @@ $base-shadow: 0px 4px 4px 0px colors.$black-1000-opacity-25;
     @include fonts.font-semibold-xs;
 
     &:hover {
-      background-color: colors.$green-500-opacity-50;
+      background-color: colors.$green-500-opacity-75;
     }
 
     &:focus {
-      box-shadow: $base-shadow, 0 0 10px colors.$green-500-opacity-50;
+      box-shadow: $base-shadow, 0 0 5px colors.$green-500-opacity-75;
+    }
+
+    &.ButtonPill--active {
+      background-color: colors.$green-500-opacity-50;
+
+      &:hover {
+        background-color: colors.$green-500-opacity-75;
+      }
     }
   }
 

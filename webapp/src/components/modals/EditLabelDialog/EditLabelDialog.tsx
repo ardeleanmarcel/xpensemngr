@@ -10,29 +10,40 @@ import { XpmHorizontalSeparator } from '../../layout/XpmHorizontalSeparator/XpmH
 import { XpmVerticalSpacer } from '../../layout/XpmVerticalSpacer/XpmVerticalSpacer';
 import { XpmText } from '../../XpmText/XpmText';
 
-interface AddExpenseDialogProps extends React.PropsWithChildren {
+export interface EditLabelDialogProps extends React.PropsWithChildren {
   isOpen: boolean;
   onClose: () => void;
+  label: {
+    label_id: number;
+    name: string;
+    description: string | null;
+  };
 }
 
-export const AddLabelDialog: React.FunctionComponent<AddExpenseDialogProps> = ({ isOpen, onClose }) => {
+export const EditLabelDialog: React.FunctionComponent<EditLabelDialogProps> = ({ isOpen, onClose, label }) => {
   const { emitEvent } = useInternalEvents();
 
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [name, setName] = useState(label.name);
+  const [description, setDescription] = useState(label.description || '');
   const [isSaving, setIsSaving] = useState(false);
 
-  const handleAddLabel = async () => {
+  const handleSaveLabel = async () => {
     try {
       setIsSaving(true);
-      await client.expenses.labels.create.mutate([{ name, description: description || null }]);
+      await client.expenses.labels.update.mutate([
+        {
+          label_id: label.label_id,
+          name,
+          description: description || null,
+        },
+      ]);
 
       setName('');
       setDescription('');
-      emitEvent(INTERNAL_EVENT.AddLabelSuccess);
+      emitEvent(INTERNAL_EVENT.EditLabelSuccess);
       onClose();
     } catch (error) {
-      console.error('Error adding label:', error);
+      console.error('Error editing label:', error);
       // Handle error, e.g., show a notification
     } finally {
       setIsSaving(false);
@@ -42,7 +53,7 @@ export const AddLabelDialog: React.FunctionComponent<AddExpenseDialogProps> = ({
   return (
     <BasicDialog isOpen={isOpen} onBackdropClick={onClose} width="680px" height="420px">
       <XpmLoadingSpinner isVisible={isSaving} />
-      <XpmText content="Add Label" size="m" />
+      <XpmText content="Edit Label" size="m" />
       <XpmVerticalSpacer size="xs" />
       <XpmHorizontalSeparator width="50px" />
       <XpmVerticalSpacer size="m" />
@@ -50,7 +61,7 @@ export const AddLabelDialog: React.FunctionComponent<AddExpenseDialogProps> = ({
       <XpmVerticalSpacer size="m" />
       <InputText name="description" onChange={(e) => setDescription(e.target.value)} value={description} />
       <XpmVerticalSpacer size="m" />
-      <ButtonPill text="Add" onClick={handleAddLabel} />
+      <ButtonPill text="Save" onClick={handleSaveLabel} />
     </BasicDialog>
   );
 };

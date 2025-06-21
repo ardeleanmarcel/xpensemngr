@@ -13,6 +13,13 @@ export const InternalEventNotifier = () => {
         type: SnackbarType.Success,
       });
     });
+
+    subscribeTo(INTERNAL_EVENT.EditLabelSuccess, () => {
+      displaySnackbar({
+        message: 'Label edited successfully!',
+        type: SnackbarType.Success,
+      });
+    });
   });
 
   return null;

@@ -9,12 +9,12 @@ import { CardV2 } from '../../components/layout/CardV2/CardV2';
 import { PageHeader } from '../../components/layout/PageHeader/PageHeader';
 import { AuthProtected } from '../../components/utils/AuthProtected';
 import { XpmPaper } from '../../components/XpmPaper';
-import { XpmTable } from '../../components/XpmTable';
+import { Data, XpmTable } from '../../components/XpmTable';
 import { INTERNAL_EVENT, useInternalEvents } from '../../hooks/useInternalEvents';
 import { useRunOnce } from '../../hooks/useRunOnce';
 import { DEFAULT_FILTERS, ExpenseFilters, ExpenseManagementFiltersDesktop } from './components/ExpenseFiltersDesktop';
 import { TITLE } from './constants';
-import { columns, createData, Data, getAllExpenses, getHighestAmountExpense } from './expenseManagement.utils';
+import { columns, createData, getAllExpenses, getHighestAmountExpense } from './expenseManagement.utils';
 
 export const ExpenseManagement: React.FunctionComponent = () => {
   const { subscribeTo } = useInternalEvents();

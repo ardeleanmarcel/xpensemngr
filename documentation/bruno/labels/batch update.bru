@@ -1,0 +1,23 @@
+meta {
+  name: batch update
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{main-api-root-path}}/trpc/expenses.labels.update
+  body: json
+  auth: inherit
+}
+
+body:json {
+  [{
+    "label_id": 11,
+    "name": "crockery",
+    "description": "things to eat from"
+  },{
+    "label_id": 12,
+    "name": "cutlery",
+    "description": "knives & forks"
+  }]
+}

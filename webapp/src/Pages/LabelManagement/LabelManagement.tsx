@@ -6,6 +6,7 @@ import { PageHeader } from '../../components/layout/PageHeader/PageHeader';
 import { AuthProtected } from '../../components/utils/AuthProtected';
 import { XpmPaper } from '../../components/XpmPaper';
 import { TableV2Column, XpmTableV2 } from '../../components/XpmTableV2';
+import { Modal, useModal } from '../../contexts/modal/modal.context';
 import { INTERNAL_EVENT, useInternalEvents } from '../../hooks/useInternalEvents';
 import { useRunOnce } from '../../hooks/useRunOnce';
 
@@ -13,7 +14,7 @@ interface LabelData {
   name: string;
   label_id: number;
   added_by_user_id: number;
-  description?: string;
+  description: string | null;
 }
 
 const columns: TableV2Column[] = [
@@ -36,6 +37,7 @@ const columns: TableV2Column[] = [
 
 export const LabelManagement = () => {
   const { subscribeTo } = useInternalEvents();
+  const { show } = useModal();
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -68,6 +70,7 @@ export const LabelManagement = () => {
     fetchLabels();
     // TODO (Valle) -> need a way to also have the right options passed to the "fetchLabels" execution
     subscribeTo(INTERNAL_EVENT.AddLabelSuccess, fetchLabels);
+    subscribeTo(INTERNAL_EVENT.EditLabelSuccess, fetchLabels);
   });
 
   return (
@@ -76,11 +79,16 @@ export const LabelManagement = () => {
       <XpmPaper sx={{ width: '100%' }}>
         <XpmTableV2
           columns={columns}
-          rows={labels.map((l) => ({ ...l, key: l.label_id }))}
+          rows={labels.map((l) => ({ ...l, key: l.label_id, id: l.label_id }))}
           rowsPerPage={rowsPerPage}
           page={page}
           handleChangePage={handleChangePage}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
+          onEditClick={(data: unknown) => {
+            // TODO (Valle) -> data should not be unknown, table types should be improved
+            show({ type: Modal.EditLabel, props: { label: data } });
+            console.log('Edit label for:', data);
+          }}
         />
       </XpmPaper>
     </CardV2>

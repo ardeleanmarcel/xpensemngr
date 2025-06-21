@@ -13,6 +13,7 @@ interface ButtonPillProps {
   disabled?: boolean;
   Icon?: IconComponent;
   contentAlignment?: 'left' | 'center' | 'right';
+  isActive?: boolean;
 }
 
 export const ButtonPill: React.FunctionComponent<ButtonPillProps> = ({
@@ -22,10 +23,12 @@ export const ButtonPill: React.FunctionComponent<ButtonPillProps> = ({
   variant = 'primary',
   Icon,
   contentAlignment = 'center',
+  isActive = false,
 }) => {
   const classes = cn('ButtonPill', `ButtonPill--${variant}`, `ButtonPill--content-alignment--${contentAlignment}`, {
     'ButtonPill--disabled': disabled,
     'ButtonPill--with-icon': !!Icon,
+    'ButtonPill--active': isActive,
   });
 
   return (
