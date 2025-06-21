@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 export enum INTERNAL_EVENT {
   AddExpenseSuccess = 'ADD_EXPENSE_SUCCESS',
   AddLabelSuccess = 'ADD_LABEL_SUCCESS',
+  EditLabelSuccess = 'EDIT_LABEL_SUCCESS',
 }
 
 type EventCallback = () => void;
@@ -14,6 +15,7 @@ class InternalEventCoordonator {
   subscriptions: EventSubscriptions = {
     [INTERNAL_EVENT.AddExpenseSuccess]: [],
     [INTERNAL_EVENT.AddLabelSuccess]: [],
+    [INTERNAL_EVENT.EditLabelSuccess]: [],
   };
 
   subscribeTo(event: INTERNAL_EVENT, callback: EventCallback) {

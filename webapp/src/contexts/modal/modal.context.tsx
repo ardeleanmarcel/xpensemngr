@@ -3,6 +3,7 @@ import React from 'react';
 export enum Modal {
   AddExpense = 'ADD_EXPENSE',
   AddLabel = 'ADD_LABEL',
+  EditLabel = 'EDIT_LABEL',
 }
 
 // TODO (Valle) -> ShowModalOptions should be a discrimanted union of

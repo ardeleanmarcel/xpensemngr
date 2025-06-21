@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 import { AddExpenseDialog } from '../../components/modals/AddExpense/AddExpenseDialog';
 import { AddLabelDialog } from '../../components/modals/AddLabel/AddLabelDialog';
+import { EditLabelDialog, EditLabelDialogProps } from '../../components/modals/EditLabelDialog/EditLabelDialog';
 import { Modal, modalContext, ShowModalOptions } from './modal.context';
 
 export function ModalContextProvider({ children }: Readonly<React.PropsWithChildren>) {
@@ -32,8 +33,16 @@ export function ModalContextProvider({ children }: Readonly<React.PropsWithChild
       case Modal.AddExpense:
         return <AddExpenseDialog isOpen={isVisible} onClose={resetState} {...modalProps} />;
       case Modal.AddLabel:
-        // Replace with actual AddLabelDialog when implemented
         return <AddLabelDialog isOpen={isVisible} onClose={resetState} {...modalProps} />;
+      case Modal.EditLabel:
+        return (
+          <EditLabelDialog
+            isOpen={isVisible}
+            onClose={resetState}
+            // TODO (Valle) -> find a solution to remove type casting
+            {...(modalProps as Omit<EditLabelDialogProps, 'isOpen' | 'onClose'>)}
+          />
+        );
       default:
         return null;
     }
