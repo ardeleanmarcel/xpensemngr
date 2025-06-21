@@ -1,3 +1,6 @@
+import './MenuNavigationV2.scss';
+
+import cn from 'classnames';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { PAGE, PATH } from '../../../../../../constants/paths';
@@ -70,36 +73,56 @@ export function MenuNavigationV2() {
       <XpmHorizontalSeparator width="150px" />
 
       <XpmVerticalSpacer size="m" />
-      <ButtonPill
+      <NavMenuButton
         text="Dashboard"
         Icon={ChartPie}
-        contentAlignment="left"
-        disabled={currentPage === PAGE.FinancialDashboard}
+        isCurrentPage={currentPage === PAGE.FinancialDashboard}
         onClick={() => navigate(PATH.FinancialDashboard.Segment)}
-        variant="secondary"
       />
       <XpmVerticalSpacer size="s" />
-      <ButtonPill
+      <NavMenuButton
         text="Expenses"
         Icon={TableList}
-        contentAlignment="left"
-        disabled={currentPage === PAGE.ExpenseManagement}
+        isCurrentPage={currentPage === PAGE.ExpenseManagement}
         onClick={() => navigate(PATH.ExpenseManagement.Segment)}
-        variant="secondary"
       />
       <XpmVerticalSpacer size="s" />
-      <ButtonPill
+      <NavMenuButton
         text="Labels"
         Icon={BagTags}
-        contentAlignment="left"
-        disabled={currentPage === PAGE.Labels}
+        isCurrentPage={currentPage === PAGE.Labels}
         onClick={() => navigate(PATH.LabelManagement.Segment)}
-        variant="secondary"
       />
       <div style={{ flex: 1 }} />
       <XpmHorizontalSeparator width="250px" />
       <SettingsPopoverMenu />
     </CardV2>
+  );
+}
+
+function NavMenuButton({
+  text,
+  Icon,
+  onClick,
+  isCurrentPage = false,
+}: {
+  text: string;
+  Icon: IconComponent;
+  onClick: () => void;
+  isCurrentPage: boolean;
+}) {
+  return (
+    <div className={cn({ 'MenuNavigationV2__NavMenuButton--isCurrentPage': isCurrentPage })}>
+      <ButtonPill
+        text={text}
+        Icon={Icon}
+        contentAlignment="left"
+        onClick={onClick}
+        // disabled={isCurrentPage}
+        isActive={isCurrentPage}
+        variant="secondary"
+      />
+    </div>
   );
 }
 
